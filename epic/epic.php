@@ -236,7 +236,7 @@
 					</ol>
 				</div>
 				<div class="interactionFlow">
-					<img src="images/abq-abc-interaction-flow.svg" alt="abq-abc interaction flow">
+					<img src="images/flek-interaction-flow.svg" alt="abq-abc interaction flow">
 				</div>
 				<div class="userStory">
 					<h2>User Story</h2>
