@@ -259,7 +259,7 @@
 					</ul>
 				</div>
 				<div class="erd">
-					<img src="images/scrum-erd.png" alt="erd derived from scrum meeting notes"/>
+					<img src="images/epic-erd.png" alt="erd derived from scrum meeting notes"/>
 				</div>
 		</main>
 		<footer>
