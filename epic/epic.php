@@ -9,12 +9,14 @@
 			<div class="scrumMeetingNotes">
 				<h3>Scrum Meeting 8/5/2016 notes</h3>
 				<ul>
-					<li>genre needs a name attribute genreName</li>
-					<li>hashtag needs hashtagName</li>
-					<li>social login needs socialLoginName</li>
-					<li>rename 'user' to 'profile' and  rename profileHash, profileSalt, profileActivationToken, profileAccessToken--> (part of oauth)</li>
-					<li></li>
-					<li></li>
+					<li>genre needs a name attribute >> <strong>genreName</strong></li>
+					<li>hashtag needs >> <strong>hashtagName</strong></li>
+					<li>social login needs >> <strong>socialLoginName</strong></li>
+					<li>rename 'user' to 'profile' and  rename >> <strong>profileHash, profileSalt, profileActivationToken, profileAccessToken</strong> --> (part of oauth)</li>
+					<li>image needs these attributes >> <strong>imageSecureUrl, imagePublicId</strong></li>
+					<li>add these to favorite entity >> <strong>favoriterId, favoriteeId</strong></li>
+					<li>merge userMessage into mail</li>
+					<li>add these to mail >> <strong>mailSenderId, mailRecieverId, mailSubject</strong></li>
 				</ul>
 				<h3>Scrum Meeting 8/1/2016 notes</h3>
 				<ul>
