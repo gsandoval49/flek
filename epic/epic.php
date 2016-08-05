@@ -7,6 +7,15 @@
 	<body>
 		<main>
 			<div class="scrumMeetingNotes">
+				<h3>Scrum Meeting 8/5/2016 notes</h3>
+				<ul>
+					<li>genre needs a name attribute genreName</li>
+					<li>hashtag needs hashtagName</li>
+					<li>social login needs socialLoginName</li>
+					<li>rename 'user' to 'profile' and  rename profileHash, profileSalt, profileActivationToken, profileAccessToken--> (part of oauth)</li>
+					<li></li>
+					<li></li>
+				</ul>
 				<h3>Scrum Meeting 8/1/2016 notes</h3>
 				<ul>
 					<li>maybe go more general from 'business owners' to 'interested art-lovers'</li>
