@@ -267,6 +267,8 @@
 						<li>an <strong>image</strong> can have one <strong>genre</strong></li>
 						<li><strong>users</strong> can have one <strong>social login</strong> per account</li>
 						<li>a <strong>user</strong> can write and apply short descriptive text to their own uploaded <strong>image</strong></li>
+						<li>one <strong>tag</strong> can have many <strong>hashtags.</strong></li>
+						<li></li>
 					</ul>
 				</div>
 				<div class="erd">

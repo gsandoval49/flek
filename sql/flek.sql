@@ -74,7 +74,11 @@ CREATE TABLE genre (
 
 
 -- HASHTAG drop table here
-
+CREATE TABLE hashtag (
+  hashtagId INT UNSIGNED NOT NULL,
+  hashtagName VARCHAR(32),
+  PRIMARY KEY (hashtagId)
+);
 
 
 -- TAG drop table here
