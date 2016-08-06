@@ -26,6 +26,22 @@ CREATE TABLE profile (
 );
 
 -- MAIL drop table here
+CREATE TABLE mail (
+	mailId INT UNSIGNED AUTO_INCREMENT NOT NULL,
+	mailSubject VARCHAR(64) NOT NULL,
+	mailSenderId INT UNSIGNED AUTO_INCREMENT NOT NULL,
+	mailReceiverId INT UNSIGNED AUTO_INCREMENT NOT NULL,
+	mailGunId INT UNSIGNED AUTO_INCREMENT NOT NULL,
+	mailContent VARCHAR(1000) NOT NULL,
+	INDEX (mailSenderId),
+	INDEX (mailReceiverId),
+	FOREIGN KEY (mailSenderId) REFERENCES profile(profileId),
+	FOREIGN KEY (mailReceiverId) REFERENCES profile(profileId),
+	UNIQUE (mailId),
+	PRIMARY KEY (mailId)
+);
+
+
 
 
 -- SOCIAL LOGIN drop table here
