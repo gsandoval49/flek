@@ -270,7 +270,9 @@
 					</ul>
 				</div>
 				<div class="erd">
+					<h2>ERD from scrum notes meeting</h2>
 					<img src="images/epic-erd.png" alt="erd derived from scrum meeting notes"/>
+					<h2>Final Flek ERD</h2>
 					<img src="images/flek-erd-final.svg" alt="flek final erd image"/>
 				</div>
 		</main>
