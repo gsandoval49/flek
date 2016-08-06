@@ -82,7 +82,15 @@ CREATE TABLE hashtag (
 
 
 -- TAG drop table here
-
+CREATE TABLE tag (
+	tagImageId INT UNSIGNED NOT NULL,
+	tagHashtagId INT UNSIGNED NOT NULL,
+	INDEX (tagImageId),
+	INDEX (tagHashtagId),
+	FOREIGN KEY (tagImageId) REFERENCES image(imageId),
+	FOREIGN KEY (tagHashtagId) REFERENCES hashtag(hashtagId),
+	PRIMARY KEY (tagImageId, tagHashtagId)
+);
 
 
 -- FAVORITE drop table here
