@@ -26,12 +26,14 @@ CREATE TABLE profile (
 );
 
 -- MAIL drop table here
+
 CREATE TABLE mail (
 	mailId INT UNSIGNED AUTO_INCREMENT NOT NULL,
 	mailSubject VARCHAR(64) NOT NULL,
-	mailSenderId INT UNSIGNED AUTO_INCREMENT NOT NULL,
-	mailReceiverId INT UNSIGNED AUTO_INCREMENT NOT NULL,
-	mailGunId INT UNSIGNED AUTO_INCREMENT NOT NULL,
+	/*these were auto_incremented, we took that out */
+	mailSenderId INT UNSIGNED NOT NULL,
+	mailReceiverId INT UNSIGNED NOT NULL,
+	mailGunId INT UNSIGNED NOT NULL,
 	mailContent VARCHAR(1000) NOT NULL,
 	INDEX (mailSenderId),
 	INDEX (mailReceiverId),
