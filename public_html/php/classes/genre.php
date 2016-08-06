@@ -9,8 +9,8 @@ require_once("autoload.php");
 class genre implements \JsonSerializable {
 
 	/**
-	 * id for the profile is the primary key
-	 * @var int $profileId
+	 * id for the genre is the primary key
+	 * @var int $genreId
 	 **/
 private genreId
 

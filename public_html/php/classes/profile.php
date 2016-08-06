@@ -63,7 +63,14 @@ private profileActivationToken
 
 /**
  * constructor for this profile
- *
- *
+ * @param
+ * @param
+ * @param
+ * @param
+ * @param
+ * @param
+ * @param
+ * @param
+ * @param
  **/
 }

@@ -15,13 +15,13 @@ CREATE TABLE profile (
   profileId INT UNSIGNED AUTO_INCREMENT NOT NULL,
   profileName VARCHAR(32) NOT NULL,
   profileEmail VARCHAR(128) NOT NULL,
-  profileLocation VARCHAR (64) NOT NULL,
+  profileLocation VARCHAR (32) NOT NULL,
   profileBio VARCHAR (250) NOT NULL,
   profileHash CHAR(128) NOT NULL,
   profileSalt CHAR(64) NOT NULL,
   profileAccessToken INT UNSIGNED NULL, -- is this correct?--
   profileActivationToken CHAR(32), -- is this a hash?--
-UNIQUE (userEmail),
+	UNIQUE (profileEmail),
   PRIMARY KEY (profileId)
 );
 
