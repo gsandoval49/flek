@@ -64,6 +64,8 @@ CREATE TABLE image (
 	PRIMARY KEY (imageId)
 );
 
+
+
 -- GENRE drop table here
 CREATE TABLE genre (
   genreId INT UNSIGNED NOT NULL,
@@ -92,8 +94,15 @@ CREATE TABLE tag (
 	PRIMARY KEY (tagImageId, tagHashtagId)
 );
 
-
 -- FAVORITE drop table here
-
+CREATE TABLE favorite (
+	favoriteeId INT UNSIGNED NOT NULL,
+	favoriterId INT UNSIGNED NOT NULL,
+	INDEX (favoriteeId),
+	INDEX (favoriterId),
+	FOREIGN KEY (favoriteeId) REFERENCES profile(profileId),
+	FOREIGN KEY (favoriterId) REFERENCES profile(profileId),
+	PRIMARY KEY (favoriteeId, favoriterId)
+);
 
 
