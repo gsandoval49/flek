@@ -61,7 +61,6 @@ CREATE TABLE image (
 	imageDescription VARCHAR(128) NOT NULL,
 	imageSecureUrl VARCHAR(128) NOT NULL,
 	imagePublicId VARCHAR(32) NOT NULL,
-	imagePublicId INT UNSIGNED NOT NULL,
 	imageGenreId INT UNSIGNED NOT NULL,
 	PRIMARY KEY (imageId)
 );
