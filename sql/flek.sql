@@ -13,10 +13,10 @@ DROP TABLE IF EXISTS profile;
 -- PROFILE drop table here
 CREATE TABLE profile (
   profileId INT UNSIGNED AUTO_INCREMENT NOT NULL,
-  profileName VARCHAR(32) NOT NULL,
+  profileName VARCHAR(128) NOT NULL,
   profileEmail VARCHAR(128) NOT NULL,
-  profileLocation VARCHAR (32) NOT NULL,
-  profileBio VARCHAR (250) NOT NULL,
+  profileLocation VARCHAR (64) NOT NULL,
+  profileBio VARCHAR (255) NOT NULL,
   profileHash CHAR(128) NOT NULL,
   profileSalt CHAR(64) NOT NULL,
   profileAccessToken VARCHAR(128),
@@ -29,11 +29,11 @@ CREATE TABLE profile (
 
 CREATE TABLE mail (
 	mailId INT UNSIGNED AUTO_INCREMENT NOT NULL,
-	mailSubject VARCHAR(64) NOT NULL,
+	mailSubject VARCHAR(128) NOT NULL,
 	/*these were auto_incremented, we took that out */
 	mailSenderId INT UNSIGNED NOT NULL,
 	mailReceiverId INT UNSIGNED NOT NULL,
-	mailGunId INT UNSIGNED NOT NULL,
+	mailGunId VARCHAR(64) NOT NULL,
 	mailContent VARCHAR(1000) NOT NULL,
 	INDEX (mailSenderId),
 	INDEX (mailReceiverId),
@@ -48,7 +48,7 @@ CREATE TABLE mail (
 CREATE TABLE socialLogin (
   -- this is primary key
   socialLoginId INT UNSIGNED AUTO_INCREMENT NOT NULL,
-  socialLoginName VARCHAR(40) NOT NULL,
+  socialLoginName VARCHAR(32) NOT NULL,
   -- index primary key into profile ID
   PRIMARY KEY (socialLoginId)
 );
@@ -60,7 +60,8 @@ CREATE TABLE image (
 	imageProfileId INT UNSIGNED NOT NULL,
 	imageDescription VARCHAR(128) NOT NULL,
 	imageSecureUrl VARCHAR(128) NOT NULL,
-	imagePublicId INT UNSIGNED NOT NULL,
+	imagePublicId VARCHAR(32) NOT NULL,
+
 	PRIMARY KEY (imageId)
 );
 
@@ -68,9 +69,8 @@ CREATE TABLE image (
 
 -- GENRE drop table here
 CREATE TABLE genre (
-  genreId INT UNSIGNED NOT NULL,
+  genreId INT UNSIGNED AUTO_INCREMENT NOT NULL,
   genreName VARCHAR(32) NOT NULL,
-	genreImageId INT UNSIGNED AUTO_INCREMENT NOT NULL,
   PRIMARY KEY (genreId)
 );
 
@@ -104,5 +104,3 @@ CREATE TABLE favorite (
 	FOREIGN KEY (favoriterId) REFERENCES profile(profileId),
 	PRIMARY KEY (favoriteeId, favoriterId)
 );
-
-
