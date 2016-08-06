@@ -19,41 +19,33 @@ CREATE TABLE profile (
   profileBio VARCHAR (250) NOT NULL,
   profileHash CHAR(128) NOT NULL,
   profileSalt CHAR(64) NOT NULL,
-  profileAccessToken VARCHAR(128),
-  profileActivationToken CHAR(32),
-  UNIQUE (profileEmail),
+  profileAccessToken NULL, -- keep as int unsigned null?--
+  profileActivationToken NULL, -- keep as char (32)?
+	UNIQUE (profileEmail),
   PRIMARY KEY (profileId)
 );
 
 -- MAIL drop table here
-
 CREATE TABLE mail (
 	mailId INT UNSIGNED AUTO_INCREMENT NOT NULL,
 	mailSubject VARCHAR(64) NOT NULL,
-	/*these were auto_incremented, we took that out */
-	mailSenderId INT UNSIGNED NOT NULL,
-	mailReceiverId INT UNSIGNED NOT NULL,
-	mailGunId INT UNSIGNED NOT NULL,
+	mailSenderId INT UNSIGNED AUTO_INCREMENT NOT NULL,
+	mailReceiverId INT UNSIGNED AUTO_INCREMENT NOT NULL,
+	mailGunId INT UNSIGNED AUTO_INCREMENT NOT NULL,
 	mailContent VARCHAR(1000) NOT NULL,
 	INDEX (mailSenderId),
 	INDEX (mailReceiverId),
 	FOREIGN KEY (mailSenderId) REFERENCES profile(profileId),
 	FOREIGN KEY (mailReceiverId) REFERENCES profile(profileId),
-  -- removed unique mailId because a primary key is already unique, twas redundant
+	UNIQUE (mailId),
 	PRIMARY KEY (mailId)
 );
 
-
 -- SOCIAL LOGIN drop table here
-CREATE TABLE socialLogin (
-  -- this is primary key
-  socialLoginId INT UNSIGNED AUTO_INCREMENT NOT NULL,
-  socialLoginName VARCHAR(40) NOT NULL,
-  -- index primary key into profile ID
-  PRIMARY KEY (socialLoginId)
-);
+
 
 -- IMAGE drop table here
+
 
 
 -- GENRE drop table here
