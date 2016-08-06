@@ -69,7 +69,6 @@ CREATE TABLE genre (
   genreId INT UNSIGNED NOT NULL,
   genreName VARCHAR(32) NOT NULL,
 	genreImageId INT UNSIGNED AUTO_INCREMENT NOT NULL,
-  UNIQUE (genreId),
   PRIMARY KEY (genreId)
 );
 
