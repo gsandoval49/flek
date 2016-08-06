@@ -19,9 +19,9 @@ CREATE TABLE profile (
   profileBio VARCHAR (250) NOT NULL,
   profileHash CHAR(128) NOT NULL,
   profileSalt CHAR(64) NOT NULL,
-  profileAccessToken NULL, -- keep as int unsigned null?--
-  profileActivationToken NULL, -- keep as char (32)?
-	UNIQUE (profileEmail),
+  profileAccessToken VARCHAR(128),
+  profileActivationToken CHAR(32),
+  UNIQUE (profileEmail),
   PRIMARY KEY (profileId)
 );
 
@@ -39,15 +39,19 @@ CREATE TABLE mail (
 	INDEX (mailReceiverId),
 	FOREIGN KEY (mailSenderId) REFERENCES profile(profileId),
 	FOREIGN KEY (mailReceiverId) REFERENCES profile(profileId),
-	UNIQUE (mailId),
+  -- removed unique mailId because a primary key is already unique, twas redundant
 	PRIMARY KEY (mailId)
 );
 
 
-
-
 -- SOCIAL LOGIN drop table here
-
+CREATE TABLE socialLogin (
+  -- this is primary key
+  socialLoginId INT UNSIGNED AUTO_INCREMENT NOT NULL,
+  socialLoginName VARCHAR(40) NOT NULL,
+  -- index primary key into profile ID
+  PRIMARY KEY (socialLoginId)
+);
 
 -- IMAGE drop table here
 
