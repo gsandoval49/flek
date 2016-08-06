@@ -54,7 +54,15 @@ CREATE TABLE socialLogin (
 );
 
 -- IMAGE drop table here
-
+CREATE TABLE image (
+	-- this is primary key
+	imageId INT UNSIGNED AUTO_INCREMENT NOT NULL,
+	imageProfileId INT UNSIGNED NOT NULL,
+	imageDescription VARCHAR(128) NOT NULL,
+	imageSecureUrl VARCHAR(128) NOT NULL,
+	imagePublicId INT UNSIGNED NOT NULL,
+	PRIMARY KEY (imageId)
+);
 
 -- GENRE drop table here
 CREATE TABLE genre (
