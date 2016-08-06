@@ -20,7 +20,12 @@ DROP TABLE IF EXISTS profile;
 
 
 -- GENRE drop table here
-
+CREATE TABLE genre (
+	genreId INT UNSIGNED NOT NULL,
+	genreName VARCHAR(32) NOT NULL,
+	UNIQUE (genreId),
+	PRIMARY KEY (genreId)
+);
 
 -- IMAGE drop table here
 
