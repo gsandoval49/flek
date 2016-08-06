@@ -8,7 +8,30 @@ DROP TABLE IF EXISTS socialLogin;
 DROP TABLE IF EXISTS mail;
 DROP TABLE IF EXISTS profile;
 -- End of SQL statements
--- not sure why profile is still orange
+
+
+-- FAVORITE drop table here
+
+
+-- TAG drop table here
+
+
+-- HASHTAG drop table here
+
+
+-- GENRE drop table here
+
+
+-- IMAGE drop table here
+
+
+-- SOCIAL LOGIN drop table here
+
+
+-- MAIL drop table here
+
+
+-- PROFILE drop table here
 
 
 
