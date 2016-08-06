@@ -19,8 +19,8 @@ CREATE TABLE profile (
   profileBio VARCHAR (250) NOT NULL,
   profileHash CHAR(128) NOT NULL,
   profileSalt CHAR(64) NOT NULL,
-  profileAccessToken INT UNSIGNED NULL, -- is this correct?--
-  profileActivationToken CHAR(32), -- is this a hash?--
+  profileAccessToken NULL, -- keep as int unsigned null?--
+  profileActivationToken NULL, -- keep as char (32)?
 	UNIQUE (profileEmail),
   PRIMARY KEY (profileId)
 );
