@@ -233,5 +233,34 @@ public function setProfileLocation (string $newProfileLocation) {
  * accessor method for profileBio
  * @return string value of profileBio
  **/
+public function getProfileBio () {
+			return ($this->profileBio)
+}
+
+/**
+ * mutator method for profileBio
+ *
+ * @param string $newProfileBio new value of profile location
+ * @throws \InvalidArgumentException if $newProfileBio is not a string or is insecure
+ * @throws \RangeException if $newProfileBio is > 255 characters
+ **/
+public function setProfileBio($newProfileBio) {
+			//verify the profile bio content is secure
+			$newProfileBio = trim($newProfileBio);
+			$newProfileBio = filter_var($newProfileBio, FILTER_SANITIZE_STRING);
+			if(empty($newProfileBio) === true) {
+					throw (new \InvalidArgumentException("profile description is empty or insecure"));
+			}
+			if(strlen($newProfileBio) > 255) {
+					throw (new \RangeException("profile bio is greater than 255 characters"));
+			}
+			//store the profile bio content
+			$this->profileBio = $newProfileBio;
+}
+
+/**
+ * accessor method for profileHash
+ * @return int|null for $newProfileHash
+ */
 
 } //does this curly go on line 101?
