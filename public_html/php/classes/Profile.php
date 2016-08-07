@@ -169,6 +169,12 @@ public function setProfileName (string $newProfileName) {
  * accessor method for profile email
  * @return string value of profileEmail
  **/
+public function getProfileEmail () {
+			return ($this->profileEmail);
+}
 
+/**
+ * mutator method for profileEmail
+ **/
 
 } //does this curly go on line 101?
