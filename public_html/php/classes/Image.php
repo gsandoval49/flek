@@ -24,4 +24,19 @@ class Image implements \JsonSerializable {
 	 * @var string $imageDescription
 	 */
 	private $imageDescription;
+	/*
+	 * url sent when image is uploaded
+	 * @var string $imageSecureUrl
+	 */
+	private $imageSecureUrl;
+	/*
+	 * id sent to identify the image uploaded
+	 * @var string $imagePublicId
+	 */
+	private $imagePublicId;
+	/*
+	 * id to identify the genre the image is assigned to
+	 * @var string $imageGenreId
+	 */
+	private $imageGenreId;
 }
