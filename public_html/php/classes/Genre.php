@@ -15,5 +15,3 @@ class genre implements \JsonSerializable {
 private genreId
 
 private genreName
-
-
