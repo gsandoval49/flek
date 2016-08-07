@@ -52,7 +52,7 @@ class Hashtag implements \JsonSerializable {
      */
     function jsonSerialize()
     {
-        // TODO: Implement jsonSerialize() method.
+
     }
 }
 }
