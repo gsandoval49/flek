@@ -260,15 +260,15 @@
 				<div class="conceptualModel">
 					<h2>Conceptual Model</h2>
 					<ul>
-						<li>a <strong>user</strong> can upload many <strong>images</strong></li>
-						<li>a <strong>user</strong> can send and recieve many <strong>messages</strong></li>
-						<li><strong>users</strong> can favorite many <strong>users</strong></li>
-						<li><strong>images</strong> can have many <strong>image-tags</strong></li>
-						<li>an <strong>image</strong> can have one <strong>genre</strong></li>
-						<li><strong>users</strong> can have one <strong>social login</strong> per account</li>
-						<li>a <strong>user</strong> can write and apply short descriptive text to their own uploaded <strong>image</strong></li>
+						<li>a <strong>profile</strong> can upload many <strong>images</strong></li>
+						<li>a <strong>profile</strong> can send and recieve many <strong>messages</strong></li>
+						<li><strong>profiles</strong> can favorite many <strong>profiles</strong></li>
+						<li><strong>images</strong> can have many <strong>tags</strong></li>
+						<li>many <strong>images</strong> can have one <strong>genre</strong></li>
+						<li><strong>profiles</strong> can have one <strong>social login</strong> per account</li>
+						<li>a <strong>profile</strong> can write and apply short descriptive text to their own uploaded <strong>image</strong></li>
 						<li>one <strong>tag</strong> can have many <strong>hashtags.</strong></li>
-						<li></li>
+						<li>a <strong>profile</strong> can send and receive many <strong>messages</strong> </li>
 					</ul>
 				</div>
 				<div class="erd">
