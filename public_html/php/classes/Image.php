@@ -8,3 +8,20 @@ require_once("autoload.php");
  * @author Diane Peshlakai <dpeshlakai3@cnm.edu>
  * @version 3.0.
  */
+class Image implements \JsonSerializable {
+	/*
+	id for Image: this is the primary key
+	* @var int $imageId
+	 */
+	private $imageId;
+	/*
+	 * id of the profile that sent this Image;
+	 * @var int $imageProfileId
+	 */
+	private $imageProfileId;
+	/*
+	 * textual description of the Image
+	 * @var string $imageDescription
+	 */
+	private $imageDescription;
+}
