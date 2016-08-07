@@ -194,7 +194,7 @@ public function setProfileEmail (string $newProfileEmail) {
 					throw(new \RangeException("Email too large"));
 			}
 
-			//store the user's email
+			//store the profile's email
 			$this->profileEmail = $newProfileEmail;
 }
 
@@ -205,5 +205,33 @@ public function setProfileEmail (string $newProfileEmail) {
 public function getProfileLocation () {
 			return ($this->profileLocation);
 }
+
+/**
+ * mutator method for profileLocation
+ *
+ * @param string $newProfileLocation new value of profile location
+ * @throws \InvalidArgumentException if $newProfileLocation is not a string or is insecure
+ * @throws \RangeException if $newProfileLocation is > 64 characters
+ * @throws \TypeError if $newProfileLocation is not a string
+ **/
+public function setProfileLocation (string $newProfileLocation) {
+			//verify the profile's location content is secure
+			$newProfileLocation = trim($newProfileLocation);
+			$newProfileLocation = filter_var($newProfileLocation, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+			if(empty($newProfileLocation) === true) {
+					throw (new \InvalidArgumentException("profile location is empty of insecure"));
+			}
+			if(strlen($newProfileLocation) >64) {
+					throw (new \RangeException("profile location field is greater than 64 characters"));
+			}
+
+			//store the profile's location
+			$this->profileLocation = $newProfileLocation;
+}
+
+/**
+ * accessor method for profileBio
+ * @return string value of profileBio
+ **/
 
 } //does this curly go on line 101?
