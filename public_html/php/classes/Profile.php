@@ -175,6 +175,31 @@ public function getProfileEmail () {
 
 /**
  * mutator method for profileEmail
+ *
+ * @param string $newProfileEmail new value of profileEmail
+ * @throws \InvalidArgumentException if $newProfileEmail is not a string or insecure
+ * @throws \RangeException if $newProfileEmail is > 128 characters
+ * @throws \TypeError if $newProfileEmail is not a string
  **/
+public function setProfileEmail (string $newProfileEmail) {
+			//verify the profile's email content is secure
+			$newProfileEmail = trim($newProfileEmail);
+			$newProfileEmail = filter_var($newProfileEmail, FILTER_SANITIZE_EMAIL);
+			if(empty($newProfileEmail) === true) {
+					throw(new \InvalidArgumentException("Profile's email content is empty or insecure"));
+         }
+
+         //verify the email will fit in the database
+			if(strlen($newProfileEmail) > 128) {
+					throw(new \RangeException("Email too large"));
+			}
+
+			//store the user's email
+			$this->profileEmail = $newProfileEmail;
+}
+
+/**
+ * accessor method for profile location
+ */
 
 } //does this curly go on line 101?
