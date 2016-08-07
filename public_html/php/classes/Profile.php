@@ -75,7 +75,7 @@ private profileActivationToken
 	 * @throws \Exception if some other exception occurs
 	 * @throws \TypeError if data types violate type hints
 	 **/
-	public function __construct (int $newProfileId = null, int $newProfileAccessToken, string $newProfileActivation)
+	public function __construct(int $newProfileId = null, int $newProfileAccessToken, string $newProfileActivation)
 		try {
 				$this->setProfileId($newProfileId);
 				$this->setProfileName($newProfileId);
@@ -124,7 +124,7 @@ public function setProfileId (int $newProfileId = null) {
 			}
 
 			//verify the profile id is positive
-			if($newProfileIdId <= 0) {
+			if($newProfileId <= 0) {
 				throw(new \RangeException("Profile id must be a positive number."));
 			}
 
@@ -134,5 +134,41 @@ public function setProfileId (int $newProfileId = null) {
 
 /**
  * accessor method for profile name
+ * @return string value of profileName
  **/
+public function getProfileName () {
+			return ($this->profileName);
+}
+
+/**
+ * mutator method for profileName
+ *
+ * @param string $newProfileName new value of profileName
+ * @throws \InvalidArgumentException if $newProfileName is not a string
+ * @throws \RangeException if $newProfileName is > 128
+ * @throws \TypeError if $newProfileName is not a string
+ **/
+public function setProfileName (string $newProfileName) {
+			//verify the profile's name is secure
+			$newProfileName = trim($newProfileName);
+			$newProfileName = filter_var($newProfileName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+			if(empty($newProfileName) === true) {
+					throw(new \InvalidArgumentException("Profile name content is empty or insecure"));
+			}
+
+			//verify the profile name content will fit in the database
+			if(strlen($newProfileName) > 128) {
+					throw(new \RangeException("Name content too large"));
+			}
+
+			//store the profile name
+			$this->profileName = $newProfileName;
+}
+
+/**
+ * accessor method for profile email
+ * @return string value of profileEmail
+ **/
+
+
 } //does this curly go on line 101?
