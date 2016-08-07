@@ -200,6 +200,10 @@ public function setProfileEmail (string $newProfileEmail) {
 
 /**
  * accessor method for profile location
- */
+ * @return string value of profileLocation
+ **/
+public function getProfileLocation () {
+			return ($this->profileLocation);
+}
 
 } //does this curly go on line 101?
