@@ -1,7 +1,17 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Sosa
- * Date: 8/6/16
- * Time: 9:40 PM
- */
+
+namespace Edu\Cnm\Flek
+
+use Edu\Cnm\Flek\ValidateDate
+
+require_once("autoload.php");
+
+class genre implements \JsonSerializable {
+
+	/**
+	 * id for the genre is the primary key
+	 * @var int $genreId
+	 **/
+private genreId
+
+private genreName
