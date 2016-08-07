@@ -26,7 +26,7 @@ private profileName;
 private profileEmail;
 
 	/**
-	 * name of city where profile user is located
+	 * name of city where profile is located
 	 * @var string $profileLocation
 	 **/
 private profileLocation;
@@ -38,14 +38,14 @@ private profileLocation;
 private profileBio;
 
 	/**
-	 * name of userHash
-	 * @var string $userHash
+	 * name of profileHash
+	 * @var string $profileHash
 	 **/
 private profileHash;
 
 	/**
-	 * name of userSalt
-	 * @var string $userSalt
+	 * name of profileSalt
+	 * @var string $profileSalt
 	 **/
 private profileSalt;
 
@@ -56,15 +56,15 @@ private profileSalt;
 private profileAccessToken
 
 	/**
-	 *user activation token hex
+	 *profile activation token hex
 	 * @var string $profileActivationToken
 	 **/
 private profileActivationToken
 
 	/**
 	 * constructor for profile
-	 * @param int|null $newProfileId of the profiler user or null if new profile
-	 * @param string $newProfileName string containing actual profile user full name
+	 * @param int|null $newProfileId of the profil or null if new profile
+	 * @param string $newProfileName string containing actual profile full name
 	 * @param string $newProfileEmail string containing profile email
 	 * @param string $newProfileLocation string containing profile physical location
 	 * @param string $newProfileBio string containing profile bio summary
@@ -105,5 +105,34 @@ private profileActivationToken
  *
  * @return int|null value of profile id
  **/
+public function getProfileId() {
+			return($this->profileId);
+}
 
+/**
+ * mutator method for profile id
+ *
+ * @param int|null $newProfileId new value of profile id
+ * @throws \RangeException if newProfileId is not positive
+ * @throws \TypeError if $newProfileId is not an integer
+ **/
+public function setProfileId (int $newProfileId = null) {
+			//base case: if the profile id is null, this is a new profile without a mySQL assigned it (yet)
+			if($newProfileId ===null) {
+					$this->profileId = null;
+					return;
+			}
+
+			//verify the profile id is positive
+			if($newProfileIdId <= 0) {
+				throw(new \RangeException("Profile id must be a positive number."));
+			}
+
+			//convert and store the profile id
+			$this->profileId = intval($newProfileId);
+}
+
+/**
+ * accessor method for profile name
+ **/
 } //does this curly go on line 101?
