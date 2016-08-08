@@ -38,5 +38,19 @@ class Mail implements \JsonSerializable {
 	 * */
 	private mailContent;
 
+	/**
+	 * this is the accessor method for mail Id
+	 * @return int|null value of mail Id
+	 * */
+	public function getMailId() {
+		return($this->mailId);
+	}
+	/**
+	 * this is the mutator method for mail Id
+	 *
+	 * @return
+	 * */
+	public function setMailId() {
 
+	}
 }
