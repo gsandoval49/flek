@@ -193,8 +193,8 @@ class Hashtag implements \JsonSerializable {
      * gets the Hashtag by name
      *
      * @param \PDO $pdo PDO connection object
-     * @param string $tweetContent tweet content to search for
-     * @return \SplFixedArray SplFixedArray of Tweets found
+     * @param string $hashtagName hashtag name to search for
+     * @return \SplFixedArray SplFixedArray of Hashtags found
      * @throws \PDOException when mySQL related errors occur
      * @throws \TypeError when variables are not the correct data type
      **/
@@ -203,11 +203,11 @@ class Hashtag implements \JsonSerializable {
         $hashtagName = trim($hashtagName);
         $hashtagName = filter_var($hashtagName, FILTER_SANITIZE_STRING);
         if(empty($hashtagName) === true) {
-            throw(new \PDOException("tweet content is invalid"));
+            throw(new \PDOException("hashtag name is invalid"));
         }
 
         // create query template
-        $query = "SELECT hashtagId, hashtagName, tweetContent, tweetDate FROM hashtag WHERE hashtagName LIKE :hashtagName";
+        $query = "SELECT hashtagId, hashtagName FROM hashtag WHERE hashtagName LIKE :hashtagName";
         $statement = $pdo->prepare($query);
 
         // bind the hashtag name to the place holder in the template
@@ -267,7 +267,39 @@ class Hashtag implements \JsonSerializable {
             throw(new \PDOException($exception->getMessage(), 0, $exception));
         }
         return($hashtag);
-}
+    }
+
+    /**
+     * gets all Hashtags
+     *
+     * @param \PDO $pdo PDO connection object
+     * @return \SplFixedArray SplFixedArray of Hashtags found or null if not found
+     * @throws \PDOException when mySQL related errors occur
+     * @throws \TypeError when variables are not the correct data type
+     **/
+    public static function getAllHashtags(\PDO $pdo) {
+        // create query template
+        $query = "SELECT hashtagId, hashtagName FROM hashtag";
+        $statement = $pdo->prepare($query);
+        $statement->execute();
+
+        // build an array of Hashtags
+        $hashtags = new \SplFixedArray($statement->rowCount());
+        $statement->setFetchMode(\PDO::FETCH_ASSOC);
+        while(($row = $statement->fetch()) !==false) {
+            try {
+                $hashtag = new Hashtag($row["hashtagId"], $row["hashtagName"]);
+                $hashtags[$hashtags->key()] = $hashtag;
+                $hashtags->next();
+            } catch(\Exception $exception) {
+                //if the row couldn't be converted, rethrow it
+                throw(new \PDOException($exception->getMessage(), 0, $exception));
+            }
+        }
+        return ($hashtags);
+    }
+
+
 
 
 
