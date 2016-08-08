@@ -300,12 +300,24 @@ public function getProfileSalt () {
 /**
  * mutator method for profileSalt
  *
- * @param string newProfileSalt new value of profileSalt
+ * @param string $newProfileSalt new value of profileSalt
  * @throws \InvalidArgumentException if $newProfileSalt is not a string or insecure
  * @throws \RangeException if $newProfileSalt is > 64 characters
  * @throws \TypeError if $newProfileSalt is not a string
  **/
-
+public function setProfileSalt (string $newProfileSalt) {
+			$newProfileSalt = strtolower(trim($newProfileSalt));
+			//verification that $profileSalt is secure
+			if(ctype_xdigit($newProfileSalt) === false) {
+				throw(new \RangeException("profile salt cannot be null"));
+			}
+			//make sure profile salt = 64
+			if(strlen($newProfileSalt) !== 64) {
+					throw(new \RangeException("profile has has to be 64"));
+			}
+			//convert and store user salt
+			$this->profileSalt = $newProfileSalt;
+}
 
 
 } //does this curly go on line 101?
