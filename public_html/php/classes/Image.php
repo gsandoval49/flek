@@ -127,91 +127,98 @@ class Image implements \JsonSerializable {
 		//convert and store image profile id
 		$this->imageProfileId = $newImageProfileId;
 	}
-}
+
 	/*
 	 * accessor method for imageDescription
 	 * @return string value of image description
 	 */
 	public function getImageDescription() {
-		return($this->imageDescription);
-}
+		return ($this->imageDescription);
+	}
+
 	/*
 	 * mutator method for image Description
 	 * @throw method for image Description
 	 */
 	public function setImageDescription(string $newImageDescription) {
 		//verify the image description is secure
-		$newImageDescription=trim($newImageDescription);
-		$newImageDescription=filter_var($newImageDescription, FILTER_SANITIZE_STRING);
-			if(empty($newImageDescription) === true) {
-					throw(new \InvalidArgumentException("image description is empty or insecure"));
-			}
-			// verify the image content will fin in the database
-			if(strlen($newImageDescription) > 128) {
-					throw(new \RangeException("image description too large"));
-			}
-			// store the image content
-			$this->imageDescription = $newImageDescription;
-}
+		$newImageDescription = trim($newImageDescription);
+		$newImageDescription = filter_var($newImageDescription, FILTER_SANITIZE_STRING);
+		if(empty($newImageDescription) === true) {
+			throw(new \InvalidArgumentException("image description is empty or insecure"));
+		}
+		// verify the image content will fin in the database
+		if(strlen($newImageDescription) > 128) {
+			throw(new \RangeException("image description too large"));
+		}
+		// store the image content
+		$this->imageDescription = $newImageDescription;
+	}
+
 	/*
 	 * accessor method for image secure url
 	 * #return string  value of image secure url
 	*/
 	public function getImageSecureUrl() {
-			return($this->imageSecureUrl);
-}
+		return ($this->imageSecureUrl);
+	}
+
 	/*mutator method for image secure url
 	/*
 	 * @param string $newImageSecureUrl
 	 */
 	public function setImageSecureUrl(string $newImageSecureUrl) {
-	//verify the image secure url is positive
-	if($newImageSecureUrl <= 0) {
-		throw(new \RangeException("image secure url is not positive"));
+		//verify the image secure url is positive
+		if($newImageSecureUrl <= 0) {
+			throw(new \RangeException("image secure url is not positive"));
+		}
+		//convert and store the image secure url
+		$this->imageSecureId = $newImageSecureUrl;
 	}
-	//convert and store the image secure url
-	$this->imageSecureId = $newImageSecureUrl;
-}
 
 	/*
 	 * accessor method for image public id
 	 * @return string $newImagePublicId
 	 */
 	public function getImagePublicId() {
-			return($this->imagePublicId);
-}
-		/*
-		 * mutator method for image public id
-		 * @param string imagePublicId
-		  * @throw string is not positive and string too long
-		 */
-		public function setImagePublicId(string $newImagePublicId) {
-	//verify the public id is positive/too long
-	if($newImagePublicId <= 0) {
-		throw(new\RangeException("image public id is too long and not positive"));
+		return ($this->imagePublicId);
 	}
-	// verify the image content will fin in the database
-	if(strlen($newImagePublicId) > 128) {
-		throw(new \RangeException("image description too large"));
-		//convert and store the image public id
+
+	/*
+	 * mutator method for image public id
+	 * @param string imagePublicId
+	  * @throw string is not positive and string too long
+	 */
+	public function setImagePublicId(string $newImagePublicId) {
+		//verify the public id is positive/too long
+		if($newImagePublicId <= 0) {
+			throw(new\RangeException("image public id is too long and not positive"));
+		}
+		// verify the image content will fin in the database
+		if(strlen($newImagePublicId) > 128) {
+			throw(new \RangeException("image description too large"));
+			//convert and store the image public id
+		}
+	}
+
+	/*
+	 * accessor method for image genre id
+	 * @return int|null imageGenreId
+	 */
+	public function getImageGenreId() {
+		return ($this->imageGenreId);
+	}
+
+	/*
+	 * mutator method for image genre id
+	 * @param int new value $newImageGenreId
+	 * @throws image genre id not positive
+	 */
+	public function setImageGenreId(int $newImageGenreId) {
+		if($newImageGenreId <= 0) {
+			throw(new \TypeError("image genre id is not positive"));
+			// convert and store the image genre id
+		}
+		$this->imageGenreId = $newImageGenreId;
 	}
 }
-		/*
-		 * accessor method for image genre id
-		 * @return int|null imageGenreId
-		 */
-		public function getImageGenreId() {
-				return($this->imageGenreId);
-}
-		/*
-		 * mutator method for image genre id
-		 * @param int new value $newImageGenreId
-		 * @throws image genre id not positive
-		 */
-		public function setImageGenreId(int $newImageGenreId) {
-			if($newImageGenreId <=0) {
-				throw(new \TypeError("image genre id is not positive"));
-				// convert and store the image genre id
-			}
-				$this->imageGenreId = $newImageGenreId;
-			}
