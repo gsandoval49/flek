@@ -261,9 +261,36 @@ public function setProfileBio($newProfileBio) {
 /**
  * accessor method for profileHash
  * @return int|null for $newProfileHash
- */
+ **/
 public function getProfileHash() {
 			return ($this->profileHash);
 }
+
+/**
+ * mutator method for profileHash
+ *
+ * @param string $newProfileHash string of profile hash
+ * @param \InvalidArgumentException if $newProfileHash is not a string
+ * @param \RangeException if $newProfileHash = 128
+ * @param \TypeError if $newProfileHash is not a string
+ **/
+public function setProfileHash (string $newProfileHash) {
+			//verification that $profileHash is secure
+			$newProfileHash = strtolower(trim($newProfileHash));
+			//make sure that profile hash cannot be null
+			if(ctype_xdigit($newProfileHash) === false) {
+					throw(new \RangeException("profile hash cannot be null"));
+			}
+			//make sure profile hash = 128
+			if(strlen($newProfileHash) !== 128) {
+					throw(new \RangeException("profile hash has to be 128"));
+			}
+			//convert and store profile hash
+			$this->profileHash = $newProfileHash;
+}
+
+/**
+ * accessor method for profileSalt
+ **/
 
 } //does this curly go on line 101?
