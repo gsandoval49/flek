@@ -7,17 +7,35 @@ namespace Edu\Cnm\Flek;
 require_once("autoload.php");
 
 class Mail implements \JsonSerializable {
-	/*this is the primary id for the class*/
+	/**
+	 *  this is the primary key for the Mail class
+	* @var int $mailId
+	 * */
 	private mailId;
-	/*this is the subject for a specific message*/
+	/**
+	 * this is the subject of a message
+	 * @var string $mailSubject
+	 * */
 	private mailSubject;
-	/*this is the profileId of the user who sends the message*/
+	/**
+ * this is the profileId of the user who sends a message
+ * @var int $mailSenderId
+ * */
 	private mailSenderId;
-	/*this is the profileId of the user who reads the message*/
+	/**
+	 * this is the profileId of the user who reads the message
+	 * @var int $mailReceiverId
+	 * */
 	private mailReceiverId;
-	/*this is the Id created by mailgun*/
+	/**
+	 * this is the Id created by mailgun
+	 * @var int $mailGunId
+	 * */
 	private mailGunId;
-	/*this is the actual content of the message*/
+	/**
+	 * this is the actual message content
+	 * @var string $mailContent
+	 * */
 	private mailContent;
 
 
