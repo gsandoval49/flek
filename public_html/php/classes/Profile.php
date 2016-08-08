@@ -262,5 +262,8 @@ public function setProfileBio($newProfileBio) {
  * accessor method for profileHash
  * @return int|null for $newProfileHash
  */
+public function getProfileHash() {
+			return ($this->profileHash);
+}
 
 } //does this curly go on line 101?
