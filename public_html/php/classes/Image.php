@@ -128,4 +128,28 @@ class Image implements \JsonSerializable {
 		$this->imageProfileId = $newImageProfileId;
 	}
 }
-
+	/*
+	 * accessor method for imageDescription
+	 * @return string value of image description
+	 */
+	public function getImageDescription() {
+		return($this->imageDescription);
+}
+	/*
+	 * mutator metod for image Description
+	 * @throw mthod for image Description
+	 */
+	public function setImageDescription(string $newImageDescription) {
+		//verify the image description is secure
+		$newImageDescription=trim($newImageDescription);
+		$newImageDescription=filter_var($newImageDescription, FILTER_SANITIZE_STRING);
+			if(empty($newImageDescription) === true) {
+					throw(new \InvalidArgumentException("image description is empty or insecure"));
+			}
+			// verify the image content will fin in the database
+			if(strlen($newImageDescription) > 128) {
+					throw(new \RangeException("image description too large"));
+			}
+			// store the image content
+			$this->imageDescription = $newImageDescription;
+}
