@@ -319,5 +319,29 @@ public function setProfileSalt (string $newProfileSalt) {
 			$this->profileSalt = $newProfileSalt;
 }
 
+/**
+ * accessor method for profileAccessToken
+ * @return string value of profile access token
+ **/
+public function getProfileAccessToken () {
+			return ($this->profileAccessToken);
+}
+
+/**
+ * mutator method for profileAccessToken
+ *
+ * @param string $profileAccessToken new value of profile id
+ * @throws \InvalidArgumentException if $newProfileAccessToken is not a string or insecure
+ * @throws \TypeError if $newProfileAccessToken is not a string
+ */
+
+/**
+ * accessor method for profileActivationToken
+ * @return string value of profile activation token
+ **/
+public function getProfileActivationToken () {
+	return ($this->profileActivationToken);
+}
+
 
 } //does this curly go on line 101?
