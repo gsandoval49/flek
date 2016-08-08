@@ -639,7 +639,12 @@ public static function getProfileByProfileActivationToken (\PDO $pdo, string $pr
 }
 
 /**
- * gets a profiles
+ * gets all profiles
+ *
+ * @param \PDO $pdo PDO connection object
+ * @return \SplFixedArray SplFixedArray of profiles found or null if not found
+ * @throws \PDOException when mySQL related errors occur
+ * @throws \TypeError when variables are not the correct data type
 **/
 
 /**
