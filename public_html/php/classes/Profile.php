@@ -596,7 +596,47 @@ public static function getProfileByProfileAccessToken (\PDO $PDO, int $profileAc
 
 /**
  * gets profile by profileActivationToken
+ *
+ * @param string $profileActivationToken profile to search for
+ * @param \PDO object $pdo
+ * @return profile object
+ * @throws \PDOException when mySQL related errors occur
+ * @throws \TypeError when variables are not the correct data type
 **/
+public static function getProfileByProfileActivationToken (\PDO $pdo, string $profileActivationToken) {
+			//sanitize the description before searching
+			$profileActivationToken = trim($profileActivationToken);
+			$profileActivationToken = filter_var($profileActivationToken, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	if(empty($profileActivationToken) === true) {
+			throw(new \PDOException("profile activation token is invalid"));
+	}
+	//create query template
+	$query = "SELECT profileId, profileName, profileEmail, profileLocation, profileBio, profileHash, 
+			profileSalt, profileAccessToken, profileActivationToken FROM profile WHERE profileActivationToken = 
+			:profileActivationToken";
+	$statement = $pdo->prepare($query);
+
+	//bind the profile ActivationToken to the place holder in the template
+	$parameters = array("profileActivationToken" => $profileActivationToken);
+	$statement->execute($parameters);
+	if($statement === false) {
+			throw(new \PDOException("profile activation token does not exist"));
+	}
+
+	//get single profile
+	$statement->setFetchMode(\PDO::FETCH_ASSOC);
+	$row = $statement->fetch();
+	try {
+			$profile = new Profile($row["profileId"],$row["profileName"], $row["profileEmail"],
+				$row["profileLocation"], $row["profileBio"], $row["profileHash"], $row["profileSalt"],
+				$row["profileAccessToken"], $row["profileActivationToken"]);
+	} catch(\Exception $exception) {
+			//if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+	}
+
+	return ($profile);
+}
 
 /**
  * gets a profiles
