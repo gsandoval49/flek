@@ -28,7 +28,7 @@ CREATE TABLE profile (
 -- MAIL drop table here
 
 CREATE TABLE mail (
-	/*this is the primary key*/
+	/*this is the primary key, etc. etc.*/
 	mailId INT UNSIGNED AUTO_INCREMENT NOT NULL,
 	mailSubject VARCHAR(128) NOT NULL,
 	/*these were auto_incremented, we took that out */
