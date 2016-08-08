@@ -333,7 +333,7 @@ public function getProfileAccessToken () {
  * @param string $profileAccessToken new value of profile id
  * @throws \InvalidArgumentException if $newProfileAccessToken is not a string or insecure
  * @throws \TypeError if $newProfileAccessToken is not a string
- */
+ **/
 public function setProfileAccessToken (string $newProfileAccessToken) {
 		//verify the profile Access Token is secure
 		$newProfileAccessToken = trim($newProfileAccessToken);
@@ -354,6 +354,40 @@ public function setProfileAccessToken (string $newProfileAccessToken) {
 public function getProfileActivationToken() {
 			return($this->profileActivationToken);
 }
+
+/**
+ * mutator method for profileActivationToken
+ *
+ * @param string $newProfileActivationToken
+ * @throws \InvalidArgumentException if $newProfileActivationToken is not a string or insecure
+ * @throws \TypeError if $newProfileActivationToken is not a string
+ **/
+public function setProfileActivationToken (string $newProfileActivationToken = null) {
+			//verify the profile activation token is secure
+			if($newProfileActivationToken ===null){
+					$this->profileActivationToken = null;
+					return;
+			}
+
+			$newProfileActivationToken = strtolower(trim($newProfileActivationToken));
+			if(ctype_xdigit($newProfileActivationToken) === false) {
+					throw(new \RangeException("profile activation token cannot be null"));
+			}
+			//make sure profile activation token = 32
+			if(strlen($newProfileActivationToken) !== 32) {
+					throw(new\RangeException("profile activation token has to be 32"));
+			}
+
+			$this->profileActivationToken = $newProfileActivationToken;
+}
+
+/**
+ * updates this profile in mySQL
+ *
+ * @param \PDO $pdo PDO connection object
+ * @throws \PDOException when mySQL related error occur
+ * @throws \TypeErrorif $pdo is not a PDO connection object
+ **/
 
 
 } //does this curly go on line 101?
