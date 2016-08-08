@@ -107,7 +107,30 @@ class Mail implements \JsonSerializable {
 		}
 
 		$this->mailReceiverId = $newMailReceiverId;
-
 	}
+	/**
+	 * this is the accessor method for mail gun Id
+	 *
+	 * @return int|null
+	 * */
+	public function getMailGunId(){
+		return($this->mailGunId);
+	}
+	/**
+	 * this is the mutator method for mail gun Id
+	 * @param int|null $newMailGunId new value of mail gun Id
+	 * @throws \RangeException if $newMailGunId is not positive
+	 * @return
+	 * */
+	public function setMailGunId(int $newMailGunId) {
+		if($newMailGunId <= 0){
+			throw(new \RangeException("mail gun Id is not positive"));
+		}
+	}
+	/**
+	 * this is the accessor method for mail content
+	 *
+	 * @return string
+	 * */
 
 }
