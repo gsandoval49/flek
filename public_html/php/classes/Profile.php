@@ -291,6 +291,13 @@ public function setProfileHash (string $newProfileHash) {
 
 /**
  * accessor method for profileSalt
+ * @return string value of profileSalt
  **/
+public function getProfileSalt () {
+			return ($this->profileSalt);
+}
+
+
+
 
 } //does this curly go on line 101?
