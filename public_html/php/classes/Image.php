@@ -40,3 +40,13 @@ class Image implements \JsonSerializable {
 	 */
 	private $imageGenreId;
 }
+
+/*
+ * constructor for the Image
+ * @param int|null $newImageId of this Image or null
+ * @param int|null @newImageProfileId of the profile that sent this Image
+ * @param string $newImageDescription string containing acutal profile data
+ * @param string $newImageSecureUrl string containing url of the image uploaded
+ * @param string $newImagePublicId string containing id of the image uploaded
+ * @param string int|null $newImageGenreId of the image genre or null
+ */
