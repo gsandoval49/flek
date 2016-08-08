@@ -39,14 +39,29 @@ class Image implements \JsonSerializable {
 	 * @var string $imageGenreId
 	 */
 	private $imageGenreId;
-}
+
 
 /*
  * constructor for the Image
  * @param int|null $newImageId of this Image or null
- * @param int|null @newImageProfileId of the profile that sent this Image
+ * @param int|null $newImageProfileId of the profile that sent this Image
  * @param string $newImageDescription string containing acutal profile data
  * @param string $newImageSecureUrl string containing url of the image uploaded
  * @param string $newImagePublicId string containing id of the image uploaded
  * @param string int|null $newImageGenreId of the image genre or null
+ * @throws \InvalidArgumentException if data types are not valid
+ * @throws \RangeException if data values are out of range
+ * @throws \TypeError if data types violate type hints
+ * @throws \Exception if some other exception occurs
  */
+public function __construct(int $newImageId = null, int $newImageProfileId, string $newImageDescription, string $newImageSecureURL,
+	string $newImagePublicId, int $newImageGenreId = null) {
+	try {
+		$this->setImageId($newImageId);
+		$this->setImageProfileId($newImageProfileId);
+		$this->setImageDescription($newImageDescription);
+		$this->setImageSecureUrl($newImageSecureURL);
+		$this->setImagePublicId($newImagePublicId);
+		$this->setImageGenreId($newImageGenreId);
+	}
+}
