@@ -28,6 +28,7 @@ CREATE TABLE profile (
 -- MAIL drop table here
 
 CREATE TABLE mail (
+	/*this is the primary key*/
 	mailId INT UNSIGNED AUTO_INCREMENT NOT NULL,
 	mailSubject VARCHAR(128) NOT NULL,
 	/*these were auto_incremented, we took that out */
@@ -39,7 +40,6 @@ CREATE TABLE mail (
 	INDEX (mailReceiverId),
 	FOREIGN KEY (mailSenderId) REFERENCES profile(profileId),
 	FOREIGN KEY (mailReceiverId) REFERENCES profile(profileId),
-  -- removed unique mailId because a primary key is already unique, twas redundant
 	PRIMARY KEY (mailId)
 );
 
