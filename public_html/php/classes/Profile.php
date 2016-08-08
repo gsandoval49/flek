@@ -297,6 +297,14 @@ public function getProfileSalt () {
 			return ($this->profileSalt);
 }
 
+/**
+ * mutator method for profileSalt
+ *
+ * @param string newProfileSalt new value of profileSalt
+ * @throws \InvalidArgumentException if $newProfileSalt is not a string or insecure
+ * @throws \RangeException if $newProfileSalt is > 64 characters
+ * @throws \TypeError if $newProfileSalt is not a string
+ **/
 
 
 
