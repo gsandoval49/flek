@@ -324,7 +324,7 @@ public function setProfileSalt (string $newProfileSalt) {
  * @return string value of profile access token
  **/
 public function getProfileAccessToken () {
-			return ($this->profileAccessToken);
+			return ($this->profileAccessToken)
 }
 
 /**
@@ -334,13 +334,25 @@ public function getProfileAccessToken () {
  * @throws \InvalidArgumentException if $newProfileAccessToken is not a string or insecure
  * @throws \TypeError if $newProfileAccessToken is not a string
  */
+public function setProfileAccessToken (string $newProfileAccessToken) {
+		//verify the profile Access Token is secure
+		$newProfileAccessToken = trim($newProfileAccessToken);
+		$newProfileAccessToken = filter_var($newProfileAccessToken, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newProfileAccessToken) === true) {
+			throw(new \InvalidArgumentException("Profile access token content is empty or insecure"));
+		}
+
+		//convert store the profile Access Token
+		$this->profileAccessToken = $newProfileAccessToken;
+	}
+
 
 /**
  * accessor method for profileActivationToken
  * @return string value of profile activation token
  **/
-public function getProfileActivationToken () {
-	return ($this->profileActivationToken);
+public function getProfileActivationToken() {
+			return($this->profileActivationToken);
 }
 
 
