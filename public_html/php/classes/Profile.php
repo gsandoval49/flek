@@ -5,6 +5,13 @@ namespace Edu\Cnm\Flek;
 
 require_once("autoload.php");
 
+/**
+ * This profile class will offered to users who would like to create a landing page with their information and
+ * communicate with others.
+ *
+ * @author Chrisitna Sosa <csosa4@cnm.edu>
+**/
+
 class Profile implements \JsonSerializable {
 
 	/**
@@ -388,7 +395,7 @@ public function setProfileActivationToken (string $newProfileActivationToken = n
  * @throws \PDOException when mySQL related error occur
  * @throws \TypeError if $pdo is not a PDO connection object
  **/
-public function insert(/PDO $pdo) {
+public function insert(/PDO $PDO) {
 			//enforce the profileId id null (i.e., don't insert a profile that already exists)
 			if($this->profileId !== null) {
 					throw(new \PDOException("not a new profile"));
@@ -413,28 +420,60 @@ public function insert(/PDO $pdo) {
 		$statement->execute($parameters);
 
 			//update the null profileId with what mySQL gave us
-			$this->profileId = intval($pdo->lastInsertId());
+			$this->profileId = intval($PDO->lastInsertId());
 }
 
 /**
- * deletes the user from mySQL
+ * deletes the profile from mySQL
  *
  * @param \PDO $pdo PDO connecton object
  * @param \PDOException when mySQL related error occurs
  * @param \TypeError if $pdo is not a PDO connection object
  **/
-public function delete (\PDO $pdo) {
+public function delete (\PDO $PDO) {
 			//enforce the profileId is not null (don't insert a profile that is not inserted yet)
 			if($this->profileId === null) {
 					throw(new \PDOException("unable to delete a profile that does not exist"));
 			}
 			//create a query template
 			$query = "DELETE FROM profile WHERE profileId = :profileId";
-			$statement = $pdo->prepare($query);
+			$statement = $PDO->prepare($query);
 			//bind the member variables to the place holder in the template
 			$parameters = ["profileId" => $this->profileId];
 			$statement->execute($parameters);
 }
 
+/**
+ * updates this profile in mySQL
+ *
+ * @param \PDO $pdo PDO connection object
+ * @throws \PDOException when mySQL related error occurs
+ * @throws \TypeError if $pdo is not a PDO connection object
+ **/
+public function update (\PDO $PDO) {
+			//enforce the profileId is not null (i.e., don't update a profile that hasn't been inserted)
+			if($this->profileId === null) {
+					throw(new \PDOException("unable to update a profile that does not exist"));
+			}
+
+			//create query template
+			$query = "UPDATE profile SET profileId = :profileId, profileName = :profileName, profileEmail = 
+			:profileEmail, profileLocation = :profileLocation, profileBio = :profileBio, profileHash = :profileHash, 
+			profileSalt = :profileSalt, profileAccessToken = :profileAccessToken, profileActivationToken = 
+			:profileActivationToken WHERE profileId = :profileId"; //come back to this- SET profileId might be SET
+	// profileName
+
+	$statement = $PDO->prepare($query);
+}
+
+/**
+ * gets profile by profileId
+ *
+ * @param \PDO $pdo PDO connection object
+ * @param int profileId profile id to search for
+ * @return profile|null user found or null if not found
+ * @throws \PDOException when mySQL realted error occurs
+ * @throws \TypeError when variables are not the correct data type
+ **/
 
 } //does this curly go on line 101?
