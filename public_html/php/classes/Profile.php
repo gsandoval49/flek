@@ -510,4 +510,48 @@ public static function getProfilebyProfileId (\PDO $PDO, int $profileId){
 			return($profile);
 }
 
+/**
+ * gets profile by profileAccessToken
+ *
+ * @param int $profileAccessToken
+ * @param \PDO object $pdo
+ * @return \splFixedArray SplFixedArray of profiles found
+ * @throws \PDOException when mySQL related errors occur
+ * @throws \TypeError when variables are not correct in data type
+**/
+public static function getProfileByProfileAccessToken (\PDO $PDO, int $profileAccessToken) {
+			//sanitize the description before searching
+			$profileAccessToken = trim($profileAccessToken);
+			$profileAccessToken = filter_var($profileAccessToken, FILTER_VALIDATE_INT);
+			if(empty($profileAccessToken) ===true) {
+					throw(new \PDOException("profile access token is invalid"));
+			}
+			//create query template
+			$query = "SELECT profileId, profileName, profileEmail, profileLocation, profileBio, profileHash, 
+			profileSalt, profileAccessToken, profileActivationToken FROM profile WHERE profileAccessTOken = 
+			:profileAccessToken";
+			$statement = $PDO->prepare($query);
+
+			//bind the profile access token to the place holder in the template
+			$parameters = array("profileAccessToken" => $profileAccessToken);
+			$statement->execute($parameters);
+
+			//build an array of profiles
+			$profiles = new \SplFixedArray($statement->rowCount());
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			while(($row = $statement->fetch()) !== false) {
+				try {
+						$profile = new Profile($row["profileId"],$row["profileName"], $row["profileEmail"],
+							$row["profileLocation"], $row["profileBio"], $row["profileHash"], $row["profileSalt"],
+							$row["profileAccessToken"], $row["profileActivationToken"]);
+						$profile[$profiles->key()] = $profile;
+						$profile->next();
+				} catch(\Exception $exception) {
+						//if the row couldn't be converted, rethrow it
+						throw(new \PDOException($exception->getMessage(), 0, $exception));
+				}
+			}
+			return ($profiles);
+}
+
 } //does this curly go on line 101?
