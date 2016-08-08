@@ -196,3 +196,22 @@ class Image implements \JsonSerializable {
 		//convert and store the image public id
 	}
 }
+		/*
+		 * accessor method for image genre id
+		 * @return int|null imageGenreId
+		 */
+		public function getImageGenreId() {
+				return($this->imageGenreId);
+}
+		/*
+		 * mutator method for image genre id
+		 * @param int new value $newImageGenreId
+		 * @throws image genre id not positive
+		 */
+		public function setImageGenreId(int $newImageGenreId) {
+			if($newImageGenreId <=0) {
+				throw(new \TypeError("image genre id is not positive"));
+				// convert and store the image genre id
+			}
+				$this->imageGenreId = $newImageGenreId;
+			}
