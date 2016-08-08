@@ -92,19 +92,22 @@ private profileActivationToken
 				$this->setProfileSalt($newProfileSalt);
 				$this->setProfileAccessToken($newProfileAccessToken);
 				$this->setProfileActivationToken($newProfileActivationToken);
-	} catch(\InvalidArgumentException $invalidArgument) {
-			//rethrow the exception to the caller
-			throw(new \InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
-	} catch(\RangeException $range) {
-			//rethrow exception to caller
-			throw(new \RangeException($range->getMessage(), 0, $range));
-	} catch(\TypeError $typeError) {
-			//rethrow exception to caller
-			throw(new \TypeError($typeError->getMessage(), 0, $typeError));
-	} catch(\Exception $exception) {
-			//rethrow regular exception to caller
-			throw(new \Exception($exception->getMessage(), 0, $exception));
 	}
+
+catch
+(\InvalidArgumentException $invalidArgument) {
+	//rethrow the exception to the caller
+	throw(new \InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
+} catch(\RangeException $range) {
+	//rethrow exception to caller
+	throw(new \RangeException($range->getMessage(), 0, $range));
+} catch(\TypeError $typeError) {
+	//rethrow exception to caller
+	throw(new \TypeError($typeError->getMessage(), 0, $typeError));
+} catch(\Exception $exception) {
+	//rethrow regular exception to caller
+	throw(new \Exception($exception->getMessage(), 0, $exception));
+}
 	//}
 
 /**
@@ -113,7 +116,7 @@ private profileActivationToken
  * @return int|null value of profile id
  **/
 public function getProfileId() {
-			return($this->profileId);
+	return ($this->profileId);
 }
 
 /**
@@ -123,28 +126,28 @@ public function getProfileId() {
  * @throws \RangeException if newProfileId is not positive
  * @throws \TypeError if $newProfileId is not an integer
  **/
-public function setProfileId (int $newProfileId = null) {
-			//base case: if the profile id is null, this is a new profile without a mySQL assigned it (yet)
-			if($newProfileId ===null) {
-					$this->profileId = null;
-					return;
-			}
+public function setProfileId(int $newProfileId = null) {
+	//base case: if the profile id is null, this is a new profile without a mySQL assigned it (yet)
+	if($newProfileId === null) {
+		$this->profileId = null;
+		return;
+	}
 
-			//verify the profile id is positive
-			if($newProfileId <= 0) {
-				throw(new \RangeException("Profile id must be a positive number."));
-			}
+	//verify the profile id is positive
+	if($newProfileId <= 0) {
+		throw(new \RangeException("Profile id must be a positive number."));
+	}
 
-			//convert and store the profile id
-			$this->profileId = intval($newProfileId);
+	//convert and store the profile id
+	$this->profileId = intval($newProfileId);
 }
 
 /**
  * accessor method for profile name
  * @return string value of profileName
  **/
-public function getProfileName () {
-			return ($this->profileName);
+public function getProfileName() {
+	return ($this->profileName);
 }
 
 /**
@@ -155,29 +158,29 @@ public function getProfileName () {
  * @throws \RangeException if $newProfileName is > 128
  * @throws \TypeError if $newProfileName is not a string
  **/
-public function setProfileName (string $newProfileName) {
-			//verify the profile's name is secure
-			$newProfileName = trim($newProfileName);
-			$newProfileName = filter_var($newProfileName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-			if(empty($newProfileName) === true) {
-					throw(new \InvalidArgumentException("Profile name content is empty or insecure"));
-			}
+public function setProfileName(string $newProfileName) {
+	//verify the profile's name is secure
+	$newProfileName = trim($newProfileName);
+	$newProfileName = filter_var($newProfileName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	if(empty($newProfileName) === true) {
+		throw(new \InvalidArgumentException("Profile name content is empty or insecure"));
+	}
 
-			//verify the profile name content will fit in the database
-			if(strlen($newProfileName) > 128) {
-					throw(new \RangeException("Name content too large"));
-			}
+	//verify the profile name content will fit in the database
+	if(strlen($newProfileName) > 128) {
+		throw(new \RangeException("Name content too large"));
+	}
 
-			//store the profile name
-			$this->profileName = $newProfileName;
+	//store the profile name
+	$this->profileName = $newProfileName;
 }
 
 /**
  * accessor method for profile email
  * @return string value of profileEmail
  **/
-public function getProfileEmail () {
-			return ($this->profileEmail);
+public function getProfileEmail() {
+	return ($this->profileEmail);
 }
 
 /**
@@ -188,29 +191,29 @@ public function getProfileEmail () {
  * @throws \RangeException if $newProfileEmail is > 128 characters
  * @throws \TypeError if $newProfileEmail is not a string
  **/
-public function setProfileEmail (string $newProfileEmail) {
-			//verify the profile's email content is secure
-			$newProfileEmail = trim($newProfileEmail);
-			$newProfileEmail = filter_var($newProfileEmail, FILTER_SANITIZE_EMAIL);
-			if(empty($newProfileEmail) === true) {
-					throw(new \InvalidArgumentException("Profile's email content is empty or insecure"));
-         }
+public function setProfileEmail(string $newProfileEmail) {
+	//verify the profile's email content is secure
+	$newProfileEmail = trim($newProfileEmail);
+	$newProfileEmail = filter_var($newProfileEmail, FILTER_SANITIZE_EMAIL);
+	if(empty($newProfileEmail) === true) {
+		throw(new \InvalidArgumentException("Profile's email content is empty or insecure"));
+	}
 
-         //verify the email will fit in the database
-			if(strlen($newProfileEmail) > 128) {
-					throw(new \RangeException("Email too large"));
-			}
+	//verify the email will fit in the database
+	if(strlen($newProfileEmail) > 128) {
+		throw(new \RangeException("Email too large"));
+	}
 
-			//store the profile's email
-			$this->profileEmail = $newProfileEmail;
+	//store the profile's email
+	$this->profileEmail = $newProfileEmail;
 }
 
 /**
  * accessor method for profile location
  * @return string value of profileLocation
  **/
-public function getProfileLocation () {
-			return ($this->profileLocation);
+public function getProfileLocation() {
+	return ($this->profileLocation);
 }
 
 /**
@@ -221,27 +224,27 @@ public function getProfileLocation () {
  * @throws \RangeException if $newProfileLocation is > 64 characters
  * @throws \TypeError if $newProfileLocation is not a string
  **/
-public function setProfileLocation (string $newProfileLocation) {
-			//verify the profile's location content is secure
-			$newProfileLocation = trim($newProfileLocation);
-			$newProfileLocation = filter_var($newProfileLocation, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-			if(empty($newProfileLocation) === true) {
-					throw (new \InvalidArgumentException("profile location is empty of insecure"));
-			}
-			if(strlen($newProfileLocation) >64) {
-					throw (new \RangeException("profile location field is greater than 64 characters"));
-			}
+public function setProfileLocation(string $newProfileLocation) {
+	//verify the profile's location content is secure
+	$newProfileLocation = trim($newProfileLocation);
+	$newProfileLocation = filter_var($newProfileLocation, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	if(empty($newProfileLocation) === true) {
+		throw (new \InvalidArgumentException("profile location is empty of insecure"));
+	}
+	if(strlen($newProfileLocation) > 64) {
+		throw (new \RangeException("profile location field is greater than 64 characters"));
+	}
 
-			//store the profile's location
-			$this->profileLocation = $newProfileLocation;
+	//store the profile's location
+	$this->profileLocation = $newProfileLocation;
 }
 
 /**
  * accessor method for profileBio
  * @return string value of profileBio
  **/
-public function getProfileBio () {
-			return ($this->profileBio)
+public function getProfileBio() {
+	return ($this->profileBio)
 }
 
 /**
@@ -252,17 +255,17 @@ public function getProfileBio () {
  * @throws \RangeException if $newProfileBio is > 255 characters
  **/
 public function setProfileBio($newProfileBio) {
-			//verify the profile bio content is secure
-			$newProfileBio = trim($newProfileBio);
-			$newProfileBio = filter_var($newProfileBio, FILTER_SANITIZE_STRING);
-			if(empty($newProfileBio) === true) {
-					throw (new \InvalidArgumentException("profile description is empty or insecure"));
-			}
-			if(strlen($newProfileBio) > 255) {
-					throw (new \RangeException("profile bio is greater than 255 characters"));
-			}
-			//store the profile bio content
-			$this->profileBio = $newProfileBio;
+	//verify the profile bio content is secure
+	$newProfileBio = trim($newProfileBio);
+	$newProfileBio = filter_var($newProfileBio, FILTER_SANITIZE_STRING);
+	if(empty($newProfileBio) === true) {
+		throw (new \InvalidArgumentException("profile description is empty or insecure"));
+	}
+	if(strlen($newProfileBio) > 255) {
+		throw (new \RangeException("profile bio is greater than 255 characters"));
+	}
+	//store the profile bio content
+	$this->profileBio = $newProfileBio;
 }
 
 /**
@@ -270,7 +273,7 @@ public function setProfileBio($newProfileBio) {
  * @return int|null for $newProfileHash
  **/
 public function getProfileHash() {
-			return ($this->profileHash);
+	return ($this->profileHash);
 }
 
 /**
@@ -281,27 +284,27 @@ public function getProfileHash() {
  * @param \RangeException if $newProfileHash = 128
  * @param \TypeError if $newProfileHash is not a string
  **/
-public function setProfileHash (string $newProfileHash) {
-			//verification that $profileHash is secure
-			$newProfileHash = strtolower(trim($newProfileHash));
-			//make sure that profile hash cannot be null
-			if(ctype_xdigit($newProfileHash) === false) {
-					throw(new \RangeException("profile hash cannot be null"));
-			}
-			//make sure profile hash = 128
-			if(strlen($newProfileHash) !== 128) {
-					throw(new \RangeException("profile hash has to be 128"));
-			}
-			//convert and store profile hash
-			$this->profileHash = $newProfileHash;
+public function setProfileHash(string $newProfileHash) {
+	//verification that $profileHash is secure
+	$newProfileHash = strtolower(trim($newProfileHash));
+	//make sure that profile hash cannot be null
+	if(ctype_xdigit($newProfileHash) === false) {
+		throw(new \RangeException("profile hash cannot be null"));
+	}
+	//make sure profile hash = 128
+	if(strlen($newProfileHash) !== 128) {
+		throw(new \RangeException("profile hash has to be 128"));
+	}
+	//convert and store profile hash
+	$this->profileHash = $newProfileHash;
 }
 
 /**
  * accessor method for profileSalt
  * @return string value of profileSalt
  **/
-public function getProfileSalt () {
-			return ($this->profileSalt);
+public function getProfileSalt() {
+	return ($this->profileSalt);
 }
 
 /**
@@ -312,26 +315,26 @@ public function getProfileSalt () {
  * @throws \RangeException if $newProfileSalt is > 64 characters
  * @throws \TypeError if $newProfileSalt is not a string
  **/
-public function setProfileSalt (string $newProfileSalt) {
-			$newProfileSalt = strtolower(trim($newProfileSalt));
-			//verification that $profileSalt is secure
-			if(ctype_xdigit($newProfileSalt) === false) {
-				throw(new \RangeException("profile salt cannot be null"));
-			}
-			//make sure profile salt = 64
-			if(strlen($newProfileSalt) !== 64) {
-					throw(new \RangeException("profile has has to be 64"));
-			}
-			//convert and store profile salt
-			$this->profileSalt = $newProfileSalt;
+public function setProfileSalt(string $newProfileSalt) {
+	$newProfileSalt = strtolower(trim($newProfileSalt));
+	//verification that $profileSalt is secure
+	if(ctype_xdigit($newProfileSalt) === false) {
+		throw(new \RangeException("profile salt cannot be null"));
+	}
+	//make sure profile salt = 64
+	if(strlen($newProfileSalt) !== 64) {
+		throw(new \RangeException("profile has has to be 64"));
+	}
+	//convert and store profile salt
+	$this->profileSalt = $newProfileSalt;
 }
 
 /**
  * accessor method for profileAccessToken
  * @return string value of profile access token
  **/
-public function getProfileAccessToken () {
-			return ($this->profileAccessToken)
+public function getProfileAccessToken() {
+	return ($this->profileAccessToken)
 }
 
 /**
@@ -341,17 +344,17 @@ public function getProfileAccessToken () {
  * @throws \InvalidArgumentException if $newProfileAccessToken is not a string or insecure
  * @throws \TypeError if $newProfileAccessToken is not a string
  **/
-public function setProfileAccessToken (string $newProfileAccessToken) {
-		//verify the profile Access Token is secure
-		$newProfileAccessToken = trim($newProfileAccessToken);
-		$newProfileAccessToken = filter_var($newProfileAccessToken, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-		if(empty($newProfileAccessToken) === true) {
-			throw(new \InvalidArgumentException("Profile access token content is empty or insecure"));
-		}
-
-		//convert store the profile Access Token
-		$this->profileAccessToken = $newProfileAccessToken;
+public function setProfileAccessToken(string $newProfileAccessToken) {
+	//verify the profile Access Token is secure
+	$newProfileAccessToken = trim($newProfileAccessToken);
+	$newProfileAccessToken = filter_var($newProfileAccessToken, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	if(empty($newProfileAccessToken) === true) {
+		throw(new \InvalidArgumentException("Profile access token content is empty or insecure"));
 	}
+
+	//convert store the profile Access Token
+	$this->profileAccessToken = $newProfileAccessToken;
+}
 
 
 /**
@@ -359,7 +362,7 @@ public function setProfileAccessToken (string $newProfileAccessToken) {
  * @return string value of profile activation token
  **/
 public function getProfileActivationToken() {
-			return($this->profileActivationToken);
+	return ($this->profileActivationToken);
 }
 
 /**
@@ -369,23 +372,23 @@ public function getProfileActivationToken() {
  * @throws \InvalidArgumentException if $newProfileActivationToken is not a string or insecure
  * @throws \TypeError if $newProfileActivationToken is not a string
  **/
-public function setProfileActivationToken (string $newProfileActivationToken = null) {
-			//verify the profile activation token is secure
-			if($newProfileActivationToken ===null){
-					$this->profileActivationToken = null;
-					return;
-			}
+public function setProfileActivationToken(string $newProfileActivationToken = null) {
+	//verify the profile activation token is secure
+	if($newProfileActivationToken === null) {
+		$this->profileActivationToken = null;
+		return;
+	}
 
-			$newProfileActivationToken = strtolower(trim($newProfileActivationToken));
-			if(ctype_xdigit($newProfileActivationToken) === false) {
-					throw(new \RangeException("profile activation token cannot be null"));
-			}
-			//make sure profile activation token = 32
-			if(strlen($newProfileActivationToken) !== 32) {
-					throw(new\RangeException("profile activation token has to be 32"));
-			}
+	$newProfileActivationToken = strtolower(trim($newProfileActivationToken));
+	if(ctype_xdigit($newProfileActivationToken) === false) {
+		throw(new \RangeException("profile activation token cannot be null"));
+	}
+	//make sure profile activation token = 32
+	if(strlen($newProfileActivationToken) !== 32) {
+		throw(new\RangeException("profile activation token has to be 32"));
+	}
 
-			$this->profileActivationToken = $newProfileActivationToken;
+	$this->profileActivationToken = $newProfileActivationToken;
 }
 
 /**
@@ -396,31 +399,31 @@ public function setProfileActivationToken (string $newProfileActivationToken = n
  * @throws \TypeError if $pdo is not a PDO connection object
  **/
 public function insert(/PDO $PDO) {
-			//enforce the profileId id null (i.e., don't insert a profile that already exists)
-			if($this->profileId !== null) {
-					throw(new \PDOException("not a new profile"));
-			}
+	//enforce the profileId id null (i.e., don't insert a profile that already exists)
+	if($this->profileId !== null) {
+		throw(new \PDOException("not a new profile"));
+	}
 
-			//create query template
-			$query = "INSERT INTO profile(profileName, profileEmail, profileLocation, profileBio, profileHash, 
+	//create query template
+	$query = "INSERT INTO profile(profileName, profileEmail, profileLocation, profileBio, profileHash, 
 			profileSalt, profileAccessToken, profileActivationToken) VALUES (:profileName, :profileEmail, 
 			:profileLocation, :profileBio, :profileHash, :profileSalt, :profileAccessToken, :profileActivationToken)";
-			$statement = $pdo->prepare($query);
+	$statement = $pdo->prepare($query);
 
-			//bind the member variables to the place holders in teh template
-			$parameters = ["profileName" => $this->profileName,
+	//bind the member variables to the place holders in teh template
+	$parameters = ["profileName" => $this->profileName,
 
-				"profileEmail" => $this->profileEmail,
-				"profileLocation" => $this->profileLocation,
-				"profileBio" => $this->profileBio,
-				"profileHash" => $this->profileHash,
-				"profileSalt" => $this->profileSalt,
-				"profileAccessToken" => $this->profileAccessToken,
-				"profileActivationToken" => $this->profileActivationToken];
-		$statement->execute($parameters);
+		"profileEmail" => $this->profileEmail,
+		"profileLocation" => $this->profileLocation,
+		"profileBio" => $this->profileBio,
+		"profileHash" => $this->profileHash,
+		"profileSalt" => $this->profileSalt,
+		"profileAccessToken" => $this->profileAccessToken,
+		"profileActivationToken" => $this->profileActivationToken];
+	$statement->execute($parameters);
 
-			//update the null profileId with what mySQL gave us
-			$this->profileId = intval($PDO->lastInsertId());
+	//update the null profileId with what mySQL gave us
+	$this->profileId = intval($PDO->lastInsertId());
 }
 
 /**
@@ -430,17 +433,17 @@ public function insert(/PDO $PDO) {
  * @param \PDOException when mySQL related error occurs
  * @param \TypeError if $pdo is not a PDO connection object
  **/
-public function delete (\PDO $PDO) {
-			//enforce the profileId is not null (don't insert a profile that is not inserted yet)
-			if($this->profileId === null) {
-					throw(new \PDOException("unable to delete a profile that does not exist"));
-			}
-			//create a query template
-			$query = "DELETE FROM profile WHERE profileId = :profileId";
-			$statement = $PDO->prepare($query);
-			//bind the member variables to the place holder in the template
-			$parameters = ["profileId" => $this->profileId];
-			$statement->execute($parameters);
+public function delete(\PDO $PDO) {
+	//enforce the profileId is not null (don't insert a profile that is not inserted yet)
+	if($this->profileId === null) {
+		throw(new \PDOException("unable to delete a profile that does not exist"));
+	}
+	//create a query template
+	$query = "DELETE FROM profile WHERE profileId = :profileId";
+	$statement = $PDO->prepare($query);
+	//bind the member variables to the place holder in the template
+	$parameters = ["profileId" => $this->profileId];
+	$statement->execute($parameters);
 }
 
 /**
@@ -450,14 +453,14 @@ public function delete (\PDO $PDO) {
  * @throws \PDOException when mySQL related error occurs
  * @throws \TypeError if $pdo is not a PDO connection object
  **/
-public function update (\PDO $PDO) {
-			//enforce the profileId is not null (i.e., don't update a profile that hasn't been inserted)
-			if($this->profileId === null) {
-					throw(new \PDOException("unable to update a profile that does not exist"));
-			}
+public function update(\PDO $PDO) {
+	//enforce the profileId is not null (i.e., don't update a profile that hasn't been inserted)
+	if($this->profileId === null) {
+		throw(new \PDOException("unable to update a profile that does not exist"));
+	}
 
-			//create query template
-			$query = "UPDATE profile SET profileId = :profileId, profileName = :profileName, profileEmail = 
+	//create query template
+	$query = "UPDATE profile SET profileId = :profileId, profileName = :profileName, profileEmail = 
 			:profileEmail, profileLocation = :profileLocation, profileBio = :profileBio, profileHash = :profileHash, 
 			profileSalt = :profileSalt, profileAccessToken = :profileAccessToken, profileActivationToken = 
 			:profileActivationToken WHERE profileId = :profileId"; //come back to this- SET profileId might be SET
@@ -475,28 +478,28 @@ public function update (\PDO $PDO) {
  * @throws \PDOException when mySQL realted error occurs
  * @throws \TypeError when variables are not the correct data type
  **/
-public static function getProfilebyProfileId (\PDO $PDO, int $profileId){
-			//sanitize the profile id before searching
-			if($profileId <= 0) {
-					throw(new \PDOException("profile is not positive"));
-			}
-			//create query template
-			$query = "SELECT profileId, profileName, profileEmail, profileLocation, profileBio, profileHash, 
+public static function getProfilebyProfileId(\PDO $PDO, int $profileId) {
+	//sanitize the profile id before searching
+	if($profileId <= 0) {
+		throw(new \PDOException("profile is not positive"));
+	}
+	//create query template
+	$query = "SELECT profileId, profileName, profileEmail, profileLocation, profileBio, profileHash, 
 			profileSalt, profileAccessToken, profileActivationToken
 			FROM profile
 			WHERE profileId
 			= :profileId";
 
-			$statement = $PDO->prepare($query);
+	$statement = $PDO->prepare($query);
 
-			//bind the profile id to the place holder in the template
+	//bind the profile id to the place holder in the template
 
-			$parameters = array($profileId => $profileId);
-			$statement->execute($parameters);
+	$parameters = array($profileId => $profileId);
+	$statement->execute($parameters);
 
-			//grab the profile from mySQL
-			try {
-					$profile
+	//grab the profile from mySQL
+	try {
+		$profile
 						$statement->setFetchMode(\$PDO::FETCH_ASSOC);
 						$row = statement->fetch();
 						if($row !== false)
@@ -504,10 +507,10 @@ public static function getProfilebyProfileId (\PDO $PDO, int $profileId){
 								$row["profileLocation"], $row["profileBio"], $row["profileHash"], $row["profileSalt"],
 								$row["profileAccessToken"], $row["profileActivationToken"]);
 			} catch(\Exception $exception) {
-					//if the row couldn't be converted, rethrow it
-					throw(new \PDOException($exception->getMessage(), 0, $exception));
-			}
-			return($profile);
+		//if the row couldn't be converted, rethrow it
+		throw(new \PDOException($exception->getMessage(), 0, $exception));
+	}
+	return ($profile);
 }
 
 /**
@@ -518,9 +521,9 @@ public static function getProfilebyProfileId (\PDO $PDO, int $profileId){
  * @return Profile object
  * @throws \PDOException when mySQL related erros occur
  * @throws \TypeError when variables are not the correct data type
-**/
+ **/
 
-public static function getProfileByProfileEmail (\PDO $pdo, string $profileEmail) {
+public static function getProfileByProfileEmail(\PDO $pdo, string $profileEmail) {
 	// sanitize the description before searching
 	$profileEmail = trim($profileEmail);
 	$profileEmail = filter_var($profileEmail, FILTER_SANITIZE_STRING);
@@ -558,40 +561,40 @@ profileAccessToken, profileActivationToken FROM profile WHERE profileEmail = :pr
  * @return \splFixedArray SplFixedArray of profiles found
  * @throws \PDOException when mySQL related errors occur
  * @throws \TypeError when variables are not correct in data type
-**/
-public static function getProfileByProfileAccessToken (\PDO $PDO, int $profileAccessToken) {
-			//sanitize the description before searching
-			$profileAccessToken = trim($profileAccessToken);
-			$profileAccessToken = filter_var($profileAccessToken, FILTER_VALIDATE_INT);
-			if(empty($profileAccessToken) ===true) {
-					throw(new \PDOException("profile access token is invalid"));
-			}
-			//create query template
-			$query = "SELECT profileId, profileName, profileEmail, profileLocation, profileBio, profileHash, 
+ **/
+public static function getProfileByProfileAccessToken(\PDO $PDO, int $profileAccessToken) {
+	//sanitize the description before searching
+	$profileAccessToken = trim($profileAccessToken);
+	$profileAccessToken = filter_var($profileAccessToken, FILTER_VALIDATE_INT);
+	if(empty($profileAccessToken) === true) {
+		throw(new \PDOException("profile access token is invalid"));
+	}
+	//create query template
+	$query = "SELECT profileId, profileName, profileEmail, profileLocation, profileBio, profileHash, 
 			profileSalt, profileAccessToken, profileActivationToken FROM profile WHERE profileAccessTOken = 
 			:profileAccessToken";
-			$statement = $PDO->prepare($query);
+	$statement = $PDO->prepare($query);
 
-			//bind the profile access token to the place holder in the template
-			$parameters = array("profileAccessToken" => $profileAccessToken);
-			$statement->execute($parameters);
+	//bind the profile access token to the place holder in the template
+	$parameters = array("profileAccessToken" => $profileAccessToken);
+	$statement->execute($parameters);
 
-			//build an array of profiles
-			$profiles = new \SplFixedArray($statement->rowCount());
-			$statement->setFetchMode(\PDO::FETCH_ASSOC);
-			while(($row = $statement->fetch()) !== false) {
-				try {
-						$profile = new Profile($row["profileId"],$row["profileName"], $row["profileEmail"],
-							$row["profileLocation"], $row["profileBio"], $row["profileHash"], $row["profileSalt"],
-							$row["profileAccessToken"], $row["profileActivationToken"]);
-						$profile[$profiles->key()] = $profile;
-						$profile->next();
-				} catch(\Exception $exception) {
-						//if the row couldn't be converted, rethrow it
-						throw(new \PDOException($exception->getMessage(), 0, $exception));
-				}
-			}
-			return ($profiles);
+	//build an array of profiles
+	$profiles = new \SplFixedArray($statement->rowCount());
+	$statement->setFetchMode(\PDO::FETCH_ASSOC);
+	while(($row = $statement->fetch()) !== false) {
+		try {
+			$profile = new Profile($row["profileId"], $row["profileName"], $row["profileEmail"],
+				$row["profileLocation"], $row["profileBio"], $row["profileHash"], $row["profileSalt"],
+				$row["profileAccessToken"], $row["profileActivationToken"]);
+			$profile[$profiles->key()] = $profile;
+			$profile->next();
+		} catch(\Exception $exception) {
+			//if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+	}
+	return ($profiles);
 }
 
 /**
@@ -602,13 +605,13 @@ public static function getProfileByProfileAccessToken (\PDO $PDO, int $profileAc
  * @return profile object
  * @throws \PDOException when mySQL related errors occur
  * @throws \TypeError when variables are not the correct data type
-**/
-public static function getProfileByProfileActivationToken (\PDO $pdo, string $profileActivationToken) {
-			//sanitize the description before searching
-			$profileActivationToken = trim($profileActivationToken);
-			$profileActivationToken = filter_var($profileActivationToken, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+ **/
+public static function getProfileByProfileActivationToken(\PDO $pdo, string $profileActivationToken) {
+	//sanitize the description before searching
+	$profileActivationToken = trim($profileActivationToken);
+	$profileActivationToken = filter_var($profileActivationToken, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	if(empty($profileActivationToken) === true) {
-			throw(new \PDOException("profile activation token is invalid"));
+		throw(new \PDOException("profile activation token is invalid"));
 	}
 	//create query template
 	$query = "SELECT profileId, profileName, profileEmail, profileLocation, profileBio, profileHash, 
@@ -620,19 +623,19 @@ public static function getProfileByProfileActivationToken (\PDO $pdo, string $pr
 	$parameters = array("profileActivationToken" => $profileActivationToken);
 	$statement->execute($parameters);
 	if($statement === false) {
-			throw(new \PDOException("profile activation token does not exist"));
+		throw(new \PDOException("profile activation token does not exist"));
 	}
 
 	//get single profile
 	$statement->setFetchMode(\PDO::FETCH_ASSOC);
 	$row = $statement->fetch();
 	try {
-			$profile = new Profile($row["profileId"],$row["profileName"], $row["profileEmail"],
-				$row["profileLocation"], $row["profileBio"], $row["profileHash"], $row["profileSalt"],
-				$row["profileAccessToken"], $row["profileActivationToken"]);
+		$profile = new Profile($row["profileId"], $row["profileName"], $row["profileEmail"],
+			$row["profileLocation"], $row["profileBio"], $row["profileHash"], $row["profileSalt"],
+			$row["profileAccessToken"], $row["profileActivationToken"]);
 	} catch(\Exception $exception) {
-			//if the row couldn't be converted, rethrow it
-			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		//if the row couldn't be converted, rethrow it
+		throw(new \PDOException($exception->getMessage(), 0, $exception));
 	}
 
 	return ($profile);
@@ -645,8 +648,29 @@ public static function getProfileByProfileActivationToken (\PDO $pdo, string $pr
  * @return \SplFixedArray SplFixedArray of profiles found or null if not found
  * @throws \PDOException when mySQL related errors occur
  * @throws \TypeError when variables are not the correct data type
-**/
-
+ **/
+			//create query template
+			$query = "SELECT profileId, profileName, profileEmail, profileLocation, profileBio, profileHash, 
+			profileSalt, profileAccessToken, profileActivationToken FROM profile";
+			$statement = $pdo->prepare($query);
+			$statement->execute();
+			//build an array of profiles
+			$profiles = new \SplFixedArray($statement->rowCount());
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			while(($row = $statement->fetch()) !== false) {
+				try {
+					$profile = $profile = new Profile($row["profileId"], $row["profileName"], $row["profileEmail"],
+						$row["profileLocation"], $row["profileBio"], $row["profileHash"], $row["profileSalt"],
+						$row["profileAccessToken"], $row["profileActivationToken"]);
+					$profiles[$profiles->key()] = $profile;
+					$profiles->next();
+				} catch(\Exception $exception) {
+					//if the row couldn't be converted, rethrow it
+					throw(new \PDOException($exception->getMessage(), 0, $exception));
+				}
+			}
+         return ($profile);
+} //extra curly brace
 /**
  * @return array
 **/
