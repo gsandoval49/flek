@@ -76,7 +76,7 @@ class Mail implements \JsonSerializable {
 	 * this is the mutator method for mail Sender Id
 	 * @param int|null $newMailSenderId new value of mail Id for the sender
 	 * @throws \RangeException if $newMailSenderId is not positive
-	 * @return int|null
+	 * @return error if the new id is not positive
 	 * */
 	public function setmailSenderId(int $newmailSenderId){
 		/*verify the profile Id is positive*/
@@ -92,6 +92,22 @@ class Mail implements \JsonSerializable {
 	 * idek,man
 	 * @return int|null
 	 * */
-	
+	public function getMailReceiverId(){
+		return($this->mailReceiverId);
+	}
+	/**
+	 * this is the mutator method for mail receiver Id
+	 * @param int|null $newMailReceiverId new value of mail Id
+	 * @throws \RangeException if $newMailId is not positive
+	 * @return int|null
+	 * */
+	public function setMailReceiverId(int $newMailReceiverId){
+		if($newMailReceiverId <= 0) {
+			throw(new \RangeException("user profile Id is not positive"));
+		}
+
+		$this->mailReceiverId = $newMailReceiverId;
+
+	}
 
 }
