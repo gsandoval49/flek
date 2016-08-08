@@ -470,10 +470,44 @@ public function update (\PDO $PDO) {
  * gets profile by profileId
  *
  * @param \PDO $pdo PDO connection object
- * @param int profileId profile id to search for
+ * @param int $profileId profile id to search for
  * @return profile|null user found or null if not found
  * @throws \PDOException when mySQL realted error occurs
  * @throws \TypeError when variables are not the correct data type
  **/
+public static function getProfilebyProfileId (\PDO $PDO, int $profileId){
+			//sanitize the profile id before searching
+			if($profileId <= 0) {
+					throw(new \PDOException("profile is not positive"));
+			}
+			//create query template
+			$query = "SELECT profileId, profileName, profileEmail, profileLocation, profileBio, profileHash, 
+			profileSalt, profileAccessToken, profileActivationToken
+			FROM profile
+			WHERE profileId
+			= :profileId";
+
+			$statement = $PDO->prepare($query);
+
+			//bind the profile id to the place holder in the template
+
+			$parameters = array($profileId => $profileId);
+			$statement->execute($parameters);
+
+			//grab the profile from mySQL
+			try {
+					$profile
+						$statement->setFetchMode(\$PDO::FETCH_ASSOC);
+						$row = statement->fetch();
+						if($row !== false)
+							$profile = new profile($row["profileId"], $row["profileName"], $row["profileEmail"],
+								$row["profileLocation"], $row["profileBio"], $row["profileHash"], $row["profileSalt"],
+								$row["profileAccessToken"], $row["profileActivationToken"]);
+			} catch(\Exception $exception) {
+					//if the row couldn't be converted, rethrow it
+					throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+			return($profile);
+}
 
 } //does this curly go on line 101?
