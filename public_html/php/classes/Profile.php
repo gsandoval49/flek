@@ -315,7 +315,7 @@ public function setProfileSalt (string $newProfileSalt) {
 			if(strlen($newProfileSalt) !== 64) {
 					throw(new \RangeException("profile has has to be 64"));
 			}
-			//convert and store user salt
+			//convert and store profile salt
 			$this->profileSalt = $newProfileSalt;
 }
 
@@ -386,7 +386,38 @@ public function setProfileActivationToken (string $newProfileActivationToken = n
  *
  * @param \PDO $pdo PDO connection object
  * @throws \PDOException when mySQL related error occur
- * @throws \TypeErrorif $pdo is not a PDO connection object
+ * @throws \TypeError if $pdo is not a PDO connection object
+ **/
+public function insert(/PDO $pdo) {
+			//enforce the profileId id null (i.e., don't insert a profile that already exists)
+			if($this->profileId !== null) {
+					throw(new \PDOException("not a new profile"));
+			}
+
+			//create query template
+			$query = "INSERT INTO profile(profileName, profileEmail, profileLocation, profileBio, profileHash, 
+			profileSalt, profileAccessToken, profileActivationToken) VALUES (:profileName, :profileEmail, 
+			:profileLocation, :profileBio, :profileHash, :profileSalt, :profileAccessToken, :profileActivationToken)";
+			$statement = $pdo->prepare($query);
+
+			//bind the member variables to the place holders in teh template
+			$parameters = ["profileName" => $this->profileName,
+
+				"profileEmail" => $this->profileEmail,
+				"profileLocation" => $this->profileLocation,
+				"profileBio" => $this->profileBio,
+				"profileHash" => $this->profileHash,
+				"profileSalt" => $this->profileSalt,
+				"profileAccessToken" => $this->profileAccessToken,
+				"profileActivationToken" => $this->profileActivationToken];
+		$statement->execute($parameters);
+
+			//update the null profileId with what mySQL gave us
+			$this->profileId = intval($pdo->lastInsertId());
+}
+
+/**
+ * deletes the user from mySQL
  **/
 
 
