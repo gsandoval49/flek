@@ -89,7 +89,7 @@ class Mail implements \JsonSerializable {
 	}
 	/**
 	 * this is the accessor method for the mail receiver Id
-	 * 
+	 * idek,man
 	 * @return int|null
 	 * */
 	
