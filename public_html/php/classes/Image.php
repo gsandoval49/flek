@@ -215,7 +215,7 @@ class Image implements \JsonSerializable {
 	 * @throws image genre id not positive
 	 */
 	public function setImageGenreId(int $newImageGenreId) {
-		if($newImageGenreId <= 0) {
+		if($newImageGenreId != 0) {
 			throw(new \TypeError("image genre id is not positive"));
 			// convert and store the image genre id
 		}
