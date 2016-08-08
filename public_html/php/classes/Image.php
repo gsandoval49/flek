@@ -172,3 +172,27 @@ class Image implements \JsonSerializable {
 	//convert and store the image secure url
 	$this->imageSecureId = $newImageSecureUrl;
 }
+
+	/*
+	 * accessor method for image public id
+	 * @return string $newImagePublicId
+	 */
+	public function getImagePublicId() {
+			return($this->imagePublicId);
+}
+		/*
+		 * mutator method for image public id
+		 * @param string imagePublicId
+		  * @throw string is not positive and string too long
+		 */
+		public function setImagePublicId(string $newImagePublicId) {
+	//verify the public id is positive/too long
+	if($newImagePublicId <= 0) {
+		throw(new\RangeException("image public id is too long and not positive"));
+	}
+	// verify the image content will fin in the database
+	if(strlen($newImagePublicId) > 128) {
+		throw(new \RangeException("image description too large"));
+		//convert and store the image public id
+	}
+}
