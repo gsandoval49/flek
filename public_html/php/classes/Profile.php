@@ -674,5 +674,11 @@ public static function getProfileByProfileActivationToken(\PDO $pdo, string $pro
 /**
  * @return array
 **/
+public function jsonSerialize () {
+	$fields = get_object_vars($this);
+	unset ($fields["profileHash"]);
+	unset ($fields["profileSalt"]);
+	return ($fields);
+}
 
 } //does this curly go on line 101?
