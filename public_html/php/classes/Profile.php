@@ -418,7 +418,23 @@ public function insert(/PDO $pdo) {
 
 /**
  * deletes the user from mySQL
+ *
+ * @param \PDO $pdo PDO connecton object
+ * @param \PDOException when mySQL related error occurs
+ * @param \TypeError if $pdo is not a PDO connection object
  **/
+public function delete (\PDO $pdo) {
+			//enforce the profileId is not null (don't insert a profile that is not inserted yet)
+			if($this->profileId === null) {
+					throw(new \PDOException("unable to delete a profile that does not exist"));
+			}
+			//create a query template
+			$query = "DELETE FROM profile WHERE profileId = :profileId";
+			$statement = $pdo->prepare($query);
+			//bind the member variables to the place holder in the template
+			$parameters = ["profileId" => $this->profileId];
+			$statement->execute($parameters);
+}
 
 
 } //does this curly go on line 101?
