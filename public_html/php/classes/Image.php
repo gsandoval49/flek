@@ -136,8 +136,8 @@ class Image implements \JsonSerializable {
 		return($this->imageDescription);
 }
 	/*
-	 * mutator metod for image Description
-	 * @throw mthod for image Description
+	 * mutator method for image Description
+	 * @throw method for image Description
 	 */
 	public function setImageDescription(string $newImageDescription) {
 		//verify the image description is secure
@@ -152,4 +152,23 @@ class Image implements \JsonSerializable {
 			}
 			// store the image content
 			$this->imageDescription = $newImageDescription;
+}
+	/*
+	 * accessor method for image secure url
+	 * #return string  value of image secure url
+	*/
+	public function getImageSecureUrl() {
+			return($this->imageSecureUrl);
+}
+	/*mutator method for image secure url
+	/*
+	 * @param string $newImageSecureUrl
+	 */
+	public function setImageSecureUrl(string $newImageSecureUrl) {
+	//verify the image secure url is positive
+	if($newImageSecureUrl <= 0) {
+		throw(new \RangeException("image secure url is not positive"));
+	}
+	//convert and store the image secure url
+	$this->imageSecureId = $newImageSecureUrl;
 }
