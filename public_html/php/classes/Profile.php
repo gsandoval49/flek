@@ -471,7 +471,7 @@ public function update (\PDO $PDO) {
  *
  * @param \PDO $pdo PDO connection object
  * @param int $profileId profile id to search for
- * @return profile|null user found or null if not found
+ * @return profile|null profile found or null if not found
  * @throws \PDOException when mySQL realted error occurs
  * @throws \TypeError when variables are not the correct data type
  **/
@@ -508,6 +508,46 @@ public static function getProfilebyProfileId (\PDO $PDO, int $profileId){
 					throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 			return($profile);
+}
+
+/**
+ * gets profile by profileEmail
+ *
+ * @param string $profileEmail
+ * @param \PDO object $pdo
+ * @return Profile object
+ * @throws \PDOException when mySQL related erros occur
+ * @throws \TypeError when variables are not the correct data type
+**/
+
+public static function getProfileByProfileEmail (\PDO $pdo, string $profileEmail) {
+	// sanitize the description before searching
+	$profileEmail = trim($profileEmail);
+	$profileEmail = filter_var($profileEmail, FILTER_SANITIZE_STRING);
+	if(empty($profileEmail) === true) {
+		throw(new \PDOException("profile email is invalid"));
+	}
+	// create query template
+	$query = "SELECT profileId, profileName, profileEmail, profileLocation, profileBio, profileHash, profileSalt, 
+profileAccessToken, profileActivationToken FROM profile WHERE profileEmail = :profileEmail";
+	$statement = $pdo->prepare($query);
+	//bind the profile EMAIL to the place holder in the template
+	$parameters = array("profileEmail" => $profileEmail);
+	$statement->execute($parameters);
+	try {
+		$profile = null;
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		$row = $statement->fetch();
+		if($row !== false) {
+			$profile = new Profile ($row["profileId"], $row["profileName"], $row["profileEmail"],
+				$row["profileLocation"], $row["profileBio"], $row["profileHash"], $row["profileSalt"],
+				$row["profileAccessToken"], $row["profileActivationToken"]);
+		}
+	} catch(\Exception $exception) {
+		//if row couldn't be converted, rethrow it
+		throw(new \PDOException($exception->getMessage(), 0, $exception));
+	}
+	return ($profile);
 }
 
 /**
@@ -553,5 +593,17 @@ public static function getProfileByProfileAccessToken (\PDO $PDO, int $profileAc
 			}
 			return ($profiles);
 }
+
+/**
+ * gets profile by profileActivationToken
+**/
+
+/**
+ * gets a profiles
+**/
+
+/**
+ * @return array
+**/
 
 } //does this curly go on line 101?
