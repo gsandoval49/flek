@@ -62,8 +62,12 @@ private $genreName;
 	 * @return int|null value of genre id
 	**/
 	public function getGenreId() {
-
+		return($this->genreId);
 	}
+
+	/**
+	 * mutator method for genre id
+	**/
 }
 
 
