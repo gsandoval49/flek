@@ -290,6 +290,31 @@ public static function getMessageByMessageContent(\PDO $pdo, string $mailContent
 		throw(new\PDOException("message content is invalid"));
 	}
 	/*create query template*/
-	$query
+	$query = "SELECT mailId, mailSubject, mailSenderId, mailReceiverId, mailGunId, mailContent FROM mail WHERE mailContent LIKE :mailContent";
+	$statement = $pdo->prepare($query);
+
+	/*bind the message content to the placeholder*/
+	$mailContent = "%$mailContent%";
+	$parameters = ["mailContent" => $mailContent];
+	$statement = execute($parameters);
+
+	/*build an array of messages*/
+	$messages = new \SplFixedArray($statement->rowCount());
+	$statement->setFetchMode(\PDO::FETCH_ASSOC);
+	while(($row = $statement->fetch()) !== false){
+		try{
+			$mail = new Mail($row["mailId"], $row["mailSubject"], $row ["mailSenderId"], $row ["mailReceiverId"], $row ["mailGunId"], $row["mailContent"]);
+			$messages[$messages->key()] = $mail;
+			$messages->next();
+		} catch(\Exception $exception){
+			/*throw the row if it can't be converted*/
+			throw(new\PDOException($exception->getMessage(),0,$exception));
+		}
+		}
+	return($messages);
 }
+/*
+ * gets message by mailId
+ *
+ * */
 }
