@@ -97,3 +97,24 @@ catch
 	$this->favoriterId = $newFavoriterId;
 }
 
+/*
+ * inserts this Favorite into mySQL
+ * @param \PDO $pdo PDO connection object
+ * @throws \PDOException wheny mySQL related errors
+ * @throws \TypeError if $pdo is not a PDO connection object
+ */
+	public function insert(\PDO $pdo) {
+	//enforce the favoriteeId is null
+	if($this->favoriteeId != null) {
+		throw(new \PDOException("not a new favoritee given"));
+	}
+	//create query template
+	$query = "INSERT INTO favorite(favoriteeId, favoriterId) VALUES(:favoriteeId, :favoriterId)";
+	$statement = $pdo->prepare($query);
+	//bind the member variables to the place holders in the template
+	$parameters = ["favoriteeId" => $this->favoriteeId, "favoriterId" => $this->favoriterId];
+	$statement->execute($parameters);
+
+	// update the null favoriteeId with what mySQL just gave us
+	$this->favoriteeId = intval($pdo->lastInsertId());
+}
