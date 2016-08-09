@@ -501,6 +501,7 @@ public static function getProfileByProfileId(\PDO $pdo, int $profileId) {
 			$profiles[$tweets->key()] = $profile;
 			$tweets->next();
 		} catch(\Exception $exception) {
+
 			//if the row couldn't be converted, rethrow it
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
@@ -544,6 +545,7 @@ public static function getProfileByProfileName(\PDO $pdo, string $profileId) {
 				$profiles[$profiles->key()] = $profile;
 				$profiles->next();
 			} catch(\Exception $exception) {
+
 				//if the row couldn't be converted, rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
@@ -586,6 +588,7 @@ public static function getProfileByProfileEmail(\PDO $pdo, string $profileEmail)
 				$profiles[$profiles->key()] = $profile;
 				$profiles->next();
 			} catch(\Exception $exception) {
+
 				//if the row couldn't be converted, rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
@@ -629,6 +632,7 @@ public static function getProfileByProfileLocation(\PDO $pdo, string $profileLoc
 				$profiles[$profiles->key()] = $profile;
 				$profiles->next();
 			} catch(\Exception $exception) {
+
 				//if the row couldn't be converted, rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
@@ -672,6 +676,7 @@ public static function getProfileByProfileBio(\PDO $pdo, string $profileBio) {
 				$profiles[$profiles->key()] = $profile;
 				$profiles->next();
 			} catch(\Exception $exception) {
+
 				//if the row couldn't be converted, rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
@@ -714,6 +719,7 @@ public static function getProfileByProfileHash(\PDO $pdo, string $profileHash) {
 				$profiles[$profiles->key()] = $profile;
 				$profiles->next();
 			} catch(\Exception $exception) {
+
 				//if the row couldn't be converted, rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
@@ -756,6 +762,7 @@ public static function getProfileByProfileSalt(\PDO $pdo, string $profileSalt) {
 				$profiles[$profiles->key()] = $profile;
 				$profiles->next();
 			} catch(\Exception $exception) {
+
 				//if the row couldn't be converted, rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
@@ -798,6 +805,7 @@ public static function getProfileByProfileAccessToken(\PDO $pdo, string $profile
 				$profiles[$profiles->key()] = $profile;
 				$profiles->next();
 			} catch(\Exception $exception) {
+
 				//if the row couldn't be converted, rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
@@ -840,6 +848,7 @@ public static function getProfileByProfileActivationToken(\PDO $pdo, string $pro
 				$profiles[$profiles->key()] = $profile;
 				$profiles->next();
 			} catch(\Exception $exception) {
+
 				//if the row couldn't be converted, rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
@@ -870,6 +879,7 @@ public static function getsAllProfiles(\PDO $pdo){
 					$profiles[$profiles->key()] = $profile;
 					$profiles->next();
 				} catch(\Exception $exception) {
+
 					//if the row couldn't be converted, rethrow it
 					throw(new \PDOException($exception->getMessage(), 0, $exception));
 				}
