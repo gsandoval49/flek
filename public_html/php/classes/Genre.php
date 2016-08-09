@@ -127,8 +127,8 @@ private $genreName;
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError if $pdo id not a PDO connection object
 	**/
-public functoin insert(\PDO $pdo) {
-		//enforse the genreId is null (i.e., don't insert a genre that already exists)
+public function insert(\PDO $pdo) {
+		//enforce the genreId is null (i.e., don't insert a genre that already exists)
 		if($this->genreId !== null) {
 			throw(new \PDOEXCEPTION("not a new genre"));
 		}
@@ -148,9 +148,24 @@ public functoin insert(\PDO $pdo) {
 /**
  * deletes this Genre from mySQL
  *
- *
+ * @param \PDO $pdo PDO connection object
+ * @throws \PDOException when mySQL related errors occur
+ * @throws \TypeError if $pdo is not a PDO connection object
 **/
+public function delete(\PDO $pdo) {
+	//enforce the genreId is not null (i.e., don't delete a genre that hasn't been inserted)
+	if($this->genreId ===null) {
+		throw(new \PDOException("unable to delete a genre that does not exist"));
+	}
 
+	//create query template
+	$query = "DELETE FROM genre WHERE genreId = :genreId";
+	$statement = $pdo->prepare($query);
+
+	//bind the member variables to the place holder in the template
+	$parameters = ["genreId" => $this->genreId];
+	$statement->execute($parameters);
+}
 } //last line
 
 
