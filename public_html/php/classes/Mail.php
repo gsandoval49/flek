@@ -85,7 +85,15 @@ class Mail implements \JsonSerializable {
 	 *
 	 */
 	public function setMailSubject (string $newMailSubject){
-		
+		$newMailSubject = trim($newMailSubject);
+		$newMailSubject = filter_var($newMailSubject, FILTER_SANITIZE_STRING);
+		if(empty($newMailSubject) === true) {
+			throw(new \InvalidArgumentException("message subject is empty or insecure"));
+			}
+		if(strlen($newMailSubject)>128) {
+			throw(new \RangeException("message subject too long"));
+		}
+		$this->mailSubject = $newMailSubject;
 	}
 	/**
 	 * this is the accessor method for the mail Sender Id
