@@ -168,16 +168,64 @@ catch
 	 * @throws |TypeError when variables are not the correct data type
 	 */
 		public static function getFavoriteByFavoriteeId(\PDO $pdo, int $favoriteeId) {
-			//sanitize the favoriteeId before searching
-			if($favoriteeId <= 0) {
-				throw(new \PDOException("favoritee id is not positive"));
-}
-		// create query templatte
-		$query = "SELECT favoriteeId, favoriterId FROM favorite WHERE favoriteeId = :favoriteeId";
+	//sanitize the favoriteeId before searching
+	if($favoriteeId <= 0) {
+		throw(new \PDOException("favoritee id is not positive"));
+	}
+	// create query templatte
+	$query = "SELECT favoriteeId, favoriterId FROM favorite WHERE favoriteeId = :favoriteeId";
 	$statement = $pdo->prepare($query);
 
-		//bind the favoritee Id to theplace holder in teh template
-		$parameters = ["favoriteeId => $favoriteeId"];
-		$statement->execute($parameters);
+	//bind the favoritee Id to theplace holder in teh template
+	$parameters = ["favoriteeId => $favoriteeId"];
+	$statement->execute($parameters);
 
-		//grab the favorite from mySQL
+	//grab the favorite from mySQL
+	try {
+		$favorite = null;
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		$row = $statement->fetch();
+		if($row !== false) {
+			$favorite = new Favorite ($row["favoriteeId"], $row["favoriterId"]);
+		}
+	} catch(\Exception $exception) {
+		//if the row couldn't be converted, rethrow it
+		throw(new \PDOException($exception->getMessage(), 0, $exception));
+	}
+	return ($favorite);
+}
+
+ /* gets the favorite by favoriteeId
+* @param \PDO $pdo PDO connection object
+* @param int $favoriteeId favoritee id to search for
+	 * @return favorite|null favorite found or null if not found
+* @throws \PDOException when mySQL related erros occur
+* @throws |TypeError when variables are not the correct data type
+*/
+		public static function getFavoriteByFavoriterId(\PDO $pdo, int $favoriterId) {
+	//sanitize the favoriteeId before searching
+	if($favoriterId <= 0) {
+		throw(new \PDOException("favoritee id is not positive"));
+	}
+	// create query templatte
+	$query = "SELECT favoriteeId, favoriterId FROM favorite WHERE favoriterId = :favoriterId";
+	$statement = $pdo->prepare($query);
+
+	//bind the favoritee Id to theplace holder in teh template
+	$parameters = ["favoriterId => $favoriterId"];
+	$statement->execute($parameters);
+
+	//grab the favorite from mySQL
+	try {
+		$favorite = null;
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		$row = $statement->fetch();
+		if($row !== false) {
+			$favorite = new Favorite ($row["favoriteeId"], $row["favoriterId"]);
+		}
+	} catch(\Exception $exception) {
+		//if the row couldn't be converted, rethrow it
+		throw(new \PDOException($exception->getMessage(), 0, $exception));
+	}
+	return ($favorite);
+}
