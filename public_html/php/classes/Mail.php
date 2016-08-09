@@ -5,6 +5,13 @@ namespace Edu\Cnm\Flek;
 
 
 require_once("autoload.php");
+/**
+ *
+ *
+ * @author Rob Harding
+ * @ver 1.0.0
+ **/
+
 
 class Mail implements \JsonSerializable {
 	/**
@@ -65,8 +72,24 @@ class Mail implements \JsonSerializable {
 		$this->mailId = $newMailId;
 	}
 	/**
-	 * this is the accessor method for the mail Sender Id
+	 * this is the accessor method for mail subject
 	 *
+	 * @return string
+	 * */
+	public function getMailSubject(){
+		return($this->mailSubject);
+	}
+	/**
+	 *this is the mutator method for mail subject
+	 *
+	 *
+	 */
+	public function setMailSubject (string $newMailSubject){
+		
+	}
+	/**
+	 * this is the accessor method for the mail Sender Id
+	 * I am not 100% sure that any of this is quite right for the Sender and Receiver Ids, but I followed the examples as best as I could
 	 * @return int|null 
 	 * */
 	public function getmailSenderId (){
@@ -132,5 +155,29 @@ class Mail implements \JsonSerializable {
 	 *
 	 * @return string
 	 * */
+	public function getMailContent(){
+		return($this->mailContent);
+	}
+	/**
+	 * this is the mutator method for mail content
+	 * @param string $newMailContent new value of mail content
+	 * @throws \InvalidArgumentException if new content is not a string or insecure
+	 * @throws \RangeException if new content is more than 1000 characters
+	 * @throws \TypeError if new content is not a string
+	 *
+	 * */
+	public function setMailContent(string $newMailConent) {
+		$newMailConent = trim($newMailConent);
+		$newMailConent = filter_var($newMailConent, FILTER_SANITIZE_STRING);
+		if(empty($newMailConent) === true) {
+			throw(new \InvalidArgumentException("message content empty or insecure"));
+		}
+		if(strlen($newMailConent)>1000){
+			throw(new \RangeException("message content too large"));
+		}
+		$this->mailContent = $newMailConent;
+}
+	
+
 
 }

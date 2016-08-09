@@ -1,7 +1,17 @@
 <?php
+
+namespace Edu\Cnm\Flek;
+
+
+require_once("autoload.php");
 /**
- * Created by PhpStorm.
- * User: robis_000
- * Date: 8/8/2016
- * Time: 1:37 PM
- */
+ *
+ *
+ * @author Rob Harding
+ * @ver 1.0.0
+ **/
+
+
+class Tag implements \JsonSerializable {
+	
+}
