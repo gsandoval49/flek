@@ -278,4 +278,18 @@ public function update(\PDO $pdo){
 	$statement = execute($parameters);
 }
 
+/*
+ * gets the message by content
+ *
+ * */
+public static function getMessageByMessageContent(\PDO $pdo, string $mailContent){
+
+	$mailContent = trim($mailContent);
+	$mailContent = filter_var($mailContent, FILTER_SANITIZE_STRING);
+	if(empty($mailContent) === true){
+		throw(new\PDOException("message content is invalid"));
+	}
+	/*create query template*/
+	$query
+}
 }
