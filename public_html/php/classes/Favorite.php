@@ -118,3 +118,66 @@ catch
 	// update the null favoriteeId with what mySQL just gave us
 	$this->favoriteeId = intval($pdo->lastInsertId());
 }
+
+/*
+ * deletes this favorite from my SQL
+ * @param \PDO $pdo PDO connectin object
+ * @throws \PDOException when mySQL related erros occur
+ * @throws \TypeError if $pdo is not a PDO connection object
+ */
+	public function delete(\PDO $pdo) {
+		//enforce the favoritee Id is not null
+		if($this->favoriteeId === null) {
+			throw(new \PDOException("unable to delete a favoritee that does not exist"));
+}
+	//create a query template
+		$query = "DELETE FROM favorite WHERE favoriteeId = :favoriteeId";
+		$statement = $pdo->prepare($query);
+
+		//bind the member variables to the place holder in the template
+		$parameters = ["favoriteeId" => $this->favoriteeId];
+		$statement->execute($parameters);
+	}
+
+	/*
+	 * updates this Favorite in mySQL
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related erros occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 */
+		public function update(\PDO $pdo) {
+	//enforce the favoriteeId is not null
+	if($this->favoriteeId === null) {
+		throw(new \PDOException("unable to update a favorite that does not exist"));
+	}
+
+	//create query template
+	$query = "UPDATE favorite SET favoriteeId = :favoriteeId, favoriterId = :favoriterId";
+	$statement = $pdo->prepare($query);
+
+	//bind the member variables to the place holders in the template
+	$parameter = ["favoriteeId" => $this->favoriteeId, "favoriterId" => $this->favoriterId];
+	$statement->execute($parameter);
+}
+	/*
+	 * gets the favorite by favoriteeId
+	 * @param \PDO $pdo PDO connection object
+	 * @param int $favoriteeId favoritee id to search for
+	 * @return favorite|null favorite found or null if not found
+	 * @throws \PDOException when mySQL related erros occur
+	 * @throws |TypeError when variables are not the correct data type
+	 */
+		public static function getFavoriteByFavoriteeId(\PDO $pdo, int $favoriteeId) {
+			//sanitize the favoriteeId before searching
+			if($favoriteeId <= 0) {
+				throw(new \PDOException("favoritee id is not positive"));
+}
+		// create query templatte
+		$query = "SELECT favoriteeId, favoriterId FROM favorite WHERE favoriteeId = :favoriteeId";
+	$statement = $pdo->prepare($query);
+
+		//bind the favoritee Id to theplace holder in teh template
+		$parameters = ["favoriteeId => $favoriteeId"];
+		$statement->execute($parameters);
+
+		//grab the favorite from mySQL
