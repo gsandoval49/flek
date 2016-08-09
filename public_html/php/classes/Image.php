@@ -417,8 +417,41 @@ class Image implements \JsonSerializable {
 	}
 	return ($images);
 }
+/*
+ * get all images
+ * @param \PDO $pdo PDO connection object
+ * @return \SplFixedArray of images found or null if not found
+ * @throws \PDOException when mySQL related erros occur
+ * @throews \TypeError when variables are no the correct data type
+ */
+	public static function getAllImages(\PDO $pdo) {
+		//create query templates
+		$query = "SELECT imageId, imageProfileId, imageDescription, imageSecureUrl, imagePublicId, imageGenreId
+		FROM image";
+		$statement = $pdo->prepare($query);
+		$statement->execute();
 
+		//build an array of images
+	$images = new \SplFixedArray($statement->rowCount());
 
+	$statement->setFetchMode(\PDO::FETCH_ASSOC);
+	while(($row = $statement->fetch()) !== false) {
+		try{
+			$image = new Image($row["imageId"], $row["imageProfileId"], $row["imageDescription"], $row["imageSecureUrl"],
+				$row["imagePublicId"], $row["imageGenreId"]);
+		}
+			$images = new Image($row["imageId"], $row["imageProfileId"], $row["imageDescription"], $row["imageSecureUrl"],
+				$row["imagePublicId"], $row["imageGenreId"]);
+			$images[$image->key()] = $image;
+			$images->next();
+	}
+			catch(\Exception $exception) {
+				//if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+}
+}
+	return ($images);
+}
 
 
 
