@@ -483,7 +483,7 @@ public function update(\PDO $pdo) {
 public static function getProfileByProfileId(\PDO $pdo, int $profileId) {
 	//sanitize the profileId before searching
 	if($profileId <= 0) {
-		throw(new \PDOException("profile is not positive"));
+		throw(new \RangeException("profile id must be positive"));
 	}
 
 	//create query template
@@ -494,20 +494,22 @@ public static function getProfileByProfileId(\PDO $pdo, int $profileId) {
 	$parameters = [$profileId => $profileId];
 	$statement->execute($parameters);
 
-	//grab the profile from mySQL
-	try {
-		$profile = null;
-		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		$row = $statement->fetch();
-		if($row !== false) {
+	//build an array of profiles
+	$profiles = new \SplFixedArray($statement->rowCount());
+	$statement->setFetchMode(\PDO::FETCH_ASSOC);
+	while (($row = $statement->fetch()) !== false);
+	{
+		try {
 			$profile = new Profile($row["profileId"], $row["profileName"], $row["profileEmail"], $row["profileLocation"], $row["profileBio"], $row["profileHash"], $row["profileSalt"], $row["profileAccessToken"], $row["profileActivationToken"]);
+			$profiles[$tweets->key()] = $profile;
+			$tweets->next();
 		} catch(\Exception $exception) {
 			//if the row couldn't be converted, rethrow it
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
-		return($profile);
+	}
+		return ($profile);
 }
-
 
 /**
  * gets profile by profileName
@@ -519,11 +521,11 @@ public static function getProfileByProfileId(\PDO $pdo, int $profileId) {
  * @throws \TypeError when variables are not the correct data type
  **/
 public static function getProfileByProfileName(\PDO $pdo, string $profileId) {
-			//sanitize the name before searching
-			$profileName = trim($profileName);
-			$profileName = filter_var($profileName, FILTER_SANITIZE_STRING);
-			if(empty($profileName) === true) {
-				throw(new \PDOException("profile name is invalid"));
+		//sanitize the name before searching
+		$profileName = trim($profileName);
+		$profileName = filter_var($profileName, FILTER_SANITIZE_STRING);
+		if(empty($profileName) === true) {
+			throw(new \PDOException("profile name is invalid"));
 		}
 
 		//create query template
@@ -539,7 +541,7 @@ public static function getProfileByProfileName(\PDO $pdo, string $profileId) {
 		//build an array of profiles
 		$profile = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while(($row = $statement->fetch()) !==false) {
+		while(($row = $statement->fetch()) !== false) {
 			try {
 				$profile = new Profile($row["profileId"], $row["profileName"], $row["profileEmail"], $row["profileLocation"], $row["profileBio"], $row["profileHash"], $row["profileSalt"], $row["profileAccessToken"], $row["profileActivationToken"]);
 				$profiles[$profiles->key()] = $profile;
@@ -550,8 +552,8 @@ public static function getProfileByProfileName(\PDO $pdo, string $profileId) {
 			}
 		}
 
-		return($profiles);
-}
+		return ($profiles);
+	}
 /**
  * gets profile by profileEmail
  *
@@ -582,7 +584,7 @@ public static function getProfileByProfileEmail(\PDO $pdo, string $profileEmail)
 		//build an array of profiles
 		$profile = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while(($row = $statement->fetch()) !==false) {
+		while(($row = $statement->fetch()) !== false) {
 			try {
 				$profile = new Profile($row["profileId"], $row["profileName"], $row["profileEmail"], $row["profileLocation"], $row["profileBio"], $row["profileHash"], $row["profileSalt"], $row["profileAccessToken"], $row["profileActivationToken"]);
 				$profiles[$profiles->key()] = $profile;
@@ -593,7 +595,7 @@ public static function getProfileByProfileEmail(\PDO $pdo, string $profileEmail)
 			}
 		}
 
-		return($profiles);
+		return ($profiles);
 	}
 
 	/**
@@ -626,7 +628,7 @@ public static function getProfileByProfileLocation(\PDO $pdo, string $profileLoc
 		//build an array of profiles
 		$profile = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while(($row = $statement->fetch()) !==false) {
+		while(($row = $statement->fetch()) !== false) {
 			try {
 				$profile = new Profile($row["profileId"], $row["profileName"], $row["profileEmail"], $row["profileLocation"], $row["profileBio"], $row["profileHash"], $row["profileSalt"], $row["profileAccessToken"], $row["profileActivationToken"]);
 				$profiles[$profiles->key()] = $profile;
@@ -637,7 +639,7 @@ public static function getProfileByProfileLocation(\PDO $pdo, string $profileLoc
 			}
 		}
 
-		return($profiles);
+		return ($profiles);
 	}
 
 		/**
@@ -670,7 +672,7 @@ public static function getProfileByProfileBio(\PDO $pdo, string $profileBio) {
 		//build an array of profiles
 		$profile = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while(($row = $statement->fetch()) !==false) {
+		while(($row = $statement->fetch()) !== false) {
 			try {
 				$profile = new Profile($row["profileId"], $row["profileName"], $row["profileEmail"], $row["profileLocation"], $row["profileBio"], $row["profileHash"], $row["profileSalt"], $row["profileAccessToken"], $row["profileActivationToken"]);
 				$profiles[$profiles->key()] = $profile;
@@ -681,7 +683,7 @@ public static function getProfileByProfileBio(\PDO $pdo, string $profileBio) {
 			}
 		}
 
-		return($profiles);
+		return ($profiles);
 	}
 
 			/**
@@ -714,7 +716,7 @@ public static function getProfileByProfileHash(\PDO $pdo, string $profileHash) {
 		//build an array of profiles
 		$profile = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while(($row = $statement->fetch()) !==false) {
+		while(($row = $statement->fetch()) !== false) {
 			try {
 				$profile = new Profile($row["profileId"], $row["profileName"], $row["profileEmail"], $row["profileLocation"], $row["profileBio"], $row["profileHash"], $row["profileSalt"], $row["profileAccessToken"], $row["profileActivationToken"]);
 				$profiles[$profiles->key()] = $profile;
@@ -725,7 +727,7 @@ public static function getProfileByProfileHash(\PDO $pdo, string $profileHash) {
 			}
 		}
 
-		return($profiles);
+		return ($profiles);
 	}
 
 			/**
@@ -758,7 +760,7 @@ public static function getProfileByProfileSalt(\PDO $pdo, string $profileSalt) {
 		//build an array of profiles
 		$profile = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while(($row = $statement->fetch()) !==false) {
+		while(($row = $statement->fetch()) !== false) {
 			try {
 				$profile = new Profile($row["profileId"], $row["profileName"], $row["profileEmail"], $row["profileLocation"], $row["profileBio"], $row["profileHash"], $row["profileSalt"], $row["profileAccessToken"], $row["profileActivationToken"]);
 				$profiles[$profiles->key()] = $profile;
@@ -769,7 +771,7 @@ public static function getProfileByProfileSalt(\PDO $pdo, string $profileSalt) {
 			}
 		}
 
-		return($profiles);
+		return ($profiles);
 	}
 
 /**
@@ -802,7 +804,7 @@ public static function getProfileByProfileAccessToken(\PDO $pdo, string $profile
 		//build an array of profiles
 		$profile = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while(($row = $statement->fetch()) !==false) {
+		while(($row = $statement->fetch()) !== false) {
 			try {
 				$profile = new Profile($row["profileId"], $row["profileName"], $row["profileEmail"], $row["profileLocation"], $row["profileBio"], $row["profileHash"], $row["profileSalt"], $row["profileAccessToken"], $row["profileActivationToken"]);
 				$profiles[$profiles->key()] = $profile;
@@ -813,7 +815,7 @@ public static function getProfileByProfileAccessToken(\PDO $pdo, string $profile
 			}
 		}
 
-		return($profiles);
+		return ($profiles);
 	}
 
 /**
@@ -846,7 +848,7 @@ public static function getProfileByProfileActivationToken(\PDO $pdo, string $pro
 		//build an array of profiles
 		$profile = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while(($row = $statement->fetch()) !==false) {
+		while(($row = $statement->fetch()) !== false) {
 			try {
 				$profile = new Profile($row["profileId"], $row["profileName"], $row["profileEmail"], $row["profileLocation"], $row["profileBio"], $row["profileHash"], $row["profileSalt"], $row["profileAccessToken"], $row["profileActivationToken"]);
 				$profiles[$profiles->key()] = $profile;
@@ -857,7 +859,7 @@ public static function getProfileByProfileActivationToken(\PDO $pdo, string $pro
 			}
 		}
 
-		return($profiles);
+		return ($profiles);
 	}
 
 /**
@@ -868,6 +870,7 @@ public static function getProfileByProfileActivationToken(\PDO $pdo, string $pro
  * @throws \PDOException when mySQL related errors occur
  * @throws \TypeError when variables are not the correct data type
  **/
+public static function getsAllProfiles(\PDO $pdo){
 			//create query template
 			$query = "SELECT profileId, profileName, profileEmail, profileLocation, profileBio, profileHash, profileSalt, profileAccessToken, profileActivationToken FROM profile";
 			$statement = $pdo->prepare($query);
@@ -887,7 +890,7 @@ public static function getProfileByProfileActivationToken(\PDO $pdo, string $pro
 				}
 			}
          return ($profile);
-} //extra curly brace
+ }
 /**
  * formats teh state variables for JSON serialization
  *
@@ -898,6 +901,6 @@ public function jsonSerialize () {
 	unset ($fields["profileHash"]);
 	unset ($fields["profileSalt"]);
 	return ($fields);
-}
+	}
 
 } //does this curly go on line 101?
