@@ -316,5 +316,14 @@ public static function getMessageByMessageContent(\PDO $pdo, string $mailContent
 /*
  * gets message by mailId
  *
+ *
  * */
+public static function getMessageByMailId(\PDO $pdo, int $mailId){
+
+	if(mailId <= 0){
+		throw(new\PDOException("message Id is not positive"));
+	}
+	/*create query template*/
+	$query =
+}
 }
