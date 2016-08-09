@@ -29,7 +29,7 @@ class Favorite implements \JsonSerializable {
 	 * @throws \RangeException if data values are out of bounds
 	 * @throws \Exception is some other exception occurs
 	 */
-public function__construct(int $newFavoriteeId = null, int $newFavoriterId = null) {
+	public function__construct(int $newFavoriteeId = null, int $newFavoriterId = null) {
 try {
 $this->setFavoriteeId($newFavoriteeId);
 $this->setFavoriterId($newFavoriterId);
@@ -49,7 +49,7 @@ catch
 	//rethrow the exception to the caller
 	throw(new \Exception($exception->getMessage(), 0, $exception));
 }
-		}
+
 		/*
 		 * accessor method for favoritee id
 		 * @return int|null value of favoritee id
@@ -109,7 +109,7 @@ catch
 		throw(new \PDOException("not a new favoritee given"));
 	}
 	//create query template
-	$query = "INSERT INTO favorite(favoriteeId, favoriterId) VALUES(:favoriteeId, :favoriterId)";
+	$query = "INSERT INTO Favorite(favoriteeId, favoriterId) VALUES(:favoriteeId, :favoriterId)";
 	$statement = $pdo->prepare($query);
 	//bind the member variables to the place holders in the template
 	$parameters = ["favoriteeId" => $this->favoriteeId, "favoriterId" => $this->favoriterId];
@@ -126,18 +126,18 @@ catch
  * @throws \TypeError if $pdo is not a PDO connection object
  */
 	public function delete(\PDO $pdo) {
-		//enforce the favoritee Id is not null
-		if($this->favoriteeId === null) {
-			throw(new \PDOException("unable to delete a favoritee that does not exist"));
-}
-	//create a query template
-		$query = "DELETE FROM favorite WHERE favoriteeId = :favoriteeId";
-		$statement = $pdo->prepare($query);
-
-		//bind the member variables to the place holder in the template
-		$parameters = ["favoriteeId" => $this->favoriteeId];
-		$statement->execute($parameters);
+	//enforce the favoritee Id is not null
+	if($this->favoriteeId === null) {
+		throw(new \PDOException("unable to delete a favoritee that does not exist"));
 	}
+	//create a query template
+	$query = "DELETE FROM Favorite WHERE favoriteeId = :favoriteeId";
+	$statement = $pdo->prepare($query);
+
+	//bind the member variables to the place holder in the template
+	$parameters = ["favoriteeId" => $this->favoriteeId];
+	$statement->execute($parameters);
+}
 
 	/*
 	 * updates this Favorite in mySQL
@@ -238,33 +238,33 @@ catch
  */
 	public static function getAllFavorites(\PDO $pdo) {
 	//create query template
-		$query = "SELECT favoriteeId, favoriterId FROM favorite";
-		$statement = $pdo->prepare($query);
-		$statement->execute();
+	$query = "SELECT favoriteeId, favoriterId FROM favorite";
+	$statement = $pdo->prepare($query);
+	$statement->execute();
 
 	//build an array of favorites
-		$favorite = new \SplFixedArray($statement->rowCount());
-		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while(($row = $statement->fetch()) !==false) {
-			try {
-				$favorites = new Favorite($row["favoriteeId"], $row["favoriterId"]);
-				$favorite[$favorite->key()] = $favorite;
-				$favorite->next();
-}
-			catch(\Exception $exception) {
-				//if the row couldn't be converted rethrow it
-				throw(new \PDOException($exception->getMessage(), 0, $exception));
-			}
+	$favorite = new \SplFixedArray($statement->rowCount());
+	$statement->setFetchMode(\PDO::FETCH_ASSOC);
+	while(($row = $statement->fetch()) !== false) {
+		try {
+			$favorites = new Favorite($row["favoriteeId"], $row["favoriterId"]);
+			$favorite[$favorite->key()] = $favorite;
+			$favorite->next();
+		} catch(\Exception $exception) {
+			//if the row couldn't be converted rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
-				return ($favorites);
 	}
+	return ($favorites);
+}
 	/*
 	 * formats the state variables for JSON serialization
 	 * @return array resulting state variables to serialize
 	 */
 		public function jsonSerialize() {
-			$fields = get_object_vars($this);
-			return($fields);
-		}
+	$fields = get_object_vars($this);
+	return ($fields);
+}
 
 
+}
