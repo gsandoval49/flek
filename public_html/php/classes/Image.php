@@ -229,21 +229,106 @@ class Image implements \JsonSerializable {
  * @throws \TypeError if $pdo is not a PDO connection object
  */
 		public function insert(\PDO $pdo) {
-			//enforce the imageId is null
-			if($this->imageId !== null) {
-				throw(new \PDOException("not a new image"));
-			}
-			// create query template
-				$query = "INSERT INTO image(imageId, imageProfileId, imageDescription,imageSecureUrl, imagePublicId, 
+	//enforce the imageId is null
+	if($this->imageId !== null) {
+		throw(new \PDOException("not a new image"));
+	}
+	// create query template
+	$query = "INSERT INTO image(imageId, imageProfileId, imageDescription,imageSecureUrl, imagePublicId, 
 							imageGenreId) VALUES(:imageProfileId, :imageDescription, :imageSecureUrl, :imagePublicId, :imageGenreId)";
-				$statement = $pdo->prepare($query);
-				// bind the member variables to the place holders in the template
-				$parameters = ["imageProfileId" => $this-> imageProfileId, "imageDescription" => $this->imageDescription,
-				"imageSecureURl" => $this->imageSecureUrl, "imagePublicId" => $this->imagePublicId, "imageGenreId" => $this->
-				imageGenreId];
-				$statement->execute($parameters);
+	$statement = $pdo->prepare($query);
+	// bind the member variables to the place holders in the template
+	$parameters = ["imageProfileId" => $this->imageProfileId, "imageDescription" => $this->imageDescription,
+		"imageSecureURl" => $this->imageSecureUrl, "imagePublicId" => $this->imagePublicId, "imageGenreId" => $this->
+		imageGenreId];
+	$statement->execute($parameters);
 
-			/*
-			 * update the null imageId with what mySQL just gave us
-			 */
-				$this->imageId = intval($pdo->lastInsertId());
+	/*
+	 * update the null imageId with what mySQL just gave us
+	 */
+	$this->imageId = intval($pdo->lastInsertId());
+}
+
+/*
+ * deletes this image from mySQL
+ * @param \PDO $pdo PDO connection object
+ * @throws \PDOException when mySQL related errors
+ * @throws \TypeError if $pdo is no a PDO connection object
+ */
+		public function delete(\PDO $pdo) {
+	//enforce the imageId is not null
+	if($this->imageId === null) {
+		throw(new \PDOException("unable to delete image that does not exist"));
+	}
+	/*
+	 * create query template
+	 */
+	$query = "DELETE FROM image WHERE imageId = :imageId";
+	$statment = $pdo->prepare($query);
+
+	/*
+	 * bind the member variables to the place holder the template
+	 */
+	$parameters = ["imageId" => $this->imageId];
+	$statement->exectute($parameters);
+}
+	/*
+	 * updates this Image in mySQL
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related erros
+	 * @throws \TypeError if $pdo is not a PDO coection
+	 */
+	public function update(\PDO $pdo) {
+	//enforce the imageId is not null
+	if($this->imageId === null) {
+		throw(new \PDOException("unable to update a image that does not exist"));
+	}
+
+	// create query template
+	$query = "UPDATE image SET imageProfileId = :imageProfileId, imageDescription = :imageDescription, imageSecureURl =
+			:imageSecureUrl, imagePublicId = :imagePublicId, imageGenreId = :imageGenreId";
+	$statement = $pdo->prepare($query);
+
+	//bind the member variables to the place holders in the template
+	$parameters = ["imageProfileId" => $this->imageProfileId, "imageDescription" => $this->imageDescription,
+		"imageSecureUrl" => $this->imageSecureUrl, "imagePublicId" => $this->imagePublicId, "imageGenreId" => $this->imageGenreId];
+
+	$statement->execute($parameters);
+}
+
+	/*
+	 * gets the Image by content
+	 * @param /PDO $pdo PDO connection object
+	 * @param string $imageDescription image description to search for
+	 * @return \SplFixedArray SplFixedArray of Image found
+	 * @throws \PDOException when mySQL related erros
+	 * @throws \TypeError when variables are not to correct data type
+	 */
+		public static function getImagebyImageDescription(\PDO, $pdo, string $imageDescription) {
+			//sanitize the description before searching
+		$imageDescriotion = trim($imageDescription);
+		$imageDescriotion = filter_var($imageDescription, FILTER_SANITIZE_STRING);
+			if(empty($imageDescription) === true) {
+				throw(new \PDOException("image description is invalid"));
+			}
+
+		// create query template
+		$query = "SELECT imageId, imageProfileId, imageDescription, imageSecureUrl, imagePublicId, imageGenreId
+		 	FROM image WHERE imageDecription LIKE :imageDescription";
+		$statement = $pdo->prepare($query);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
