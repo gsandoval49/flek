@@ -349,32 +349,75 @@ class Image implements \JsonSerializable {
 	 */
 
 		public static function getImagebyImageId(\PDO $pdo, int $imageId) {
-			// sanitize the imageId before seraching
-			if($imageId <= 0) {
-				throw(new \PDOException("Image id is not positive"));
-			}
-			// create query template
-			$query = "SELECT imageId, imageProfileId, imageDescription, imageSecureId, imagePublicId, imageGenreId FROM 
+	// sanitize the imageId before seraching
+	if($imageId <= 0) {
+		throw(new \PDOException("Image id is not positive"));
+	}
+	// create query template
+	$query = "SELECT imageId, imageProfileId, imageDescription, imageSecureId, imagePublicId, imageGenreId FROM 
 			image WHERE imageId = :imageId";
-		$statement = $pdo->prepare($query);
-			//bind the image id to the place holder in the template
-		$parameter = ["imageId => $imageId"];
-		$statement->execute($parameter);
+	$statement = $pdo->prepare($query);
+	//bind the image id to the place holder in the template
+	$parameter = ["imageId => $imageId"];
+	$statement->execute($parameter);
 
-		//grab the image from mySQL
-		try {
-			$image = null;
-			$statment->setFetchMode(\PDO::FETCH_ASSOC);
-			$row = $statement->fetch();
-			if($row !== false) {
-				$image = new image($row["imageId"], $row["imageProfileId"], $row["imageDescription"], $row["imageSecureId"],
-					$row["imagePublicId"], $row["imageGenreId"]);
-			}
-		}	catch (\Exception $exception) {
-			// if the row couldn't be converted, rethrow it
-				throw(new \PDOException($exception->getMessage(), 0, $exception));
+	//grab the image from mySQL
+	try {
+		$image = null;
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		$row = $statement->fetch();
+		if($row !== false) {
+			$image = new image($row["imageId"], $row["imageProfileId"], $row["imageDescription"], $row["imageSecureId"],
+				$row["imagePublicId"], $row["imageGenreId"]);
 		}
-			return($image);
+	} catch(\Exception $exception) {
+		// if the row couldn't be converted, rethrow it
+		throw(new \PDOException($exception->getMessage(), 0, $exception));
+	}
+	return ($image);
+}
+
+	/*
+	 * get the image by profile id
+	 * @param \PDO $pdo PDO connection object
+	 * @param int $imageProfileId image id to search by
+	 * @return \SplFixedArray of images found
+	 * @throws \PDOException when mySQL related erros occur
+	 * @throws \TypeError when variables are no the correct data types
+	 */
+
+	public static function getImagebyImageProfileId(\PDO $pdo, int $imageProfileId) {
+	// sanitize the profile id before searching
+	if($imageProfileId <= 0) {
+		throw(new \RangeException("image profile id must be positive"));
+	}
+	//create query template
+	$query = "SELECT imageId, imageProfileId, imageDescription, imageSecureUrl, imagePublicId, imageGenreId FROM image 
+		WHERE imageProfileId = :imageProfileId";
+	$statement = $pdo->prepare($query);
+	//bind the image proile id to the place holder in the template
+
+	$parameters = ["imageProfileId => $imageProfileId"];
+	$statement->execute($parameters);
+
+	//build an array of images
+	$images = new \SplFixedArray($statement->rowCount());
+	$statement->setFetchMode(\PDO::FETCH_ASSOC);
+	while(($row = $statement->fetch()) !== false) {
+		try {
+			$image = new Image($row["imageId"], $row["imageProfileId"], $row["imageDescription"], $row["imageSecureUrl"],
+				$row["imagePublicId"], $row["imageGenreId"]);
+
+			$images[$images->key()] = $image;
+			$images->next();
+		} catch(\Exception $exception) {
+			//if the row couldnt' be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+	}
+	return ($images);
+}
+
 
 
 
