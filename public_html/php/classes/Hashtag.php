@@ -1,6 +1,6 @@
 <?php
 /* find out if this namespace is correct*/
-namespace Edu\Cnm\Gsandoval49\Flek;
+namespace Edu\Cnm\Flek;
 
 require_once("autoload.php");
 
@@ -8,7 +8,7 @@ require_once("autoload.php");
  * Hashtag class
  *
  * @author Giles Sandoval <gsandoval49@cnm.edu>
- * @version 3.0.0
+ * @version 1.0.0
 **/
 class Hashtag implements \JsonSerializable {
     /**
@@ -304,4 +304,8 @@ class Hashtag implements \JsonSerializable {
      *
      * @return array resulting state variable to serialize
      **/
+    public function jsonSerialize() {
+        $fields = get_object_vars($this);
+        return($fields);
+    }
 }
