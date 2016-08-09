@@ -222,6 +222,7 @@ class Mail implements \JsonSerializable {
 		}
 		$this->mailContent = $newMailConent;
 }
+
 	/*
 	 * inserts message into sql
 	 *
@@ -251,6 +252,22 @@ $this->mailId = intval($pdo->lastInsertId());
  * @throws \PDOException when mySQL related errors occur
  * @throws \TypeError if $pdo is not a PDO object
  * */
+public function delete(\PDO $pdo){
+	/*enforce that the message Id is not null, don't delete a message that has not been inserted*/
+	if($this->mailId === null){
+		throw(new\PDOException("unable to delete a message that does not exist"));
+	}
+	/*create query template*/
+	$query = "DELETE FROM mail WHERE mailId = :mailId:";
+	$statement = $pdo->prepare(query);
+	/*bind the member variables to the placeholders in the template*/
+	$parameters = ["mailId" => $this->mailId];
+	$statement->execute($parameters);
+}
 
+/*
+ * updates this message in mySQL
+ *
+ * */
 
 }
