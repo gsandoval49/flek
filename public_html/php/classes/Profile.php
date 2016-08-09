@@ -282,7 +282,6 @@ public function setProfileBio(string $newProfileBio) {
  * @return string $newProfileHash new value of profile hash
  **/
 public function getProfileHash() {
-		unset($this->profileHash); //should not return hash
 		return ($this->profileHash);
 }
 
@@ -315,7 +314,6 @@ public function setProfileHash(string $newProfileHash) {
  * @return string value of profileSalt
  **/
 public function getProfileSalt() {
-		unset($this->profileSalt); //should not return salt
 		return ($this->profileSalt);
 }
 
@@ -491,14 +489,13 @@ public static function getProfileByProfileId(\PDO $pdo, int $profileId) {
 	$statement = $pdo->prepare($query);
 
 	//bind the profileId to the place holder in the template
-	$parameters = [$profileId => $profileId];
+	$parameters = ["profileId" => $profileId];
 	$statement->execute($parameters);
 
 	//build an array of profiles
 	$profiles = new \SplFixedArray($statement->rowCount());
 	$statement->setFetchMode(\PDO::FETCH_ASSOC);
-	while (($row = $statement->fetch()) !== false);
-	{
+	while (($row = $statement->fetch()) !== false); {
 		try {
 			$profile = new Profile($row["profileId"], $row["profileName"], $row["profileEmail"], $row["profileLocation"], $row["profileBio"], $row["profileHash"], $row["profileSalt"], $row["profileAccessToken"], $row["profileActivationToken"]);
 			$profiles[$tweets->key()] = $profile;
@@ -508,7 +505,7 @@ public static function getProfileByProfileId(\PDO $pdo, int $profileId) {
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
 	}
-		return ($profile);
+	return ($profile);
 }
 
 /**
@@ -539,7 +536,7 @@ public static function getProfileByProfileName(\PDO $pdo, string $profileId) {
 		$statement->execute($parameters);
 
 		//build an array of profiles
-		$profile = new \SplFixedArray($statement->rowCount());
+		$profiles = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
@@ -572,8 +569,7 @@ public static function getProfileByProfileEmail(\PDO $pdo, string $profileEmail)
 		}
 
 		//create query template
-		$query = "SELECT profileId, profileName, profileEmail, profileLocation, profileBio, profileHash, profileSalt, 
-		profileAccessToken, profileActivationToken FROM profile WHERE profileEmail LIKE :profileEmail";
+		$query = "SELECT profileId, profileName, profileEmail, profileLocation, profileBio, profileHash, profileSalt, profileAccessToken, profileActivationToken FROM profile WHERE profileEmail LIKE :profileEmail";
 		$statement = $pdo->prepare($query);
 
 		//bind the profile email to the place holder in the template
@@ -582,7 +578,7 @@ public static function getProfileByProfileEmail(\PDO $pdo, string $profileEmail)
 		$statement->execute($parameters);
 
 		//build an array of profiles
-		$profile = new \SplFixedArray($statement->rowCount());
+		$profiles = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
@@ -616,8 +612,7 @@ public static function getProfileByProfileLocation(\PDO $pdo, string $profileLoc
 		}
 
 		//create query template
-		$query = "SELECT profileId, profileName, profileEmail, profileLocation, profileBio, profileHash, profileSalt, 
-		profileAccessToken, profileActivationToken FROM profile WHERE profileLocation LIKE :profileLocation";
+		$query = "SELECT profileId, profileName, profileEmail, profileLocation, profileBio, profileHash, profileSalt, profileAccessToken, profileActivationToken FROM profile WHERE profileLocation LIKE :profileLocation";
 		$statement = $pdo->prepare($query);
 
 		//bind the profile location to the place holder in the template
@@ -626,7 +621,7 @@ public static function getProfileByProfileLocation(\PDO $pdo, string $profileLoc
 		$statement->execute($parameters);
 
 		//build an array of profiles
-		$profile = new \SplFixedArray($statement->rowCount());
+		$profiles = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
@@ -656,12 +651,11 @@ public static function getProfileByProfileBio(\PDO $pdo, string $profileBio) {
 		$profileBio = trim($profileBio);
 		$profileBio = filter_var($profileBio, FILTER_SANITIZE_STRING);
 		if(empty($profileBio) === true) {
-			throw(new \PDOException("profile location is invalid"));
+			throw(new \PDOException("profile bio is invalid"));
 		}
 
 		//create query template
-		$query = "SELECT profileId, profileName, profileEmail, profileLocation, profileBio, profileHash, profileSalt, 
-		profileAccessToken, profileActivationToken FROM profile WHERE profileBio LIKE :profileBio";
+		$query = "SELECT profileId, profileName, profileEmail, profileLocation, profileBio, profileHash, profileSalt, profileAccessToken, profileActivationToken FROM profile WHERE profileBio LIKE :profileBio";
 		$statement = $pdo->prepare($query);
 
 		//bind the profile bio to the place holder in the template
@@ -670,7 +664,7 @@ public static function getProfileByProfileBio(\PDO $pdo, string $profileBio) {
 		$statement->execute($parameters);
 
 		//build an array of profiles
-		$profile = new \SplFixedArray($statement->rowCount());
+		$profiles = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
@@ -682,7 +676,6 @@ public static function getProfileByProfileBio(\PDO $pdo, string $profileBio) {
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
-
 		return ($profiles);
 	}
 
@@ -704,8 +697,7 @@ public static function getProfileByProfileHash(\PDO $pdo, string $profileHash) {
 		}
 
 		//create query template
-		$query = "SELECT profileId, profileName, profileEmail, profileLocation, profileBio, profileHash, profileSalt, 
-		profileAccessToken, profileActivationToken FROM profile WHERE profileHash LIKE :profileHash";
+		$query = "SELECT profileId, profileName, profileEmail, profileLocation, profileBio, profileHash, profileSalt, profileAccessToken, profileActivationToken FROM profile WHERE profileHash LIKE :profileHash";
 		$statement = $pdo->prepare($query);
 
 		//bind the profile hash to the place holder in the template
@@ -714,7 +706,7 @@ public static function getProfileByProfileHash(\PDO $pdo, string $profileHash) {
 		$statement->execute($parameters);
 
 		//build an array of profiles
-		$profile = new \SplFixedArray($statement->rowCount());
+		$profiles = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
@@ -726,7 +718,6 @@ public static function getProfileByProfileHash(\PDO $pdo, string $profileHash) {
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
-
 		return ($profiles);
 	}
 
@@ -748,8 +739,7 @@ public static function getProfileByProfileSalt(\PDO $pdo, string $profileSalt) {
 		}
 
 		//create query template
-		$query = "SELECT profileId, profileName, profileEmail, profileLocation, profileBio, profileHash, profileSalt, 
-		profileAccessToken, profileActivationToken FROM profile WHERE profileSalt LIKE :profileSalt";
+		$query = "SELECT profileId, profileName, profileEmail, profileLocation, profileBio, profileHash, profileSalt, profileAccessToken, profileActivationToken FROM profile WHERE profileSalt LIKE :profileSalt";
 		$statement = $pdo->prepare($query);
 
 		//bind the profile salt to the place holder in the template
@@ -758,7 +748,7 @@ public static function getProfileByProfileSalt(\PDO $pdo, string $profileSalt) {
 		$statement->execute($parameters);
 
 		//build an array of profiles
-		$profile = new \SplFixedArray($statement->rowCount());
+		$profiles = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
@@ -770,7 +760,6 @@ public static function getProfileByProfileSalt(\PDO $pdo, string $profileSalt) {
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
-
 		return ($profiles);
 	}
 
@@ -792,8 +781,7 @@ public static function getProfileByProfileAccessToken(\PDO $pdo, string $profile
 		}
 
 		//create query template
-		$query = "SELECT profileId, profileName, profileEmail, profileLocation, profileBio, profileHash, profileSalt, 
-		profileAccessToken, profileActivationToken FROM profile WHERE profileAccessToken LIKE :profileAccessToken";
+		$query = "SELECT profileId, profileName, profileEmail, profileLocation, profileBio, profileHash, profileSalt, profileAccessToken, profileActivationToken FROM profile WHERE profileAccessToken LIKE :profileAccessToken";
 		$statement = $pdo->prepare($query);
 
 		//bind the profile access token to the place holder in the template
@@ -802,7 +790,7 @@ public static function getProfileByProfileAccessToken(\PDO $pdo, string $profile
 		$statement->execute($parameters);
 
 		//build an array of profiles
-		$profile = new \SplFixedArray($statement->rowCount());
+		$profiles = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
@@ -814,7 +802,6 @@ public static function getProfileByProfileAccessToken(\PDO $pdo, string $profile
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
-
 		return ($profiles);
 	}
 
@@ -836,8 +823,7 @@ public static function getProfileByProfileActivationToken(\PDO $pdo, string $pro
 		}
 
 		//create query template
-		$query = "SELECT profileId, profileName, profileEmail, profileLocation, profileBio, profileHash, profileSalt, 
-		profileAccessToken, profileActivationToken FROM profile WHERE profileAccessToken LIKE :profileAccessToken";
+		$query = "SELECT profileId, profileName, profileEmail, profileLocation, profileBio, profileHash, profileSalt, profileAccessToken, profileActivationToken FROM profile WHERE profileAccessToken LIKE :profileAccessToken";
 		$statement = $pdo->prepare($query);
 
 		//bind the profile activation token to the place holder in the template
@@ -846,7 +832,7 @@ public static function getProfileByProfileActivationToken(\PDO $pdo, string $pro
 		$statement->execute($parameters);
 
 		//build an array of profiles
-		$profile = new \SplFixedArray($statement->rowCount());
+		$profiles = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
@@ -858,7 +844,6 @@ public static function getProfileByProfileActivationToken(\PDO $pdo, string $pro
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
-
 		return ($profiles);
 	}
 
@@ -892,7 +877,7 @@ public static function getsAllProfiles(\PDO $pdo){
          return ($profile);
  }
 /**
- * formats teh state variables for JSON serialization
+ * formats the state variables for JSON serialization
  *
  * @return array resulting state variables to serialize
 **/
@@ -903,4 +888,4 @@ public function jsonSerialize () {
 	return ($fields);
 	}
 
-} //does this curly go on line 101?
+}
