@@ -184,7 +184,22 @@ class Mail implements \JsonSerializable {
 		}
 		$this->mailContent = $newMailConent;
 }
-	
+	/*
+	 * inserts message into sql
+	 *
+	 * @param \PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO object
+	 * */
+	public function insert(/PDO $pdo){
+	/*dont insert a message that already exists*/
+	if($this->mailId !== null){
+	throw(new \PDOException("not a new message"));
+}
+/*create query template*/
+
+}
+
 
 
 }
