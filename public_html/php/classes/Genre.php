@@ -98,8 +98,36 @@ private $genreName;
 	}
 
 	/**
+	 *mutator method for genre name
 	 *
+	 * @param string $newGenreName new value of genre name
+	 * @throws \InvalidArgumentException if $newGenreName is not a string or insecure
+	 * @throws \RangeException is $newGenreName is > 32 characters
+	 * @throws \TypeError if $newGenreName is not a string
 	**/
+	public function setGenreName(string $newGenreName) {
+		//verify the genre name is secure
+		$newGenreName = trim($newGenreName);
+		$newGenreName = filter_var($newGenreName, FILTER_SANITIZE_STRING);
+		if(empty($newGenreName) === true) {
+			throw(new \InvalidArgumentException("genre name is empty or insecure"));
+		}
+		//verify the genre name will fit into the database
+		if(strlen($newGenreName) > 140) {
+			throw(new \RangeException("genre name too large"));
+		}
+		//store the genre name
+		$this->genreName = $newGenreName;
+	}
+
+	/**
+	 * inserts this Genre into mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo id not a PDO connection object
+	**/
+
 
 }
 
