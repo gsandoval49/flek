@@ -47,6 +47,16 @@ class Mail implements \JsonSerializable {
 
 /*
  * constructor for the mail class
+ * @param int|null $newMailId id of this message or null if a new message
+ * @param string $newMailSubject subject of this message
+ * @param int $newMailSenderId id of the user profile who sent the message
+ * @param int $newMailReceiverId id of the user profile who reads the message
+ * @param int $newMailGunId id assigned to the message by mail gun API
+ * @param string $newMailContent actual content of this message
+ * @throws \INVALIDARGUMENTEXCEPTION if data types are not valid
+ * @throws \RangeException if input is too long
+ * @throws \TypeError if data types violate type hints
+ * @throws \Exception if some other exception occurs
  * */
 	public function __construct(int $newMailId = null, string $newMailSubject, int $newMailSenderId, int $newMailReceiverId,int $newMailGunId,string $newMailContent) {
 		try {
@@ -56,7 +66,21 @@ class Mail implements \JsonSerializable {
 			$this->setMailReceiverId($newMailReceiverId);
 			$this->setMailGunId($newMailGunId);
 			$this->setMailContent($newMailContent);
+		} catch(\InvalidArgumentException $invalidArgument){
+			/*rethrow the exception to the caller*/
+			throw(new\InvalidArgumentException($invalidArgument->getMessage(),0,$invalidArgument));
+		} catch(\RangeException $range){
+			/*rethrow the exception to the caller*/
+			throw(new\RangeException($range->getMessage(),0,$range));
+		} catch(\TypeError $typeError){
+			/*rethrow exception to the caller*/
+			throw(new\TypeError($typeError->getMessage(),0,$typeError));
+		} catch(\Exception $exception){
+			/*rethrow the exception to the caller*/
+			throw(new\Exception($exception->getMessage(),0,$exception));
 		}
+
+
 	}
 
 	/**
