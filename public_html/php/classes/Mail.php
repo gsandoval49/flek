@@ -109,14 +109,13 @@ class Mail implements \JsonSerializable {
 	 * @throws \RangeException if $newMailSenderId is not positive
 	 * @return error if the new id is not positive
 	 * */
-	public function setmailSenderId(int $newmailSenderId){
+	public function setMailSenderId(int $newMailSenderId){
 		/*verify the profile Id is positive*/
-		if($newmailSenderId <= 0) {
+		if($newMailSenderId <= 0) {
 			throw(new \RangeException ("user profile id is not positive"));
 		}
 		/*convert and store the profile id*/
-		$this->mailSenderId = $newmailSenderId;
-
+		$this->mailSenderId = $newMailSenderId;
 	}
 	/**
 	 * this is the accessor method for the mail receiver Id

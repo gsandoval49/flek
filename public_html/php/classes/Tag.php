@@ -13,5 +13,23 @@ require_once("autoload.php");
 
 
 class Tag implements \JsonSerializable {
-	
+
+	private tagImageId;
+
+	private tagHashtagId;
+
+	public function getTagImageId() {
+		return($this->tagImageId);
+	}
+
+	public function setTagImageId(int $newTagImageId){
+		if($newTagImageIdId <= 0) {
+			throw(new \RangeException ("image id is not positive"));
+		}
+		/*convert and store the image id*/
+		$this->tagImageId = $newTagImageId;
+	}
+
+	}
+
 }
