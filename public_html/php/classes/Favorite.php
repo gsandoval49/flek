@@ -195,9 +195,9 @@ catch
 	return ($favorite);
 }
 
- /* gets the favorite by favoriteeId
+ /* gets the favorite by favoriterId
 * @param \PDO $pdo PDO connection object
-* @param int $favoriteeId favoritee id to search for
+* @param int $favoriterId favoritee id to search for
 	 * @return favorite|null favorite found or null if not found
 * @throws \PDOException when mySQL related erros occur
 * @throws |TypeError when variables are not the correct data type
@@ -229,3 +229,42 @@ catch
 	}
 	return ($favorite);
 }
+
+/*
+ * gets all Favorites
+ * @param \SplFixedArray SplFixedArray of Favorites found or null if not found
+ * @throws \PDOException when mySQL related errors occur
+ * @throws \TypeError when variables are not the correct data type
+ */
+	public static function getAllFavorites(\PDO $pdo) {
+	//create query template
+		$query = "SELECT favoriteeId, favoriterId FROM favorite";
+		$statement = $pdo->prepare($query);
+		$statement->execute();
+
+	//build an array of favorites
+		$favorite = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !==false) {
+			try {
+				$favorites = new Favorite($row["favoriteeId"], $row["favoriterId"]);
+				$favorite[$favorite->key()] = $favorite;
+				$favorite->next();
+}
+			catch(\Exception $exception) {
+				//if the row couldn't be converted rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+				return ($favorites);
+	}
+	/*
+	 * formats the state variables for JSON serialization
+	 * @return array resulting state variables to serialize
+	 */
+		public function jsonSerialize() {
+			$fields = get_object_vars($this);
+			return($fields);
+		}
+
+
