@@ -67,7 +67,31 @@ private $genreName;
 
 	/**
 	 * mutator method for genre id
+	 *
+	 * @param int|null $newGenreId new value of genre id
+	 * @throws \RangeException if $newGenreId is not positive
+	 * @throws \TypeError if $newGenreId is not an integer
 	**/
+	public function setGenreId(int $newGenreId = null) {
+		//base case: if the genre id is null, this is a new genre without a mySQL assigned id (yet)
+		if($newGenreId === null) {
+			$this->genreId = null;
+			return;
+		}
+
+		//verify the genre id is positive
+		if($newGenreId <= 0) {
+			throw(new \RangeException("genre id is not positive"));
+		}
+
+		//convert and store the genre id
+		$this->genreId = $newGenreId;
+	}
+
+	/**
+	 * accessor method for genre name
+	 **/
+
 }
 
 
