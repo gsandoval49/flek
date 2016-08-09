@@ -6,7 +6,7 @@ require_once("autoload.php");
  *
  * This image can be a small example when the images are stored in the Profile of the user.
  * @author Diane Peshlakai <dpeshlakai3@cnm.edu>
- * @version 3.0.
+ * @version 1.0.0
  */
 class Image implements \JsonSerializable {
 	/*
@@ -222,3 +222,28 @@ class Image implements \JsonSerializable {
 		$this->imageGenreId = $newImageGenreId;
 	}
 }
+
+/*
+ * inserts the Image into mySQL
+ * @param \PDO $pdo PDO connection object
+ * @throws \TypeError if $pdo is not a PDO connection object
+ */
+		public function insert(\PDO $pdo) {
+			//enforce the imageId is null
+			if($this->imageId !== null) {
+				throw(new \PDOException("not a new image"));
+			}
+			// create query template
+				$query = "INSERT INTO image(imageId, imageProfileId, imageDescription,imageSecureUrl, imagePublicId, 
+							imageGenreId) VALUES(:imageProfileId, :imageDescription, :imageSecureUrl, :imagePublicId, :imageGenreId)";
+				$statement = $pdo->prepare($query);
+				// bind the member variables to the place holders in the template
+				$parameters = ["imageProfileId" => $this-> imageProfileId, "imageDescription" => $this->imageDescription,
+				"imageSecureURl" => $this->imageSecureUrl, "imagePublicId" => $this->imagePublicId, "imageGenreId" => $this->
+				imageGenreId];
+				$statement->execute($parameters);
+
+			/*
+			 * update the null imageId with what mySQL just gave us
+			 */
+				$this->imageId = intval($pdo->lastInsertId());

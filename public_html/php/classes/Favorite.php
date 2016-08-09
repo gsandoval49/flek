@@ -6,7 +6,7 @@ require_once("autoload.php");
  * This favorite can be considered a small example of what could be stored when profiles
  *
  * @author Diane Peshlakai <dpeshlakai3@cnm.edu>
- * @version 3.0.0
+ * @version 1.0.0
  */
 class Favorite implements \JsonSerializable {
 	/*
