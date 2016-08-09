@@ -90,7 +90,16 @@ private $genreName;
 
 	/**
 	 * accessor method for genre name
+	 *
+	 * @return string value of genre name
 	 **/
+	public function getGenreName() {
+		return($this->genreName);
+	}
+
+	/**
+	 *
+	**/
 
 }
 
