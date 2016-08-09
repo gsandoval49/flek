@@ -349,10 +349,32 @@ class Image implements \JsonSerializable {
 	 */
 
 		public static function getImagebyImageId(\PDO $pdo, int $imageId) {
-			// sanitixe the imageId before seraching
+			// sanitize the imageId before seraching
 			if($imageId <= 0) {
 				throw(new \PDOException("Image id is not positive"));
 			}
+			// create query template
+			$query = "SELECT imageId, imageProfileId, imageDescription, imageSecureId, imagePublicId, imageGenreId FROM 
+			image WHERE imageId = :imageId";
+		$statement = $pdo->prepare($query);
+			//bind the image id to the place holder in the template
+		$parameter = ["imageId => $imageId"];
+		$statement->execute($parameter);
+
+		//grab the image from mySQL
+		try {
+			$image = null;
+			$statment->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$image = new image($row["imageId"], $row["imageProfileId"], $row["imageDescription"], $row["imageSecureId"],
+					$row["imagePublicId"], $row["imageGenreId"]);
+			}
+		}	catch (\Exception $exception) {
+			// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+			return($image);
 
 
 
