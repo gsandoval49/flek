@@ -317,7 +317,42 @@ class Image implements \JsonSerializable {
 		 	FROM image WHERE imageDecription LIKE :imageDescription";
 		$statement = $pdo->prepare($query);
 
+		//bind the image description to the place holder in the template
+		$imageDescription = "%$imageDescription%";
+		$parameters = ["imageDescription" => $imageDescription];
+		$statement->execute($parameters);
 
+		//build an array of images
+		$image = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while($row = $statement->fetch()) !==false) {
+		try {
+			$image = new Image($row["imageId"], $row["imageProfileId"], $row["imageDescription"], $row["imageSecureId"],
+				$row["imagePublicId"], $row["imageGenreId"], $row["imagePublicId"], $row["imageSecureId"], $row["imagePublicId"]
+				, $row["imageGenreId"]);
+			$image[$image->key()] = $image;
+			$image->next();
+		} catch(\Exception $exception) {
+			// if the row couldn;t be converted rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+	}
+		return($image);
+}
+	/*
+	 * gets the image by imageId
+	 * @param \PDO $pdo PDO cennection object
+	 * @param int $imageId image id to search for
+	 * @return image|null image found or null if not found
+	 * @throws \PDOException when mySQL related errors
+	 * @throws \TypeError when variables are not the correct data types
+	 */
+
+		public static function getImagebyImageId(\PDO $pdo, int $imageId) {
+			// sanitixe the imageId before seraching
+			if($imageId <= 0) {
+				throw(new \PDOException("Image id is not positive"));
+			}
 
 
 
