@@ -45,6 +45,20 @@ class Mail implements \JsonSerializable {
 	 * */
 	private mailContent;
 
+/*
+ * constructor for the mail class
+ * */
+	public function __construct(int $newMailId = null, string $newMailSubject, int $newMailSenderId, int $newMailReceiverId,int $newMailGunId,string $newMailContent) {
+		try {
+			$this->setMailId($newMailId);
+			$this->setMailSubject($newMailSubject);
+			$this->setMailSenderId($newMailSenderId);
+			$this->setMailReceiverId($newMailReceiverId);
+			$this->setMailGunId($newMailGunId);
+			$this->setMailContent($newMailContent);
+		}
+	}
+
 	/**
 	 * this is the accessor method for mail Id
 	 * @return int|null value of mail Id
@@ -207,7 +221,12 @@ $statement->execute($parameters);
 /*update the mail Id with what mySQL just gave us*/
 $this->mailId = intval($pdo->lastInsertId());
 }
-
+/*
+ * deletes message from mySQL
+ * @param \PDO connection object
+ * @throws \PDOException when mySQL related errors occur
+ * @throws \TypeError if $pdo is not a PDO object
+ * */
 
 
 }
