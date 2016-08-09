@@ -11,6 +11,7 @@ require_once("autoload.php");
  * @version 1.0.0
 **/
 class Hashtag implements \JsonSerializable {
+    use validateDate; // do I need you here??
     /**
      * id of the Hashtag that is created by the tag that has the image
      * this is the primary key
@@ -29,7 +30,7 @@ class Hashtag implements \JsonSerializable {
      * @param int|null $hashtagId id of this Hashtag or null if new Hashtag
      * @param string $hashtagName string containing data
      * @throws \InvalidArgumentException if data types are not valid
-     * @throws \RangeException if data values are out of bounds (e.g., strings too long, negative intergers)
+     * @throws \RangeException if data values are out of bounds (e.g., strings too long, negative integers)
      * @throws \TypeError if data types violate type hints
      * @throws \Exception if some other exception occurs
     **/
@@ -309,3 +310,5 @@ class Hashtag implements \JsonSerializable {
         return($fields);
     }
 }
+
+?>
