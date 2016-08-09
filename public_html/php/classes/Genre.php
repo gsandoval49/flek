@@ -127,8 +127,30 @@ private $genreName;
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError if $pdo id not a PDO connection object
 	**/
+public functoin insert(\PDO $pdo) {
+		//enforse the genreId is null (i.e., don't insert a genre that already exists)
+		if($this->genreId !== null) {
+			throw(new \PDOEXCEPTION("not a new genre"));
+		}
 
+		//create a query template
+		$query = "INSERT INTO genre(genreId, genreName) VALUES(:genreId, :genreName)";
+		$statement = $pdo->prepare($query);
 
-}
+		//bind the member variables to the place holders in the template
+		$parameters = ["genreId" => $this->genreId, "genreName" => $this->genreName];
+		$statement->execute($parameters);
+
+		//update the null genreId with what mySQL just gave us
+		$this->genreId = intval($pdo->lastInsertId());
+		}
+
+/**
+ * deletes this Genre from mySQL
+ *
+ *
+**/
+
+} //last line
 
 
