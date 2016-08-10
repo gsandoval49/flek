@@ -23,7 +23,7 @@ class ImageTest extends DataDesignTest {
 	 * content of the Image
 	 * @var int $VALID_IMAGEPROFILEID
 	 */
-	protected $VALID_IMAGEPROFILEID = "Image uploaded is passing";
+	protected $VALID_IMAGE = "Image uploaded is passing";
 
 	/*
 	 * description of the uploaded image
@@ -40,13 +40,13 @@ class ImageTest extends DataDesignTest {
 	 * public id for the image uploaded
 	 * @var string $VALID_IMAGEPUBLICID
 	 */
-	protected $VALID_PUBLICID = "DKJF23409340939404040";
+	protected $VALID_PUBLIC = "DKJF23409340939404040";
 
 	/*
 	 * genre id for image uploaded
 	 * @var int $VALID_IMAGEGENREID
 	 */
-	protected $VALID_GENREID = "Graffiti Artists";
+	protected $VALID_GENRE = "Graffiti Artists";
 
 	/*
 	 * valid name of image
@@ -74,7 +74,33 @@ class ImageTest extends DataDesignTest {
 	//run the default setUp() method first
 		parent::setup();
 
-		//create and insert a document to own the test
-		$this->document = new Document(null, "pictures of art", "")
+		//create and insert a image to own the test
+		$this->image = new Image(null, "pictures of art", "here in the Land of Enchantment", "100 degrees", "2848394850596505050505",
+			"connectwithart.com");
+		$this->image->insert($this->getPDO());
+
+		//create a user that owns the image
+		$this->user = new User(null, "Arlene", "so many type of art to see", "local artists in the state of new mexico", "
+		art lovers are welcome");
+		$this->user->insert($this->getPDO());
+
 }
+
+/*
+ * test inserting a valid Image and verify that the actual mySQL data matches
+ */
+	public function testInsertValidImage() {
+		//count the number of rows and svaid it for later
+		$numRows = $this->getConnection()->getRowCount("image");
+
+		//create a new image and insert to into mySQL
+		$image = new Image(null, $this->VALID_CONTENT, $this->VALID_IMAGE, $this->VALID_SECUREURL, $this->VALID_PUBLIC,
+			$this->VALID_IMAGENAME, $this->VALID_GENRE);
+		$image->insert($this->getPDO());
+
+		//grab the data from mySQL and enforce the fields match our expectations
+		$pdoImage = Image::getImageByImageId($this->getPDO(),
+			$image->getImageId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("image"));
+		$this->
 
