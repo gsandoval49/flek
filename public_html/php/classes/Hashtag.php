@@ -17,12 +17,12 @@ class Hashtag implements \JsonSerializable {
      * this is the primary key
      * @var int $hashtagId
      **/
-    private hashtagId;
+    private $hashtagId;
     /**
      * name or label of the Hashtag that is attached to the hashtag Id
      * @var string $hashtagName
      **/
-    private hashtagName;
+    private $hashtagName;
 
     /**
      * constructor for this Hashtag

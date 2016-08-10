@@ -68,5 +68,29 @@ class Social Login implements \JsonSerializable {
      * @throws \RangeException if $newSocialLoginId is not positive
      * @throws \TypeError if $newSocialLoginId is not an interger
      **/
+
+    public function setSocialLoginId(int $newSocialLoginId = null) {
+        // base case: if the socialLogin id is null, this a new socialLogin without a mySQL assigned id (yet)
+        if ($newSocialLoginId === null) {
+            $this->socialLoginId = null;
+            return;
+        }
+
+        // verify the socialLogin id is positive
+        if ($newSocialLoginId <= 0) {
+            throw(new \RangeException("social login id is not positive"));
+        }
+
+        // convert and store the hashtag id
+        $this->socialLoginId = $newSocialLoginId;
+    }
+
+    /**
+     * accessor method for social login name
+     *
+     * @return string value of social login name
+     **/
+
+
 }
 ?>
