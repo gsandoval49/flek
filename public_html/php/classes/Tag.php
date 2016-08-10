@@ -62,6 +62,22 @@ class Tag implements \JsonSerializable {
 		/*convert and store the hashtag id*/
 		$this->tagHashtagId = $newTagHashtagId;
 	}
+		/*adds the tag to mySQL*/
+		public function insert(\PDO $pdo) {
+			//enforce the tagImageId is null
+			if($this->tagImageIdId != null) {
+				throw(new \PDOException("no new image given"));
+			}
+			//create query template
+			$query = "INSERT INTO TAG(tagImageId, tagHashtagId) VALUES(:tagImageId, :tagHashtagId)";
+			$statement = $pdo->prepare($query);
+			//bind the member variables to the place holders in the template
+			$parameters = ["tagHashtagId" => $this->tagHashtagId, "tagImageId" => $this->tagImageId];
+			$statement->execute($parameters);
+
+			// update the null tagHashtagId with what mySQL just gave us
+			$this->tagHashtagId = intval($pdo->lastInsertId());
+		}
 	/**
 	 * formats state variables for JSON serialization
 	 *
