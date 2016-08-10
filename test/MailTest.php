@@ -70,5 +70,21 @@ class MailTest extends FlekTest {
 	 * test inserting a message, editing it, then updating it
 	 *
 	 */
-	
+	public function testUpdateValidMail(){
+		//count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("mail");
+
+		//create new message and insert it to mySQL
+		$mail = new Mail(null, $this->sender->getProfileId(),$this->VALID_MAILCONTENT);
+		$mail->insert($this->getPDO());
+
+		//edit the message and update it in mySQL
+		$mail->setMailContent($this->VALID_MAILCONTENT2);
+		$mail->update($this->getPDO());
+
+		//grab the data from mySQL and enforce the fields match our expectations
+		$pdoMail = Mail::getMailByMailId($this->getPDO(), $mail->getMailId());
+
+
+	}
 }
