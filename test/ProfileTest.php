@@ -15,9 +15,51 @@ require_once(dirname(__DIR__) . "/public_html/php/classes/autoload.php");
  * @see Profile
  * @author Christina Sosa <csosa4@cnm.edu>
 **/
-class ProfileTest extends FlekTest { //is this called FlekTest?
+class ProfileTest extends FlekTest {
 	/**
-	 * content of the profile
-	 * @var string
+	 * id of the profile
+	 * @var int $VALID_PROFILEID
 	**/
+	protected $VALID_PROFILEID = 21;
+	/**
+	 * name of profile
+	 * @var string $VALID_PROFILENAME
+	**/
+	protected $VALID_PROFILENAME = "csosa4";
+	/**
+	 * email of profile
+	 * @var string $VALID_PROFILEEMAIL
+	 **/
+	protected $VALID_PROFILEEMAIL = "foo@bar.com";
+	/**
+	 * location of the profile
+	 * @var string $VALID_PROFILELOCATION
+	**/
+	protected $VALID_PROFILELOCATION = "Rio Rancho, NM";
+	/**
+	 * bio of the profile
+	 * @var string $VALID_PROFILEBIO
+	**/
+	protected $VALID_PROFILEBIO = "I love art. Please enjoy the art I post.";
+	/**
+	 * hash for profile
+	 * @var profile hash
+	**/
+	private $hash;
+	/**
+	 * salt for profile
+	 * @var profile salt
+	**/
+	private $salt;
+	/**
+	 * access token for profile
+	 * @var string $VALID_PROFILEAccessTOKEN
+	 **/
+	protected $VALID_PROFILEACCESSTOKEN =
+		"01234567890abcdefghijklmnopqrstu";
+	/**
+	 * activation token for profile
+	 * @var string $VALID_PROFILEACTIVATIONTOKEN
+	**/
+	protected $VALID_PROFILEACTIVATIONTOKEN = "01234567890abcdefghijklmnopqrstu";
 }
