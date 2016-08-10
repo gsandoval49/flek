@@ -114,4 +114,39 @@ class ProfileTest extends FlekTest {
 	 *
 	 * @expectedException \PDOException
 	**/
+	public function testUpdateValidProfile() {
+		//create a Profile with a non null profile id and watch it fail
+		$profile = new Profile(FLekTest::INVALID_KEY, $this->VALID_PROFILEID, $this->VALID_PROFILENAME,
+			$this->VALID_PROFILEEMAIL, $this->VALID_PROFILELOCATION, $this->VALID_PROFILEBIO, $this->hash, $this->salt,
+			$this->VALID_PROFILEACCESSTOKEN, $this->VALID_PROFILEACTIVATIONTOKEN);
+		$profile->insert($this->getPDO());
+		//edit the Profile and update it in mySQL
+		$profile->setProfileName($this->VALID_PROFILENAME);
+		$profile->setProfileEmail($this->VALID_PROFILEEMAIL);
+		$profile->setProfileLocation($this->VALID_PROFILELOCATION);
+		$profile->setProfileBio($this->VALID_PROFILEBIO);
+		$profile->setProfileHash($this->hash);
+		$profile->setProfileSalt($this->salt);
+		$profile->getProfileAccessToken($this->VALID_PROFILEACCESSTOKEN);
+		$profile->getProfileActivationToken($this->VALID_PROFILEACTIVATIONTOKEN);
+		$profile->update($this->getPDO());
+		// grab the data from mySQL and enforce the fields match our expectations
+		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
+		$this->assertEquals($pdoProfile->getProfileId(), $this->VALID_PROFILEID);
+		$this->assertEquals($pdoProfile->getProfileName(), $this->VALID_PROFILENAME);
+		$this->assertEquals($pdoProfile->getProfileEmail(), $this->VALID_PROFILEEMAIL);
+		$this->assertEquals($pdoProfile->getProfileLocation(), $this->VALID_PROFILELOCATION);
+		$this->assertEquals($pdoProfile->getProfileBio(), $this->VALID_PROFILEBIO);
+		$this->assertEquals($pdoProfile->getProfileHash(), $this->hash);
+		$this->assertEquals($pdoProfile->getProfileSalt(), $this->salt);
+		$this->assertEquals($pdoProfile->getProfileAccessToken(), $this->VALID_PROFILEACCESSTOKEN);
+		$this->assertEquals($pdoProfile->getProfileActivationToken(), $this->VALID_PROFILEACTIVATIONTOKEN);
+	}
+
+	/**
+	 * test updating a Profile that already exists
+	 *
+	 * @expectedException \PDOException
+	**/
 }
