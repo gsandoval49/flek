@@ -129,9 +129,24 @@ class Social Login implements \JsonSerializable {
      **/
     public function insert(\PDO $pdo) {
         // enforce the socialLoginId is null (i.e., don't insert a Social Login id that already exists.)
-        if($this->socialLoginId !== null) {
+        if ($this->socialLoginId !== null) {
             throw(new \PDOException("not a new social login ID"));
         }
+
+        // create query template
+        $query = "INSERT INTO socialLogin(socialLoginId, socialLoginName) VALUES(:socialLoginId, :socialLoginName)";
+        $statement = $pdo->prepare($query);
+
+        // bind the member variables to the place holders in the template
+        // CHECK TO SEE IF THIS CODE NEEDS TO BE IN HERE. AND ALSO DELETED TEH $formattedDate
+        $parameters = ["socialLoginId" => $this->socialLoginId, "socialLoginName" => $this->socialLoginName];
+        $statement->execute($parameters);
+
+        // update the null socialLoginId with what mySQL just gave us
+        $this->socialLoginId = intval($pdo->lastInsertId());
+    }
+
+
 
 
 
