@@ -20,49 +20,49 @@ class Profile implements \JsonSerializable {
 	 * id for the profile is the primary key
 	 * @var int $profileId
 	 **/
-	private profileId;
+	private $profileId;
 
 	/**
 	 * name of profile
 	 * @var string $profileName
 	 **/
-	private profileName;
+	private $profileName;
 
 	/**
 	 * email of profile
 	 * @var string $profileEmail
 	 **/
-	private profileEmail;
+	private $profileEmail;
 
 	/**
 	 * name of city where profile is located
 	 * @var string $profileLocation
 	 **/
-	private profileLocation;
+	private $profileLocation;
 
 	/**
 	 * content in biography that profile will have
 	 * @var string $profileBio
 	 **/
-	private profileBio;
+	private $profileBio;
 
 	/**
 	 * name of profileHash
 	 * @var string $profileHash
 	 **/
-	private profileHash;
+	private $profileHash;
 
 	/**
 	 * name of profileSalt
 	 * @var string $profileSalt
 	 **/
-	private profileSalt;
+	private $profileSalt;
 
 	/**
 	 * profile access token
 	 * @var string $profileAccessToken
 	 **/
-	private profileAccessToken;
+	private $profileAccessToken;
 
 	/**
 	 *profile activation token hex

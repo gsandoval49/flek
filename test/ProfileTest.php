@@ -88,4 +88,7 @@ class ProfileTest extends FlekTest {
 	/**
 	 * test inserting a valid profile and verify that the actual mySQL data matches
 	**/
+	public function testInsertValidProfile() {
+		//count the number of rows and savit it for
+	}
 }
