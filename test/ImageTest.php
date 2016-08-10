@@ -29,7 +29,7 @@ class ImageTest extends DataDesignTest {
 	 * description of the uploaded image
 	 * @var string $VALID_IMAGEDESCRIPTION
 	 */
-	protected $VALID_IMAGEDESCRIPTION = "Image test is still passing!";
+	protected $VALID_CONTENT = "Image test is still passing!";
 	/*
 	 * secure url of the image
 	 * @var string $VALID_IMAGESECUREURL
@@ -49,13 +49,32 @@ class ImageTest extends DataDesignTest {
 	protected $VALID_GENREID = "Graffiti Artists";
 
 	/*
-	 * profile that created the image; this is for the foreign key relations
-	 * @var imageProfileId
+	 * valid name of image
+	 * $imageProfileId
 	 */
+
+	protected $VALID_IMAGENAME = "My pieces of art";
+
+	/*
+ * profile that created the image; this is for the foreign key relations
+ * @var imageProfileId
+ */
 	protected $image = null;
 
 	/*
-	 *
+	 * profile that creates image; this is for the foreign key relations
+	 * @var imageProfileId
 	 */
+	protected $profile = null;
 
-	proteted $profile = null;
+	/*
+	 * create dependent objects before running each test
+	 */
+	public final function setUp() {
+	//run the default setUp() method first
+		parent::setup();
+
+		//create and insert a document to own the test
+		$this->document = new Document(null, "pictures of art", "")
+}
+
