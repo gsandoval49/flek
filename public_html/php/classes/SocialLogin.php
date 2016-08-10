@@ -91,6 +91,10 @@ class Social Login implements \JsonSerializable {
      * @return string value of social login name
      **/
 
+    public function getSocialLoginName() {
+        return($this->socialLoginName);
+    }
+
 
 }
 ?>
