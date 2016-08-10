@@ -128,9 +128,9 @@ class Social Login implements \JsonSerializable {
      *@throws \TypeError if $pdo is not a PDO connection object
      **/
     public function insert(\PDO $pdo) {
-        // enforce the socialLoginId is null (i.e., don't insert a Social Login id that already exists)
+        // enforce the socialLoginId is null (i.e., don't insert a Social Login id that already exists.)
         if($this->socialLoginId !== null) {
-            throw(new \PDOException("not a new social login id"));
+            throw(new \PDOException("not a new social login ID"));
         }
 
 
