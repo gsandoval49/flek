@@ -81,7 +81,7 @@ class Social Login implements \JsonSerializable {
             throw(new \RangeException("social login id is not positive"));
         }
 
-        // convert and store the hashtag id
+        // convert and store the social login id
         $this->socialLoginId = $newSocialLoginId;
     }
 
@@ -98,7 +98,7 @@ class Social Login implements \JsonSerializable {
     /**
      * mutator method for Social Login name
      *
-     * @param string $newSocialLoginName new value of hashtag name
+     * @param string $newSocialLoginName new value of social login name
      * @throws \InvalidArgumentException if $newSocialLoginName is not a string or insecure
      * @throws \RangeException if $newSocialLoginName is > 32 characters
      * @throws \TypeError if $newSocialLoginName is not a string
@@ -146,7 +146,27 @@ class Social Login implements \JsonSerializable {
         $this->socialLoginId = intval($pdo->lastInsertId());
     }
 
+    /**
+     * deletes this Social Login from mySQL
+     *
+     * @param \PDO $pdo PDO connection object
+     * @throws \PDOException when mySQL related errors occur
+     * @throws \TypeError if $pdo is not a PDO connection object
+     **/
+    public function delete(\PDO $pdo) {
+        // enforce the socialLoginId is not null (i.e., don't delete a socialLoginId that hasn't been inserted)
+        if($this->socialLoginId ===null) {
+            throw(new \PDOException("unable to delete a socialLoginId that does not exist"));
+        }
 
+        // create query template
+        $query = "DELETE FROM socialLogin WHERE socialLoginId = :socialLoginId";
+        $statement = $pdo->prepare($query);
+
+        // bind the member variables to the place holder in the template
+        $parameters = ["socialLoginId" => $this->socialLoginId];
+        $statement->execute($parameters);
+    }
 
 
 
