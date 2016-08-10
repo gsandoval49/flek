@@ -213,7 +213,7 @@ class Hashtag implements \JsonSerializable {
 
         // bind the hashtag name to the place holder in the template
         $hashtagName = "%$hashtagName%";
-        $parameters = ["hashtagName" => hashtagName];
+        $parameters = ["hashtagName" => $hashtagName];
         $statement->execute($parameters);
 
         // build an array of hashtags

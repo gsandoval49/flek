@@ -11,7 +11,7 @@ require_once("autoload.php");
  * @author Giles Sandoval <gsandoval49@cnm.edu>
  * @version 1.0.0
  **/
-class Social Login implements \JsonSerializable {
+class SocialLogin implements \JsonSerializable {
     /**
      * id for Social Login; this is the primary key
      * @var int $socialLoginId
@@ -190,6 +190,52 @@ class Social Login implements \JsonSerializable {
         $parameters = ["socialLoginId" => $this->socialLoginId, "socialLoginName" => $this->socialLoginName];
         $statement->execute($parameters);
     }
+
+    /**
+     * gets the Social Login  by name
+     *
+     * @param \PDO $pdo PDO connection object
+     * @param string $socialLoginName social login name to search for
+     * @return \SplFixedArray SplFixedArray of Social login name found
+     * @throws \PDOException when mySQL related errors occur
+     * @throws \TypeError when variables are not the correct data type
+     **/
+
+    public static function getSocialLoginbySocialLoginName(\PDO $pdo, string $socialLoginName) {
+        // sanitize the description before searching
+        $socialLoginName = trim($socialLoginName);
+        $socialLoginName = filter_var($socialLoginName, FILTER_SANITIZE_STRING);
+        if (empty($socialLoginName) === true) {
+            throw(new \PDOException("social login name is invalid"));
+        }
+
+        // create query template
+        $query = "SELECT socialLoginId, socialLoginName FROM socialLogin WHERE socialLoginName LIKE :socialLoginName";
+        $statement = $pdo->prepare($query);
+
+        // bind the social login name to the place holder in the template
+        $socialLoginName = "%$socialLoginName%";
+        $parameters = ["socialLoginName" => $socialLoginName];
+        $statement->execute($parameters);
+
+        // build an array of social login names
+        // make plural using entity name. calling array socialLogins
+        $socialLogins = new \SplFixedArray($statement->rowCount());
+        $statement->setFetchMode(\PDO::FETCH_ASSOC);
+        while (($row = $statement->fetch()) !== false) {
+            try {
+                $socialLoginName = new SocialLogin($row["socialLoginId"], $row["socialLoginName"]);
+                $socialLogins[$socialLogins->key()] = $socialLoginName;
+                $socialLogins->next();
+            } catch (\Exception $exception) {
+                //if the row couldn't be converted, rethrow it
+                throw(new \PDOException($exception->getMessage(), 0, $exception));
+            }
+        }
+        return ($socialLogins);
+    }
+
+
 
 
 
