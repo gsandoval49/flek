@@ -84,7 +84,14 @@ class MailTest extends FlekTest {
 
 		//grab the data from mySQL and enforce the fields match our expectations
 		$pdoMail = Mail::getMailByMailId($this->getPDO(), $mail->getMailId());
-
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("mail"));
+		$this->assertEquals($pdoMail->getProfileId(), $this->sender->getProfileId());
+		$this->assertEquals($pdoMail->getMailContent(), $this->VALID_MAILCONTENT2);
 
 	}
+	/**
+	 * test using a message that does not exist
+	 *
+	 */
+	
 }
