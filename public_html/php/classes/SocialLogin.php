@@ -235,10 +235,83 @@ class SocialLogin implements \JsonSerializable {
         return ($socialLogins);
     }
 
+    /**
+     * gets the SocialLogin by socialLoginId
+     *
+     * @param \PDO $pdo PDO connection object
+     * @param int $socialLoginId social login id to search for
+     * @return SocialLogin|null SocialLogin found or null if not found
+     * @throws \PDOException when mySQL related errors occur
+     * @throws \TypeError when variables are not the correct data type
+     **/
+    public static function getSocialLoginbySocialLoginId(\PDO $pdo, int $socialLoginId) {
+        // sanitize the $socialLoginId before searching
+        if($socialLoginId <= 0) {
+            throw(new \PDOException("social login id is not positive"));
+        }
 
+        // create query template
+        $query = "SELECT socialLoginId, socialLoginName FROM socialLogin WHERE socialLoginId = :socialLoginId";
+        $statement = $pdo->prepare($query);
 
+        // bind the socialLogin id to the place holder in the template
+        $parameters = ["socialLoginId" => $socialLoginId];
+        $statement->execute($parameters);
 
+        // grab the sociaLoginId from mySQL
+        // TODO verify if $socialLogin or $socialLoginId?
+        try {
+            $socialLogin = null;
+            $statement->setFetchMode(\PDO::FETCH_ASSOC);
+            $row = $statement->fetch();
+            if($row !== false) {
+                $socialLogin = new SocialLogin($row["socialLoginId"], $row["socialLoginName"]);
+            }
+        } catch(\Exception $exception) {
+            // if the row couldn't be converted, rethrow it
+            throw(new \PDOException($exception->getMessage(), 0, $exception));
+        }
+        return($socialLogin);
+    }
 
+    /**
+     * gets all SocialLogins
+     *
+     * @param \PDO $pdo PDO connection object
+     * @return \SplFixedArray SplFixedArray of SocialLogins found or null if not found
+     * @throws \PDOException when mySQL related errors occur
+     * @throws \TypeError when variables are not the correct data type
+     **/
+    public static function getAllSocialLogins(\PDO $pdo) {
+        // create query template
+        $query = "SELECT socialLoginId, socialLoginName FROM socialLogin";
+        $statement = $pdo->prepare($query);
+        $statement->execute();
 
+        // build an array of SocialLogins
+        $socialLogins = new \SplFixedArray($statement->rowCount());
+        $statement->setFetchMode(\PDO::FETCH_ASSOC);
+        while(($row = $statement->fetch()) !==false) {
+            try {
+                $socialLogin = new SocialLogin($row["socialLoginId"], $row["socialLoginName"]);
+                $socialLogins[$socialLogins->key()] = $socialLogin;
+                $socialLogins->next();
+            } catch(\Exception $exception) {
+                //if the row couldn't be converted, rethrow it
+                throw(new \PDOException($exception->getMessage(), 0, $exception));
+            }
+        }
+        return ($socialLogins);
+    }
+
+    /**
+     * Specify data which should be serialized to JSON serialization
+     *
+     * @return array resulting state variable to serialize
+     **/
+    public function jsonSerialize() {
+        $fields = get_object_vars($this);
+        return($fields);
+    }
 }
 ?>
