@@ -29,7 +29,7 @@ class Favorite implements \JsonSerializable {
 	 * @throws \RangeException if data values are out of bounds
 	 * @throws \Exception is some other exception occurs
 	 */
-	public function__construct(int $newFavoriteeId = null, int $newFavoriterId = null) {
+	public function __construct(int $newFavoriteeId = null, int $newFavoriterId = null) {
 try {
 $this->setFavoriteeId($newFavoriteeId);
 $this->setFavoriterId($newFavoriterId);

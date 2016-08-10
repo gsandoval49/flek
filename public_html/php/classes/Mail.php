@@ -18,32 +18,32 @@ class Mail implements \JsonSerializable {
 	 *  this is the primary key for the Mail class
 	* @var int $mailId
 	 * */
-	private mailId;
+	private $mailId;
 	/**
 	 * this is the subject of a message
 	 * @var string $mailSubject
 	 * */
-	private mailSubject;
+	private $mailSubject;
 	/**
  * this is the profileId of the user who sends a message
  * @var int $mailSenderId
  * */
-	private mailSenderId;
+	private $mailSenderId;
 	/**
 	 * this is the profileId of the user who reads the message
 	 * @var int $mailReceiverId
 	 * */
-	private mailReceiverId;
+	private $mailReceiverId;
 	/**
 	 * this is the Id created by mailgun
 	 * @var int $mailGunId
 	 * */
-	private mailGunId;
+	private $mailGunId;
 	/**
 	 * this is the actual message content
 	 * @var string $mailContent
 	 * */
-	private mailContent;
+	private $mailContent;
 
 /*
  * constructor for the mail class
