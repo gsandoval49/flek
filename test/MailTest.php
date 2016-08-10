@@ -57,4 +57,18 @@ class MailTest extends FlekTest {
 		$mail = new Mail(null, $this->sender->getProfileId(),$this->VALID_MAILCONTENT);
 		$mail->insert($this->getPDO());
 	}
+	/**
+	 * test inserting a message that already exists
+	 *
+	 */
+	public function testInsertInvalidMail(){
+		//create a message with a non null id and watch it fail
+		$mail = new Mail(FlekTest::INVALID_KEY, $this->sender->getProfileId(), $this->VALID_MAILCONTENT);
+		$mail->insert($this->getPDO);
+	}
+	/**
+	 * test inserting a message, editing it, then updating it
+	 *
+	 */
+	
 }
