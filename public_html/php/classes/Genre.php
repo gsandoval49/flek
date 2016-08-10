@@ -166,6 +166,29 @@ public function delete(\PDO $pdo) {
 	$parameters = ["genreId" => $this->genreId];
 	$statement->execute($parameters);
 }
+
+/**
+ * updates this genre in mySQL
+ *
+ * @param \PDO $pdo PDO connection object
+ * @throws \PDOException when mySQL related errors occur
+ * @throws \TypeError if $pdo is not a PDO connection object
+**/
+public function update(\PDO $pdo) {
+	//enforce the genreId is not null (i.e., don't update a genre that hasn't been inserted)
+	if($this->genreId ==== null) {
+		throw(new \PDOException("unable to update a genre that does not exist"));
+	}
+
+	//create a query template
+	$query = "UPDATE genre SET genreId = :genreId, genreName = :genreName";
+	$statement = $pdo->prepare($query);
+
+	//bind the number of variables to the place holders in the template
+	$parameters = ["genreId" => $this->genreId, "genreName" => $this->genreName];
+
+	$statement->execute($parameters);
+}
 } //last line
 
 
