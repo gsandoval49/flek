@@ -189,6 +189,47 @@ public function update(\PDO $pdo) {
 
 	$statement->execute($parameters);
 }
+
+/**
+ * gets the genre by id
+ *
+ * @param \PDO $pdo PDO connection object
+ * @param int $genreid genre id to search by
+ * @return \SplFixedArray SplFixedArray of genre found
+ * @throws \PDOException when mySQL realted errors occur
+ * @throws \TypeError when variables are not the correct data type
+**/
+pubic static function getGenrebyGenreId(\Pdo $pdo, int $genreId) {
+	//sanitize the genre id before searching
+	if(genreId <= 0) {
+		throw(new \RangeException("genre id must be positive"));
+	}
+
+	//create query template
+	$query = "SELECT genreId, genreName FROM genre WHERE genreId = :genreId";
+	$statement = $pdo->prepare($query);
+
+	//bind the genre id ot the place holder in the template
+	$parameters = ["genreId => $genreId"];
+	$statement->execute($parameters);
+
+	//build an array of genres
+	$genres = new \SplFixedArray($statement->rowCount());
+	$statement->setFetchMode(\PDO::FETCH_ASSOC);
+	while(($row = $statement->fetch()) !== false) {
+		try {
+			$genre = new Genre($row["genreId"], $row["genreName"]);
+			$genres[$genres->key()] = $genre;
+			$genres->next();
+		} catch(\Exception $exception) {
+			//if the row couldn't be converted rethrow it
+			throw(new \PDOException($exceptoin->getMessage(), 0, $exception));
+		}
+	}
+	return($genres);
+}
+
+
 } //last line
 
 
