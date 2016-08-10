@@ -51,5 +51,22 @@ class Social Login implements \JsonSerializable {
             throw(new \Exception($exception->getMessage(), 0, $exception));
         }
     }
+
+    /**
+     * accessor method for socialLogin id
+     *
+     * @return int|null value of socialLogin id
+     **/
+    public function getSocialLoginId() {
+        return($this->socialLoginId);
+    }
+
+    /**
+     * mutator method for socialLogin id
+     *
+     * @param int|null $newSocialLoginId
+     * @throws \RangeException if $newSocialLoginId is not positive
+     * @throws \TypeError if $newSocialLoginId is not an interger
+     **/
 }
 ?>
