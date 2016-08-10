@@ -269,6 +269,46 @@ pubic static function getGenrebyGenreId(\Pdo $pdo, int $genreId) {
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
+
+		/**
+		 * gets all genres
+		 *
+		 * @param \PDO $pdo PDO connection object
+		 * @return \SplFixedArray SplFixedArray of genres found or null if not found
+		 * @throws \PDOException when mySQL related errors occur
+		 * @throws \TypeError when variables are not the correct data type
+		 **/
+		public static function getsAllGenres(\PDO $pdo){
+			//create query template
+			$query = "SELECT genreId, genreName";
+			$statement = $pdo->prepare($query);
+			$statement->execute();
+
+			//build an array of genres
+			$genres = new \SplFixedArray($statement->rowCount());
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			while(($row = $statement->fetch()) !== false) {
+				try {
+					$genre = new genre($row["genreId"], $row["genreName"]);
+					$genres[$genres->key()] = $genre;
+					$genres->next();
+				} catch(\Exception $exception) {
+
+					//if the row couldn't be converted, rethrow it
+					throw(new \PDOException($exception->getMessage(), 0, $exception));
+				}
+			}
+			return ($genre);
+		}
+		/**
+		 * formats the state variables for JSON serialization
+		 *
+		 * @return array resulting state variables to serialize
+		 **/
+		public function jsonSerialize () {
+			$fields = get_object_vars($this);
+			return ($fields);
+		}
 } //last line
 
 
