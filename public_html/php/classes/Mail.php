@@ -324,10 +324,10 @@ public static function getMailByMailId(\PDO $pdo, int $mailId){
 		throw(new\PDOException("message Id is not positive"));
 	}
 	/*create query template*/
-	$query = "SELECT mailId, mailSubject, mailSenderId, mailReceiverId, mailGunId, mailContent WHERE mailId = :mailId";
+	$query = "SELECT mailId, mailSubject, mailSenderId, mailReceiverId, mailGunId, mailContent FROM mail WHERE mailId = :mailId";
 	$statement = $pdo->prepare($query);
 	/*bind mailId to the placeholder in template*/
-	$parameters = ["mailId"=> %$mailId];
+	$parameters = ["mailId"=> $mailId];
 	$statement = execute($parameters);
 	/*grab the message from mySQL*/
 	try{
@@ -336,11 +336,75 @@ public static function getMailByMailId(\PDO $pdo, int $mailId){
 		$row =  $statement->fetch();
 		if($row !== false){
 			$mail = new Mail($row["mailId"], $row["mailSubject"], $row["mailSenderId"], $row["mailReceiverId"], $row["mailGunId"], $row["mailContent"]);
-		} catch(\Exception $exception) {
+		} catch (\Exception $exception) {
 			/*rethrow the row if you can't convert it*/
 			throw(new\PDOException($exception->getMessage(),0, $exception));
 		}
 		return($mail);
 	}
+}
+
+/*
+ * gets mail by Sender Id
+ *
+ * */
+public static function getMailByMailSenderId (\PDO $pdo, int $mailSenderId){
+	/*sanitize the profileId before searching*/
+	if($mailSenderId <= 0){
+		throw(new\RangeException("message sender profile Id must be positive"));
+	}
+	/*create query template*/
+	$query = "SELECT mailId, mailSubject, mailSenderId, mailReceiverId, mailGunId, mailContent FROM mail WHERE mailSenderId = :mailSenderId";
+	$statement = $pdo->prepare($query);
+	/*bind the Sender Id to the placeholder template*/
+	$parameters = ["mailSenderId" => $mailSenderId];
+	$statement->execute($parameters);
+	/*build array of messages*/
+	$messages = new \SplFixedArray($statement->rowCount());
+	$statement->setFetchMode(\PDO::FETCH_ASSOC);
+	while(($row = $statement->fetch()) !== false){
+		try{
+			$mail = new Mail($row["mailId"], $row["mailSenderId"], $row["mailReceiverId"], $row["mailGunId"], $row["mailContent"]);
+			/*I'm not so sure about this one, is this the Id from profile??*/
+			$messages[$messages->key()] = $mail;
+			$messages->next();
+		} catch(\Exception $exception){
+			/*rethrow if you can't convert the row*/
+			throw(new\PDOException($exception->getMessage(),0, $exception)});
+		}
+	}
+return($messages);
+}
+/*
+ * gets mail by receiver id
+ * 
+ * 
+ * */
+public static function getMailByMailReceiverId (\PDO $pdo, int $mailReceiverId){
+	/*sanitize the profileId before searching*/
+	if($mailReceiverId <= 0){
+		throw(new\RangeException("message Receiver profile Id must be positive"));
+	}
+	/*create query template*/
+	$query = "SELECT mailId, mailSubject, mailSenderId, mailReceiverId, mailGunId, mailContent FROM mail WHERE mailReceiverId = :mailReceiverId";
+	$statement = $pdo->prepare($query);
+	/*bind the Receiver Id to the placeholder template*/
+	$parameters = ["mailReceiverId" => $mailReceiverId];
+	$statement->execute($parameters);
+	/*build array of messages*/
+	$messages = new \SplFixedArray($statement->rowCount());
+	$statement->setFetchMode(\PDO::FETCH_ASSOC);
+	while(($row = $statement->fetch()) !== false){
+		try{
+			$mail = new Mail($row["mailId"], $row["mailSenderId"], $row["mailReceiverId"], $row["mailGunId"], $row["mailContent"]);
+			/* really not so sure about this one... is this the Id from profile??*/
+			$messages[$messages->key()] = $mail;
+			$messages->next();
+		} catch(\Exception $exception){
+			/*rethrow if you can't convert the row*/
+			throw(new\PDOException($exception->getMessage(),0, $exception)});
+	}
+}
+return($messages);
 }
 }
