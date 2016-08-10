@@ -407,4 +407,39 @@ public static function getMailByMailReceiverId (\PDO $pdo, int $mailReceiverId){
 }
 return($messages);
 }
+/*
+ * gets all messages
+ *
+ * */
+public static function getAllMessages(\PDO $pdo){
+	/*create query template*/
+	$query = "SELECT mailId, mailSubject, mailSenderId, mailReceiverId, mailGunId, mailContent FROM mail";
+	$statement = $pdo->prepare($query);
+	$statement->execute();
+	/*build an array of messages*/
+	$messages = new \SplFixedArray($statement->rowCount());
+	$statement->setFetchMode(\PDO::FETCH_ASSOC);
+	while(($row = $statement->fetch()) !== false){
+		try{
+			$mail = new Mail($row["mailId"], $row["mailSenderId"], $row["mailReceiverId"], $row["mailGunId"], $row["mailContent"]);
+			$messages[$messages->key()] = $mail;
+			$messages->next();
+		} catch(\Exception $exception){
+			/*rethrow if you can't convert the row*/
+			throw(new\PDOException($exception->getMessage(),0, $exception)});
+	}
+}
+return($messages);
+}
+/**
+ * formats state variables for JSON serialization
+ *
+ *
+ * @return array resulting state variables to serialize
+ **/
+public function jsonSerialize() {
+	$fields = get_object_vars($this);
+	return($fields);
+}
+
 }
