@@ -53,7 +53,7 @@ class Social Login implements \JsonSerializable {
     }
 
     /**
-     * accessor method for socialLogin id
+     * accessor method for Social Login id
      *
      * @return int|null value of socialLogin id
      **/
@@ -62,7 +62,7 @@ class Social Login implements \JsonSerializable {
     }
 
     /**
-     * mutator method for socialLogin id
+     * mutator method for Social Loginid
      *
      * @param int|null $newSocialLoginId
      * @throws \RangeException if $newSocialLoginId is not positive
@@ -86,14 +86,54 @@ class Social Login implements \JsonSerializable {
     }
 
     /**
-     * accessor method for social login name
+     * accessor method for Social Login name
      *
-     * @return string value of social login name
+     * @return string value of Social Login name
      **/
 
     public function getSocialLoginName() {
         return($this->socialLoginName);
     }
+
+    /**
+     * mutator method for Social Login name
+     *
+     * @param string $newSocialLoginName new value of hashtag name
+     * @throws \InvalidArgumentException if $newSocialLoginName is not a string or insecure
+     * @throws \RangeException if $newSocialLoginName is > 32 characters
+     * @throws \TypeError if $newSocialLoginName is not a string
+     **/
+    public function setSocialLoginName(string $newSocialLoginName) {
+        // verify the social login name string is secure
+        $newSocialLoginName = trim($newSocialLoginName);
+        $newSocialLoginName = filter_var($newSocialLoginName, FILTER_SANITIZE_STRING);
+        if(empty($newSocialLoginName) === true) {
+            throw(new \InvalidArgumentException("social login name is empty or insecure"));
+        }
+
+        // verify the social login name will fit in the database
+        if(strlen($newSocialLoginName) > 32) {
+            throw(new \RangeException("social login name is too large"));
+        }
+
+        // store the social login name
+        $this->socialLoginName = $newSocialLoginName;
+    }
+
+    /**
+     * inserts this Social Login into mySQL
+     *
+     *@param \Pdo $pdo PDO connection object
+     *@throws \PDOException when mySQL related errors occur
+     *@throws \TypeError if $pdo is not a PDO connection object
+     **/
+    public function insert(\PDO $pdo) {
+        // enforce the socialLoginId is null (i.e., don't insert a Social Login id that already exists)
+        if($this->socialLoginId !== null) {
+            throw(new \PDOException("not a new social login id"));
+        }
+
+
 
 
 }
