@@ -318,12 +318,29 @@ public static function getMessageByMessageContent(\PDO $pdo, string $mailContent
  *
  *
  * */
-public static function getMessageByMailId(\PDO $pdo, int $mailId){
+public static function getMailByMailId(\PDO $pdo, int $mailId){
 
 	if(mailId <= 0){
 		throw(new\PDOException("message Id is not positive"));
 	}
 	/*create query template*/
-	$query =
+	$query = "SELECT mailId, mailSubject, mailSenderId, mailReceiverId, mailGunId, mailContent WHERE mailId = :mailId";
+	$statement = $pdo->prepare($query);
+	/*bind mailId to the placeholder in template*/
+	$parameters = ["mailId"=> %$mailId];
+	$statement = execute($parameters);
+	/*grab the message from mySQL*/
+	try{
+		$mail = null;
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		$row =  $statement->fetch();
+		if($row !== false){
+			$mail = new Mail($row["mailId"], $row["mailSubject"], $row["mailSenderId"], $row["mailReceiverId"], $row["mailGunId"], $row["mailContent"]);
+		} catch(\Exception $exception) {
+			/*rethrow the row if you can't convert it*/
+			throw(new\PDOException($exception->getMessage(),0, $exception));
+		}
+		return($mail);
+	}
 }
 }
