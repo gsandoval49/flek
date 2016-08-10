@@ -2,7 +2,9 @@
 
 namespace Edu\Cnm\Flek\Test;
 
-use Edu\Cnm\Flek\{Mail};
+use Edu\Cnm\Flek\{
+	Mail, Profile
+};
 //grab the project test parameters
 require_once ("MailTest.php");
 
@@ -33,4 +35,26 @@ class MailTest extends FlekTest {
 	 * this is the profile who viewed/received the message, this is for foreign key relations
 	 */
 	protected $receiver = null;
+	// create dependent objects before running each test
+	public final function setUp(){
+	//run the default set up() method first
+		parent::setUp();
+
+		//create and insert Sender to own the test Mail
+		$this->sender = new Profile(null, "@phpunit", "test@phpunit.de","+12125551212");
+		$this->sender->insert($this->getPDO());
+	}
+
+	/**
+	 * test by inserting a valid message and verify that the actual mySQL data matches
+	 *
+	 */
+	public function testInsertValidMail(){
+		//count the number of rows and verify that the actual mySQL data matches
+		$numRows = $this->getConnection()->getRowCount("mail");
+
+		//create a new message and insert it to mySQL
+		$mail = new Mail(null, $this->sender->getProfileId(),$this->VALID_MAILCONTENT);
+		$mail->insert($this->getPDO());
+	}
 }
