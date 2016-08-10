@@ -62,7 +62,7 @@ class Social Login implements \JsonSerializable {
     }
 
     /**
-     * mutator method for Social Loginid
+     * mutator method for Social Login id
      *
      * @param int|null $newSocialLoginId
      * @throws \RangeException if $newSocialLoginId is not positive
@@ -121,7 +121,7 @@ class Social Login implements \JsonSerializable {
     }
 
     /**
-     * inserts this Social Login into mySQL
+     * inserts this Social Login ID into mySQL
      *
      *@param \Pdo $pdo PDO connection object
      *@throws \PDOException when mySQL related errors occur
@@ -147,7 +147,7 @@ class Social Login implements \JsonSerializable {
     }
 
     /**
-     * deletes this Social Login from mySQL
+     * deletes this Social Login ID from mySQL
      *
      * @param \PDO $pdo PDO connection object
      * @throws \PDOException when mySQL related errors occur
@@ -165,6 +165,29 @@ class Social Login implements \JsonSerializable {
 
         // bind the member variables to the place holder in the template
         $parameters = ["socialLoginId" => $this->socialLoginId];
+        $statement->execute($parameters);
+    }
+
+    /**
+     * updates this Social Login ID in mySQL
+     *
+     * @param \PDO $pdo PDO connection object
+     * @throws \PDOException when mySQL related errors occur
+     * @throws \TypeError if $pdo is not a PDO connection object
+     **/
+    public function update(\PDO $pdo) {
+        // enforce the socialLoginId is not null (i.e., don't update a socialLoginId that hasn't been inserted)
+        if ($this->socialLoginId === null) {
+            throw(new \PDOException("unable to update a social login id that does not exist"));
+        }
+
+        // create query template
+        $query = "UPDATE socialLogin SET socialLoginId = :socialLoginId, socialLoginName = :socialLoginName";
+        $statement = $pdo->prepare($query);
+
+        // bind the member variables to the place holders in the template
+        // deleted the formatted date from the example
+        $parameters = ["socialLoginId" => $this->socialLoginId, "socialLoginName" => $this->socialLoginName];
         $statement->execute($parameters);
     }
 
