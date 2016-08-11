@@ -273,7 +273,11 @@ class ProfileTest extends FlekTest {
 	/**
 	 *test grabbing a Profile by profile activation token that does not exist
 	 **/
-
+public function testGetInvalidProfileByProfileActivationToken() {
+	//grab a Profile by searching for profile activation token that doesn't exist
+	$profile = Profile::getProfileByProfileActivationToken($this->getPDO(), "profile activation does not exist");
+	$this->assertNull($profile);
+}
 	/**
 	 * test grabbing all profiles
 	**/
