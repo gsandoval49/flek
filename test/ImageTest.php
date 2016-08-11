@@ -153,6 +153,31 @@ class ImageTest extends DataDesignTest {
  */
 	public function testUpdateInvalidImage() {
 	//create a Image, try to update it without actually updating it and watch it fail
+	$image = new Image(null, $this->profile->getImageProfileId(), $this->VALID_CONTENT, $this->VALID_SECUREURL, $this
+	->VALID_PUBLIC, $this->VALID_GENRE);
+			$image->update($this->getPDO());
+}
+
+/*
+ * test creating a Image and then deleting it
+ */
+public function testDeleteValidImage() {
+	//count the number of rows and save it for later
+	$numRows = $this->getConnection()->getRowCount("image");
+
+	//creat a new Image and insert to into mySQL
+	$image = new Image(null, $this->profile->getImageProfileId(), $this->VALID_CONTENT, $this->VALID_SECUREURL,
+	$this->VALID_PUBLIC, $this->VALID_GENRE);
+	$image->insert($this->getPDO());
+
+	//delete the Image from mySQL
+	$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("image"));
+	$image->delete($this->getPDO());
+
+	//grab the data from mySQL and enforce the Tweet does not exist
+	$pdoImage = Image::getImageByImageId($this->getPDO(), $image->getImageId());
+	$this->assertNull($pdoImage);
+	$this->assertEquals($numRows, $this->getConnection()->getRowCount("image"));
 
 }
 
