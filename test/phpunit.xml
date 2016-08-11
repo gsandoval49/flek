@@ -1,0 +1,19 @@
+<phpunit>
+	<testsuites>
+		<testsuite name="Flek">
+			<file>ProfileTest.php</file>
+			<file>MailTest.php</file>
+			<file>SocialLoginTest.php</file>
+			<file>ImageTest.php</file>
+			<file>GenreTest.php</file>
+			<file>HashtagTest.php</file>
+			<file>TagTest.php</file>
+			<file>FavoriteTest.php</file>
+		</testsuite>
+	</testsuites>
+	<filter>
+		<whitelist processUncoveredFilesFromWhitelist="true">
+			<directory suffix=".php">../public_html/php/classes</directory>
+		</whitelist>
+	</filter>
+</phpunit>
