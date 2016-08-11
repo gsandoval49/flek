@@ -137,13 +137,13 @@ class MailTest extends FlekTest {
 		$numRows = $this->getConnection()->getRowCount("mail");
 
 		// create a new message and insert to into mySQL
-		$tweet = new Tweet(null, $this->profile->getProfileId(), $this->VALID_TWEETCONTENT;
+		$mail = new Mail(null, $this->profile->getProfileId(), $this->VALID_MAILCONTENT);
 
 		// grab the data from mySQL and enforce the fields match our expectations
-		$results = Tweet::getTweetByTweetContent($this->getPDO(), $tweet->getMailContent());
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("tweet"));
+		$results = Mail::getMailByMailContent($this->getPDO(), $mail->getMailContent());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("mail"));
 		$this->assertCount(1, $results);
-		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Dmcdonald21\\DataDesign\\Mail", $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Flek\\Mail", $results);
 
 		// grab the result from the array and validate it
 		$pdoMail = $results[0];
@@ -163,5 +163,21 @@ class MailTest extends FlekTest {
 	 **/
 	public function testGetAllValidMail() {
 		// count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("tweet");
+		$numRows = $this->getConnection()->getRowCount("mail");
+
+		// create a new message and insert to into mySQL
+		$mail = new Mail(null, $this->profile->getProfileId(), $this->VALID_MailCONTENT);
+		$mail->insert($this->getPDO());
+
+		// grab the data from mySQL and enforce the fields match our expectations
+		$results = Mail::getAllMails($this->getPDO());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("mail"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Flek\\Mail", $results);
+
+		// grab the result from the array and validate it
+		$pdoMail = $results[0];
+		$this->assertEquals($pdoMail->getProfileId(), $this->profile->getProfileId());
+		$this->assertEquals($pdoMail->getMailContent(), $this->VALID_MailCONTENT);
+	}
 }
