@@ -118,7 +118,7 @@ class ImageTest extends DataDesignTest {
 	//create a image with a non null image id and watch it fail
 		$image = new Image(DataDesignTest::INVALID_KEY, $this->profile->getImageProfileId(), $this->VALID_CONTENT,
 			$this->VALID_SECURE, $this->VALID_PUBLIC, $this->VALID_GENRE);
-
-}
+		$image->insert($this->getPDO());
+	}
 
 
