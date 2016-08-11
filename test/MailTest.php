@@ -93,5 +93,16 @@ class MailTest extends FlekTest {
 	 * test using a message that does not exist
 	 *
 	 */
-	
+	public function testUpdateInvalidMail(){
+		//create a message , try to update it without actually updating it and watch it fail
+		$mail = new Mail(null, $this->sender->getProfileId(), $this->VALID_MAILCONTENT);
+		$mail->update($this->getPDO());
+	}
+	/**
+	 * test creating a message and deleting it
+	 */
+	public function testDeleteValidMail(){
+
+	}
+
 }
