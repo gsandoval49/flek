@@ -205,6 +205,14 @@ class ProfileTest extends FlekTest {
 		$this->assertEquals($pdoProfile->getProfileActivationToken(), $this->VALID_PROFILEACTIVATIONTOKEN);
 	}
 	/**
+	 *test grabbing a Profile that does not exist
+	**/
+	public function testGetInvalidProfileByProfileId() {
+		//grab a profile id that exceeds that maximum allowable profile id
+		$profile = Profile::getProfileByProfileId($this->getPDO(), FlekTest::INVALID_KEY);
+		$this->assertNull($profile);
+	}
+	/**
 	 *
 	**/
 }
