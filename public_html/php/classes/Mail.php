@@ -230,7 +230,7 @@ class Mail implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError if $pdo is not a PDO object
 	 * */
-	public function insert(/PDO $pdo){
+	public function insert(\PDO $pdo){
 	/*dont insert a message that already exists*/
 	if($this->mailId !== null){
 	throw(new \PDOException("not a new message"));
@@ -258,7 +258,7 @@ public function delete(\PDO $pdo){
 		throw(new\PDOException("unable to delete a message that does not exist"));
 	}
 	/*create query template*/
-	$query = "DELETE FROM mail WHERE mailId = :mailId:";
+	$query = "DELETE FROM mail WHERE mailId = :mailId";
 	$statement = $pdo->prepare(query);
 	/*bind the member variables to the placeholders in the template*/
 	$parameters = ["mailId" => $this->mailId];
