@@ -102,5 +102,23 @@ class ImageTest extends DataDesignTest {
 		$pdoImage = Image::getImageByImageId($this->getPDO(),
 			$image->getImageId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("image"));
-		$this->
+		$this->assertEquals($pdoImage->getImageProfileId(), $this->profile->getImageProfileId());
+		$this->assertEquals($pdoImage->getImageDecription(), $this->VALID_CONTENT);
+		$this->assertEquals($pdoImage->getImageSecureURl(), $this->VALID_SECURE);
+		$this->assertEquals($pdoImage->getImagePublicId(), $this->VALID_PUBLIC);
+		$this->assertEquals($pdoImage->getImageGenreId(), $this->VALID_GENRE);
+	}
+
+	/*
+	 * test inserting a image that already exists
+	 *
+	 * @expectedException PDOException
+	 */
+	public function testInsertInvalidImage() {
+	//create a image with a non null image id and watch it fail
+		$image = new Image(DataDesignTest::INVALID_KEY, $this->profile->getImageProfileId(), $this->VALID_CONTENT,
+			$this->VALID_SECURE, $this->VALID_PUBLIC, $this->VALID_GENRE);
+
+}
+
 
