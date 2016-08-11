@@ -281,4 +281,27 @@ public function testGetInvalidProfileByProfileActivationToken() {
 	/**
 	 * test grabbing all profiles
 	**/
+	public function testGetAllValidProfiles() {
+		//count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("profile");
+		//create a new Profile and insert it in mySQL
+		$profile = new Profile(null, $this->VALID_PROFILEID, $this->VALID_PROFILENAME, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILELOCATION, $this->VALID_PROFILEBIO, $this->hash, $this->hash, $this->VALID_PROFILEACCESSTOKEN, $this->VALID_PROFILEACTIVATIONTOKEN);
+		$profile->insert($this->getPDO());
+		//grab the data from mySQL and enforce the fields match our expectations
+		$results = Profile::getsAllProfiles($this->getPDO());
+		$this->assertEquals($numRows + 1, $this->getConnection()-> getRowCount("profile"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Flek\\Profile", $results);
+		//grab the results from the array and validate it
+		$pdoProfile = $results[0];
+		$this->assertEquals($pdoProfile->getProfileId(), $this->VALID_PROFILEID);
+		$this->assertEquals($pdoProfile->getProfileName(), $this->VALID_PROFILENAME);
+		$this->assertEquals($pdoProfile->getProfileEmail(), $this->VALID_PROFILEEMAIL);
+		$this->assertEquals($pdoProfile->getProfileLocation(), $this->VALID_PROFILELOCATION);
+		$this->assertEquals($pdoProfile->getProfileBio(), $this->VALID_PROFILEBIO);
+		$this->assertEquals($pdoProfile->getProfileHash(), $this->hash);
+		$this->assertEquals($pdoProfile->getProfileSalt(), $this->salt);
+		$this->assertEquals($pdoProfile->getProfileAccessToken(), $this->VALID_PROFILEACCESSTOKEN);
+		$this->assertEquals($pdoProfile->getProfileActivationToken(), $this->VALID_PROFILEACTIVATIONTOKEN);
+	}
 }
