@@ -238,12 +238,14 @@ class ProfileTest extends FlekTest {
 			$this->assertEquals($pdoProfile->getProfileActivationToken(), $this->VALID_PROFILEACTIVATIONTOKEN);
 		}
 	}
-
 	/**
 	 *test grabbing a Profile by profile email that does not exist
 	 **/
-
-
+	public function testGetInvalidProfileByProfileEmail() {
+		//grab a profile by seraching for an email that does not exist
+		$profile = Profile::getProfileByProfileEmail($this->getPDO(), "this email does not exist");
+		$this->assertCount(0, $profile);
+	}
 	/**
 	 *test grabbing a Profile by profile activation token
 	 **/
