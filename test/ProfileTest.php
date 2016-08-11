@@ -149,4 +149,9 @@ class ProfileTest extends FlekTest {
 	 *
 	 * @expectedException \PDOException
 	**/
+	public function testUpdateInvalidProfile() {
+		//create a profile with a null profile id and watch it fail
+		$profile = new Profile(null, $this->VALID_PROFILEID, $this->VALID_PROFILENAME, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILELOCATION, $this->VALID_PROFILEBIO, $this->hash, $this->hash, $this->VALID_PROFILEACCESSTOKEN, $this->VALID_PROFILEACTIVATIONTOKEN);
+		$profile->update($this->getPDO());
+	}
 }
