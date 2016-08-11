@@ -102,7 +102,22 @@ class MailTest extends FlekTest {
 	 * test creating a message and deleting it
 	 */
 	public function testDeleteValidMail(){
+		//count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("mail");
 
+		//create new message and insert it to mySQL
+		$mail = new Mail(null, $this->sender->getProfileId(),$this->VALID_MAILCONTENT);
+		$mail->insert($this->getPDO());
+
+		//delete the message from mySQL
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("mail"));
+		$mail->delete($this->getPDO());
+
+
+		// grab the data from mySQL and enforce the message does not exist
+		$pdoMail = Mail::getMailByMailId($this->getPDO(), $mail->getMailId());
+		$this->assertNull($pdoMail);
+		$this->assertEquals($numRows, $this->getConnection()->getRowCount("mail"));
 	}
 
 }
