@@ -150,5 +150,13 @@ class MailTest extends FlekTest {
 		$this->assertEquals($pdoMail->getProfileId(), $this->profile->getProfileId());
 		$this->assertEquals($pdoMail->getMailContent(), $this->VALID_MailCONTENT);
 	}
+	/**
+	 * test grabbing a message by content that does not exist
+	 **/
+	public function testGetInvalidMailByMailContent() {
+		// grab a message by searching for content that does not exist
+		$mail = Mail::getMailByMailContent($this->getPDO(), "you will find nothing");
+		$this->assertCount(0, $mail);
+	}
 
 }
