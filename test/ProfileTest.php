@@ -172,6 +172,16 @@ class ProfileTest extends FlekTest {
 		$this->assertEquals($numRows, $this->getConnection()->getRowCount("profile"));
 	}
 	/**
+	 *test deleting a Profile that does not exist
+	 *
+	 * @expectedExceptoin \PDOException
+	**/
+	public function testDeleteInvalidProfile() {
+		//create a profile and try to delete it without actually inserting it
+		$profile = new Profile(null, $this->VALID_PROFILEID, $this->VALID_PROFILENAME, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILELOCATION, $this->VALID_PROFILEBIO, $this->hash, $this->hash, $this->VALID_PROFILEACCESSTOKEN, $this->VALID_PROFILEACTIVATIONTOKEN);
+		$profile->delete($this->getPDO());
+	}
+	/**
 	 *
 	**/
 }
