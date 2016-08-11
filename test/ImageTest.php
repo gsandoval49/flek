@@ -181,3 +181,21 @@ public function testDeleteValidImage() {
 
 }
 
+/*
+ * test deleting a Image that does not exist
+ *
+ * @expectedException PDOException
+ */
+public function testDeleteInvalidImage() {
+ 	//create a Image and try to delete it without actually inserting it
+	$image = new Image(null, $this->profile->getImageProfileId, $this->VALID_CONTENT, $this->VALID_SECUREURL,
+		$this->VALID_PUBLIC, $this->VALID_GENRE);
+	$image->delete($this->getPDO());
+}
+
+/*
+ * test inserting a Image and regrabbing it from mySQL
+ */
+public function testGetValidImageByImageId() {
+	//count the number of rows and save it for later
+}
