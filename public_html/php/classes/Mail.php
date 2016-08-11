@@ -326,6 +326,7 @@ public static function getMailByMailId(\PDO $pdo, int $mailId){
 	/*create query template*/
 	$query = "SELECT mailId, mailSubject, mailSenderId, mailReceiverId, mailGunId, mailContent FROM mail WHERE mailId = :mailId";
 	$statement = $pdo->prepare($query);
+
 	/*bind mailId to the placeholder in template*/
 	$parameters = ["mailId"=> $mailId];
 	$statement = execute($parameters);
@@ -370,7 +371,7 @@ public static function getMailByMailSenderId (\PDO $pdo, int $mailSenderId){
 			$messages->next();
 		} catch(\Exception $exception){
 			/*rethrow if you can't convert the row*/
-			throw(new\PDOException($exception->getMessage(),0, $exception)});
+			throw(new\PDOException($exception->getMessage(),0, $exception));
 		}
 	}
 return($messages);
@@ -402,7 +403,7 @@ public static function getMailByMailReceiverId (\PDO $pdo, int $mailReceiverId){
 			$messages->next();
 		} catch(\Exception $exception){
 			/*rethrow if you can't convert the row*/
-			throw(new\PDOException($exception->getMessage(),0, $exception)});
+			throw(new\PDOException($exception->getMessage(),0, $exception));
 	}
 }
 return($messages);
@@ -426,7 +427,7 @@ public static function getAllMessages(\PDO $pdo){
 			$messages->next();
 		} catch(\Exception $exception){
 			/*rethrow if you can't convert the row*/
-			throw(new\PDOException($exception->getMessage(),0, $exception)});
+			throw(new\PDOException($exception->getMessage(),0, $exception));
 	}
 }
 return($messages);
