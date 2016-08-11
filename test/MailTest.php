@@ -158,5 +158,10 @@ class MailTest extends FlekTest {
 		$mail = Mail::getMailByMailContent($this->getPDO(), "you will find nothing");
 		$this->assertCount(0, $mail);
 	}
-
+	/**
+	 * test grabbing all messages
+	 **/
+	public function testGetAllValidMail() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("tweet");
 }
