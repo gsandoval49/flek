@@ -119,5 +119,15 @@ class MailTest extends FlekTest {
 		$this->assertNull($pdoMail);
 		$this->assertEquals($numRows, $this->getConnection()->getRowCount("mail"));
 	}
+	/**
+	 * test deleting a message that does not exist
+	 */
+
+	public function testDeleteInvalidMail() {
+		// create a message and try to delete it without actually inserting it
+		$mail = new Mail(null, $this->profile->getProfileId(), $this->VALID_MailCONTENT);
+		$mail->delete($this->getPDO());
+	}
+
 
 }
