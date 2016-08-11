@@ -213,6 +213,47 @@ class ProfileTest extends FlekTest {
 		$this->assertNull($profile);
 	}
 	/**
-	 *
+	 *test grabbing a Profile by profile email
+	 **/
+	public function testGetValidProfileByProfileEmail() {
+		//count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("profile");
+		//create a new Profile and insert it into mySQL
+		$profile = new Profile(null, $this->VALID_PROFILEID, $this->VALID_PROFILENAME, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILELOCATION, $this->VALID_PROFILEBIO, $this->hash, $this->hash, $this->VALID_PROFILEACCESSTOKEN, $this->VALID_PROFILEACTIVATIONTOKEN);
+		$profile->insert($this->getPDO());
+		//grab the data from mySQL and enforce the fields match our expectations
+		$result = Profile::getProfileByProfileEmail($this->getPDO(), $profile->getProfileEmail());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
+		//grab the result from the array and validate it
+		$pdoProfiles = $result;
+		foreach($pdoProfiles as $pdoProfile) {
+			$this->assertEquals($pdoProfile->getProfileId(), $this->VALID_PROFILEID);
+			$this->assertEquals($pdoProfile->getProfileName(), $this->VALID_PROFILENAME);
+			$this->assertEquals($pdoProfile->getProfileEmail(), $this->VALID_PROFILEEMAIL);
+			$this->assertEquals($pdoProfile->getProfileLocation(), $this->VALID_PROFILELOCATION);
+			$this->assertEquals($pdoProfile->getProfileBio(), $this->VALID_PROFILEBIO);
+			$this->assertEquals($pdoProfile->getProfileHash(), $this->hash);
+			$this->assertEquals($pdoProfile->getProfileSalt(), $this->salt);
+			$this->assertEquals($pdoProfile->getProfileAccessToken(), $this->VALID_PROFILEACCESSTOKEN);
+			$this->assertEquals($pdoProfile->getProfileActivationToken(), $this->VALID_PROFILEACTIVATIONTOKEN);
+		}
+	}
+
+	/**
+	 *test grabbing a Profile by profile email that does not exist
+	 **/
+
+
+	/**
+	 *test grabbing a Profile by profile activation token
+	 **/
+
+
+	/**
+	 *test grabbing a Profile by profile activation token that does not exist
+	 **/
+
+	/**
+	 * test grabbing all profiles
 	**/
 }
