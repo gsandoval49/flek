@@ -121,4 +121,38 @@ class ImageTest extends DataDesignTest {
 		$image->insert($this->getPDO());
 	}
 
+	/*
+	 * test inserting a image, editing it and then updating it
+	 */
+	public function testUpdateValidImage() {
+	//count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("image");
+		//create a new Image and insert to into mySQL
+		$image = new Image(null, $this->profile->getImageProfileId(), $this->VALID_IMAGE, $this->VALID_CONTENT,
+		$this->VALID_PUBLIC, $this->VALID_SECUREURL, $this->VALID_GENRE);
+		$image->insert($this->getPDO());
+		//edit the Image and update it in mySQL
+		$image->setImageDescription($this->VALID_CONTENT);
+		$image->update($this->getPDO());
+
+		//grab the data from mySQL and enforce the fields match our expectations
+		$pdoImage = Image::getImageByImageId($this->getPDO(), $image->getImageId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("tweet"));
+		$this->assertEquals($pdoImage->getImageProfileId(), $this->profile->getImageProfileId());
+		$this->assertEquals($pdoImage->getImageDescription(), $this->VALID_CONTENT);
+		$this->assertEquals($pdoImage->getImageSecureUrl(), $this->VALID_SECUREURL);
+		$this->assertEquals($pdoImage->getImagePublicId(), $this->VALID_PUBLIC);
+		$this->assertEquals($pdoImage->getImageGenreId(), $this->VALID_GENRE);
+
+}
+
+/*
+ * test updating a Image that already exists
+ *
+ * @expectedException PDOException
+ */
+	public function testUpdateInvalidImage() {
+	//create a Image, try to update it without actually updating it and watch it fail
+
+}
 
