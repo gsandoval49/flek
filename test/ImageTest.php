@@ -20,12 +20,6 @@ require_once(dirname(__DIR__) . "/public_html/php/classes/autoload.php");
  */
 class ImageTest extends FlekTest {
 	/*
-	 * content of the Image
-	 * @var int $VALID_IMAGEPROFILEID
-	 */
-	protected $VALID_IMAGE = "Image uploaded is passing";
-
-	/*
 	 * description of the uploaded image
 	 * @var string $VALID_IMAGEDESCRIPTION
 	 */
@@ -47,13 +41,6 @@ class ImageTest extends FlekTest {
 	 * @var int $VALID_IMAGEGENREID
 	 */
 	protected $VALID_GENRE = "Graffiti Artists";
-
-	/*
-	 * valid name of image
-	 * $imageProfileId
-	 */
-
-	protected $VALID_IMAGENAME = "My pieces of art";
 
 	/*
  * profile that created the image; this is for the foreign key relations

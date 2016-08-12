@@ -60,7 +60,7 @@ class Mail implements \JsonSerializable {
  * */
 	public function __construct(int $newMailId = null, string $newMailSubject, int $newMailSenderId, int $newMailReceiverId,int $newMailGunId,string $newMailContent) {
 		try {
-			$this->setMailId($newMailId);
+ 			$this->setMailId($newMailId);
 			$this->setMailSubject($newMailSubject);
 			$this->setMailSenderId($newMailSenderId);
 			$this->setMailReceiverId($newMailReceiverId);
