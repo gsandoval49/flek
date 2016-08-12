@@ -44,6 +44,11 @@ class Mail implements \JsonSerializable {
 	 * @var string $mailContent
 	 * */
 	private $mailContent;
+	/**
+	 * date and time this Message was sent, in a PHP DateTime object
+	 * @var \DateTime $messageDateTime
+	 **/
+	private $mailDateTime;
 
 /*
  * constructor for the mail class
@@ -66,6 +71,7 @@ class Mail implements \JsonSerializable {
 			$this->setMailReceiverId($newMailReceiverId);
 			$this->setMailGunId($newMailGunId);
 			$this->setMailContent($newMailContent);
+			$this->setMessageDateTime($newMailDateTime);
 		} catch(\InvalidArgumentException $invalidArgument){
 			/*rethrow the exception to the caller*/
 			throw(new\InvalidArgumentException($invalidArgument->getMessage(),0,$invalidArgument));
@@ -138,7 +144,7 @@ class Mail implements \JsonSerializable {
 	 * I am not 100% sure that any of this is quite right for the Sender and Receiver Ids, but I followed the examples as best as I could
 	 * @return int|null 
 	 * */
-	public function getmailSenderId (){
+	public function getMailSenderId (){
 		return($this->mailSenderId);
 	}
 	/**
@@ -211,16 +217,16 @@ class Mail implements \JsonSerializable {
 	 * @throws \TypeError if new content is not a string
 	 *
 	 * */
-	public function setMailContent(string $newMailConent) {
-		$newMailConent = trim($newMailConent);
-		$newMailConent = filter_var($newMailConent, FILTER_SANITIZE_STRING);
-		if(empty($newMailConent) === true) {
+	public function setMailContent(string $newMailContent) {
+		$newMailContent = trim($newMailContent);
+		$newMailContent = filter_var($newMailContent, FILTER_SANITIZE_STRING);
+		if(empty($newMailContent) === true) {
 			throw(new \InvalidArgumentException("message content empty or insecure"));
 		}
-		if(strlen($newMailConent)>1000){
+		if(strlen($newMailContent)>1000){
 			throw(new \RangeException("message content too large"));
 		}
-		$this->mailContent = $newMailConent;
+		$this->mailContent = $newMailContent;
 }
 
 	/*
@@ -236,11 +242,11 @@ class Mail implements \JsonSerializable {
 	throw(new \PDOException("not a new message"));
 }
 /*create query template*/
-$query = "INSERT INTO mail(mailId, mailSubject, mailSenderId, mailReceiverId, mailGunId, mailConent) VALUES(:mailId, :mailSubject, :mailSenderId, :mailReceiverId, :mailGunId,:mailContent)";
+$query = "INSERT INTO mail(mailId, mailSubject, mailSenderId, mailReceiverId, mailGunId, mailConent, mailDateTime) VALUES(:mailId, :mailSubject, :mailSenderId, :mailReceiverId, :mailGunId,:mailContent)";
 $statement = $pdo->prepare($query);
 
 /*bind member variables to placeholders*/
-$parameters = ["mailId" => $this->mailId, "mailSubject" => $this->mailSubject, "mailSenderId"=>$this->mailSenderId, "mailReceiverId"=>$this->mailReceiverId, "mailGunId"=>$this->mailGunId, "mailContent"=>$this->mailContent];
+$parameters = ["mailId" => $this->mailId, "mailSubject" => $this->mailSubject, "mailSenderId"=>$this->mailSenderId, "mailReceiverId"=>$this->mailReceiverId, "mailGunId"=>$this->mailGunId, "mailContent"=>$this->mailContent, "mailDateTime"=>$this->mailDateTime];
 $statement->execute($parameters);
 
 /*update the mail Id with what mySQL just gave us*/
@@ -274,7 +280,7 @@ public function delete(\PDO $pdo){
  * */
 public function update(\PDO $pdo){
 	/*enforce the mailId is not null*/
-	$parameters = ["mailId" =>$this->mailId, "mailSubject" => $this->mailSubject, "mailSenderId" => $this->mailSenderId, "mailReceiverId" =>$this->mailReceiverId,"mailGunId" =>$this->mailGunId, "mailContent" =>$this->mailContent];
+	$parameters = ["mailId" =>$this->mailId, "mailSubject" => $this->mailSubject, "mailSenderId" => $this->mailSenderId, "mailReceiverId" =>$this->mailReceiverId,"mailGunId" =>$this->mailGunId, "mailContent" =>$this->mailContent, "mailDateTime"=>$this->mailDateTime];
 	$statement = execute($parameters);
 }
 
