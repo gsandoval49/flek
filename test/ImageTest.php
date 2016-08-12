@@ -19,7 +19,7 @@ require_once(dirname(__DIR__) . "/php/classes/autoload.php");
  * @see Image
  * @author Diane Peshlakai <dpeshlakai3@cnm.edu>
  */
-class ImageTest extends DataDesignTest {
+class ImageTest extends FlekTest {
 	/*
 	 * content of the Image
 	 * @var int $VALID_IMAGEPROFILEID
@@ -265,3 +265,30 @@ public function testGetValidImageByImageId() {
 		$this->assertCount(0, $image);
 	}
 
+	/*
+	 * test grabbing all Images
+	 */
+	public function testGetAllValidImages() {
+		//count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("image");
+
+		//create a new Image and insert to into mySQL
+		$image = new Image(null, $this->profile->getImageProfileId(), $this->VALID_CONTENT, $this->VALID_SECUREURL,
+		$this->VALID_PUBLIC, $this->VALID_GENRE);
+		$image->insert($this->getPDO());
+
+		//grab the data from myQL and enforced the field match our expectations
+		$results = Image::getAllImages($this->getPDO();
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("image"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Flek\\Test\\Image", $results);
+
+		//grab the result from the array and validate it
+		$pdoImage = $results[0];
+		$this->assertEquals($pdoImage->getImageProfileId(), $this->profile->getImageProfileId());
+		$this->assertEquals($pdoImage->getImageDescription(), $this->VALID_CONTENT);
+		$this->assertEquals($pdoImage->getImageSecureUrl(), $this->VALID_SECUREURL);
+		$this->assertEquals($pdoImage->getImagePublicId(), $this->VALID_PUBLIC);
+		$this->assertEquals($pdoImage->getImageGenreId(), $this->VALID_GENRE);
+}
+}
