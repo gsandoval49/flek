@@ -2,6 +2,7 @@
 namespace Edu\Cnm\Flek\DataDesign\Test;
 
 use Edu\Cnm\Flek\DataDesign\Image;
+use Edu\Cnm\Flek\Test\FlekTest;
 
 // grab the class under scrutiny
 require_once("ImageTest.php");
@@ -116,7 +117,7 @@ class ImageTest extends DataDesignTest {
 	 */
 	public function testInsertInvalidImage() {
 	//create a image with a non null image id and watch it fail
-		$image = new Image(DataDesignTest::INVALID_KEY, $this->profile->getImageProfileId(), $this->VALID_CONTENT,
+		$image = new Image(FlekTest::INVALID_KEY, $this->profile->getImageProfileId(), $this->VALID_CONTENT,
 			$this->VALID_SECURE, $this->VALID_PUBLIC, $this->VALID_GENRE);
 		$image->insert($this->getPDO());
 	}
@@ -222,3 +223,35 @@ public function testGetValidImageByImageId() {
 /*
  * test grabbing a Image that does not exist
  */
+	public function testGetInvalidImageByImageId() {
+		//grab a profile id that exceeds the maxiumum allowable image profile id
+		$image = Image::getImageByImageId($this->getPDO(), FlekTest::INVALID_KEY);
+		$this->assertNull($image);
+}
+	/*
+	 * test grabbing a Image by Image description
+	 */
+	public function testGetValidImageByImageDescription() {
+		//count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("image");
+
+		//create a new Image and insert to into mySQL
+		$image = new Image(null, $this->profile->getImageProfileId(), $this->VALID_CONTENT, $this->VALID_SECUREURL,
+			$this->VALID_PUBLIC, $this->VALID_GENRE);
+		$image->insert($this->getPDO());
+		//grab the data from mySQL and enforce the fields match our expectations
+		$results = Image::getImageByImageDescription($this->getPDO(), $image->getImageDescription());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("image"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Flek\\DataDesign\\Image", $results);
+
+		/*
+		 * grab the result from the array and validate it
+		 */
+		$pdoImage = $results[0];
+		$this->assertEquals($pdoImage->getImageProfileId(), $this->profile->getImageProfileId());
+		$this->assertEquals($pdoImage->getImageDescription(), $this->VALID_CONTENT);
+		$this->assertEquals($pdoImage->getImageSecureUrl(), $this->VALID_SECUREURL);
+		$this->assertEquals($pdoImage->getImagePublicId(), $this->VALID_PUBLIC);
+		$this->assertEquals($pdoImage->getImageGenreId(), $this->VALID_GENRE);
+	}
