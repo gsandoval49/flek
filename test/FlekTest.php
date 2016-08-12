@@ -19,3 +19,24 @@ require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
  * @author Chrisitna Sosa <csosa4@cnm.edu>
  *
  **/
+abstract class FlekTest extends \PHPUnit_Extensions_Database_TestCase {
+	/**
+	 * invalid id to use for an INT UNSIGNED field (maximum allowed INT UNSIGNED in mySQL) + 1
+	 * @see https://dev.mysql.com/doc/refman/5.6/en/integer-types.html mySQL Integer Types
+	 * @var int INVALID_KEY
+	**/
+	const INVALID_KEY = 4294967296;
+
+	/**
+	 * PHPUnit database connection interface
+	 * @var \PHPUnit_Extensions_Database_DB_IDatabaseConnection $connection
+	**/
+	protected $connection = null;
+
+/**
+ * assembles the table from the schema and provides it to PHPUnit
+ *
+ * @return \PHPUnit_Extensions_Database_QueryDataSet assembled schema for PHPUnit
+**/
+
+}
