@@ -1,14 +1,13 @@
 <?php
-namespace Edu\Cnm\Flek\DataDesign\Test;
+namespace Edu\Cnm\Flek\Test;
 
-use Edu\Cnm\Flek\DataDesign\Image;
-use Edu\Cnm\Flek\Test\FlekTest;
+use Edu\Cnm\Flek\{Image};
 
 // grab the class under scrutiny
-require_once("ImageTest.php");
+require_once("FlekTest.php");
 
 //grab the class
-require_once(dirname(__DIR__) . "/php/classes/autoload.php");
+require_once(dirname(__DIR__) . "/public_html/php/classes/autoload.php");
 
 /*
  * Full PHPUnit test for the Image class
