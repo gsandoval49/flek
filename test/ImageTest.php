@@ -104,7 +104,7 @@ class ImageTest extends DataDesignTest {
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("image"));
 		$this->assertEquals($pdoImage->getImageProfileId(), $this->profile->getImageProfileId());
 		$this->assertEquals($pdoImage->getImageDecription(), $this->VALID_CONTENT);
-		$this->assertEquals($pdoImage->getImageSecureURl(), $this->VALID_SECURE);
+		$this->assertEquals($pdoImage->getImageSecureURl(), $this->VALID_SECUREURL);
 		$this->assertEquals($pdoImage->getImagePublicId(), $this->VALID_PUBLIC);
 		$this->assertEquals($pdoImage->getImageGenreId(), $this->VALID_GENRE);
 	}
@@ -198,4 +198,27 @@ public function testDeleteInvalidImage() {
  */
 public function testGetValidImageByImageId() {
 	//count the number of rows and save it for later
+	$numRows = $this->getConnection()->getRowCount("image");
+	//create a new Image and insert to into mySQL
+	$image = new Image(null, $this->profile - getImageProfileId(), $this->VALID_CONTENT, $this->VALID_SECUREURL,
+		$this->VALID_PUBLIC, $this->VALID_GENRE);
+	$image->insert($this->getPDO());
+
+	//grab the data from mySQL and enforce the fields to match our expectations
+	$pdoImage = Image::getImageByImageId($this->getPDO(), $image->getImageId());
+	$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("image"));
+	$this->assertEquals($pdoImage->getImageProfileId(),
+		$this->profile->getImageProfileId());
+	$this->assertEquals($pdoImage->getImageDescription(),
+		$this->VALID_CONTENT);
+	$this->assertEquals($pdoImage->getImageSecureUrl(),
+		$this->VALID_SECUREURL);
+	$this->assertEquals($pdoImage->getImagePublicId(),
+		$this->VALID_PUBLIC);
+	$this->assertEquals($pdoImage->getImageGenreId(),
+		$this->VALID_GENRE);
 }
+
+/*
+ * test grabbing a Image that does not exist
+ */
