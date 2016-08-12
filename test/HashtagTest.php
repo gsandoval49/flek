@@ -150,6 +150,31 @@ class HashtagTest extends FlekTest {
         $this->assertCount(0, $hashtag);
     }
 
+    /**
+     * test grabbing all Tags
+     **/
+    public function testGetAllValidHashtags() {
+        // count the number of rows and save it for later
+        $numRows = $this->getConnection()->getRowCount("hashtag");
+
+        // create a new Hashtag and insert into mySQL
+        $hashtag = new Tag(null, $this->VALID_HASHTAG_CONTENT);
+        $hashtag->insert($this->getPDO());
+
+        //grab the data from mySQL and enforce the fields match our expectations
+        $results = Hashtag::getAllHashtags($this->getPDO());
+        $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("hashtag"));
+        $this->assertCount(1, $results);
+
+        // grab the result from the array and validate it
+        $pdoHashtag = $results[0];
+        $this->assertEquals($pdoHashtag->getHashtagName(), $this->VALID_HASHTAG_CONTENT);
+    }
+
+    /**
+     *
+     **/
+
 
     
 
