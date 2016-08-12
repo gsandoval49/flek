@@ -95,6 +95,11 @@ public final function getConnection() {
 }
 
 /**
- * returns the actual
+ * returns the actual PDO object; this is a convenience method
+ *
+ * @return \PDO active PDO object
 **/
+public final function getPDO() {
+	return($this->getConnection()->getConnection());
+	}
 }
