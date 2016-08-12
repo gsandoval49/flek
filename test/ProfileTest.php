@@ -5,6 +5,7 @@ use Edu\Cnm\Flek\{Profile};
 
 //grab teh project test parameters
 require_once(dirname(__DIR__) . "/public_html/php/classes/autoload.php");
+require_once ("FlekTest.php");
 
 /**
  * Full PHPUnit test for the profile class
