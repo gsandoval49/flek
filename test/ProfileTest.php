@@ -82,8 +82,8 @@ class ProfileTest extends FlekTest {
 		//create and insert a Profile to own the account
 		$this->VALID_PROFILEACCESSTOKEN = ;
 		$this->VALID_PROFILEACTIVATIONTOKEN = ;
-		$this->hash = ;
-		$this->salt = ;
+		$this->hash =;
+		$this->salt = bin2hex(random_bytes(32));
 	}
 	/**
 	 * test inserting a valid profile and verify that the actual mySQL data matches
