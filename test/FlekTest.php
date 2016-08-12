@@ -79,5 +79,22 @@ public final function getTearDownOperation() {
 
 /**
  * sets up the database connection and provides it to PHPUnit
+ *
+ * @see <https://phpunit.de/manual/current/en/database.html#database.configuration-of-a-phpunit-database-testcase>
+ * @return \PHPUnit_Extensions_Database_DB_IDatabaseConnection PHPUnit database connection interface
+**/
+public final function getConnection() {
+	//if the connection hasn't been established, create it
+	if($this->connection === null) {
+		//connect to mySQL and provide the interface to PHPUnit
+		$config = readConfig("/etc/apache2/capstone-mysql-flek.ini");
+		$pdo = connectToEncryptedMySQL("/etc/apache/capstone-mysql/flek.ini");
+		$this->connection = $this->createDefaultDBConnection($pdo, $config["database"]);
+	}
+	return($this->connection);
+}
+
+/**
+ * returns the actual
 **/
 }
