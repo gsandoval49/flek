@@ -278,7 +278,7 @@ public function testGetValidImageByImageId() {
 		$image->insert($this->getPDO());
 
 		//grab the data from myQL and enforced the field match our expectations
-		$results = Image::getAllImages($this->getPDO();
+		$results = ImageTest::getAllImages($this->getPDO());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("image"));
 		$this->assertCount(1, $results);
 		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Flek\\Test\\Image", $results);
