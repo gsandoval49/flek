@@ -112,7 +112,7 @@ class HashtagTest extends FlekTest {
     }
 
     /**
-     * test grabbing a Hashtag by Hashtag content
+     * test grabbing a Hashtag by hashtag content
      **/
     public function testGetValidHashtagByHashtagContent() {
         // count the number of rows and save it for later
@@ -135,6 +135,22 @@ class HashtagTest extends FlekTest {
     /**
      * test grabbing a Hashtag that does NOT exist
      **/
+    public function testGetInvalidHashtagByHashtagId() {
+        // grab a profile id that exceeds the maximum allowable profile id
+        $hashtag = Hashtag::getHashtagByHashtagId($this->getPDO(), FlekTest::INVALID_KEY);
+        $this->assertNull($hashtag);
+    }
+
+    /**
+     * test grabbing a Hashtag by content that does not exist, apparently Dylan didn't do this :)
+     **/
+    public function testGetInvalidHashtagByHashtagName() {
+        // grab a hashtag by content that does NOT exist
+        $hashtag = Hashtag::getHashtagByHashtagName($this->getPDO(), "nobody ever made this HASHTAG according to the other gsandoval");
+        $this->assertCount(0, $hashtag);
+    }
+
+
     
 
 
