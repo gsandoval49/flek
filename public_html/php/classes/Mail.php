@@ -336,14 +336,14 @@ public static function getMailByMailId(\PDO $pdo, int $mailId){
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		$row =  $statement->fetch();
 		if($row !== false){
-			$mail = new Mail($row["mailId"], $row["mailSubject"], $row["mailSenderId"], $row["mailReceiverId"], $row["mailGunId"], $row["mailContent"]);
+			$mail = new Mail($row["mailId"], $row["mailSubject"], $row["mailSenderId"], $row["mailReceiverId"], $row["mailGunId"], $row["mailContent"]);}
 		} catch (\Exception $exception) {
 			/*rethrow the row if you can't convert it*/
 			throw(new\PDOException($exception->getMessage(),0, $exception));
 		}
 		return($mail);
 	}
-}
+
 
 /*
  * gets mail by Sender Id
