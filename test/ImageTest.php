@@ -231,7 +231,7 @@ public function testGetValidImageByImageId() {
 		$results = Image::getImageByImageDescription($this->getPDO(), $image->getImageDescription());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("image"));
 		$this->assertCount(1, $results);
-		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Flek\\DataDesign\\Image", $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Flek\\Image", $results);
 
 		/*
 		 * grab the result from the array and validate it
