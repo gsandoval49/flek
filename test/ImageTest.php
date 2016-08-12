@@ -1,7 +1,9 @@
 <?php
 namespace Edu\Cnm\Flek\Test;
 
-use Edu\Cnm\Flek\{Image};
+use Edu\Cnm\Flek\{
+	Image, Profile
+};
 
 // grab the class under scrutiny
 require_once("FlekTest.php");
@@ -67,9 +69,9 @@ class ImageTest extends FlekTest {
 		$this->image->insert($this->getPDO());
 
 		//create a user that owns the image
-		$this->user = new User(null, "Arlene", "so many type of art to see", "local artists in the state of new mexico", "
+		$this->user = new Profile(null, "Arlene", "so many type of art to see", "local artists in the state of new mexico", "
 		art lovers are welcome");
-		$this->user->insert($this->getPDO());
+		$this->profile->insert($this->getPDO());
 
 }
 
@@ -81,8 +83,8 @@ class ImageTest extends FlekTest {
 		$numRows = $this->getConnection()->getRowCount("image");
 
 		//create a new image and insert to into mySQL
-		$image = new Image(null, $this->VALID_CONTENT, $this->VALID_IMAGE, $this->VALID_SECUREURL, $this->VALID_PUBLIC,
-			$this->VALID_IMAGENAME, $this->VALID_GENRE);
+		$image = new Image(null, $this->VALID_CONTENT, $this->VALID_SECUREURL, $this->VALID_PUBLIC,
+			$this-> $this->VALID_GENRE);
 		$image->insert($this->getPDO());
 
 		//grab the data from mySQL and enforce the fields match our expectations
