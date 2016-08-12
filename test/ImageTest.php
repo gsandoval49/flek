@@ -255,3 +255,13 @@ public function testGetValidImageByImageId() {
 		$this->assertEquals($pdoImage->getImagePublicId(), $this->VALID_PUBLIC);
 		$this->assertEquals($pdoImage->getImageGenreId(), $this->VALID_GENRE);
 	}
+
+	/*
+	 * test grabbing a Image by description that does not exist
+	 */
+	public function testGetInvalidImageByImageDescription() {
+		//grab a image by searching for content that does not exist
+		$image = Image::getImageByImageDescription($this->getPDO(), "there will be nothing");
+		$this->assertCount(0, $image);
+	}
+
