@@ -17,6 +17,7 @@ CREATE TABLE profile (
   profileEmail VARCHAR(128) NOT NULL,
   profileLocation VARCHAR (64) NOT NULL,
   profileBio VARCHAR (255) NOT NULL,
+  profileApprovedDateTime DATETIME NOT NULL,
   profileHash CHAR(128) NOT NULL,
   profileSalt CHAR(64) NOT NULL,
   profileAccessToken VARCHAR(128),
@@ -63,6 +64,7 @@ CREATE TABLE image (
 	imageSecureUrl VARCHAR(128) NOT NULL,
 	imagePublicId VARCHAR(32) NOT NULL,
 	imageGenreId INT UNSIGNED NOT NULL,
+	imageDateTime DATETIME NOT NULL,
 	PRIMARY KEY (imageId)
 );
 
@@ -78,9 +80,10 @@ CREATE TABLE genre (
 
 -- HASHTAG drop table here
 CREATE TABLE hashtag (
-  hashtagId INT UNSIGNED NOT NULL,
-  hashtagName VARCHAR(32),
-  PRIMARY KEY (hashtagId)
+	hashtagId INT UNSIGNED NOT NULL,
+	hashtagName VARCHAR(32),
+	hashtagDateTime DATETIME NOT NULL,
+	PRIMARY KEY (hashtagId)
 );
 
 
