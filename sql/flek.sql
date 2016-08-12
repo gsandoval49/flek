@@ -34,6 +34,7 @@ CREATE TABLE mail (
 	/*these were auto_incremented, we took that out */
 	mailSenderId INT UNSIGNED NOT NULL,
 	mailReceiverId INT UNSIGNED NOT NULL,
+	mailDateTime DATETIME NOT NULL,
 	mailGunId VARCHAR(64) NOT NULL,
 	mailContent VARCHAR(1000) NOT NULL,
 	INDEX (mailSenderId),
