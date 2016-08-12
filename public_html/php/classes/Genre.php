@@ -176,7 +176,7 @@ public function delete(\PDO $pdo) {
 **/
 public function update(\PDO $pdo) {
 	//enforce the genreId is not null (i.e., don't update a genre that hasn't been inserted)
-	if($this->genreId ==== null) {
+	if($this->genreId === null) {
 		throw(new \PDOException("unable to update a genre that does not exist"));
 	}
 
