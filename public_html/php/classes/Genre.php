@@ -11,20 +11,20 @@ require_once("autoload.php");
  *
  * @author Christina Sosa <csosa4@cnm.edu>
  * @version 1.0.0
-**/
+ **/
 class Genre implements \JsonSerializable {
 
 	/**
 	 * id for the genre is the primary key
 	 * @var int $genreId
 	 **/
-private $genreId;
+	private $genreId;
 
 	/**
 	 * name of genre for this image
 	 * @var string $genreName
-	**/
-private $genreName;
+	 **/
+	private $genreName;
 
 	/**
 	 * constructor for this Genre
@@ -37,32 +37,31 @@ private $genreName;
 	 * @throws \Exception if some other exception occurs
 	 **/
 	public function __construct(int $newGenreId = null, string $newGenreName) {
-			try {
-				$this->setGenreId($newGenreId);
-				$this->genreName($newGenreName);
-		} catch(\InvalidArgumentException $invalidArgument)
-			{
-				//rethrow the exception to the caller
-				throw(new \InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
-			} catch(\RangeException $range) {
-				//rethrow the exception to the caller
-				throw(new \RangeException($range->getMessage(), 0, $range));
-			} catch (\TypeError $typeError) {
-				//rethrow the exception to the caller
-				throw(new \TypeError($typeError->getMessage(), 0, $typeError));
-			} catch(\Exception $exception) {
-					//rethrow the exception to the caller
-					throw(new \Exception($exception->getMessage(), 0, $exception));
-				}
+		try {
+			$this->setGenreId($newGenreId);
+			$this->genreName($newGenreName);
+		} catch(\InvalidArgumentException $invalidArgument) {
+			//rethrow the exception to the caller
+			throw(new \InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
+		} catch(\RangeException $range) {
+			//rethrow the exception to the caller
+			throw(new \RangeException($range->getMessage(), 0, $range));
+		} catch(\TypeError $typeError) {
+			//rethrow the exception to the caller
+			throw(new \TypeError($typeError->getMessage(), 0, $typeError));
+		} catch(\Exception $exception) {
+			//rethrow the exception to the caller
+			throw(new \Exception($exception->getMessage(), 0, $exception));
+		}
 	}
 
 	/**
 	 * accessor method for genre id
 	 *
 	 * @return int|null value of genre id
-	**/
+	 **/
 	public function getGenreId() {
-		return($this->genreId);
+		return ($this->genreId);
 	}
 
 	/**
@@ -71,7 +70,7 @@ private $genreName;
 	 * @param int|null $newGenreId new value of genre id
 	 * @throws \RangeException if $newGenreId is not positive
 	 * @throws \TypeError if $newGenreId is not an integer
-	**/
+	 **/
 	public function setGenreId(int $newGenreId = null) {
 		//base case: if the genre id is null, this is a new genre without a mySQL assigned id (yet)
 		if($newGenreId === null) {
@@ -94,7 +93,7 @@ private $genreName;
 	 * @return string value of genre name
 	 **/
 	public function getGenreName() {
-		return($this->genreName);
+		return ($this->genreName);
 	}
 
 	/**
@@ -104,7 +103,7 @@ private $genreName;
 	 * @throws \InvalidArgumentException if $newGenreName is not a string or insecure
 	 * @throws \RangeException is $newGenreName is > 32 characters
 	 * @throws \TypeError if $newGenreName is not a string
-	**/
+	 **/
 	public function setGenreName(string $newGenreName) {
 		//verify the genre name is secure
 		$newGenreName = trim($newGenreName);
@@ -126,8 +125,8 @@ private $genreName;
 	 * @param \PDO $pdo PDO connection object
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError if $pdo id not a PDO connection object
-	**/
-public function insert(\PDO $pdo) {
+	 **/
+	public function insert(\PDO $pdo) {
 		//enforce the genreId is null (i.e., don't insert a genre that already exists)
 		if($this->genreId !== null) {
 			throw(new \PDOEXCEPTION("not a new genre"));
@@ -143,102 +142,102 @@ public function insert(\PDO $pdo) {
 
 		//update the null genreId with what mySQL just gave us
 		$this->genreId = intval($pdo->lastInsertId());
+	}
+
+	/**
+	 * deletes this Genre from mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+	public function delete(\PDO $pdo) {
+		//enforce the genreId is not null (i.e., don't delete a genre that hasn't been inserted)
+		if($this->genreId === null) {
+			throw(new \PDOException("unable to delete a genre that does not exist"));
 		}
 
-/**
- * deletes this Genre from mySQL
- *
- * @param \PDO $pdo PDO connection object
- * @throws \PDOException when mySQL related errors occur
- * @throws \TypeError if $pdo is not a PDO connection object
-**/
-public function delete(\PDO $pdo) {
-	//enforce the genreId is not null (i.e., don't delete a genre that hasn't been inserted)
-	if($this->genreId ===null) {
-		throw(new \PDOException("unable to delete a genre that does not exist"));
+		//create query template
+		$query = "DELETE FROM genre WHERE genreId = :genreId";
+		$statement = $pdo->prepare($query);
+
+		//bind the member variables to the place holder in the template
+		$parameters = ["genreId" => $this->genreId];
+		$statement->execute($parameters);
 	}
 
-	//create query template
-	$query = "DELETE FROM genre WHERE genreId = :genreId";
-	$statement = $pdo->prepare($query);
-
-	//bind the member variables to the place holder in the template
-	$parameters = ["genreId" => $this->genreId];
-	$statement->execute($parameters);
-}
-
-/**
- * updates this genre in mySQL
- *
- * @param \PDO $pdo PDO connection object
- * @throws \PDOException when mySQL related errors occur
- * @throws \TypeError if $pdo is not a PDO connection object
-**/
-public function update(\PDO $pdo) {
-	//enforce the genreId is not null (i.e., don't update a genre that hasn't been inserted)
-	if($this->genreId === null) {
-		throw(new \PDOException("unable to update a genre that does not exist"));
-	}
-
-	//create a query template
-	$query = "UPDATE genre SET genreId = :genreId, genreName = :genreName";
-	$statement = $pdo->prepare($query);
-
-	//bind the number of variables to the place holders in the template
-	$parameters = ["genreId" => $this->genreId, "genreName" => $this->genreName];
-
-	$statement->execute($parameters);
-}
-
-/**
- * gets the genre by id
- *
- * @param \PDO $pdo PDO connection object
- * @param int $genreid genre id to search by
- * @return \SplFixedArray SplFixedArray of genre found
- * @throws \PDOException when mySQL realted errors occur
- * @throws \TypeError when variables are not the correct data type
-**/
-public static function getGenrebyGenreId(\PDO $pdo, int $genreId) {
-	//sanitize the genre id before searching
-	if(genreId <= 0) {
-		throw(new \RangeException("genre id must be positive"));
-	}
-
-	//create query template
-	$query = "SELECT genreId, genreName FROM genre WHERE genreId = :genreId";
-	$statement = $pdo->prepare($query);
-
-	//bind the genre id ot the place holder in the template
-	$parameters = ["genreId => $genreId"];
-	$statement->execute($parameters);
-
-	//build an array of genres
-	$genres = new \SplFixedArray($statement->rowCount());
-	$statement->setFetchMode(\PDO::FETCH_ASSOC);
-	while(($row = $statement->fetch()) !== false) {
-		try {
-			$genre = new Genre($row["genreId"], $row["genreName"]);
-			$genres[$genres->key()] = $genre;
-			$genres->next();
-		} catch(\Exception $exception) {
-			//if the row couldn't be converted rethrow it
-			throw(new \PDOException($exception->getMessage(), 0, $exception));
+	/**
+	 * updates this genre in mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+	public function update(\PDO $pdo) {
+		//enforce the genreId is not null (i.e., don't update a genre that hasn't been inserted)
+		if($this->genreId === null) {
+			throw(new \PDOException("unable to update a genre that does not exist"));
 		}
-	}
-	return($genres);
-}
 
-/**
- * get genre by genre name 
- * 
- * @param \PDO $pdo PDO connection object
- * @param string $genreName genre name to search for
- * @return \SplFixedArray SplFixedArray of genres found
- * @throws \PDOException when mySQL related errors occur
- * @throws \TypeError when variables are not the correct data type
-**/
-	public static function getGenreByGenreName(\PDO $pdo, string $genreId) {
+		//create a query template
+		$query = "UPDATE genre SET genreId = :genreId, genreName = :genreName";
+		$statement = $pdo->prepare($query);
+
+		//bind the number of variables to the place holders in the template
+		$parameters = ["genreId" => $this->genreId, "genreName" => $this->genreName];
+
+		$statement->execute($parameters);
+	}
+
+	/**
+	 * gets the genre by id
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param int $genreid genre id to search by
+	 * @return \SplFixedArray SplFixedArray of genre found
+	 * @throws \PDOException when mySQL realted errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getGenrebyGenreId(\PDO $pdo, int $genreId) {
+		//sanitize the genre id before searching
+		if(genreId <= 0) {
+			throw(new \RangeException("genre id must be positive"));
+		}
+
+		//create query template
+		$query = "SELECT genreId, genreName FROM genre WHERE genreId = :genreId";
+		$statement = $pdo->prepare($query);
+
+		//bind the genre id ot the place holder in the template
+		$parameters = ["genreId => $genreId"];
+		$statement->execute($parameters);
+
+		//build an array of genres
+		$genres = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$genre = new Genre($row["genreId"], $row["genreName"]);
+				$genres[$genres->key()] = $genre;
+				$genres->next();
+			} catch(\Exception $exception) {
+				//if the row couldn't be converted rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return ($genres);
+	}
+
+	/**
+	 * get genre by genre name
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param string $genreName genre name to search for
+	 * @return \SplFixedArray SplFixedArray of genres found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getGenreByGenreName(\PDO $pdo, string $genreName) {
 		//sanitize the name before searching
 		$genreName = trim($genreName);
 		$genreName = filter_var($genreName, FILTER_SANITIZE_STRING);
@@ -247,7 +246,7 @@ public static function getGenrebyGenreId(\PDO $pdo, int $genreId) {
 		}
 
 		//create query template
-		$query = "SELECT genreId, genreName, FROM genre WHERE genreName LIKE :genreName";
+		$query = "SELECT genreId, genreName FROM genre WHERE genreName LIKE :genreName";
 		$statement = $pdo->prepare($query);
 
 		//bind the genre name to the place holder in the template
@@ -269,46 +268,48 @@ public static function getGenrebyGenreId(\PDO $pdo, int $genreId) {
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
+	}
 
-		/**
-		 * gets all genres
-		 *
-		 * @param \PDO $pdo PDO connection object
-		 * @return \SplFixedArray SplFixedArray of genres found or null if not found
-		 * @throws \PDOException when mySQL related errors occur
-		 * @throws \TypeError when variables are not the correct data type
-		 **/
-		public static function getsAllGenres(\PDO $pdo){
-			//create query template
-			$query = "SELECT genreId, genreName";
-			$statement = $pdo->prepare($query);
-			$statement->execute();
+	/**
+	 * gets all genres
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @return \SplFixedArray SplFixedArray of genres found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getsAllGenres(\PDO $pdo) {
+		//create query template
+		$query = "SELECT genreId, genreName";
+		$statement = $pdo->prepare($query);
+		$statement->execute();
 
-			//build an array of genres
-			$genres = new \SplFixedArray($statement->rowCount());
-			$statement->setFetchMode(\PDO::FETCH_ASSOC);
-			while(($row = $statement->fetch()) !== false) {
-				try {
-					$genre = new genre($row["genreId"], $row["genreName"]);
-					$genres[$genres->key()] = $genre;
-					$genres->next();
-				} catch(\Exception $exception) {
+		//build an array of genres
+		$genres = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$genre = new genre($row["genreId"], $row["genreName"]);
+				$genres[$genres->key()] = $genre;
+				$genres->next();
+			} catch(\Exception $exception) {
 
-					//if the row couldn't be converted, rethrow it
-					throw(new \PDOException($exception->getMessage(), 0, $exception));
-				}
+				//if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
-			return ($genre);
 		}
-		/**
-		 * formats the state variables for JSON serialization
-		 *
-		 * @return array resulting state variables to serialize
-		 **/
-		public function jsonSerialize () {
-			$fields = get_object_vars($this);
-			return ($fields);
-		}
+		return ($genre);
+	}
+
+	/**
+	 * formats the state variables for JSON serialization
+	 *
+	 * @return array resulting state variables to serialize
+	 **/
+	public function jsonSerialize() {
+		$fields = get_object_vars($this);
+		return ($fields);
+	}
 } //last line
 
 
