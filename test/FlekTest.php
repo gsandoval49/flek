@@ -38,5 +38,19 @@ abstract class FlekTest extends \PHPUnit_Extensions_Database_TestCase {
  *
  * @return \PHPUnit_Extensions_Database_QueryDataSet assembled schema for PHPUnit
 **/
+public final function getDataSet() {
+	$dataset = new \PHPUnit_Extensions_Database_DataSet_QueryDataSet($this->getConnection());
 
+	//add all the tables for hte project here
+	//THESE TABLES *MUST* BE LISTED IN TEH SAME ORDER THEY WERE CREATED
+	$dataset->addTable("profile");
+	$dataset->addTable("mail");
+	$dataset->addTable("socialLogin");
+	$dataset->addTable("image");
+	$dataset->addTable("genre");
+	$dataset->addTable("hashtag");
+	$dataset->addTable("tag");
+	$dataset->addTable("favorite");
+	retun($dataset);
+}
 }
