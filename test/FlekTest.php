@@ -51,7 +51,7 @@ public final function getDataSet() {
 	$dataset->addTable("hashtag");
 	$dataset->addTable("tag");
 	$dataset->addTable("favorite");
-	retun($dataset);
+	return($dataset);
 }
 
 /**
