@@ -199,7 +199,7 @@ public function update(\PDO $pdo) {
  * @throws \PDOException when mySQL realted errors occur
  * @throws \TypeError when variables are not the correct data type
 **/
-pubic static function getGenrebyGenreId(\Pdo $pdo, int $genreId) {
+public static function getGenrebyGenreId(\PDO $pdo, int $genreId) {
 	//sanitize the genre id before searching
 	if(genreId <= 0) {
 		throw(new \RangeException("genre id must be positive"));
@@ -223,7 +223,7 @@ pubic static function getGenrebyGenreId(\Pdo $pdo, int $genreId) {
 			$genres->next();
 		} catch(\Exception $exception) {
 			//if the row couldn't be converted rethrow it
-			throw(new \PDOException($exceptoin->getMessage(), 0, $exception));
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
 	}
 	return($genres);
