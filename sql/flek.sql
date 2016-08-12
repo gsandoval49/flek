@@ -12,18 +12,18 @@ DROP TABLE IF EXISTS profile;
 
 -- PROFILE drop table here
 CREATE TABLE profile (
-  profileId INT UNSIGNED AUTO_INCREMENT NOT NULL,
-  profileName VARCHAR(128) NOT NULL,
-  profileEmail VARCHAR(128) NOT NULL,
-  profileLocation VARCHAR (64) NOT NULL,
-  profileBio VARCHAR (255) NOT NULL,
-  profileApprovedDateTime DATETIME NOT NULL,
-  profileHash CHAR(128) NOT NULL,
-  profileSalt CHAR(64) NOT NULL,
-  profileAccessToken VARCHAR(128),
-  profileActivationToken CHAR(32),
-  UNIQUE (profileEmail),
-  PRIMARY KEY (profileId)
+  	profileId INT UNSIGNED AUTO_INCREMENT NOT NULL,
+  	profileName VARCHAR(128) NOT NULL,
+  	profileEmail VARCHAR(128) NOT NULL,
+  	profileLocation VARCHAR (64) NOT NULL,
+  	profileBio VARCHAR (255) NOT NULL,
+  	profileHash CHAR(128) NOT NULL,
+  	profileSalt CHAR(64) NOT NULL,
+  	profileAccessToken VARCHAR(128),
+  	profileActivationToken CHAR(32),
+	profileApprovedDateTime DATETIME NOT NULL,
+  	UNIQUE (profileEmail),
+  	PRIMARY KEY (profileId)
 );
 
 -- MAIL drop table here
