@@ -80,10 +80,10 @@ class ProfileTest extends FlekTest {
 		parent::setUp();
 
 		//create and insert a Profile to own the account
-		$this->VALID_PROFILEACCESSTOKEN = ;
-		$this->VALID_PROFILEACTIVATIONTOKEN = ;
-		$this->hash =;
-		$this->salt = bin2hex(random_bytes(32));
+		$this->VALID_PROFILEACCESSTOKEN = bin2hex(random_bytes(128));
+		$this->VALID_PROFILEACTIVATIONTOKEN = bin2hex(random_bytes(32));
+		$this->hash = hash_pbkdf2("sha256, $password, $this->$salt, 1000, 128");
+		$this->salt = bin2hex(random_bytes(64));
 	}
 	/**
 	 * test inserting a valid profile and verify that the actual mySQL data matches
@@ -164,7 +164,7 @@ class ProfileTest extends FlekTest {
 		$profile = new Profile(null, $this->VALID_PROFILEID, $this->VALID_PROFILENAME, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILELOCATION, $this->VALID_PROFILEBIO, $this->hash, $this->hash, $this->VALID_PROFILEACCESSTOKEN, $this->VALID_PROFILEACTIVATIONTOKEN);
 		$profile->insert($this->getPDO());
 		//delete the Profile from mySQL
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile");
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
 		$profile->delete($this->getPDO());
 		//grab teh data from mySQL and enforce the fields match our expectations
 		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
