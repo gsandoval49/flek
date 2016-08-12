@@ -6,7 +6,7 @@ use Edu\Cnm\Flek\{
 	Mail, Profile
 };
 //grab the project test parameters
-require_once ("MailTest.php");
+require_once ("FlekTest.php");
 
 //grab the class under scrutiny
 
