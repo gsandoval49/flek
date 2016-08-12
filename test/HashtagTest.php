@@ -21,12 +21,14 @@ require_once (dirname(__DIR__) . "/public_html/php/classes/autoload.php");
 class HashtagTest extends FlekTest {
     /**
      * Hashtag name created by profile.
-     * @var string $VALID_HASHTAG_LABEL
+     * @var string $VALID_HASHTAG
      **/
-    protected $VALID_HASHTAG_LABEL = "This better work";
+    protected $VALID_HASHTAG = "This better work";
     /**
      * Test inserting a valid hashtag and verifying that mySQL data matches
      **/
+
+
     public function testInsertValidHashtag() {
         // Count the number of rows and save it for later later
         $numRows = $this->getConnection()->getRowCount("hashtag");
@@ -38,7 +40,7 @@ class HashtagTest extends FlekTest {
         // Grab the data from mySQL and check the fields against our expectations
         $pdoHashtag = Hashtag::getHashtagByHashtagName($this->getPDO(), $hashtag->getHashtagName());
         $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("hashtag"));
-        $this->assertEquals($pdoHashtag->getHashtagLabel(), $this->VALID_HASHTAG_LABEL);
+        $this->assertEquals($pdoHashtag->getHashtagLabel(), $this->VALID_HASHTAG);
     }
 
 
