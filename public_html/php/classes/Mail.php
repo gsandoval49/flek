@@ -5,6 +5,7 @@ namespace Edu\Cnm\Flek;
 
 
 require_once("autoload.php");
+
 /**
  *
  *
@@ -14,6 +15,7 @@ require_once("autoload.php");
 
 
 class Mail implements \JsonSerializable {
+	use ValidateDate;
 	/**
 	 *  this is the primary key for the Mail class
 	* @var int $mailId
@@ -63,7 +65,7 @@ class Mail implements \JsonSerializable {
  * @throws \TypeError if data types violate type hints
  * @throws \Exception if some other exception occurs
  * */
-	public function __construct(int $newMailId = null, string $newMailSubject, int $newMailSenderId, int $newMailReceiverId,int $newMailGunId,string $newMailContent) {
+	public function __construct(int $newMailId = null, string $newMailSubject, int $newMailSenderId, int $newMailReceiverId,int $newMailGunId,string $newMailContent, $newMailDateTime = null) {
 		try {
  			$this->setMailId($newMailId);
 			$this->setMailSubject($newMailSubject);
@@ -221,13 +223,44 @@ class Mail implements \JsonSerializable {
 		$newMailContent = trim($newMailContent);
 		$newMailContent = filter_var($newMailContent, FILTER_SANITIZE_STRING);
 		if(empty($newMailContent) === true) {
-			throw(new \InvalidArgumentException("message content empty or insecure"));
+			throw(new \InvalidArgumentException("mail content empty or insecure"));
 		}
 		if(strlen($newMailContent)>1000){
-			throw(new \RangeException("message content too large"));
+			throw(new \RangeException("mail content too large"));
 		}
 		$this->mailContent = $newMailContent;
 }
+	/**
+	 * accessor method for the mail date and time
+	 *
+	 * @return \DateTime value of the mail date and time
+	 **/
+	public function getMailDateTime() {
+		return($this->mailDateTime);
+	}
+	/**
+	 * mutator method for the Mail date and time
+	 *
+	 * @param \DateTime|string|null $newMailDateTime message date and time as a DateTime object, or null to load the current time
+	 * @throws \InvalidArgumentException if $newMailDateTime is not a valid object or string
+	 * @throws \RangeException if $newMailDateTime is a date that does not exist
+	 **/
+	public function setMailDateTime($newMailDateTime = null) {
+		//base case: if the date and time are null, use the current date and time
+		if($newMailDateTime === null) {
+			$this->mailDateTime = new \DateTime();
+			return;
+		}
+		//store the mail date and time
+		try {
+			$newMailDateTime = self::validateDateTime($newMailDateTime);
+		} catch(\InvalidArgumentException $invalidArgument) {
+			throw(new \InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
+		} catch(\RangeException $range) {
+			throw(new \RangeException($range->getMessage(), 0, $range));
+		}
+		$this->mailDateTime =$newMailDateTime;
+	}
 
 	/*
 	 * inserts message into sql
@@ -242,7 +275,7 @@ class Mail implements \JsonSerializable {
 	throw(new \PDOException("not a new message"));
 }
 /*create query template*/
-$query = "INSERT INTO mail(mailId, mailSubject, mailSenderId, mailReceiverId, mailGunId, mailConent, mailDateTime) VALUES(:mailId, :mailSubject, :mailSenderId, :mailReceiverId, :mailGunId,:mailContent)";
+$query = "INSERT INTO mail(mailId, mailSubject, mailSenderId, mailReceiverId, mailGunId, mailConent, mailDateTime) VALUES(:mailId, :mailSubject, :mailSenderId, :mailReceiverId, :mailGunId,:mailContent, :mailDateTime)";
 $statement = $pdo->prepare($query);
 
 /*bind member variables to placeholders*/
@@ -446,6 +479,7 @@ return($messages);
  **/
 public function jsonSerialize() {
 	$fields = get_object_vars($this);
+	$fields["mailDateTime"] = $this->mailDateTime->getTimestamp() * 1000;
 	return($fields);
 }
 
