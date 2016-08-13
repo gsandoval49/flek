@@ -44,13 +44,13 @@ public final function getDataSet() {
 	//add all the tables for hte project here
 	//THESE TABLES *MUST* BE LISTED IN TEH SAME ORDER THEY WERE CREATED
 	$dataset->addTable("profile");
-	$dataset->addTable("mail");
+/*	$dataset->addTable("mail");
 	$dataset->addTable("socialLogin");
 	$dataset->addTable("image");
 	$dataset->addTable("genre");
 	$dataset->addTable("hashtag");
 	$dataset->addTable("tag");
-	$dataset->addTable("favorite");
+	$dataset->addTable("favorite");*/
 	return($dataset);
 }
 
