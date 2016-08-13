@@ -30,6 +30,26 @@ class MailTest extends FlekTest {
 	/**
 	 * this is the profile who created/sent the message, this is for foreign key relations
 	 */
+	protected $VALID_MAILDATE = null;
+	/**
+	 * mailgun id of the Message
+	 * @var string $VALID_MAILGUNID
+	 **/
+	protected $VALID_MAILGUNID = "mailgun id test successfull";
+	/**
+	 * mailgun id of the updated Message
+	 * @var string $VALID_MAILGUNID2
+	 **/
+	protected $VALID_MAILGUNID2 = "mailgun id test still successfull";
+	/**
+	 * content of the Message subject
+	 * @var string $VALID_MAILSUBJECT
+	 **/
+	protected $VALID_MAILSUBJECT = "PHPUnit message subject test successfull";
+	/**
+	 * Profile that created the Message, this is for foreign key relations
+	 * @var Profile messageSentProfileId
+	 **/
 	protected $sender = null;
 	/**
 	 * this is the profile who viewed/received the message, this is for foreign key relations
