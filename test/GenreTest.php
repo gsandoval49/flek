@@ -79,6 +79,23 @@ public function testUpdateInvalidGenre() {
 	$genre->insert($this->getPDO());
 }
 /**
+ *test creating a Genre and then deleting it
+**/
+public function testDeleteValidGenre() {
+	//count the number of rows and save it for later
+	$numRows = $this->getConnection()->getRowCount("genre");
+	//create a new Genre and insert into mySQL
+	$genre = new Genre(null, $this->VALID_GENRENAME);
+	$genre->insert($this->getPDO());
+	//delete the Genre from mySQL
+	$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("genre"));
+	$genre->delete($this->getPDO());
+	//grab the data from mySQL and enforce that the Genre does not exist
+	$pdoGenre = Genre::getGenrebyGenreId($this->getPDO(), $genre->getGenreId());
+	$this->assertNull($pdoGenre);
+	$this->assertEquals($numRows, $this->getConnection()->getRowCount("genre"));
+}
+/**
  *
 **/
 
