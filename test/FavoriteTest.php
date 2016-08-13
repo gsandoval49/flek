@@ -56,5 +56,17 @@ class FavoriteTest extends FlekTest {
 			$numRows = $this->getConnection()->getRowCount("Favorite");
 
 		//create a new Favorite and insert to into mySQL
-		$favorite = new Favorit
+		$favorite = new Favorite(null, $this->favoritee->getFavoriteeId(), $this->getFavoriterId());
+		$favorite->insert($this->getPDO());
+
+		//grab the data from mySQL and enforce the fields match our expectations
+		$pdoFavorite = Favorite::getFavoritebyFavoriteeIdByFavoriterId($this->getPDO(), $favorite->getFavoriteeId()),
+		$favorite->getFavoriterId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("favorite"));
+		$this->assertEquals($pdoFavorite->getFavoriteeId(), $this->favoritee->getFavoriteeId());
+		$this->assertEquals($pdoFavorite->getFavoriterId(), $this->favoriter->getFavoriterId());
 }
+
+	/*
+	 * test inserting a Favorite  that already exists
+	 */
