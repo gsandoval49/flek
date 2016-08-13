@@ -87,4 +87,20 @@ class FavoriteTest extends FlekTest {
 		$favorite->insert($this->getPDO());
 
 		//edit the Favorite and update it in mySQL
+		$favorite->update($this->getPDO());
+		//grab the data from mySQL and enforce the fields match our expectations
+		$pdoFavorite = Favorite::getFavoriteByFavoriteeIdByFavoriterId($this->getPDO(), $favorite->getFavoriteeId()),
+		$favorite->getFavoriterId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("favorite"));
+		$this->assertEquals($pdoFavorite->getFavoriteeId(),$this->favoritee->getFavoriteeId());
+		$this->asertEquals($pdoFavorite->getFavoriterId(), $this->favoriter->getFavoriterId());
+}
+		/*
+		 * test updating a Favorite that already exists
+		 * @expectedException PDOException
+		 */
+		public function testUPdateInvalidFavorite() {
+			//create a Favorite, try to update it without actually updating it and watch it fail
+		$favorite = new Favorite(null, $this->favoritee->getFavoriteeId(), $this->favoriter->getFavoriterId());
+		$favorite->update($this->getPDO());
 }
