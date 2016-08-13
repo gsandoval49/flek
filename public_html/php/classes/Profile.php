@@ -67,7 +67,7 @@ use ValidateDate;
 	 *profile activation token hex
 	 * @var string $profileActivationToken
 	 **/
-	private profileActivationToken;
+	private $profileActivationToken;
 
 /**
  * datetime stamp of the profile
@@ -86,7 +86,7 @@ use ValidateDate;
 	 * @param string $newProfileSalt string containing actual profile password salt
 	 * @param string $newProfileAccessToken string with profile permission
 	 * @param string $newProfileActivationToken string with profile token
-	 * @param \DateTime|string|null $newProfileValidDateTime time stamp when this Profile was valid or null if set to current date and time
+		@param \DateTime|string|null $newProfileValidDateTime time stamp when this Profile was valid or null if set to current date and time
 	 * @throws \InvalidArgumentException if data types are not valid
 	 * @throws \RangeException if data values are out of bounds (e.g., strings too long, negative integers)
 	 * @throws \Exception if some other exception occurs
@@ -94,7 +94,7 @@ use ValidateDate;
 	 **/
 	public function __construct(int $newProfileId = null, string $newProfileName, string $newProfileLocation, string
 	$newProfileBio, string $newProfileHash, string $newProfileSalt, string $newProfileAccessToken, string
-	$newProfileActivationToken) {
+	$newProfileActivationToken, $newProfileValidDateTime = null) {
 			try {
 					$this->setProfileId($newProfileId);
 					$this->setProfileName($newProfileName);
@@ -445,7 +445,7 @@ public function setProfileActivationToken(string $newProfileActivationToken) {
  * @throws \PDOException when mySQL related error occur
  * @throws \TypeError if $pdo is not a PDO connection object
  **/
-public function insert(\PDO $PDO) {
+public function insert(\PDO $pdo) {
 	//enforce the profileId id null (i.e., don't insert a profile that already exists)
 	if($this->profileId !== null) {
 		throw(new \PDOException("not a new profile"));
@@ -458,11 +458,16 @@ public function insert(\PDO $PDO) {
 	$statement = $pdo->prepare($query);
 
 	//bind the member variables to the place holders in the template
-	$parameters = ["profileName" => $this->profileName, "profileEmail" => $this->profileEmail, "profileLocation" => $this->profileLocation, "profileBio" => $this->profileBio, "profileHash" => $this->profileHash, "profileSalt" => $this->profileSalt, "profileAccessToken" => $this->profileAccessToken, "profileActivationToken" => $this->profileActivationToken => $this->profileValidDateTime];
+	$formattedDate = $this->profileValidDateTime->format("Y-m-d H:i:s");
+	$formattedProfileValidDateTime = 1;
+	if ($this->profileValidDateTime === false) {
+		$formattedProfileApproved = 0;
+	}
+	$parameters = ["profileName" => $this->profileName, "profileEmail" => $this->profileEmail, "profileLocation" => $this->profileLocation, "profileBio" => $this->profileBio, "profileHash" => $this->profileHash, "profileSalt" => $this->profileSalt, "profileAccessToken" => $this->profileAccessToken, "profileActivationToken" => $this->profileActivationToken, "profileValidDateTime" => $this->profileValidDateTime];
 	$statement->execute($parameters);
 
 	//update the null profileId with what mySQL just gave us
-	$this->profileId = intval($PDO->lastInsertId());
+	$this->profileId = intval($pdo->lastInsertId());
 }
 
 /**
@@ -532,7 +537,7 @@ profileAccessToken, profileActivationToken, pofileValidDateTime FROM profile WHE
 	$statement = $pdo->prepare($query);
 
 	//bind the profileId to the place holder in the template
-	$parameters = array["profileId" => $profileId];
+	$parameters = array("profileId" => $profileId);
 	$statement->execute($parameters);
 
 	//grab the profile from mySQL
@@ -541,7 +546,7 @@ profileAccessToken, profileActivationToken, pofileValidDateTime FROM profile WHE
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
-				$profile = new Profile($row["profileId"], $row["profileName"], $row["profileEmail"], $row["profileLocation"], $row["profileBio"], $row["profileHash"], $row["profileSalt"], $row["profileAccessToken"], $row["profileActivationToken", $row["profileValidDateTime"]);
+				$profile = new Profile($row["profileId"], $row["profileName"], $row["profileEmail"], $row["profileLocation"], $row["profileBio"], $row["profileHash"], $row["profileSalt"], $row["profileAccessToken"], $row["profileActivationToken"], $row["profileValidDateTime"]);
 			}
 		}catch(\Exception $exception) {
 			//if the row can't be converted, throw it
