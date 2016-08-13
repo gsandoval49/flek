@@ -671,7 +671,8 @@ profileAccessToken, profileActivationToken, profileValidDateTime FROM profile WH
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$profile = new Profile($row["profileId"], $row["profileName"], $row["profileEmail"], $row["profileLocation"], $row["profileBio"], $row["profileHash"], $row["profileSalt"], $row["profileAccessToken"], $row["profileActivationToken"]);
+				$profile = new Profile($row["profileId"], $row["profileName"], $row["profileEmail"], $row["profileLocation"], $row["profileBio"], $row["profileHash"], $row["profileSalt"], $row["profileAccessToken"],
+					$row["profileActivationToken"], $row["profileValidDateTime"]);
 				$profiles[$profiles->key()] = $profile;
 				$profiles->next();
 			} catch(\Exception $exception) {
@@ -693,7 +694,8 @@ profileAccessToken, profileActivationToken, profileValidDateTime FROM profile WH
  **/
 public static function getsAllProfiles(\PDO $pdo){
 			//create query template
-			$query = "SELECT profileId, profileName, profileEmail, profileLocation, profileBio, profileHash, profileSalt, profileAccessToken, profileActivationToken FROM profile";
+			$query = "SELECT profileId, profileName, profileEmail, profileLocation, profileBio, profileHash, profileSalt, 
+profileAccessToken, profileActivationToken, profileValidDateTime FROM profile";
 			$statement = $pdo->prepare($query);
 			$statement->execute();
 
@@ -702,7 +704,7 @@ public static function getsAllProfiles(\PDO $pdo){
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			while(($row = $statement->fetch()) !== false) {
 				try {
-					$profile = new Profile($row["profileId"], $row["profileName"], $row["profileEmail"], $row["profileLocation"], $row["profileBio"], $row["profileHash"], $row["profileSalt"], $row["profileAccessToken"], $row["profileActivationToken"]);
+					$profile = new Profile($row["profileId"], $row["profileName"], $row["profileEmail"], $row["profileLocation"], $row["profileBio"], $row["profileHash"], $row["profileSalt"], $row["profileAccessToken"], $row["profileActivationToken"], $row["ProfileValidDateTime"]);
 					$profiles[$profiles->key()] = $profile;
 					$profiles->next();
 				} catch(\Exception $exception) {
