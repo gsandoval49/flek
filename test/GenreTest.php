@@ -41,7 +41,35 @@ class GenreTest extends FlekTest {
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("genre"));
 		$this->assertEquals($pdoGenre->getGenreName(), $this->VALID_GENRENAME);
 	}
-	/****/
-
+	/**
+	 * test inserting a Genre that already exists
+	 *
+	 * @expectedException \PDOException
+	**/
+	public function testInsertInvalidGenre() {
+		//create a Genre with a non null genre id and watch it fail
+		$genre = new Genre(FlekTest::INVALID_KEY, $this->VALID_GENRENAME);
+		$genre->insert($this->getPDO());
+	}
+/**
+ * test inserting a genre, editing it, and then updating it
+**/
+public function testUpdateValidGenre() {
+	//count the number of rows and save it for later
+	$numRows = $this->getConnection()->getRowCount("genre");
+	//create a new Genre and insert into mySQL
+	$genre = new Genre(null, $this->VALID_GENRENAME);
+	$genre->insert($this->getPDO());
+	//edit the Genre and update it in mySQL
+	$genre->setGenreName($this->VALID_GENRENAME2);
+	$genre->update($this->getPDO());
+	// grab the data from mySQL and enforce that the fields match our expectations
+	$pdoGenre = Genre::getGenrebyGenreId($this->getPDO(), $genre->getGenreId());
+	$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("genre"));
+	$this->assertEquals($pdoGenre->getGenreName(), $this->VALID_GENRENAME2);
+}
+/**
+ *
+**/
 
 }
