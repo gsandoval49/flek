@@ -69,6 +69,16 @@ public function testUpdateValidGenre() {
 	$this->assertEquals($pdoGenre->getGenreName(), $this->VALID_GENRENAME2);
 }
 /**
+ *test updating a Genre that already exists
+ *
+ * @expectedException \PDOException
+**/
+public function testUpdateInvalidGenre() {
+	//create a Genre with a non null genre id and watch it fail
+	$genre = new Genre(null, $this->VALID_GENRENAME);
+	$genre->insert($this->getPDO());
+}
+/**
  *
 **/
 
