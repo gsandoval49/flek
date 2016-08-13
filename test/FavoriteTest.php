@@ -69,4 +69,22 @@ class FavoriteTest extends FlekTest {
 
 	/*
 	 * test inserting a Favorite  that already exists
+	 * @expectedException PDOException
 	 */
+		public function testInsertInvalidFavorite() {
+			//create a Favorite with a non null favorite id and watch is fail
+		$favorite = new Favorite(FlekTest::INVALID_KEY, $this->favoritee->getFavoriteeId(), $this->FavoriterId());
+		$favorite->insert($this->getPDO());
+		}
+		/*
+		 * test inserting a Favorite, editing it and then updating it
+		*/
+		public function testUpdateValidFavorite() {
+			//count the number of rows and savie it for later
+		$numRows = $this->getConnection()->getRowCount("favorite");
+		// create a new Favorite and insert to into mySQL
+		$favorite = new Favorite(null, $this->favoritee->getFavoriteeId(), $this->favoriter->getFavoriterId);
+		$favorite->insert($this->getPDO());
+
+		//edit the Favorite and update it in mySQL
+}
