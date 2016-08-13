@@ -1,7 +1,7 @@
 <?php
 namespace Edu\Cnm\Flek\Test;
 
-use Edu\Cnm\Flek\(Favorite);
+use use Edu\Cnm\Flek\Favorite;Edu\Cnm\Flek\(Favorite);
 
 //grab the project test parametes
 require_once("FlekTest.php");
@@ -103,4 +103,24 @@ class FavoriteTest extends FlekTest {
 			//create a Favorite, try to update it without actually updating it and watch it fail
 		$favorite = new Favorite(null, $this->favoritee->getFavoriteeId(), $this->favoriter->getFavoriterId());
 		$favorite->update($this->getPDO());
+}
+		/*
+		 * test creating a Favorite and then deleting it
+		 */
+		public function testDeleteValidFavorite() {
+			//count the number the rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("favorite");
+		//create a new Favorite and insert to into mySQL
+		$favorite = new Favorite(null, $this->favoritee->getFavoriteeId(), $this->favoriter->getFavoriterId());
+		$favorite->insert($this->getPDO());
+
+		//delete the Favorite from mySQL
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("favorite"));
+		$favorite->delete($this->getPDO());
+
+		//grab the data from mySQL and enforce the Favorite does not exist
+		$pdoFavorite = Favorite::getFavoriteByFavoriteeIdByFavoriterId($this->getPDO(), $favorite->getFavoriteeId()),
+		$favorite->getFavoriterId());
+		$this->assertNull($pdoFavorite);
+		$this->assertEquals($numRows, $this->getConnection()->getRowCount("favorite"));
 }
