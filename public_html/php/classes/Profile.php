@@ -14,7 +14,7 @@ require_once("autoload.php");
 **/
 
 class Profile implements \JsonSerializable {
-
+use ValidateDate;
 	/**
 	 * id for the profile is the primary key
 	 * @var int $profileId
@@ -69,6 +69,12 @@ class Profile implements \JsonSerializable {
 	 **/
 	private profileActivationToken;
 
+/**
+ * datetime stamp of the profile
+ * @var \DateTime $profileValidDateTime
+**/
+	private $profileValidDateTime;
+
 	/**
 	 * constructor for profile
 	 * @param int|null $newProfileId of the profile or null if new profile
@@ -80,6 +86,7 @@ class Profile implements \JsonSerializable {
 	 * @param string $newProfileSalt string containing actual profile password salt
 	 * @param string $newProfileAccessToken string with profile permission
 	 * @param string $newProfileActivationToken string with profile token
+	 * @param \DateTime|string|null $newProfileValidDateTime time stamp when this Profile was valid or null if set to current date and time
 	 * @throws \InvalidArgumentException if data types are not valid
 	 * @throws \RangeException if data values are out of bounds (e.g., strings too long, negative integers)
 	 * @throws \Exception if some other exception occurs
@@ -97,6 +104,7 @@ class Profile implements \JsonSerializable {
 					$this->setProfileSalt($newProfileSalt);
 					$this->setProfileAccessToken($newProfileAccessToken);
 					$this->setProfileActivationToken($newProfileActivationToken);
+					$this->setProfileValidDateTime($newProfileValidDateTime);
 			} catch (\InvalidArgumentException $invalidArgument) {
 					//rethrow the exception to the caller
 					throw(new \InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
@@ -399,6 +407,21 @@ public function setProfileActivationToken(string $newProfileActivationToken) {
 		$this->profileActivationToken = $newProfileActivationToken;
 }
 
+	/**
+	 * accessor method profile Valid date time
+	 * @return \DateTime value of profile Valid date time
+	 **/
+	public function getProfileValidDateTime() {
+		return($this->profileValidDateTime);
+	}
+
+	/**
+	 * mutator method for profile valid date time
+	 *
+	 * @param \DateTime\string\null $newProfileValidDateTime new value of profile valid date time
+	 * @throws \InvalidArgumentException if $newProfileValidDateTime is not a valid object or string
+	 * @throws \RangeException if $newProfileValidDateTime is a date time that doesn't exist
+	**/
 /**
  * inserts this profile in mySQL
  *
