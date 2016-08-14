@@ -114,6 +114,24 @@ public function testGetInvalidGenreByGenreId() {
 	$this->assertNull($genre);
 }
 /**
+ *test grabbing a Genre by genre name
+**/
+public function testGetValidGenreByGenreName() {
+	//count the number of rows and save it for later
+	$numRows = $this->getConnection()->getRowCount("genre");
+	//create a new Genre and insert it into mySQL
+	$genre = new Genre(null, $this->VALID_GENRENAME);
+	$genre->insert($this->getPDO());
+	//grab the data from mySQL and enforce the fields match our expectations
+	$results = Genre::getGenreByGenreName($this->getPDO(), $genre->getGenreName());
+	$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("genre"));
+	$this->assertCount(1, $results);
+	$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Flek\\Genre", $results);
+	//grab the result from the array and validate it
+	$pdoGenre = $results[0];
+	$this->assertEquals($pdoGenre->getGenreName(), $this->VALID_GENRENAME);
+}
+/**
  *
 **/
 }
