@@ -154,3 +154,11 @@ class FavoriteTest extends FlekTest {
 			$this->favorite->getFavoriteeId(), $this->favorite->getFavoriterId());
 		$this->assertEquals($pdoFavorite->getFavoriteeId(), $pdoFavorite->getFavoriterId());
 }
+	/*
+	 * test grabbing a Favorite that does not exist
+	 */
+	public function testGetInvalidFavoriteByFavoriteeIdByFavoriterId() {
+		//grab a favorite id that exceeds the masimum allowable favorite id
+	$favorite = Favorite::getFavoriteByFavoriteeIdByFavoriterId($this->getPDO(), FlekTest::INVALID_KEY);
+		$this->assertNull($favorite);
+}
