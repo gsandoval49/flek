@@ -3,7 +3,7 @@ namespace Edu\Cnm\Flek\Test;
 
 use Edu\Cnm\Flek\{Profile};
 
-//grab teh project test parameters
+//grab the project test parameters
 require_once(dirname(__DIR__) . "/public_html/php/classes/autoload.php");
 require_once ("FlekTest.php");
 
@@ -121,7 +121,7 @@ class ProfileTest extends FlekTest {
 		$profile = new Profile(null, $this->VALID_PROFILEID, $this->VALID_PROFILENAME, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILELOCATION, $this->VALID_PROFILEBIO, $this->hash, $this->salt);
 		$profile->insert($this->getPDO());
 		//grab the data from mySQL and enforce the fields match our expectations
-		$pdoProfile = Profile::getProfilebyProfileId($this->getPDO(), $profile->getProfileId());
+		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
 		$this->assertEquals($pdoProfile->getProfileId(), $this->VALID_PROFILEID);
 		$this->assertEquals($pdoProfile->getProfileName(), $this->VALID_PROFILENAME);
@@ -192,7 +192,7 @@ class ProfileTest extends FlekTest {
 		//delete the Profile from mySQL
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
 		$profile->delete($this->getPDO());
-		//grab teh data from mySQL and enforce the fields match our expectations
+		//grab the data from mySQL and enforce the fields match our expectations
 		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
 		$this->assertNull($pdoProfile);
 		$this->assertEquals($numRows, $this->getConnection()->getRowCount("profile"));
@@ -200,7 +200,7 @@ class ProfileTest extends FlekTest {
 	/**
 	 *test deleting a Profile that does not exist
 	 *
-	 * @expectedExceptoin \PDOException
+	 * @expectedException \PDOException
 	**/
 	public function testDeleteInvalidProfile() {
 		//create a profile and try to delete it without actually inserting it
@@ -208,7 +208,7 @@ class ProfileTest extends FlekTest {
 		$profile->delete($this->getPDO());
 	}
 	/**
-	 *test inserting a Profile and regrabbing it from mySQL
+	 *test inserting a Profile and re-grabbing it from mySQL
 	**/
 	public function testGetValidProfileByProfileId() {
 		//count the number of rows and save it for later
@@ -270,7 +270,7 @@ class ProfileTest extends FlekTest {
 	 *test grabbing a Profile by profile email that does not exist
 	 **/
 	public function testGetInvalidProfileByProfileEmail() {
-		//grab a profile by seraching for an email that does not exist
+		//grab a profile by searching for an email that does not exist
 		$profile = Profile::getProfileByProfileEmail($this->getPDO(), "this email does not exist");
 		$this->assertCount(0, $profile);
 	}
