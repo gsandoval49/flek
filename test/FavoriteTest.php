@@ -162,3 +162,26 @@ class FavoriteTest extends FlekTest {
 	$favorite = Favorite::getFavoriteByFavoriteeIdByFavoriterId($this->getPDO(), FlekTest::INVALID_KEY);
 		$this->assertNull($favorite);
 }
+
+/*
+ * test grabbing all Favorites
+ */
+	public function testGetAllValidFavorites() {
+		//count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("favorite");
+		//create a new Favorite and insert to into mySQL
+	$favorite = new Favorite(null, $this->favorite->getFavoriteeId(), $this->favorite->getFavoriterId());
+	$favorite->insert($this->getPDO());
+
+	//grab the data from mySQL and enforce the fields match our expectations
+		$results = Favorite::getAllFavorites($this->getPDO());
+		$this->assertEqual($numRows + 1, $this->getConnection()->getRowCount("favorite"));
+		$this->assertCount(1, $results);
+		$this->assertContainsONlyINstanceOf("Edu\\Cnm\\Flek\\Favorite", $results);
+
+	//grab the result from the array and validate it
+		$pdoFavorite = $results[0];
+		$this->assertEquals($pdoFavorite->getFavoriteeId(), $this->favorite->getFavoriteeId());
+		$this->assertEquals($pdoFavorite->getFavoriterId(), $this->favorite->getFavoriterId());
+	}
+}
