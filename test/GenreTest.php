@@ -96,7 +96,16 @@ public function testDeleteValidGenre() {
 	$this->assertEquals($numRows, $this->getConnection()->getRowCount("genre"));
 }
 /**
+ *test deleting a genre that does not exist
+ *
+ * @expectedException \PDOException
+**/
+public function testDeleteInvalidGenre() {
+	//create a Genre and try to delete it without actually inserting it
+	$genre = new Genre(null, $this->VALID_GENRENAME);
+	$genre->delete($this->getPDO());
+}
+/**
  *
 **/
-
 }
