@@ -8,7 +8,7 @@ require_once(dirname(__DIR__) . "/public_html/php/classes/autoload.php");
 require_once ("FlekTest.php");
 
 /**
- * Full PHPUnit test for the profile class
+ * Full PHPUnit test for the profile class for Flek
  *
  * This is a complete PHPUnit test of the profile class. It is complete because *ALL* mySQL/PDO enabled methods are
  * tested for both invalid and valid inputs.
