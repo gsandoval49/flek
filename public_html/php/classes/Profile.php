@@ -668,7 +668,7 @@ profileAccessToken, profileActivationToken FROM profile";
 					throw(new \PDOException($exception->getMessage(), 0, $exception));
 				}
 			}
-         return ($profile);
+         return ($profiles);
  }
 /**
  * formats the state variables for JSON serialization
