@@ -150,6 +150,21 @@ class GenreTest extends FlekTest {
 		$this->assertCount(0, $genre);
 	}
 	/**
-	 *
+	 *test grabbing all genres
 	**/
+	public function testGetAllValidGenres() {
+		//count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("genre");
+		//create a new Genre and insert it into mySQL
+		$genre = new Genre(null, $this->VALID_GENRENAME);
+		$genre->insert($this->getPDO());
+		//grab the data from mySQL and enforce the fields match our expectations
+		$results = Genre::getsAllGenres($this->getPDO());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("genre"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Flek\\Genre", $results);
+		//grab the result from the array and validate it
+		$pdoGenre = $results[0];
+		$this->assertEquals($pdoGenre->getGenreName(), $this->VALID_GENRENAME);
+	}
 }
