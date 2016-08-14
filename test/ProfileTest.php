@@ -3,12 +3,12 @@ namespace Edu\Cnm\Flek\Test;
 
 use Edu\Cnm\Flek\{Profile};
 
-//grab teh project test parameters
+//grab the project test parameters
 require_once(dirname(__DIR__) . "/public_html/php/classes/autoload.php");
 require_once ("FlekTest.php");
 
 /**
- * Full PHPUnit test for the profile class
+ * Full PHPUnit test for the profile class for Flek
  *
  * This is a complete PHPUnit test of the profile class. It is complete because *ALL* mySQL/PDO enabled methods are
  * tested for both invalid and valid inputs.
@@ -37,16 +37,34 @@ class ProfileTest extends FlekTest {
 	protected $VALID_PROFILEEMAIL = "foo@bar.com";
 
 	/**
+	 * email of profile
+	 * @var string $VALID_PROFILEEMAIL2
+	 **/
+	protected $VALID_PROFILEEMAIL2 = "foo2@bar.com";
+
+	/**
 	 * location of the profile
 	 * @var string $VALID_PROFILELOCATION
 	**/
 	protected $VALID_PROFILELOCATION = "Rio Rancho, NM";
 
 	/**
+	 * location of the profile
+	 * @var string $VALID_PROFILELOCATION2
+	 **/
+	protected $VALID_PROFILELOCATION2 = "Albuquerque, NM";
+
+	/**
 	 * bio of the profile
 	 * @var string $VALID_PROFILEBIO
 	**/
-	protected $VALID_PROFILEBIO = "I love art. Please enjoy the art I post.";
+	protected $VALID_PROFILEBIO = "Test is passing";
+
+	/**
+	 * bio of the profile
+	 * @var string $VALID_PROFILEBIO2
+	 **/
+	protected $VALID_PROFILEBIO2 = "Test is still passing";
 
 	/**
 	 * hash for profile
@@ -62,7 +80,7 @@ class ProfileTest extends FlekTest {
 
 	/**
 	 * access token for profile
-	 * @var string $VALID_PROFILEAccessTOKEN
+	 * @var string $VALID_PROFILEACCESSTOKEN
 	 **/
 	protected $VALID_PROFILEACCESSTOKEN =
 		"01234567890abcdefghijklmnopqrstu";
@@ -74,6 +92,12 @@ class ProfileTest extends FlekTest {
 	protected $VALID_PROFILEACTIVATIONTOKEN = "01234567890abcdefghijklmnopqrstu";
 
 	/**
+	 * activation token for profile
+	 * @var string $VALID_PROFILEACTIVATIONTOKEN2
+	 **/
+	protected $VALID_PROFILEACTIVATIONTOKEN2 = "01234567890abcdefghijklmnopqrstv";
+
+	/**
 	 * create dependent objects before running each test
 	**/
 	public final function setUp() {
@@ -83,7 +107,7 @@ class ProfileTest extends FlekTest {
 		//create and insert a Profile to own the account
 		$this->VALID_PROFILEACCESSTOKEN = bin2hex(random_bytes(128));
 		$this->VALID_PROFILEACTIVATIONTOKEN = bin2hex(random_bytes(32));
-		$this->hash = hash_pbkdf2("sha256, $password, $this->$salt, 1000, 128");
+		$this->hash = hash_pbkdf2("sha256", "abc123", $this->salt, 1000, 128);
 		$this->salt = bin2hex(random_bytes(64));
 	}
 	/**
@@ -97,7 +121,7 @@ class ProfileTest extends FlekTest {
 		$profile = new Profile(null, $this->VALID_PROFILEID, $this->VALID_PROFILENAME, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILELOCATION, $this->VALID_PROFILEBIO, $this->hash, $this->salt);
 		$profile->insert($this->getPDO());
 		//grab the data from mySQL and enforce the fields match our expectations
-		$pdoProfile = Profile::getProfilebyProfileId($this->getPDO(), $profile->getProfileId());
+		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
 		$this->assertEquals($pdoProfile->getProfileId(), $this->VALID_PROFILEID);
 		$this->assertEquals($pdoProfile->getProfileName(), $this->VALID_PROFILENAME);
@@ -116,33 +140,34 @@ class ProfileTest extends FlekTest {
 	 * @expectedException \PDOException
 	**/
 	public function testUpdateValidProfile() {
+		//count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("profile");
 		//create a Profile with a non null profile id and watch it fail
-		$profile = new Profile(FLekTest::INVALID_KEY, $this->VALID_PROFILEID, $this->VALID_PROFILENAME,
+		$profile = new Profile(null, $this->VALID_PROFILEID, $this->VALID_PROFILENAME,
 			$this->VALID_PROFILEEMAIL, $this->VALID_PROFILELOCATION, $this->VALID_PROFILEBIO, $this->hash, $this->salt,
 			$this->VALID_PROFILEACCESSTOKEN, $this->VALID_PROFILEACTIVATIONTOKEN);
 		$profile->insert($this->getPDO());
 		//edit the Profile and update it in mySQL
-		$profile->setProfileName($this->VALID_PROFILENAME);
-		$profile->setProfileEmail($this->VALID_PROFILEEMAIL);
-		$profile->setProfileLocation($this->VALID_PROFILELOCATION);
-		$profile->setProfileBio($this->VALID_PROFILEBIO);
+		$profile->setProfileEmail($this->VALID_PROFILEEMAIL2);
+		$profile->setProfileLocation($this->VALID_PROFILELOCATION2);
+		$profile->setProfileBio($this->VALID_PROFILEBIO2);
 		$profile->setProfileHash($this->hash);
 		$profile->setProfileSalt($this->salt);
-		$profile->getProfileAccessToken($this->VALID_PROFILEACCESSTOKEN);
-		$profile->getProfileActivationToken($this->VALID_PROFILEACTIVATIONTOKEN);
+		$profile->setProfileAccessToken($this->VALID_PROFILEACCESSTOKEN);
+		$profile->setProfileActivationToken($this->VALID_PROFILEACTIVATIONTOKEN2);
 		$profile->update($this->getPDO());
 		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
 		$this->assertEquals($pdoProfile->getProfileId(), $this->VALID_PROFILEID);
 		$this->assertEquals($pdoProfile->getProfileName(), $this->VALID_PROFILENAME);
-		$this->assertEquals($pdoProfile->getProfileEmail(), $this->VALID_PROFILEEMAIL);
-		$this->assertEquals($pdoProfile->getProfileLocation(), $this->VALID_PROFILELOCATION);
-		$this->assertEquals($pdoProfile->getProfileBio(), $this->VALID_PROFILEBIO);
+		$this->assertEquals($pdoProfile->getProfileEmail(), $this->VALID_PROFILEEMAIL2);
+		$this->assertEquals($pdoProfile->getProfileLocation(), $this->VALID_PROFILELOCATION2);
+		$this->assertEquals($pdoProfile->getProfileBio(), $this->VALID_PROFILEBIO2);
 		$this->assertEquals($pdoProfile->getProfileHash(), $this->hash);
 		$this->assertEquals($pdoProfile->getProfileSalt(), $this->salt);
 		$this->assertEquals($pdoProfile->getProfileAccessToken(), $this->VALID_PROFILEACCESSTOKEN);
-		$this->assertEquals($pdoProfile->getProfileActivationToken(), $this->VALID_PROFILEACTIVATIONTOKEN);
+		$this->assertEquals($pdoProfile->getProfileActivationToken(), $this->VALID_PROFILEACTIVATIONTOKEN2);
 	}
 
 	/**
@@ -167,7 +192,7 @@ class ProfileTest extends FlekTest {
 		//delete the Profile from mySQL
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
 		$profile->delete($this->getPDO());
-		//grab teh data from mySQL and enforce the fields match our expectations
+		//grab the data from mySQL and enforce the fields match our expectations
 		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
 		$this->assertNull($pdoProfile);
 		$this->assertEquals($numRows, $this->getConnection()->getRowCount("profile"));
@@ -175,7 +200,7 @@ class ProfileTest extends FlekTest {
 	/**
 	 *test deleting a Profile that does not exist
 	 *
-	 * @expectedExceptoin \PDOException
+	 * @expectedException \PDOException
 	**/
 	public function testDeleteInvalidProfile() {
 		//create a profile and try to delete it without actually inserting it
@@ -183,7 +208,7 @@ class ProfileTest extends FlekTest {
 		$profile->delete($this->getPDO());
 	}
 	/**
-	 *test inserting a Profile and regrabbing it from mySQL
+	 *test inserting a Profile and re-grabbing it from mySQL
 	**/
 	public function testGetValidProfileByProfileId() {
 		//count the number of rows and save it for later
@@ -209,6 +234,8 @@ class ProfileTest extends FlekTest {
 	 *test grabbing a Profile that does not exist
 	**/
 	public function testGetInvalidProfileByProfileId() {
+		//count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("profile");
 		//grab a profile id that exceeds that maximum allowable profile id
 		$profile = Profile::getProfileByProfileId($this->getPDO(), FlekTest::INVALID_KEY);
 		$this->assertNull($profile);
@@ -243,7 +270,7 @@ class ProfileTest extends FlekTest {
 	 *test grabbing a Profile by profile email that does not exist
 	 **/
 	public function testGetInvalidProfileByProfileEmail() {
-		//grab a profile by seraching for an email that does not exist
+		//grab a profile by searching for an email that does not exist
 		$profile = Profile::getProfileByProfileEmail($this->getPDO(), "this email does not exist");
 		$this->assertCount(0, $profile);
 	}

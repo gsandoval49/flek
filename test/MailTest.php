@@ -30,6 +30,26 @@ class MailTest extends FlekTest {
 	/**
 	 * this is the profile who created/sent the message, this is for foreign key relations
 	 */
+	protected $VALID_MAILDATE = null;
+	/**
+	 * mailgun id of the Message
+	 * @var string $VALID_MAILGUNID
+	 **/
+	protected $VALID_MAILGUNID = "mailgun id test successfull";
+	/**
+	 * mailgun id of the updated Message
+	 * @var string $VALID_MAILGUNID2
+	 **/
+	protected $VALID_MAILGUNID2 = "mailgun id test still successfull";
+	/**
+	 * content of the Message subject
+	 * @var string $VALID_MAILSUBJECT
+	 **/
+	protected $VALID_MAILSUBJECT = "PHPUnit message subject test successfull";
+	/**
+	 * Profile that created the Message, this is for foreign key relations
+	 * @var Profile messageSentProfileId
+	 **/
 	protected $sender = null;
 	/**
 	 * this is the profile who viewed/received the message, this is for foreign key relations
@@ -40,9 +60,14 @@ class MailTest extends FlekTest {
 	//run the default set up() method first
 		parent::setUp();
 
-		//create and insert Sender to own the test Mail
-		$this->sender = new Profile(null, "@phpunit", "test@phpunit.de","+12125551212");
-		$this->sender->insert($this->getPDO());
+		//create and insert a Profile to send the test Message
+		$this->messageSentProfileId = new Profile(null, "J", "12345678901234567890123456789012", true, 1, null, "The Simpsons is the best", "foo@bar.com", "4018725372539424208555279506880426447359803448671421461653568500", "12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678", "Rosswell", "Holly Holmes", "1234567890123456789012345678901234567890123456789012345678901234");
+		$this->mailSenderId->insert($this->getPDO());
+		//create and insert a Profile to receive the test Message
+		$this->mailReceiverId = new Profile(null, "K", "12345678901234567890123456789012", true, 2, null, "I prefer Family Guy", "bar@foo.com", "4018725372539424208555279506880426447359803448671421461653568500", "12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678", "London", "Austin Powers", "1234567890123456789012345678901234567890123456789012345678901234");
+		$this->messageReceiveProfileId->insert($this->getPDO());
+		//calculate the date using the time the unit test was set up
+		$this->VALID_MAILDATE = new \DateTime();
 	}
 
 	/**

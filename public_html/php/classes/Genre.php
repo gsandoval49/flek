@@ -7,7 +7,7 @@ require_once("autoload.php");
 /**
  * cross section of a genre
  *
- * This Genre can be considered a small example of classifying an image within out Flek application.
+ * This Genre can be considered a small example of classifying an image within our Flek application.
  *
  * @author Christina Sosa <csosa4@cnm.edu>
  * @version 1.0.0
@@ -39,7 +39,7 @@ class Genre implements \JsonSerializable {
 	public function __construct(int $newGenreId = null, string $newGenreName) {
 		try {
 			$this->setGenreId($newGenreId);
-			$this->genreName($newGenreName);
+			$this->setGenreName($newGenreName);
 		} catch(\InvalidArgumentException $invalidArgument) {
 			//rethrow the exception to the caller
 			throw(new \InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
@@ -107,7 +107,7 @@ class Genre implements \JsonSerializable {
 	public function setGenreName(string $newGenreName) {
 		//verify the genre name is secure
 		$newGenreName = trim($newGenreName);
-		$newGenreName = filter_var($newGenreName, FILTER_SANITIZE_STRING);
+		$newGenreName = filter_var($newGenreName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		if(empty($newGenreName) === true) {
 			throw(new \InvalidArgumentException("genre name is empty or insecure"));
 		}
@@ -129,15 +129,15 @@ class Genre implements \JsonSerializable {
 	public function insert(\PDO $pdo) {
 		//enforce the genreId is null (i.e., don't insert a genre that already exists)
 		if($this->genreId !== null) {
-			throw(new \PDOEXCEPTION("not a new genre"));
+			throw(new \PDOException("not a new genre"));
 		}
 
 		//create a query template
-		$query = "INSERT INTO genre(genreId, genreName) VALUES(:genreId, :genreName)";
+		$query = "INSERT INTO genre(genreName) VALUES(:genreName)";
 		$statement = $pdo->prepare($query);
 
 		//bind the member variables to the place holders in the template
-		$parameters = ["genreId" => $this->genreId, "genreName" => $this->genreName];
+		$parameters = ["genreName" => $this->genreName];
 		$statement->execute($parameters);
 
 		//update the null genreId with what mySQL just gave us
@@ -180,54 +180,14 @@ class Genre implements \JsonSerializable {
 		}
 
 		//create a query template
-		$query = "UPDATE genre SET genreId = :genreId, genreName = :genreName";
+		$query = "UPDATE genre SET genreName = :genreName WHERE genreId = :genreId";
 		$statement = $pdo->prepare($query);
 
 		//bind the number of variables to the place holders in the template
-		$parameters = ["genreId" => $this->genreId, "genreName" => $this->genreName];
+		$parameters = ["genreName" => $this->genreName, "genreId" => $this->genreId];
 
 		$statement->execute($parameters);
 	}
-
-	/**
-	 * gets the genre by id
-	 *
-	 * @param \PDO $pdo PDO connection object
-	 * @param int $genreid genre id to search by
-	 * @return \SplFixedArray SplFixedArray of genre found
-	 * @throws \PDOException when mySQL realted errors occur
-	 * @throws \TypeError when variables are not the correct data type
-	 **/
-	public static function getGenrebyGenreId(\PDO $pdo, int $genreId) {
-		//sanitize the genre id before searching
-		if(genreId <= 0) {
-			throw(new \RangeException("genre id must be positive"));
-		}
-
-		//create query template
-		$query = "SELECT genreId, genreName FROM genre WHERE genreId = :genreId";
-		$statement = $pdo->prepare($query);
-
-		//bind the genre id ot the place holder in the template
-		$parameters = ["genreId => $genreId"];
-		$statement->execute($parameters);
-
-		//build an array of genres
-		$genres = new \SplFixedArray($statement->rowCount());
-		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while(($row = $statement->fetch()) !== false) {
-			try {
-				$genre = new Genre($row["genreId"], $row["genreName"]);
-				$genres[$genres->key()] = $genre;
-				$genres->next();
-			} catch(\Exception $exception) {
-				//if the row couldn't be converted rethrow it
-				throw(new \PDOException($exception->getMessage(), 0, $exception));
-			}
-		}
-		return ($genres);
-	}
-
 	/**
 	 * get genre by genre name
 	 *
@@ -240,7 +200,7 @@ class Genre implements \JsonSerializable {
 	public static function getGenreByGenreName(\PDO $pdo, string $genreName) {
 		//sanitize the name before searching
 		$genreName = trim($genreName);
-		$genreName = filter_var($genreName, FILTER_SANITIZE_STRING);
+		$genreName = filter_var($genreName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		if(empty($genreName) === true) {
 			throw(new \PDOException("genre name is invalid"));
 		}
@@ -251,7 +211,7 @@ class Genre implements \JsonSerializable {
 
 		//bind the genre name to the place holder in the template
 		$genreName = "%$genreName%";
-		$parameters = ["genreName" => $genreName];
+		$parameters = array("genreName" => $genreName);
 		$statement->execute($parameters);
 
 		//build an array of genres
@@ -268,7 +228,48 @@ class Genre implements \JsonSerializable {
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
+		return($genres);
 	}
+
+	/**
+	 * gets the genre by id
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param int $genreId genre id to search by
+	 * @return \SplFixedArray SplFixedArray of genre found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getGenreByGenreId(\PDO $pdo, int $genreId) {
+		//sanitize the genre id before searching
+		if($genreId <= 0) {
+			throw(new \RangeException("genre id must be positive"));
+		}
+
+		//create query template
+		$query = "SELECT genreId, genreName FROM genre WHERE genreId = :genreId";
+		$statement = $pdo->prepare($query);
+
+		//bind the genre id ot the place holder in the template
+		$parameters = array("genreId" => $genreId);
+		$statement->execute($parameters);
+
+		//get the genre from mySQL
+		try {
+			$genre = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$genre = new Genre($row["genreId"], $row["genreName"]);
+			}
+		} catch(\Exception $exception) {
+			// if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		return($genre);
+	}
+
+
 
 	/**
 	 * gets all genres
@@ -280,7 +281,7 @@ class Genre implements \JsonSerializable {
 	 **/
 	public static function getsAllGenres(\PDO $pdo) {
 		//create query template
-		$query = "SELECT genreId, genreName";
+		$query = "SELECT genreId, genreName FROM genre";
 		$statement = $pdo->prepare($query);
 		$statement->execute();
 
@@ -289,7 +290,7 @@ class Genre implements \JsonSerializable {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$genre = new genre($row["genreId"], $row["genreName"]);
+				$genre = new Genre($row["genreId"], $row["genreName"]);
 				$genres[$genres->key()] = $genre;
 				$genres->next();
 			} catch(\Exception $exception) {
@@ -298,7 +299,7 @@ class Genre implements \JsonSerializable {
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
-		return ($genre);
+		return ($genres);
 	}
 
 	/**
@@ -310,6 +311,6 @@ class Genre implements \JsonSerializable {
 		$fields = get_object_vars($this);
 		return ($fields);
 	}
-} //last line
+}
 
 

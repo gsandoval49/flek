@@ -21,7 +21,6 @@ CREATE TABLE profile (
   	profileSalt CHAR(64) NOT NULL,
   	profileAccessToken VARCHAR(128),
   	profileActivationToken CHAR(32),
-	profileApprovedDateTime DATETIME NOT NULL,
   	UNIQUE (profileEmail),
   	PRIMARY KEY (profileId)
 );
