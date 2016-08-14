@@ -7,7 +7,7 @@ require_once("autoload.php");
 /**
  * cross section of a genre
  *
- * This Genre can be considered a small example of classifying an image within out Flek application.
+ * This Genre can be considered a small example of classifying an image within our Flek application.
  *
  * @author Christina Sosa <csosa4@cnm.edu>
  * @version 1.0.0
