@@ -13,7 +13,6 @@ require_once("autoload.php");
 **/
 
 class Profile implements \JsonSerializable {
-use ValidateDate;
 	/**
 	 * id for the profile is the primary key
 	 * @var int $profileId
@@ -63,16 +62,10 @@ use ValidateDate;
 	private $profileAccessToken;
 
 	/**
-	 *profile activation token hex
+	 *profile activation token
 	 * @var string $profileActivationToken
 	 **/
 	private $profileActivationToken;
-
-/**
- * datetime stamp of the profile
- * @var \DateTime $profileValidDateTime
-**/
-	private $profileValidDateTime;
 
 	/**
 	 * constructor for profile
@@ -85,7 +78,6 @@ use ValidateDate;
 	 * @param string $newProfileSalt string containing actual profile password salt
 	 * @param string $newProfileAccessToken string with profile permission
 	 * @param string $newProfileActivationToken string with profile token
-		@param \DateTime|string|null $newProfileValidDateTime time stamp when this Profile was valid or null if set to current date and time
 	 * @throws \InvalidArgumentException if data types are not valid
 	 * @throws \RangeException if data values are out of bounds (e.g., strings too long, negative integers)
 	 * @throws \Exception if some other exception occurs
@@ -93,7 +85,7 @@ use ValidateDate;
 	 **/
 	public function __construct(int $newProfileId = null, string $newProfileName, string $newProfileLocation, string
 	$newProfileBio, string $newProfileHash, string $newProfileSalt, string $newProfileAccessToken, string
-	$newProfileActivationToken, $newProfileValidDateTime = null) {
+	$newProfileActivationToken) {
 			try {
 					$this->setProfileId($newProfileId);
 					$this->setProfileName($newProfileName);
@@ -103,7 +95,6 @@ use ValidateDate;
 					$this->setProfileSalt($newProfileSalt);
 					$this->setProfileAccessToken($newProfileAccessToken);
 					$this->setProfileActivationToken($newProfileActivationToken);
-					$this->setProfileValidDateTime($newProfileValidDateTime);
 			} catch (\InvalidArgumentException $invalidArgument) {
 					//rethrow the exception to the caller
 					throw(new \InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
@@ -406,37 +397,6 @@ public function setProfileActivationToken(string $newProfileActivationToken) {
 		$this->profileActivationToken = $newProfileActivationToken;
 }
 
-	/**
-	 * accessor method profile Valid date time
-	 * @return \DateTime value of profile Valid date time
-	 **/
-	public function getProfileValidDateTime() {
-		return($this->profileValidDateTime);
-	}
-
-	/**
-	 * mutator method for profile valid date time
-	 *
-	 * @param \DateTime\string\null $newProfileValidDateTime new value of profile valid date time
-	 * @throws \InvalidArgumentException if $newProfileValidDateTime is not a valid object or string
-	 * @throws \RangeException if $newProfileValidDateTime is a date time that doesn't exist
-	**/
-	public function setProfileValidDateTime($newProfileValidDateTime = null) {
-		// base case: if the date is null, use the current date and time
-		if($newProfileValidDateTime === null) {
-			$this->profileValidDateTime = new \DateTime();
-			return;
-		}
-		// store the profile approved date time
-		try {
-			$newProfileValidDateTime = self::validateDateTime($newProfileValidDateTime);
-		} catch(\InvalidArgumentException $invalidArgument) {
-			throw(new \InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
-		} catch(\RangeException $range) {
-			throw(new \RangeException($range->getMessage(), 0, $range));
-		}
-		$this->profileValidDateTime = $newProfileValidDateTime;
-	}
 /**
  * inserts this profile in mySQL
  *
@@ -453,7 +413,7 @@ public function insert(\PDO $pdo) {
 	//create query template
 	$query = "INSERT INTO profile(profileId, profileName, profileEmail, profileLocation, profileBio, profileHash, 
 			profileSalt, profileAccessToken, profileActivationToken) VALUES (:profileId, :profileName, :profileEmail, 
-			:profileLocation, :profileBio, :profileHash, :profileSalt, :profileAccessToken, :profileActivationToken, :profileValidDateTime)";
+			:profileLocation, :profileBio, :profileHash, :profileSalt, :profileAccessToken, :profileActivationToken)";
 	$statement = $pdo->prepare($query);
 
 	//bind the member variables to the place holders in the template
@@ -462,7 +422,7 @@ public function insert(\PDO $pdo) {
 	if ($this->profileValidDateTime === false) {
 		$formattedProfileApproved = 0;
 	}
-	$parameters = ["profileName" => $this->profileName, "profileEmail" => $this->profileEmail, "profileLocation" => $this->profileLocation, "profileBio" => $this->profileBio, "profileHash" => $this->profileHash, "profileSalt" => $this->profileSalt, "profileAccessToken" => $this->profileAccessToken, "profileActivationToken" => $this->profileActivationToken, "profileValidDateTime" => $this->profileValidDateTime];
+	$parameters = ["profileName" => $this->profileName, "profileEmail" => $this->profileEmail, "profileLocation" => $this->profileLocation, "profileBio" => $this->profileBio, "profileHash" => $this->profileHash, "profileSalt" => $this->profileSalt, "profileAccessToken" => $this->profileAccessToken, "profileActivationToken" => $this->profileActivationToken];
 	$statement->execute($parameters);
 
 	//update the null profileId with what mySQL just gave us
@@ -506,12 +466,11 @@ public function update(\PDO $pdo) {
 	//create query template
 	$query = "UPDATE profile SET profileId = :profileId, profileName = :profileName, profileEmail = :profileEmail, profileLocation 
 = :profileLocation, profileBio = :profileBio, profileHash = :profileHash, profileSalt = :profileSalt, 
-profileAccessToken = :profileAccessToken, profileActivationToken = :profileActivationToken, pofileValidDateTime = 
-:pofileValidDateTIme WHERE profileId = :profileId";
+profileAccessToken = :profileAccessToken, profileActivationToken = :profileActivationToken WHERE profileId = :profileId";
 	$statement = $pdo->prepare($query);
 
 	//bind the member variables to the place holders in the template
-	$parameters = ["profileName" => $this->profileName, "profileEmail" => $this->profileEmail, "profileLocation" => $this->profileLocation, "profileBio" => $this->profileBio, "profileHash" => $this->profileHash, "profileSalt" => $this->profileSalt, "profileAccessToken" => $this->profileAccessToken, "profileActivationToken" => $this->profileActivationToken, "profileValidDateTime" => $this->profileValidDateTime];
+	$parameters = ["profileName" => $this->profileName, "profileEmail" => $this->profileEmail, "profileLocation" => $this->profileLocation, "profileBio" => $this->profileBio, "profileHash" => $this->profileHash, "profileSalt" => $this->profileSalt, "profileAccessToken" => $this->profileAccessToken, "profileActivationToken" => $this->profileActivationToken];
 	$statement->execute($parameters);
 }
 
@@ -532,7 +491,7 @@ public static function getProfileByProfileId(\PDO $pdo, int $profileId) {
 
 	//create query template
 	$query = "SELECT profileId, profileName, profileEmail, profileLocation, profileBio, profileHash, profileSalt, 
-profileAccessToken, profileActivationToken, pofileValidDateTime FROM profile WHERE profileId = :profileId";
+profileAccessToken, profileActivationToken FROM profile WHERE profileId = :profileId";
 	$statement = $pdo->prepare($query);
 
 	//bind the profileId to the place holder in the template
@@ -545,7 +504,7 @@ profileAccessToken, profileActivationToken, pofileValidDateTime FROM profile WHE
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
-				$profile = new Profile($row["profileId"], $row["profileName"], $row["profileEmail"], $row["profileLocation"], $row["profileBio"], $row["profileHash"], $row["profileSalt"], $row["profileAccessToken"], $row["profileActivationToken"], $row["profileValidDateTime"]);
+				$profile = new Profile($row["profileId"], $row["profileName"], $row["profileEmail"], $row["profileLocation"], $row["profileBio"], $row["profileHash"], $row["profileSalt"], $row["profileAccessToken"], $row["profileActivationToken"]);
 			}
 		}catch(\Exception $exception) {
 			//if the row can't be converted, throw it
@@ -574,7 +533,7 @@ public static function getProfileByProfileEmail(\PDO $pdo, string $profileEmail)
 
 		//create query template
 		$query = "SELECT profileId, profileName, profileEmail, profileLocation, profileBio, profileHash, profileSalt, 
-profileAccessToken, profileActivationToken, pofileValidDateTime FROM profile WHERE profileEmail LIKE :profileEmail";
+profileAccessToken, profileActivationToken FROM profile WHERE profileEmail LIKE :profileEmail";
 		$statement = $pdo->prepare($query);
 
 		//bind the profile email to the place holder in the template
@@ -586,7 +545,7 @@ profileAccessToken, profileActivationToken, pofileValidDateTime FROM profile WHE
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$profile = new Profile($row["profileId"], $row["profileName"], $row["profileEmail"], $row["profileLocation"], $row["profileBio"], $row["profileHash"], $row["profileSalt"], $row["profileAccessToken"], $row["profileActivationToken"], $row["profileValidDateTime"]);
+				$profile = new Profile($row["profileId"], $row["profileName"], $row["profileEmail"], $row["profileLocation"], $row["profileBio"], $row["profileHash"], $row["profileSalt"], $row["profileAccessToken"], $row["profileActivationToken"]);
 				$profiles[$profiles->key()] = $profile;
 				$profiles->next();
 			} catch(\Exception $exception) {
@@ -618,7 +577,7 @@ public static function getProfileByProfileAccessToken(\PDO $pdo, string $profile
 
 		//create query template
 		$query = "SELECT profileId, profileName, profileEmail, profileLocation, profileBio, profileHash, profileSalt, 
-profileAccessToken, profileActivationToken, profileValidDateTime FROM profile WHERE profileAccessToken LIKE 
+profileAccessToken, profileActivationToken FROM profile WHERE profileAccessToken LIKE 
 :profileAccessToken";
 		$statement = $pdo->prepare($query);
 
@@ -631,7 +590,7 @@ profileAccessToken, profileActivationToken, profileValidDateTime FROM profile WH
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$profile = new Profile($row["profileId"], $row["profileName"], $row["profileEmail"], $row["profileLocation"], $row["profileBio"], $row["profileHash"], $row["profileSalt"], $row["profileAccessToken"], $row["profileActivationToken"], $row["profileValidDateTime"]);
+				$profile = new Profile($row["profileId"], $row["profileName"], $row["profileEmail"], $row["profileLocation"], $row["profileBio"], $row["profileHash"], $row["profileSalt"], $row["profileAccessToken"], $row["profileActivationToken"]);
 				$profiles[$profiles->key()] = $profile;
 				$profiles->next();
 			} catch(\Exception $exception) {
@@ -662,7 +621,7 @@ public static function getProfileByProfileActivationToken(\PDO $pdo, string $pro
 
 		//create query template
 		$query = "SELECT profileId, profileName, profileEmail, profileLocation, profileBio, profileHash, profileSalt, 
-profileAccessToken, profileActivationToken, profileValidDateTime FROM profile WHERE profileAccessToken LIKE 
+profileAccessToken, profileActivationToken FROM profile WHERE profileAccessToken LIKE 
 :profileAccessToken";
 		$statement = $pdo->prepare($query);
 
@@ -676,7 +635,7 @@ profileAccessToken, profileActivationToken, profileValidDateTime FROM profile WH
 		while(($row = $statement->fetch()) !== false) {
 			try {
 				$profile = new Profile($row["profileId"], $row["profileName"], $row["profileEmail"], $row["profileLocation"], $row["profileBio"], $row["profileHash"], $row["profileSalt"], $row["profileAccessToken"],
-					$row["profileActivationToken"], $row["profileValidDateTime"]);
+					$row["profileActivationToken"]);
 				$profiles[$profiles->key()] = $profile;
 				$profiles->next();
 			} catch(\Exception $exception) {
@@ -699,7 +658,7 @@ profileAccessToken, profileActivationToken, profileValidDateTime FROM profile WH
 public static function getsAllProfiles(\PDO $pdo){
 			//create query template
 			$query = "SELECT profileId, profileName, profileEmail, profileLocation, profileBio, profileHash, profileSalt, 
-profileAccessToken, profileActivationToken, profileValidDateTime FROM profile";
+profileAccessToken, profileActivationToken FROM profile";
 			$statement = $pdo->prepare($query);
 			$statement->execute();
 
@@ -708,7 +667,7 @@ profileAccessToken, profileActivationToken, profileValidDateTime FROM profile";
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			while(($row = $statement->fetch()) !== false) {
 				try {
-					$profile = new Profile($row["profileId"], $row["profileName"], $row["profileEmail"], $row["profileLocation"], $row["profileBio"], $row["profileHash"], $row["profileSalt"], $row["profileAccessToken"], $row["profileActivationToken"], $row["ProfileValidDateTime"]);
+					$profile = new Profile($row["profileId"], $row["profileName"], $row["profileEmail"], $row["profileLocation"], $row["profileBio"], $row["profileHash"], $row["profileSalt"], $row["profileAccessToken"], $row["profileActivationToken"]);
 					$profiles[$profiles->key()] = $profile;
 					$profiles->next();
 				} catch(\Exception $exception) {
