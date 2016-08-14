@@ -235,7 +235,7 @@ class Genre implements \JsonSerializable {
 	 * gets the genre by id
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param int $genreid genre id to search by
+	 * @param int $genreId genre id to search by
 	 * @return \SplFixedArray SplFixedArray of genre found
 	 * @throws \PDOException when mySQL realted errors occur
 	 * @throws \TypeError when variables are not the correct data type
