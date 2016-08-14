@@ -115,7 +115,7 @@ class GenreTest extends FlekTest {
 	}
 
 	/**
-	 *test grabing a Genre that does not exist
+	 *test grabbing a Genre that does not exist
 	 **/
 	public function testGetInvalidGenreByGenreId() {
 		//grab a genre id that exceeds the max allowable genre id
