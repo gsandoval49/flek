@@ -106,6 +106,14 @@ public function testDeleteInvalidGenre() {
 	$genre->delete($this->getPDO());
 }
 /**
+ *test grabing a Genre that does not exist
+**/
+public function testGetInvalidGenreByGenreId() {
+	//grab a genre id that exceeds the max allowable genre id
+	$genre = Genre::getGenrebyGenreId($this->getPDO(), FlekTest::INVALID_KEY);
+	$this->assertNull($genre);
+}
+/**
  *
 **/
 }
