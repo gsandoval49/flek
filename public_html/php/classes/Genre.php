@@ -237,10 +237,10 @@ class Genre implements \JsonSerializable {
 	 * @param \PDO $pdo PDO connection object
 	 * @param int $genreId genre id to search by
 	 * @return \SplFixedArray SplFixedArray of genre found
-	 * @throws \PDOException when mySQL realted errors occur
+	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getGenrebyGenreId(\PDO $pdo, int $genreId) {
+	public static function getGenreByGenreId(\PDO $pdo, int $genreId) {
 		//sanitize the genre id before searching
 		if($genreId <= 0) {
 			throw(new \RangeException("genre id must be positive"));
