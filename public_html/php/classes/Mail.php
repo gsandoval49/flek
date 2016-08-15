@@ -47,10 +47,10 @@ class Mail implements \JsonSerializable {
 	 * */
 	private $mailContent;
 	/**
-	 * date and time the particular Message was sent, in a PHP DateTime object
+	 * date and time the particular Message was sent, in a PHP DateTime object--- commented out because we're not using it in phase 1 of the capstone project8/15/2016
 	 * @var \DateTime $messageDateTime
 	 **/
-	private $mailDateTime;
+	/*private $mailDateTime;*/
 
 /*
  * constructor for the mail class
