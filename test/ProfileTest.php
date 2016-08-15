@@ -91,13 +91,13 @@ class ProfileTest extends FlekTest {
 	 * activation token for profile
 	 * @var string $VALID_PROFILEACTIVATIONTOKEN
 	 **/
-	protected $VALID_PROFILEACTIVATIONTOKEN = "01234567890abcdefghijklmnopqrstu";
+	protected $VALID_PROFILEACTIVATIONTOKEN = "01234567890123456789012345678901";
 
 	/**
 	 * activation token for profile
 	 * @var string $VALID_PROFILEACTIVATIONTOKEN2
 	 **/
-	protected $VALID_PROFILEACTIVATIONTOKEN2 = "01234567890abcdefghijklmnopqrstv";
+	protected $VALID_PROFILEACTIVATIONTOKEN2 = "01234567890123456789012345678902";
 
 	/**
 	 * create dependent objects before running each test
