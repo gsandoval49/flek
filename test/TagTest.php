@@ -48,7 +48,7 @@ class TagTest extends FlekTest {
 
 	public function testInsertInvalidTag() {
 		// create a Tag with a non null tag id and watch it fail
-		$tag = new Tag(DevConnectTest::INVALID_KEY, $this->tagImageId, $this->tagHashtagId);
+		$tag = new Tag(FlekTest::INVALID_KEY, $this->tagImageId, $this->tagHashtagId);
 		$tag->insert($this->getPDO());
 	}
 	/**
@@ -127,7 +127,7 @@ class TagTest extends FlekTest {
 	 **/
 	public function testGetInvalidTagByTagId() {
 		// grab a profile id that exceeds the maximum allowable profile id
-		$tag = Tag::getTagByTagId($this->getPDO(), DevConnectTest::INVALID_KEY);
+		$tag = Tag::getTagByTagId($this->getPDO(), FlekTest::INVALID_KEY);
 		$this->assertNull($tag);
 	}
 	/**
