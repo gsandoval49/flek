@@ -120,7 +120,7 @@ class ProfileTest extends FlekTest {
 		//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("profile");
 
-		//create a new Profile adn insert it into mySQL
+		//create a new Profile and insert it into mySQL
 		$profile = new Profile(null, $this->VALID_PROFILEID, $this->VALID_PROFILENAME, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILELOCATION, $this->VALID_PROFILEBIO, $this->hash, $this->salt);
 		$profile->insert($this->getPDO());
 		//grab the data from mySQL and enforce the fields match our expectations
