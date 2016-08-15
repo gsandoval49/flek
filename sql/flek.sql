@@ -36,7 +36,7 @@ CREATE TABLE mail (
 	mailReceiverId INT UNSIGNED NOT NULL,
 	mailGunId VARCHAR(64) NOT NULL,
 	mailContent VARCHAR(1000) NOT NULL,
-	mailDateTime DATETIME NOT NULL,
+/*	mailDateTime DATETIME NOT NULL,*/
 	INDEX (mailSenderId),
 	INDEX (mailReceiverId),
 	FOREIGN KEY (mailSenderId) REFERENCES profile(profileId),
@@ -81,7 +81,7 @@ CREATE TABLE genre (
 CREATE TABLE hashtag (
 	hashtagId INT UNSIGNED NOT NULL,
 	hashtagName VARCHAR(32),
-	hashtagDateTime DATETIME NOT NULL,
+/*	hashtagDateTime DATETIME NOT NULL,*/
 	PRIMARY KEY (hashtagId)
 );
 
