@@ -1,9 +1,7 @@
 <?php
 namespace Edu\Cnm\Flek\Test;
 
-use Edu\Cnm\Flek\{
-    Hashtag
-};
+use Edu\Cnm\Flek\Hashtag;
 use PDOException;
 
 //grab the project test parameters
