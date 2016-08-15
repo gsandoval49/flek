@@ -164,13 +164,13 @@ class SocialLoginTest extends FlekTest {
         $socialLogin->insert($this->getPDO());
 
         //grab the data from mySQL and enforce the fields match our expectations
-        $results = Hashtag::getAllHashtags($this->getPDO());
-        $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("hashtag"));
+        $results = SocialLogin::getAllSocialLogins($this->getPDO());
+        $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("socialLogin"));
         $this->assertCount(1, $results);
 
         // grab the result from the array and validate it
-        $pdoHashtag = $results[0];
-        $this->assertEquals($pdoHashtag->getHashtagName(), $this->VALID_HASHTAG_CONTENT);
+        $pdoSocialLogin = $results[0];
+        $this->assertEquals($pdoSocialLogin->getSocialLoginName(), $this->VALID_SOCIAL_LOGIN_CONTENT);
     }
 }
 
