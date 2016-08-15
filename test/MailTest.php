@@ -30,7 +30,7 @@ class MailTest extends FlekTest {
 	/**
 	 * this is the profile who created/sent the message, this is for foreign key relations
 	 */
-	protected $VALID_MAILDATE = null;
+	/*protected $VALID_MAILDATE = null;*/
 	/**
 	 * mailgun id of the Message
 	 * @var string $VALID_MAILGUNID
@@ -61,13 +61,13 @@ class MailTest extends FlekTest {
 		parent::setUp();
 
 		//create and insert a Profile to send the test Message
-		$this->messageSentProfileId = new Profile(null, "J", "12345678901234567890123456789012", true, 1, null, "The Simpsons is the best", "foo@bar.com", "4018725372539424208555279506880426447359803448671421461653568500", "12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678", "Rosswell", "Holly Holmes", "1234567890123456789012345678901234567890123456789012345678901234");
+		$this->messageSentProfileId = new Profile(null, "j", "test@phpunit.de","+1936201650912");
 		$this->mailSenderId->insert($this->getPDO());
 		//create and insert a Profile to receive the test Message
-		$this->mailReceiverId = new Profile(null, "K", "12345678901234567890123456789012", true, 2, null, "I prefer Family Guy", "bar@foo.com", "4018725372539424208555279506880426447359803448671421461653568500", "12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678", "London", "Austin Powers", "1234567890123456789012345678901234567890123456789012345678901234");
+		$this->mailReceiverId = new Profile(null, "K", "tested@phpunit.de","+19264821");
 		$this->messageReceiveProfileId->insert($this->getPDO());
 		//calculate the date using the time the unit test was set up
-		$this->VALID_MAILDATE = new \DateTime();
+		/*$this->VALID_MAILDATE = new \DateTime();*/
 	}
 
 	/**

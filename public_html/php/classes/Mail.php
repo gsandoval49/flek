@@ -52,7 +52,7 @@ class Mail implements \JsonSerializable {
 	 **/
 	/*private $mailDateTime;*/
 
-/*
+/**
  * constructor for the mail class
  * @param int|null $newMailId id of this message or null if a new message
  * @param string $newMailSubject subject of this message
