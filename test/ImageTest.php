@@ -90,8 +90,8 @@ class ImageTest extends FlekTest {
 			$image->getImageId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("image"));
 		$this->assertEquals($pdoImage->getImageProfileId(), $this->profile->getImageProfileId());
-		$this->assertEquals($pdoImage->getImageDecription(), $this->VALID_CONTENT);
-		$this->assertEquals($pdoImage->getImageSecureURl(), $this->VALID_SECUREURL);
+		$this->assertEquals($pdoImage->getImageDescription(), $this->VALID_CONTENT);
+		$this->assertEquals($pdoImage->getImageSecureUrl(), $this->VALID_SECUREURL);
 		$this->assertEquals($pdoImage->getImagePublicId(), $this->VALID_PUBLIC);
 		$this->assertEquals($pdoImage->getImageGenreId(), $this->VALID_GENRE);
 	}
@@ -104,7 +104,7 @@ class ImageTest extends FlekTest {
 	public function testInsertInvalidImage() {
 	//create a image with a non null image id and watch it fail
 		$image = new Image(FlekTest::INVALID_KEY, $this->profile->getImageProfileId(), $this->VALID_CONTENT,
-			$this->VALID_SECURE, $this->VALID_PUBLIC, $this->VALID_GENRE);
+			$this->VALID_SECUREURL, $this->VALID_PUBLIC, $this->VALID_GENRE);
 		$image->insert($this->getPDO());
 	}
 
