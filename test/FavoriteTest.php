@@ -190,4 +190,3 @@ class FavoriteTest extends FlekTest {
 		$this->assertEquals($pdoFavorite->getFavoriterId(), $this->favorite->getFavoriterId());
 	}
 }
-?>

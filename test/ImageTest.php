@@ -277,5 +277,3 @@ public function testGetValidImageByImageId() {
 		$this->assertEquals($pdoImage->getImageGenreId(), $this->VALID_GENRE);
 }
 }
-
-?>

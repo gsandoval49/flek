@@ -280,4 +280,3 @@ class Favorite implements \JsonSerializable {
 	}
 }
 
-?>

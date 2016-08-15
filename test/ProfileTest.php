@@ -85,7 +85,7 @@ class ProfileTest extends FlekTest {
 	protected $VALID_PROFILEACCESSTOKEN = "01234567890";
 
 	/**
-	 * activation token for profile
+	 * activation token for prof ile
 	 * @var string $VALID_PROFILEACTIVATIONTOKEN
 	 **/
 	protected $VALID_PROFILEACTIVATIONTOKEN = "01234567890123456789012345678901";
@@ -291,7 +291,7 @@ class ProfileTest extends FlekTest {
 		$profile = new Profile(null, $this->VALID_PROFILEID, $this->VALID_PROFILENAME, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILELOCATION, $this->VALID_PROFILEBIO, $this->hash, $this->salt, $this->VALID_PROFILEACCESSTOKEN, $this->VALID_PROFILEACTIVATIONTOKEN);
 		$profile->insert($this->getPDO());
 		//grab the data from mySQL and enforce the fields match our exceptions
-		$result = Profile::getProfileByProfileActivationToken($this->getPDO(), $profile->getProfileActivationToken());
+		$result = Profile::getProfileByProfileActivationToken( $this->getPDO(), $profile->getProfileActivationToken());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
 		//grab the result from the array and validate it
 		$pdoProfile = $result;

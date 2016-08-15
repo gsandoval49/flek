@@ -469,5 +469,3 @@ class Image implements \JsonSerializable {
 
 
 
-
-?>
