@@ -88,7 +88,7 @@ public final function getConnection() {
 	if($this->connection === null) {
 		//connect to mySQL and provide the interface to PHPUnit
 		$config = readConfig("/etc/apache2/capstone-mysql/flek.ini");
-		$pdo = connectToEncryptedMySQL("/etc/apache/capstone-mysql/flek.ini");
+		$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/flek.ini");
 		$this->connection = $this->createDefaultDBConnection($pdo, $config["database"]);
 	}
 	return($this->connection);

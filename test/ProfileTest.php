@@ -1,11 +1,13 @@
 <?php
 namespace Edu\Cnm\Flek\Test;
 
-use Edu\Cnm\Flek\{Profile};
+use Edu\Cnm\Flek\{
+	Profile
+};
 
 //grab the project test parameters
 require_once(dirname(__DIR__) . "/public_html/php/classes/autoload.php");
-require_once ("FlekTest.php");
+require_once("FlekTest.php");
 
 /**
  * Full PHPUnit test for the profile class for Flek
@@ -15,19 +17,19 @@ require_once ("FlekTest.php");
  *
  * @see Profile
  * @author Christina Sosa <csosa4@cnm.edu>
-**/
+ **/
 class ProfileTest extends FlekTest {
 
 	/**
 	 * id of the profile
 	 * @var int $VALID_PROFILEID
-	**/
+	 **/
 	protected $VALID_PROFILEID = 21;
 
 	/**
 	 * name of profile
 	 * @var string $VALID_PROFILENAME
-	**/
+	 **/
 	protected $VALID_PROFILENAME = "csosa4";
 
 	/**
@@ -45,7 +47,7 @@ class ProfileTest extends FlekTest {
 	/**
 	 * location of the profile
 	 * @var string $VALID_PROFILELOCATION
-	**/
+	 **/
 	protected $VALID_PROFILELOCATION = "Rio Rancho, NM";
 
 	/**
@@ -57,7 +59,7 @@ class ProfileTest extends FlekTest {
 	/**
 	 * bio of the profile
 	 * @var string $VALID_PROFILEBIO
-	**/
+	 **/
 	protected $VALID_PROFILEBIO = "Test is passing";
 
 	/**
@@ -69,13 +71,13 @@ class ProfileTest extends FlekTest {
 	/**
 	 * hash for profile
 	 * @var profile hash
-	**/
+	 **/
 	private $hash;
 
 	/**
 	 * salt for profile
 	 * @var profile salt
-	**/
+	 **/
 	private $salt;
 
 	/**
@@ -88,7 +90,7 @@ class ProfileTest extends FlekTest {
 	/**
 	 * activation token for profile
 	 * @var string $VALID_PROFILEACTIVATIONTOKEN
-	**/
+	 **/
 	protected $VALID_PROFILEACTIVATIONTOKEN = "01234567890abcdefghijklmnopqrstu";
 
 	/**
@@ -99,7 +101,7 @@ class ProfileTest extends FlekTest {
 
 	/**
 	 * create dependent objects before running each test
-	**/
+	 **/
 	public final function setUp() {
 		//run the default setUp() method first
 		parent::setUp();
@@ -110,9 +112,10 @@ class ProfileTest extends FlekTest {
 		$this->hash = hash_pbkdf2("sha256", "abc123", $this->salt, 1000, 128);
 		$this->salt = bin2hex(random_bytes(64));
 	}
+
 	/**
 	 * test inserting a valid profile and verify that the actual mySQL data matches
-	**/
+	 **/
 	public function testInsertValidProfile() {
 		//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("profile");
@@ -138,7 +141,7 @@ class ProfileTest extends FlekTest {
 	 * test inserting a Profile that already exists
 	 *
 	 * @expectedException \PDOException
-	**/
+	 **/
 	public function testUpdateValidProfile() {
 		//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("profile");
@@ -174,15 +177,16 @@ class ProfileTest extends FlekTest {
 	 * test updating a Profile that already exists
 	 *
 	 * @expectedException \PDOException
-	**/
+	 **/
 	public function testUpdateInvalidProfile() {
 		//create a profile with a null profile id and watch it fail
 		$profile = new Profile(null, $this->VALID_PROFILEID, $this->VALID_PROFILENAME, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILELOCATION, $this->VALID_PROFILEBIO, $this->hash, $this->hash, $this->VALID_PROFILEACCESSTOKEN, $this->VALID_PROFILEACTIVATIONTOKEN);
 		$profile->update($this->getPDO());
 	}
+
 	/**
 	 * test creating a Profile and then deleting
-	**/
+	 **/
 	public function testDeleteValidProfile() {
 		//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("profile");
@@ -197,19 +201,21 @@ class ProfileTest extends FlekTest {
 		$this->assertNull($pdoProfile);
 		$this->assertEquals($numRows, $this->getConnection()->getRowCount("profile"));
 	}
+
 	/**
 	 *test deleting a Profile that does not exist
 	 *
 	 * @expectedException \PDOException
-	**/
+	 **/
 	public function testDeleteInvalidProfile() {
 		//create a profile and try to delete it without actually inserting it
 		$profile = new Profile(null, $this->VALID_PROFILEID, $this->VALID_PROFILENAME, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILELOCATION, $this->VALID_PROFILEBIO, $this->hash, $this->hash, $this->VALID_PROFILEACCESSTOKEN, $this->VALID_PROFILEACTIVATIONTOKEN);
 		$profile->delete($this->getPDO());
 	}
+
 	/**
 	 *test inserting a Profile and re-grabbing it from mySQL
-	**/
+	 **/
 	public function testGetValidProfileByProfileId() {
 		//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("profile");
@@ -230,9 +236,10 @@ class ProfileTest extends FlekTest {
 		$this->assertEquals($pdoProfile->getProfileAccessToken(), $this->VALID_PROFILEACCESSTOKEN);
 		$this->assertEquals($pdoProfile->getProfileActivationToken(), $this->VALID_PROFILEACTIVATIONTOKEN);
 	}
+
 	/**
 	 *test grabbing a Profile that does not exist
-	**/
+	 **/
 	public function testGetInvalidProfileByProfileId() {
 		//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("profile");
@@ -240,6 +247,7 @@ class ProfileTest extends FlekTest {
 		$profile = Profile::getProfileByProfileId($this->getPDO(), FlekTest::INVALID_KEY);
 		$this->assertNull($profile);
 	}
+
 	/**
 	 *test grabbing a Profile by profile email
 	 **/
@@ -266,6 +274,7 @@ class ProfileTest extends FlekTest {
 			$this->assertEquals($pdoProfile->getProfileActivationToken(), $this->VALID_PROFILEACTIVATIONTOKEN);
 		}
 	}
+
 	/**
 	 *test grabbing a Profile by profile email that does not exist
 	 **/
@@ -274,10 +283,11 @@ class ProfileTest extends FlekTest {
 		$profile = Profile::getProfileByProfileEmail($this->getPDO(), "this email does not exist");
 		$this->assertCount(0, $profile);
 	}
+
 	/**
 	 *test grabbing a Profile by profile activation token
 	 **/
-	public function testGetValidProfileActivationToken () {
+	public function testGetValidProfileActivationToken() {
 		//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("profile");
 		//create a new Profile and insert it into mySQL
@@ -298,17 +308,19 @@ class ProfileTest extends FlekTest {
 		$this->assertEquals($pdoProfile->getProfileAccessToken(), $this->VALID_PROFILEACCESSTOKEN);
 		$this->assertEquals($pdoProfile->getProfileActivationToken(), $this->VALID_PROFILEACTIVATIONTOKEN);
 	}
+
 	/**
 	 *test grabbing a Profile by profile activation token that does not exist
 	 **/
-public function testGetInvalidProfileByProfileActivationToken() {
-	//grab a Profile by searching for profile activation token that doesn't exist
-	$profile = Profile::getProfileByProfileActivationToken($this->getPDO(), "profile activation does not exist");
-	$this->assertNull($profile);
-}
+	public function testGetInvalidProfileByProfileActivationToken() {
+		//grab a Profile by searching for profile activation token that doesn't exist
+		$profile = Profile::getProfileByProfileActivationToken($this->getPDO(), "profile activation does not exist");
+		$this->assertNull($profile);
+	}
+
 	/**
 	 * test grabbing all profiles
-	**/
+	 **/
 	public function testGetAllValidProfiles() {
 		//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("profile");
@@ -317,7 +329,7 @@ public function testGetInvalidProfileByProfileActivationToken() {
 		$profile->insert($this->getPDO());
 		//grab the data from mySQL and enforce the fields match our expectations
 		$results = Profile::getsAllProfiles($this->getPDO());
-		$this->assertEquals($numRows + 1, $this->getConnection()-> getRowCount("profile"));
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
 		$this->assertCount(1, $results);
 		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Flek\\Profile", $results);
 		//grab the results from the array and validate it
@@ -333,4 +345,5 @@ public function testGetInvalidProfileByProfileActivationToken() {
 		$this->assertEquals($pdoProfile->getProfileActivationToken(), $this->VALID_PROFILEACTIVATIONTOKEN);
 	}
 }
+
 ?>
