@@ -284,14 +284,14 @@ class ProfileTest extends FlekTest {
 	/**
 	 *test grabbing a Profile by profile activation token
 	 **/
-	public function testGetValidProfileActivationToken() {
+	public function testGetValidProfileAccessToken() {
 		//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("profile");
 		//create a new Profile and insert it into mySQL
 		$profile = new Profile(null, $this->VALID_PROFILEID, $this->VALID_PROFILENAME, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILELOCATION, $this->VALID_PROFILEBIO, $this->hash, $this->salt, $this->VALID_PROFILEACCESSTOKEN, $this->VALID_PROFILEACTIVATIONTOKEN);
 		$profile->insert($this->getPDO());
 		//grab the data from mySQL and enforce the fields match our exceptions
-		$result = Profile::getProfileByProfileActivationToken( $this->getPDO(), $profile->getProfileActivationToken());
+		$result = Profile::getProfileByProfileAccessToken( $this->getPDO(), $profile->getProfileAccessToken());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
 		//grab the result from the array and validate it
 		$pdoProfile = $result;
@@ -309,9 +309,9 @@ class ProfileTest extends FlekTest {
 	/**
 	 *test grabbing a Profile by profile activation token that does not exist
 	 **/
-	public function testGetInvalidProfileByProfileActivationToken() {
+	public function testGetInvalidProfileByProfileAccessToken() {
 		//grab a Profile by searching for profile activation token that doesn't exist
-		$profile = Profile::getProfileByProfileActivationToken($this->getPDO(), "profile activation does not exist");
+		$profile = Profile::getProfileByProfileAccessToken($this->getPDO(), "profile activation does not exist");
 		$this->assertNull($profile);
 	}
 

@@ -557,8 +557,7 @@ profileAccessToken, profileActivationToken FROM profile WHERE profileEmail LIKE 
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @param string $profileAccessToken profile access token to search for
-	 * @return \SplFixedArray SplFixedArray of profiles found
-	 * @throws \PDOException when mySQL related errors occur
+	 * @return Profile|null Profile found or null if not found
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
 	public static function getProfileByProfileAccessToken(\PDO $pdo, string $profileAccessToken) {
