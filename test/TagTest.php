@@ -13,6 +13,8 @@ class TagTest extends FlekTest {
 
 	//Id of the tag itself
 	protected $tagId;
+	//content of the Tag
+	protected $VALID_TAGCONTENT;
 	//Id from the image
 	protected $tagImageId;
 	//Id from the hashtag
@@ -126,16 +128,16 @@ class TagTest extends FlekTest {
 	 * test grabbing a Tag that does not exist
 	 **/
 	public function testGetInvalidTagByTagId() {
-		// grab a profile id that exceeds the maximum allowable profile id
+
 		$tag = Tag::getTagByTagId($this->getPDO(), FlekTest::INVALID_KEY);
 		$this->assertNull($tag);
 	}
 	/**
-	 * test grabbing a Tag by content that does not exist  DYLAN DIDN'T DO THIS!!!!
+	 * test grabbing a Tag by content that does not exist- not in documentation
 	 **/
 	public function testGetInvalidTagByTagContent() {
 		// grab a tag by content that does not exist
-		$tag = Tag::getTagByTagContent($this->getPDO(), "nobody ever made this TAG");
+		$tag = Tag::getTagByTagContent($this->getPDO(), "this is not a valid Tag");
 		$this->assertCount(0, $tag);
 	}
 	/**
