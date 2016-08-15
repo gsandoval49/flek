@@ -182,7 +182,7 @@ class FavoriteTest extends FlekTest {
 	$results = Favorite::getAllFavorites($this->getPDO());
 	$this->assertEqual($numRows + 1, $this->getConnection()->getRowCount("favorite"));
 	$this->assertCount(1, $results);
-	$this->assertContainsONlyINstanceOf("Edu\\Cnm\\Flek\\Favorite", $results);
+	$this->assertContainsOnlyInstanceOf("Edu\\Cnm\\Flek\\Favorite", $results);
 
 
 	//grab the result from the array and validate it
