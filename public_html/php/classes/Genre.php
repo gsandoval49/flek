@@ -313,4 +313,4 @@ class Genre implements \JsonSerializable {
 	}
 }
 
-
+?>
