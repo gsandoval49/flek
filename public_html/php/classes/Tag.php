@@ -71,7 +71,7 @@ class Tag implements \JsonSerializable {
 		public
 		function insert(\PDO $pdo) {
 			//enforce the tagImageId is null
-			if($this->tagImageIdId != null) {
+			if($this->tagImageId != null) {
 				throw(new \PDOException("no new image given"));
 			}
 			//create query template
