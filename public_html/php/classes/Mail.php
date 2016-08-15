@@ -52,7 +52,7 @@ class Mail implements \JsonSerializable {
 	 **/
 	/*private $mailDateTime;*/
 
-/*
+/**
  * constructor for the mail class
  * @param int|null $newMailId id of this message or null if a new message
  * @param string $newMailSubject subject of this message
@@ -73,7 +73,7 @@ class Mail implements \JsonSerializable {
 			$this->setMailReceiverId($newMailReceiverId);
 			$this->setMailGunId($newMailGunId);
 			$this->setMailContent($newMailContent);
-			$this->setMessageDateTime($newMailDateTime);
+			/*$this->setMessageDateTime($newMailDateTime);*/
 		} catch(\InvalidArgumentException $invalidArgument){
 			/*rethrow the exception to the caller*/
 			throw(new\InvalidArgumentException($invalidArgument->getMessage(),0,$invalidArgument));
@@ -235,9 +235,9 @@ class Mail implements \JsonSerializable {
 	 *
 	 * @return \DateTime value of the mail date and time
 	 **/
-	public function getMailDateTime() {
+	/*public function getMailDateTime() {
 		return($this->mailDateTime);
-	}
+	}*/
 	/**
 	 * mutator method for the Mail date and time
 	 *
@@ -245,7 +245,7 @@ class Mail implements \JsonSerializable {
 	 * @throws \InvalidArgumentException if $newMailDateTime is not a valid object or string
 	 * @throws \RangeException if $newMailDateTime is a date that does not exist
 	 **/
-	public function setMailDateTime($newMailDateTime = null) {
+	/*public function setMailDateTime($newMailDateTime = null) {
 		//base case: if the date and time are null, use the current date and time
 		if($newMailDateTime === null) {
 			$this->mailDateTime = new \DateTime();
@@ -260,7 +260,7 @@ class Mail implements \JsonSerializable {
 			throw(new \RangeException($range->getMessage(), 0, $range));
 		}
 		$this->mailDateTime =$newMailDateTime;
-	}
+	}*/
 
 	/*
 	 * inserts message into sql
@@ -275,11 +275,11 @@ class Mail implements \JsonSerializable {
 	throw(new \PDOException("not a new message"));
 }
 /*create query template*/
-$query = "INSERT INTO mail(mailId, mailSubject, mailSenderId, mailReceiverId, mailGunId, mailConent, mailDateTime) VALUES(:mailId, :mailSubject, :mailSenderId, :mailReceiverId, :mailGunId,:mailContent, :mailDateTime)";
+$query = "INSERT INTO mail(mailId, mailSubject, mailSenderId, mailReceiverId, mailGunId, mailConent) VALUES(:mailId, :mailSubject, :mailSenderId, :mailReceiverId, :mailGunId,:mailContent)";
 $statement = $pdo->prepare($query);
 
 /*bind member variables to placeholders*/
-$parameters = ["mailId" => $this->mailId, "mailSubject" => $this->mailSubject, "mailSenderId"=>$this->mailSenderId, "mailReceiverId"=>$this->mailReceiverId, "mailGunId"=>$this->mailGunId, "mailContent"=>$this->mailContent, "mailDateTime"=>$this->mailDateTime];
+$parameters = ["mailId" => $this->mailId, "mailSubject" => $this->mailSubject, "mailSenderId"=>$this->mailSenderId, "mailReceiverId"=>$this->mailReceiverId, "mailGunId"=>$this->mailGunId, "mailContent"=>$this->mailContent];
 $statement->execute($parameters);
 
 /*update the mail Id with what mySQL just gave us*/
@@ -313,7 +313,7 @@ public function delete(\PDO $pdo){
  * */
 public function update(\PDO $pdo){
 	/*enforce the mailId is not null*/
-	$parameters = ["mailId" =>$this->mailId, "mailSubject" => $this->mailSubject, "mailSenderId" => $this->mailSenderId, "mailReceiverId" =>$this->mailReceiverId,"mailGunId" =>$this->mailGunId, "mailContent" =>$this->mailContent, "mailDateTime"=>$this->mailDateTime];
+	$parameters = ["mailId" =>$this->mailId, "mailSubject" => $this->mailSubject, "mailSenderId" => $this->mailSenderId, "mailReceiverId" =>$this->mailReceiverId,"mailGunId" =>$this->mailGunId, "mailContent" =>$this->mailContent];
 	$statement = execute($parameters);
 }
 
@@ -329,7 +329,7 @@ public static function getMessageByMessageContent(\PDO $pdo, string $mailContent
 		throw(new\PDOException("message content is invalid"));
 	}
 	/*create query template*/
-	$query = "SELECT mailId, mailSubject, mailSenderId, mailReceiverId, mailGunId, mailContent, mailDateTime FROM mail WHERE mailContent LIKE :mailContent";
+	$query = "SELECT mailId, mailSubject, mailSenderId, mailReceiverId, mailGunId, mailContent FROM mail WHERE mailContent LIKE :mailContent";
 	$statement = $pdo->prepare($query);
 
 	/*bind the message content to the placeholder*/
@@ -342,7 +342,7 @@ public static function getMessageByMessageContent(\PDO $pdo, string $mailContent
 	$statement->setFetchMode(\PDO::FETCH_ASSOC);
 	while(($row = $statement->fetch()) !== false){
 		try{
-			$mail = new Mail($row["mailId"], $row["mailSubject"], $row ["mailSenderId"], $row ["mailReceiverId"], $row ["mailGunId"], $row["mailContent"], $row["mailDateTime"]);
+			$mail = new Mail($row["mailId"], $row["mailSubject"], $row ["mailSenderId"], $row ["mailReceiverId"], $row ["mailGunId"], $row["mailContent"]);
 			$messages[$messages->key()] = $mail;
 			$messages->next();
 		} catch(\Exception $exception){
@@ -363,7 +363,7 @@ public static function getMailByMailId(\PDO $pdo, int $mailId){
 		throw(new\PDOException("message Id is not positive"));
 	}
 	/*create query template*/
-	$query = "SELECT mailId, mailSubject, mailSenderId, mailReceiverId, mailGunId, mailContent, mailDateTime FROM mail WHERE mailId = :mailId";
+	$query = "SELECT mailId, mailSubject, mailSenderId, mailReceiverId, mailGunId, mailContent FROM mail WHERE mailId = :mailId";
 	$statement = $pdo->prepare($query);
 
 	/*bind mailId to the placeholder in template*/
@@ -375,7 +375,7 @@ public static function getMailByMailId(\PDO $pdo, int $mailId){
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		$row =  $statement->fetch();
 		if($row !== false){
-			$mail = new Mail($row["mailId"], $row["mailSubject"], $row["mailSenderId"], $row["mailReceiverId"], $row["mailGunId"], $row["mailContent"], $row["mailDateTime"]);}
+			$mail = new Mail($row["mailId"], $row["mailSubject"], $row["mailSenderId"], $row["mailReceiverId"], $row["mailGunId"], $row["mailContent"]);}
 		} catch (\Exception $exception) {
 			/*rethrow the row if you can't convert it*/
 			throw(new\PDOException($exception->getMessage(),0, $exception));
@@ -394,7 +394,7 @@ public static function getMailByMailSenderId (\PDO $pdo, int $mailSenderId){
 		throw(new\RangeException("message sender profile Id must be positive"));
 	}
 	/*create query template*/
-	$query = "SELECT mailId, mailSubject, mailSenderId, mailReceiverId, mailGunId, mailContent, mailDateTime FROM mail WHERE mailSenderId = :mailSenderId";
+	$query = "SELECT mailId, mailSubject, mailSenderId, mailReceiverId, mailGunId, mailContent FROM mail WHERE mailSenderId = :mailSenderId";
 	$statement = $pdo->prepare($query);
 	/*bind the Sender Id to the placeholder template*/
 	$parameters = ["mailSenderId" => $mailSenderId];
@@ -404,7 +404,7 @@ public static function getMailByMailSenderId (\PDO $pdo, int $mailSenderId){
 	$statement->setFetchMode(\PDO::FETCH_ASSOC);
 	while(($row = $statement->fetch()) !== false){
 		try{
-			$mail = new Mail($row["mailId"], $row["mailSenderId"], $row["mailReceiverId"], $row["mailGunId"], $row["mailContent"], $row["mailDateTime"]);
+			$mail = new Mail($row["mailId"], $row["mailSenderId"], $row["mailReceiverId"], $row["mailGunId"], $row["mailContent"]);
 			/*I'm not so sure about this one, is this the Id from profile??*/
 			$messages[$messages->key()] = $mail;
 			$messages->next();
@@ -426,7 +426,7 @@ public static function getMailByMailReceiverId (\PDO $pdo, int $mailReceiverId){
 		throw(new\RangeException("message Receiver profile Id must be positive"));
 	}
 	/*create query template*/
-	$query = "SELECT mailId, mailSubject, mailSenderId, mailReceiverId, mailGunId, mailContent, mailDateTime FROM mail WHERE mailReceiverId = :mailReceiverId";
+	$query = "SELECT mailId, mailSubject, mailSenderId, mailReceiverId, mailGunId, mailContent FROM mail WHERE mailReceiverId = :mailReceiverId";
 	$statement = $pdo->prepare($query);
 	/*bind the Receiver Id to the placeholder template*/
 	$parameters = ["mailReceiverId" => $mailReceiverId];
@@ -436,7 +436,7 @@ public static function getMailByMailReceiverId (\PDO $pdo, int $mailReceiverId){
 	$statement->setFetchMode(\PDO::FETCH_ASSOC);
 	while(($row = $statement->fetch()) !== false){
 		try{
-			$mail = new Mail($row["mailId"], $row["mailSenderId"], $row["mailReceiverId"], $row["mailGunId"], $row["mailContent"], $row["mailDateTime"], $row["mailDateTime"]);
+			$mail = new Mail($row["mailId"], $row["mailSenderId"], $row["mailReceiverId"], $row["mailGunId"], $row["mailContent"]);
 			/* really not so sure about this one... is this the Id from profile??*/
 			$messages[$messages->key()] = $mail;
 			$messages->next();
@@ -447,13 +447,13 @@ public static function getMailByMailReceiverId (\PDO $pdo, int $mailReceiverId){
 }
 return($messages);
 }
-/*
+/**
  * gets all messages
  *
  * */
 public static function getAllMessages(\PDO $pdo){
 	/*create query template*/
-	$query = "SELECT mailId, mailSubject, mailSenderId, mailReceiverId, mailGunId, mailContent, mailDateTime FROM mail";
+	$query = "SELECT mailId, mailSubject, mailSenderId, mailReceiverId, mailGunId, mailContent FROM mail";
 	$statement = $pdo->prepare($query);
 	$statement->execute();
 	/*build an array of messages*/
@@ -461,7 +461,7 @@ public static function getAllMessages(\PDO $pdo){
 	$statement->setFetchMode(\PDO::FETCH_ASSOC);
 	while(($row = $statement->fetch()) !== false){
 		try{
-			$mail = new Mail($row["mailId"], $row["mailSenderId"], $row["mailReceiverId"], $row["mailGunId"], $row["mailContent"], $row["mailDateTime"]);
+			$mail = new Mail($row["mailId"], $row["mailSenderId"], $row["mailReceiverId"], $row["mailGunId"], $row["mailContent"]);
 			$messages[$messages->key()] = $mail;
 			$messages->next();
 		} catch(\Exception $exception){
@@ -479,7 +479,6 @@ return($messages);
  **/
 public function jsonSerialize() {
 	$fields = get_object_vars($this);
-	$fields["mailDateTime"] = $this->mailDateTime->getTimestamp() * 1000;
 	return($fields);
 }
 
