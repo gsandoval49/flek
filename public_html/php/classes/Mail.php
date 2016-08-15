@@ -275,7 +275,7 @@ class Mail implements \JsonSerializable {
 	throw(new \PDOException("not a new message"));
 }
 /*create query template*/
-$query = "INSERT INTO mail(mailId, mailSubject, mailSenderId, mailReceiverId, mailGunId, mailConent) VALUES(:mailId, :mailSubject, :mailSenderId, :mailReceiverId, :mailGunId,:mailContent)";
+$query = "INSERT INTO mail(mailSubject, mailSenderId, mailReceiverId, mailGunId, mailConent) VALUES(:mailId, :mailSubject, :mailSenderId, :mailReceiverId, :mailGunId,:mailContent)";
 $statement = $pdo->prepare($query);
 
 /*bind member variables to placeholders*/
