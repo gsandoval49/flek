@@ -50,7 +50,7 @@ class SocialLoginTest extends FlekTest {
     }
 
     /**
-     * test inserting a SocialLogin that already exists
+     * test inserting a SocialLogin that already  exists
      *
      * @expectedException PDOException
      **/
