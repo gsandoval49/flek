@@ -11,7 +11,6 @@ require_once("autoload.php");
  * @version 1.0.0
 **/
 class Hashtag implements \JsonSerializable {
-    use validateDate; // do I need you here??
     /**
      * id of the Hashtag that is created by the tag that has the image
      * this is the primary key
