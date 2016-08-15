@@ -115,7 +115,7 @@ class ImageTest extends FlekTest {
 	//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("image");
 		//create a new Image and insert to into mySQL
-		$image = new Image(null, $this->profile->getImageProfileId(), $this->VALID_IMAGE, $this->VALID_CONTENT,
+		$image = new Image(null, $this->profile->getImageProfileId(), $this->VALID_CONTENT,
 		$this->VALID_PUBLIC, $this->VALID_SECUREURL, $this->VALID_GENRE);
 		$image->insert($this->getPDO());
 		//edit the Image and update it in mySQL
