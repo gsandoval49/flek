@@ -6,12 +6,10 @@ use Edu\Cnm\Flek\{
 };
 use PDOException;
 
-//grab the project test parameters
-require_once("SocialLogingTest.php");
-
 // grab the class that's going through the x-ray and under the knife :)
 require_once (dirname(__DIR__) . "/public_html/php/classes/autoload.php");
-
+//grab the project test parameters
+require_once("SocialLoginTest.php");
 /**
  * Full PHPUnit test for the SocialLogin class
  *
