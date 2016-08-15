@@ -110,3 +110,25 @@ class SocialLoginTest extends FlekTest {
         $socialLogin = new SocialLogin(null, $this->VALID_SOCIAL_LOGIN_CONTENT);
         $socialLogin->delete($this->getPDO());
     }
+
+    /**
+     * test grabbing a SocialLogin by social login content
+     **/
+    public function testGetValidSocialLoginBySocialLoginContent() {
+        // count the number of rows and save it for later
+        $numRows = $this->getConnection()->getRowCount("socialLogin");
+
+        // create a new SocialLogin and insert to into mySQL
+        $socialLogin = new SocialLogin(null, $this->VALID_SOCIAL_LOGIN_CONTENT);
+        $socialLogin->insert($this->getPDO());
+
+        // grab the data from mySQL and enforce the fields match our expectations
+        $results = SocialLogin::getSocialLoginbySocialLoginName($this->getPDO(), $socialLogin->getSocialLoginName());
+        $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("socialLogin"));
+        $this->assertCount(1, $results);
+
+        // grab the result from the array and validate it
+        $pdoSocialLogin = $results[0];
+        $this->assertEquals($pdoSocialLogin->getSocialLoginName(), $this->VALID_SOCIAL_LOGIN_CONTENT);
+    }
+
