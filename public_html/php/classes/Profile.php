@@ -319,16 +319,19 @@ public function getProfileSalt() {
  *
  * @param string $newProfileSalt new value of profileSalt
  * @throws \InvalidArgumentException if $newProfileSalt is not a string or insecure
- * @throws \RangeException if $newProfileSalt is > 64 characters
+ * @throws \RangeException if $newProfileSalt is !== 64 characters
  * @throws \TypeError if $newProfileSalt is not a string
  **/
 public function setProfileSalt(string $newProfileSalt) {
-		$newProfileSalt = strtolower(trim($newProfileSalt));
 		//verification that $profileSalt is secure
 		if(empty($newProfileSalt) === true) {
 		throw(new \InvalidArgumentException("profile salt is empty or insecure"));
 		}
-		//make sure profile salt = 64
+		//verify the salt is a hexadecimal
+		if(!ctype_xdigit($newProfileSalt)) {
+			throw(new \InvalidArgumentException("profile salt is empty or insecure"));
+		}
+		//make sure profileSalt will fit in database
 		if(strlen($newProfileSalt) !== 64) {
 			throw(new \RangeException("profile has has to be 64"));
 		}
