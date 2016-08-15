@@ -279,3 +279,5 @@ class Favorite implements \JsonSerializable {
 		return ($fields);
 	}
 }
+
+?>
