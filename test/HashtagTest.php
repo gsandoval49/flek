@@ -2,7 +2,7 @@
 namespace Edu\Cnm\Flek\Test;
 
 use Edu\Cnm\Flek\{
-    Hashtag, Tag
+    Hashtag,
 };
 use PDOException;
 

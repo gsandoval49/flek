@@ -2,7 +2,7 @@
 namespace Edu\Cnm\Flek\Test;
 
 use Edu\Cnm\Flek\{
-    SocialLogin, Tag
+    SocialLogin,
 };
 use PDOException;
 
@@ -22,12 +22,12 @@ require_once (dirname(__DIR__) . "/public_html/php/classes/autoload.php");
  **/
 class SocialLoginTest extends FlekTest {
     /**
-     * SocialLogin content for the tag.
+     * SocialLogin content for the social login content.
      * @var string $VALID_SOCIAL_LOGIN_CONTENT
      **/
     protected $VALID_SOCIAL_LOGIN_CONTENT = "This social stuff has to work";
     /**
-     * content of the updated hashtag
+     * content of the updated SocialLogin
      * @var string $VALID_SOCIAL_LOGIN_CONTENT2
      **/
     protected $VALID_SOCIAL_LOGIN_CONTENT2 = "This 2nd content of social better work too!";
