@@ -33,7 +33,7 @@ class Hashtag implements \JsonSerializable {
      * @throws \TypeError if data types violate type hints
      * @throws \Exception if some other exception occurs
     **/
-    public function __construct(int $hashtagId = null, string $hashtagName) {
+    public function __construct(int $newHashtagId = null, string $newHashtagName) {
         try {
             $this->setHashtagId($newHashtagId);
             $this->setHashtagName($newHashtagName);
