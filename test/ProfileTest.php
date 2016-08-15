@@ -1,9 +1,7 @@
 <?php
 namespace Edu\Cnm\Flek\Test;
 
-use Edu\Cnm\Flek\{
-	Profile
-};
+use Edu\Cnm\Flek\{Profile};
 
 //grab the project test parameters
 require_once(dirname(__DIR__) . "/public_html/php/classes/autoload.php");
@@ -70,13 +68,13 @@ class ProfileTest extends FlekTest {
 
 	/**
 	 * hash for profile
-	 * @var profile hash
+	 * @var profileHash
 	 **/
 	private $hash;
 
 	/**
 	 * salt for profile
-	 * @var profile salt
+	 * @var profileSalt
 	 **/
 	private $salt;
 
@@ -84,8 +82,7 @@ class ProfileTest extends FlekTest {
 	 * access token for profile
 	 * @var string $VALID_PROFILEACCESSTOKEN
 	 **/
-	protected $VALID_PROFILEACCESSTOKEN =
-		"01234567890abcdefghijklmnopqrstu";
+	protected $VALID_PROFILEACCESSTOKEN = "01234567890";
 
 	/**
 	 * activation token for profile
