@@ -2,7 +2,7 @@
 namespace Edu\Cnm\Flek\Test;
 
 use Edu\Cnm\Flek\{
-	Hashtag, Tag, Genre
+	Hashtag, Tag
 };
 
 //grab the project test parameters
@@ -45,6 +45,7 @@ class TagTest extends FlekTest {
 	 *
 	 * @expectedException PDOException
 	 **/
+
 	public function testInsertInvalidTag() {
 		// create a Tag with a non null tag id and watch it fail
 		$tag = new Tag(DevConnectTest::INVALID_KEY, $this->tagImageId, $this->tagHashtagId);
