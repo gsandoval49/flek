@@ -38,15 +38,15 @@ class FavoriteTest extends FlekTest {
 	 * create dependent objects before running each test
 	 */
 	public final function setUp() {
-		// run the deafault setUp() method first
+		// run the default setUp() method first
 		parent::setUp();
 		// create and insert a Favoritee to own the test Favorite
-		$this->favoritee = new Favoritee(null, "It's going to rain today", "test@phpunit.de", "here in the land of enchantment
+		$this->favoritee = new Favorite(null, "It's going to rain today", "test@phpunit.de", "here in the land of enchantment
 		its 77 degrees right now");
 		$this->favoritee->insert($this->getPDO());
 
 		//create and insert a Favoriter to own the test Favorite
-		$this->favoriter = new Favoriter(null, "I cant wait to see the Star wars movie", "508 warehouse is doing an event today");
+		$this->favoriter = new Favorite(null, "I cant wait to see the Star wars movie", "508 warehouse is doing an event today");
 		$this->favoriter->insert($this->getPDO());
 }
 
