@@ -80,8 +80,8 @@ class Profile implements \JsonSerializable {
 	 * @param string $newProfileActivationToken string with profile token
 	 * @throws \InvalidArgumentException if data types are not valid
 	 * @throws \RangeException if data values are out of bounds (e.g., strings too long, negative integers)
-	 * @throws \Exception if some other exception occurs
 	 * @throws \TypeError if data types violate type hints
+	 * @throws \Exception if some other exception occurs
 	 **/
 	public function __construct(int $newProfileId = null, string $newProfileName, string $newProfileLocation, string
 	$newProfileBio, string $newProfileHash, string $newProfileSalt, string $newProfileAccessToken, string
