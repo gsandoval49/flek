@@ -1,5 +1,5 @@
 <?php
-namespace Edu\Cnm\flek;
+namespace Edu\Cnm\Flek;
 
 require_once("autoload.php");
 /**
