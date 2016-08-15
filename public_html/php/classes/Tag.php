@@ -22,48 +22,54 @@ class Tag implements \JsonSerializable {
 		try {
 			$this->setTagImageId($newTagImageId);
 			$this->setTagHashtagId($newTagHashtagId);
-		}
-		catch
-		(\InvalidArgumentException $invalidArgument)
-		{
+		} catch
+		(\InvalidArgumentException $invalidArgument) {
 			//rethrow the exception to the caller
 			throw(new \InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
-		}
-		catch(\RangeException $range) {
+		} catch(\RangeException $range) {
 			//rethrow the exception to the caller
 			throw(new \RangeException($range->getMessage(), 0, $range));
-		}
-		catch(\Exception $exception) {
+		} catch(\Exception $exception) {
 			//rethrow the exception to the caller
 			throw(new \Exception($exception->getMessage(), 0, $exception));
 		}
+	}
 
-/*this is the accessor method for the tagImageId*/
-	public function getTagImageId() {
-		return($this->tagImageId);
-	}
-/*this is the mutator method for the tagImageId*/
-	public function setTagImageId(int $newTagImageId){
-		if($newTagImageId <= 0) {
-			throw(new \RangeException ("image id is not positive"));
+		/*this is the accessor method for the tagImageId*/
+		public
+		function getTagImageId() {
+			return ($this->tagImageId);
 		}
-		/*convert and store the image id*/
-		$this->tagImageId = $newTagImageId;
-	}
-/*  this is the accessor method for tagHashtagId*/
-	public function getTagHashtagId(){
-		return($this->tagHashtagId);
-	}
-/*   this is the mutator method for tagHashtagId*/
-	public function setTagHashtagId(int $newTagHashtagId){
-		if($newTagHashtagId <= 0) {
-			throw(new \RangeException ("hashtag id is not positive"));
+
+		/*this is the mutator method for the tagImageId*/
+		public
+		function setTagImageId(int $newTagImageId) {
+			if($newTagImageId <= 0) {
+				throw(new \RangeException ("image id is not positive"));
+			}
+			/*convert and store the image id*/
+			$this->tagImageId = $newTagImageId;
 		}
-		/*convert and store the hashtag id*/
-		$this->tagHashtagId = $newTagHashtagId;
-	}
+
+		/*  this is the accessor method for tagHashtagId*/
+		public
+		function getTagHashtagId() {
+			return ($this->tagHashtagId);
+		}
+
+		/*   this is the mutator method for tagHashtagId*/
+		public
+		function setTagHashtagId(int $newTagHashtagId) {
+			if($newTagHashtagId <= 0) {
+				throw(new \RangeException ("hashtag id is not positive"));
+			}
+			/*convert and store the hashtag id*/
+			$this->tagHashtagId = $newTagHashtagId;
+		}
+
 		/*adds the tag to mySQL*/
-		public function insert(\PDO $pdo) {
+		public
+		function insert(\PDO $pdo) {
 			//enforce the tagImageId is null
 			if($this->tagImageIdId != null) {
 				throw(new \PDOException("no new image given"));
@@ -86,7 +92,8 @@ class Tag implements \JsonSerializable {
 		 * @throws \PDOException when mySQL related erros occur
 		 * @throws \TypeError if $pdo is not a PDO connection object
 		 */
-		public function delete(\PDO $pdo) {
+		public
+		function delete(\PDO $pdo) {
 			//enforce the tage Id is not null
 			if($this->tagHashtagId === null) {
 				throw(new \PDOException("unable to delete a hashtag that does not exist"));
@@ -106,7 +113,8 @@ class Tag implements \JsonSerializable {
 		 * @throws \PDOException when mySQL related erros occur
 		 * @throws \TypeError if $pdo is not a PDO connection object
 		 */
-		public function update(\PDO $pdo) {
+		public
+		function update(\PDO $pdo) {
 			//enforce the tagHashtagId is not null
 			if($this->tagHashtagId === null) {
 				throw(new \PDOException("unable to update a tag that does not exist"));
@@ -120,6 +128,7 @@ class Tag implements \JsonSerializable {
 			$parameter = ["tagHashtagId" => $this->tagHashtagId, "tagImageId" => $this->tagImageId];
 			$statement->execute($parameter);
 		}
+
 		/*
 		 * gets the tag by tagHashtagId
 		 * @param \PDO $pdo PDO connection object
@@ -128,7 +137,8 @@ class Tag implements \JsonSerializable {
 		 * @throws \PDOException when mySQL related erros occur
 		 * @throws |TypeError when variables are not the correct data type
 		 */
-		public static function getTagBytagHashtagId(\PDO $pdo, int $tagHashtagId) {
+		public
+		static function getTagBytagHashtagId(\PDO $pdo, int $tagHashtagId) {
 			//sanitize the tagHashtagId before searching
 			if($tagHashtagId <= 0) {
 				throw(new \PDOException("tagHashtag id is not positive"));
@@ -163,7 +173,8 @@ class Tag implements \JsonSerializable {
 	  * @throws \PDOException when mySQL related erros occur
 	  * @throws |TypeError when variables are not the correct data type
 	  */
-		public static function getTagByTagImageId(\PDO $pdo, int $tagImageId) {
+		public
+		static function getTagByTagImageId(\PDO $pdo, int $tagImageId) {
 			//sanitize the tagHashtagId before searching
 			if($tagImageId <= 0) {
 				throw(new \PDOException("tagHashtag id is not positive"));
@@ -197,7 +208,8 @@ class Tag implements \JsonSerializable {
 		 * @throws \PDOException when mySQL related errors occur
 		 * @throws \TypeError when variables are not the correct data type
 		 */
-		public static function getAllTags(\PDO $pdo) {
+		public
+		static function getAllTags(\PDO $pdo) {
 			//create query template
 			$query = "SELECT tagHashtagId, tagImageId FROM tag";
 			$statement = $pdo->prepare($query);
@@ -208,7 +220,7 @@ class Tag implements \JsonSerializable {
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			while(($row = $statement->fetch()) !== false) {
 				try {
-					$tags = new Tag($row["tageId"], $row["tagrId"]);
+					$tags = new Tag($row["tagId"], $row["tagId"]);
 					$tags[$tag->key()] = $tag;
 					$tags->next();
 				} catch(\Exception $exception) {
@@ -218,15 +230,17 @@ class Tag implements \JsonSerializable {
 			}
 			return ($tags);
 		}
-	/**
-	 * formats state variables for JSON serialization
-	 *
-	 *
-	 * @return array resulting state variables to serialize
-	 **/
-	public function jsonSerialize() {
-		$fields = get_object_vars($this);
-		return($fields);
+
+		/**
+		 * formats state variables for JSON serialization
+		 *
+		 *
+		 * @return array resulting state variables to serialize
+		 **/
+		public
+		function jsonSerialize() {
+			$fields = get_object_vars($this);
+			return ($fields);
+		}
 	}
-}
 
