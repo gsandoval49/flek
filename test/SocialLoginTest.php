@@ -78,3 +78,24 @@ class SocialLoginTest extends FlekTest {
         $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("socialLogin"));
         $this->assertEquals($pdoSocialLogin->getSocialLoginName(), $this->VALID_SOCIAL_LOGIN_CONTENT2);
     }
+
+    /**
+     * test updating a SocialLogin and then deleting it
+     **/
+    public function testDeleteValidSocialLogin() {
+        //count the number of rows and save it for later
+        $numRows = $this->getConnection()->getRowCount("socialLogin");
+
+        // create a new SocialLogin and insert into mySQL
+        $socialLogin = new SocialLogin(null, $this->VALID_SOCIAL_LOGIN_CONTENT);
+        $socialLogin->insert($this->getPDO());
+
+        // delete the SocialLogin from mySQL
+        $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("socialLogin"));
+        $socialLogin->delete($this->$this->getPDO());
+
+        // grab the data from mySQL and enforce the SocialLogin does not exist
+        $pdoSocialLogin = SocialLogin::getSocialLoginbySocialLoginId($this->getPDO(), $socialLogin->getSocialLoginId());
+        $this->assertNull($pdoSocialLogin);
+        $this->assertEquals($numRows, $this->getConnection()->getRowCount("socialLogin"));
+    }
