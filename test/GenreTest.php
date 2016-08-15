@@ -166,3 +166,4 @@ class GenreTest extends FlekTest {
 		$this->assertEquals($pdoGenre->getGenreName(), $this->VALID_GENRENAME);
 	}
 }
+?>

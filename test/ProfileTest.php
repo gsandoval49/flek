@@ -333,3 +333,4 @@ public function testGetInvalidProfileByProfileActivationToken() {
 		$this->assertEquals($pdoProfile->getProfileActivationToken(), $this->VALID_PROFILEACTIVATIONTOKEN);
 	}
 }
+?>
