@@ -99,3 +99,14 @@ class SocialLoginTest extends FlekTest {
         $this->assertNull($pdoSocialLogin);
         $this->assertEquals($numRows, $this->getConnection()->getRowCount("socialLogin"));
     }
+
+    /**
+     * test deleting a SocialLogin that does NOT exist
+     *
+     * @expectedException PDOException
+     **/
+    public function testDeleteInvalidSocialLogin() {
+        //create a SocialLogin and try to delete it without actually inserting it
+        $socialLogin = new SocialLogin(null, $this->VALID_SOCIAL_LOGIN_CONTENT);
+        $socialLogin->delete($this->getPDO());
+    }
