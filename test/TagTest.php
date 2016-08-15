@@ -9,10 +9,10 @@ require_once("FlekTest.php");
 
 class TagTest extends FlekTest {
 
-
-	protected $tagImageId;
-
-	protected $tagHashtagId;
+//content of the tag
+	protected $VALID_TAGCONTENT = "valid tag content";
+//updated tag content
+	protected $VALID_TAGCONTENT2 = "valid updated tag content";
 
 
 
