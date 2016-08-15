@@ -188,7 +188,7 @@ class ProfileTest extends FlekTest {
 		//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("profile");
 		//create a new Profile adn insert it in mySQL
-		$profile = new Profile(null, $this->VALID_PROFILEID, $this->VALID_PROFILENAME, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILELOCATION, $this->VALID_PROFILEBIO, $this->hash, $this->hash, $this->VALID_PROFILEACCESSTOKEN, $this->VALID_PROFILEACTIVATIONTOKEN);
+		$profile = new Profile(null, $this->VALID_PROFILEID, $this->VALID_PROFILENAME, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILELOCATION, $this->VALID_PROFILEBIO, $this->hash, $this->salt, $this->VALID_PROFILEACCESSTOKEN, $this->VALID_PROFILEACTIVATIONTOKEN);
 		$profile->insert($this->getPDO());
 		//delete the Profile from mySQL
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
@@ -206,7 +206,7 @@ class ProfileTest extends FlekTest {
 	 **/
 	public function testDeleteInvalidProfile() {
 		//create a profile and try to delete it without actually inserting it
-		$profile = new Profile(null, $this->VALID_PROFILEID, $this->VALID_PROFILENAME, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILELOCATION, $this->VALID_PROFILEBIO, $this->hash, $this->hash, $this->VALID_PROFILEACCESSTOKEN, $this->VALID_PROFILEACTIVATIONTOKEN);
+		$profile = new Profile(null, $this->VALID_PROFILEID, $this->VALID_PROFILENAME, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILELOCATION, $this->VALID_PROFILEBIO, $this->hash, $this->salt, $this->VALID_PROFILEACCESSTOKEN, $this->VALID_PROFILEACTIVATIONTOKEN);
 		$profile->delete($this->getPDO());
 	}
 
@@ -217,7 +217,7 @@ class ProfileTest extends FlekTest {
 		//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("profile");
 		//create a new Profile and insert it in mySQL
-		$profile = new Profile(null, $this->VALID_PROFILEID, $this->VALID_PROFILENAME, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILELOCATION, $this->VALID_PROFILEBIO, $this->hash, $this->hash, $this->VALID_PROFILEACCESSTOKEN, $this->VALID_PROFILEACTIVATIONTOKEN);
+		$profile = new Profile(null, $this->VALID_PROFILEID, $this->VALID_PROFILENAME, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILELOCATION, $this->VALID_PROFILEBIO, $this->hash, $this->salt, $this->VALID_PROFILEACCESSTOKEN, $this->VALID_PROFILEACTIVATIONTOKEN);
 		$profile->insert($this->getPDO());
 		//grab the data from mySQL and enforce the fields match our expectations
 		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
@@ -252,7 +252,7 @@ class ProfileTest extends FlekTest {
 		//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("profile");
 		//create a new Profile and insert it into mySQL
-		$profile = new Profile(null, $this->VALID_PROFILEID, $this->VALID_PROFILENAME, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILELOCATION, $this->VALID_PROFILEBIO, $this->hash, $this->hash, $this->VALID_PROFILEACCESSTOKEN, $this->VALID_PROFILEACTIVATIONTOKEN);
+		$profile = new Profile(null, $this->VALID_PROFILEID, $this->VALID_PROFILENAME, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILELOCATION, $this->VALID_PROFILEBIO, $this->hash, $this->salt, $this->VALID_PROFILEACCESSTOKEN, $this->VALID_PROFILEACTIVATIONTOKEN);
 		$profile->insert($this->getPDO());
 		//grab the data from mySQL and enforce the fields match our expectations
 		$result = Profile::getProfileByProfileEmail($this->getPDO(), $profile->getProfileEmail());
@@ -288,7 +288,7 @@ class ProfileTest extends FlekTest {
 		//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("profile");
 		//create a new Profile and insert it into mySQL
-		$profile = new Profile(null, $this->VALID_PROFILEID, $this->VALID_PROFILENAME, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILELOCATION, $this->VALID_PROFILEBIO, $this->hash, $this->hash, $this->VALID_PROFILEACCESSTOKEN, $this->VALID_PROFILEACTIVATIONTOKEN);
+		$profile = new Profile(null, $this->VALID_PROFILEID, $this->VALID_PROFILENAME, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILELOCATION, $this->VALID_PROFILEBIO, $this->hash, $this->salt, $this->VALID_PROFILEACCESSTOKEN, $this->VALID_PROFILEACTIVATIONTOKEN);
 		$profile->insert($this->getPDO());
 		//grab the data from mySQL and enforce the fields match our exceptions
 		$result = Profile::getProfileByProfileActivationToken($this->getPDO(), $profile->getProfileActivationToken());
@@ -322,7 +322,7 @@ class ProfileTest extends FlekTest {
 		//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("profile");
 		//create a new Profile and insert it in mySQL
-		$profile = new Profile(null, $this->VALID_PROFILEID, $this->VALID_PROFILENAME, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILELOCATION, $this->VALID_PROFILEBIO, $this->hash, $this->hash, $this->VALID_PROFILEACCESSTOKEN, $this->VALID_PROFILEACTIVATIONTOKEN);
+		$profile = new Profile(null, $this->VALID_PROFILEID, $this->VALID_PROFILENAME, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILELOCATION, $this->VALID_PROFILEBIO, $this->hash, $this->salt, $this->VALID_PROFILEACCESSTOKEN, $this->VALID_PROFILEACTIVATIONTOKEN);
 		$profile->insert($this->getPDO());
 		//grab the data from mySQL and enforce the fields match our expectations
 		$results = Profile::getsAllProfiles($this->getPDO());
@@ -343,4 +343,3 @@ class ProfileTest extends FlekTest {
 	}
 }
 
-?>
