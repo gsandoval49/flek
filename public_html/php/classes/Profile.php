@@ -564,53 +564,9 @@ profileAccessToken, profileActivationToken FROM profile WHERE profileEmail LIKE 
 	public static function getProfileByProfileAccessToken(\PDO $pdo, string $profileAccessToken) {
 		//sanitize the access token before searching
 		$profileAccessToken = trim($profileAccessToken);
-		$profileAccessToken = filter_var($profileAccessToken, FILTER_SANITIZE_STRING);
+		$profileAccessToken = filter_var($profileAccessToken, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		if(empty($profileAccessToken) === true) {
 			throw(new \PDOException("profile access token is invalid"));
-		}
-
-		//create query template
-		$query = "SELECT profileId, profileName, profileEmail, profileLocation, profileBio, profileHash, profileSalt, 
-profileAccessToken, profileActivationToken FROM profile WHERE profileAccessToken LIKE 
-:profileAccessToken";
-		$statement = $pdo->prepare($query);
-
-		//bind the profile access token to the place holder in the template
-		$parameters = array("profileAccessToken" => $profileAccessToken);
-		$statement->execute($parameters);
-
-		//build an array of profiles
-		$profiles = new \SplFixedArray($statement->rowCount());
-		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while(($row = $statement->fetch()) !== false) {
-			try {
-				$profile = new Profile($row["profileId"], $row["profileName"], $row["profileEmail"], $row["profileLocation"], $row["profileBio"], $row["profileHash"], $row["profileSalt"], $row["profileAccessToken"], $row["profileActivationToken"]);
-				$profiles[$profiles->key()] = $profile;
-				$profiles->next();
-			} catch(\Exception $exception) {
-
-				//if the row couldn't be converted, rethrow it
-				throw(new \PDOException($exception->getMessage(), 0, $exception));
-			}
-		}
-		return ($profiles);
-	}
-
-	/**
-	 * gets profile by profileActivationToken
-	 *
-	 * @param \PDO $pdo PDO connection object
-	 * @param string $profileActivationToken profile activation token to search for
-	 * @return \SplFixedArray SplFixedArray of profiles found
-	 * @throws \PDOException when mySQL related errors occur
-	 * @throws \TypeError when variables are not the correct data type
-	 **/
-	public static function getProfileByProfileActivationToken(\PDO $pdo, string $profileActivationToken) {
-		//sanitize the activation token before searching
-		$profileActivationToken = trim($profileActivationToken);
-		$profileActivationToken = filter_var($profileActivationToken, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-		if(empty($profileActivationToken) === true) {
-			throw(new \PDOException("profile activation token is invalid"));
 		}
 
 		//create query template
@@ -619,25 +575,26 @@ profileAccessToken, profileActivationToken FROM profile WHERE profileAccessToken
 :profileAccessToken";
 		$statement = $pdo->prepare($query);
 
-		//bind the profile activation token to the place holder in the template
-		$parameters = array("profileActivationToken" => $profileActivationToken);
+		//bind the profile access token to the place holder in the template
+		$parameters = array("profileAccessToken" => $profileAccessToken);
 		$statement->execute($parameters);
 
 		//build an array of profiles
-		$profiles = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while(($row = $statement->fetch()) !== false) {
 			try {
-				$profile = new Profile($row["profileId"], $row["profileName"], $row["profileEmail"], $row["profileLocation"], $row["profileBio"], $row["profileHash"], $row["profileSalt"], $row["profileAccessToken"], $row["profileActivationToken"]);
-				$profiles[$profiles->key()] = $profile;
-				$profiles->next();
+				$profile = null;
+				$statement->setFetchMode(\PDO::FETCH_ASSOC);
+				$row = $statement->fetch();
+				if($row !== false) {
+					$profile = new Profile($row["profileId"], $row["profileName"], $row["profileEmail"], $row["profileLocation"], $row["profileBio"], $row["profileHash"], $row["profileSalt"], $row["profileAccessToken"], $row["profileActivationToken"]);
+				}
 			} catch(\Exception $exception) {
 
 				//if the row couldn't be converted, rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
-		}
-		return ($profiles);
+
+		return ($profile);
 	}
 
 	/**
