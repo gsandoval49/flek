@@ -132,3 +132,12 @@ class SocialLoginTest extends FlekTest {
         $this->assertEquals($pdoSocialLogin->getSocialLoginName(), $this->VALID_SOCIAL_LOGIN_CONTENT);
     }
 
+    /**
+     * test grabbing a SocialLogin that does NOT exist
+     **/
+    public function testGetInvalidSocialLoginBySocialLoginName() {
+        // grab a profile id that exceeds the maximum allowable profile id
+        $socialLogin = SocialLogin::getSocialLoginbySocialLoginId($this->getPDO(), FlekTest::INVALID_KEY);
+        $this->assertNull($socialLogin);
+    }
+
