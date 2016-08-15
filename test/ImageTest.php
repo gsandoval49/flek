@@ -1,9 +1,7 @@
 <?php
 namespace Edu\Cnm\Flek\Test;
 
-use Edu\Cnm\Flek\{
-	Image, Profile
-};
+use Edu\Cnm\Flek\{Image};
 
 // grab the class under scrutiny
 require_once("FlekTest.php");
