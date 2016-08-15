@@ -9,4 +9,12 @@ require_once("FlekTest.php");
 
 class TagTest extends FlekTest {
 
+
+	protected $tagImageId;
+
+	protected $tagHashtagId;
+
+
+
+
 }
