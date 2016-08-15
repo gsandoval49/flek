@@ -155,13 +155,13 @@ class SocialLoginTest extends FlekTest {
     /**
      * test grabbing all SocialLogins
      **/
-    public function testGetAllValidHashtags() {
+    public function testGetAllValidSocialLogins() {
         // count the number of rows and save it for later
-        $numRows = $this->getConnection()->getRowCount("hashtag");
+        $numRows = $this->getConnection()->getRowCount("socialLogin");
 
-        // create a new Hashtag and insert into mySQL
-        $hashtag = new Tag(null, $this->VALID_HASHTAG_CONTENT);
-        $hashtag->insert($this->getPDO());
+        // create a new SocialLogin and insert into mySQL
+        $socialLogin = new SocialLogin(null, $this->VALID_SOCIAL_LOGIN_CONTENT);
+        $socialLogin->insert($this->getPDO());
 
         //grab the data from mySQL and enforce the fields match our expectations
         $results = Hashtag::getAllHashtags($this->getPDO());
