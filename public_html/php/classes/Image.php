@@ -54,8 +54,7 @@ class Image implements \JsonSerializable {
 	 * @throws \TypeError if data types violate type hints
 	 * @throws \Exception if some other exception occurs
 	 */
-	public function __construct(int $newImageId = null, int $newImageProfileId, string $newImageDescription, string $newImageSecureURL,
-										 string $newImagePublicId, int $newImageGenreId = null) {
+	public function __construct(int $newImageId = null, int $newImageProfileId, string $newImageDescription, string $newImageSecureURL, string $newImagePublicId, int $newImageGenreId = null) {
 		try {
 			$this->setImageId($newImageId);
 			$this->setImageProfileId($newImageProfileId);
@@ -221,7 +220,7 @@ class Image implements \JsonSerializable {
 		}
 		$this->imageGenreId = $newImageGenreId;
 	}
-}
+
 
 /*
  * inserts the Image into mySQL
@@ -264,13 +263,13 @@ class Image implements \JsonSerializable {
 	 * create query template
 	 */
 	$query = "DELETE FROM image WHERE imageId = :imageId";
-	$statment = $pdo->prepare($query);
+	$statement = $pdo->prepare($query);
 
 	/*
 	 * bind the member variables to the place holder the template
 	 */
 	$parameters = ["imageId" => $this->imageId];
-	$statement->exectute($parameters);
+	$statement->execute($parameters);
 }
 	/*
 	 * updates this Image in mySQL
@@ -304,7 +303,7 @@ class Image implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related erros
 	 * @throws \TypeError when variables are not to correct data type
 	 */
-		public static function getImagebyImageDescription(\PDO, $pdo, string $imageDescription) {
+		public static function getImagebyImageDescription(\PDO $pdo, string $imageDescription) {
 			//sanitize the description before searching
 		$imageDescriotion = trim($imageDescription);
 		$imageDescriotion = filter_var($imageDescription, FILTER_SANITIZE_STRING);
@@ -325,13 +324,13 @@ class Image implements \JsonSerializable {
 		//build an array of images
 		$image = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while($row = $statement->fetch()) !==false) {
+		while(($row = $statement->fetch()) !== false) {
 		try {
 			$image = new Image($row["imageId"], $row["imageProfileId"], $row["imageDescription"], $row["imageSecureId"],
 				$row["imagePublicId"], $row["imageGenreId"], $row["imagePublicId"], $row["imageSecureId"], $row["imagePublicId"]
 				, $row["imageGenreId"]);
-			$image[$image->key()] = $image;
-			$image->next();
+			$images[$images->key()] = $image;
+			$images->next();
 		} catch(\Exception $exception) {
 			// if the row couldn;t be converted rethrow it
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
@@ -432,24 +431,23 @@ class Image implements \JsonSerializable {
 		$statement->execute();
 
 		//build an array of images
-	$images = new \SplFixedArray($statement->rowCount());
+		$images = new \SplFixedArray($statement->rowCount());
 
-	$statement->setFetchMode(\PDO::FETCH_ASSOC);
-	while(($row = $statement->fetch()) !== false) {
-		try{
-			$image = new Image($row["imageId"], $row["imageProfileId"], $row["imageDescription"], $row["imageSecureUrl"],
-				$row["imagePublicId"], $row["imageGenreId"]);
-		}
-			$images = new Image($row["imageId"], $row["imageProfileId"], $row["imageDescription"], $row["imageSecureUrl"],
-				$row["imagePublicId"], $row["imageGenreId"]);
-			$images[$image->key()] = $image;
-			$images->next();
-	}
-			catch(\Exception $exception) {
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$image = new Image($row["imageId"], $row["imageProfileId"], $row["imageDescription"], $row["imageSecureUrl"],
+					$row["imagePublicId"], $row["imageGenreId"]);
+
+				$images = new Image($row["imageId"], $row["imageProfileId"], $row["imageDescription"], $row["imageSecureUrl"],
+					$row["imagePublicId"], $row["imageGenreId"]);
+				$images[$image->key()] = $image;
+				$images->next();
+			} catch(\Exception $exception) {
 				//if the row couldn't be converted, rethrow it
-			throw(new \PDOException($exception->getMessage(), 0, $exception));
-}
-}
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
 	return ($images);
 }
 
