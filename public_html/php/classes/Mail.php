@@ -15,7 +15,7 @@ require_once("autoload.php");
 
 
 class Mail implements \JsonSerializable {
-	use ValidateDate;
+	/*use ValidateDate;*/
 	/**
 	 *  this is the primary key for the Mail class
 	* @var int $mailId
