@@ -104,10 +104,10 @@ class ProfileTest extends FlekTest {
 		parent::setUp();
 
 		//create and insert a Profile to own the account
-		$this->VALID_PROFILEACCESSTOKEN = bin2hex(random_bytes(128));
-		$this->VALID_PROFILEACTIVATIONTOKEN = bin2hex(random_bytes(32));
-		$this->hash = hash_pbkdf2("sha256", "abc123", $this->salt, 1000, 128);
-		$this->salt = bin2hex(random_bytes(64));
+		$this->VALID_PROFILEACCESSTOKEN = bin2hex(random_bytes(16));
+		$this->VALID_PROFILEACTIVATIONTOKEN = bin2hex(random_bytes(16));
+		$this->salt = bin2hex(random_bytes(32));
+		$this->hash = hash_pbkdf2("sha256", "abc123", $this->salt, 262144);
 	}
 
 	/**
