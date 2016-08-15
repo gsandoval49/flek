@@ -133,11 +133,22 @@ class SocialLoginTest extends FlekTest {
     }
 
     /**
-     * test grabbing a SocialLogin that does NOT exist
+     * test grabbing a SocialLogin Id that does NOT exist
      **/
-    public function testGetInvalidSocialLoginBySocialLoginName() {
+    public function testGetInvalidSocialLoginBySocialLoginId() {
         // grab a profile id that exceeds the maximum allowable profile id
         $socialLogin = SocialLogin::getSocialLoginbySocialLoginId($this->getPDO(), FlekTest::INVALID_KEY);
         $this->assertNull($socialLogin);
+    }
+
+    /**
+     * test grabbing a SocialLogin by content that does not exist, apparently Dylan didn't do this :)
+     *
+     * See if I still need to have this function in if it comes up as an error? this was an example from Gerald.
+     **/
+    public function testGetInvalidSocialLoginBySocialLoginName() {
+        // grab a SocialLogin by content that does NOT exist
+        $socialLogin = SocialLogin::getSocialLoginbySocialLoginName($this->getPDO(), "nobody ever made this SOCIALLOGIN NAME. LET'S SEE IF THIS WORKS.");
+        $this->assertCount(0, $socialLogin);
     }
 
