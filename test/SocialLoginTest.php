@@ -46,7 +46,7 @@ class SocialLoginTest extends FlekTest {
         // grab the data from mySQL and enforce the fields match
         $pdoSocialLogin = SocialLogin::getSocialLoginbySocialLoginId($this->getPDO(), $socialLogin->getSocialLoginId());
         $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("socialLogin"));
-        $this->assertEquals($pdoSocialLogin->getSocialLoginName($this->VALID_SOCIAL_LOGIN_CONTENT, $this->VALID_SOCIAL_LOGIN_CONTENT); //do i need valid social login content twice?
+        $this->assertEquals($pdoSocialLogin->getSocialLoginName($this->VALID_SOCIAL_LOGIN_CONTENT);
     }
 
     /**
