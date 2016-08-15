@@ -65,7 +65,7 @@ class Image implements \JsonSerializable {
 		} catch(\InvalidArgumentException $invalidArgument) {
 			//rethrow the exception to the caller
 			throw(new \InvalidArgumentException(
-				$invalidArgument->getMessage(), 0, $invalidArgument));
+				$invalidArgument->$invalidArgument->getMessage(), 0, $invalidArgument));
 		} catch(\RangeException $range) {
 			//rethrow the exception to the caller
 			throw(new\RangeException($range->getMessage(), 0, $range));
