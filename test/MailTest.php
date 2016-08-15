@@ -61,11 +61,11 @@ class MailTest extends FlekTest {
 		parent::setUp();
 
 		//create and insert a Profile to send the test Message
-		$this->messageSentProfileId = new Profile(null, "j", "test@phpunit.de","+1936201650912");
+		$this->mailSenderId = new Sender(null, "j", "test@phpunit.de","mmmmmkay");
 		$this->mailSenderId->insert($this->getPDO());
 		//create and insert a Profile to receive the test Message
-		$this->mailReceiverId = new Profile(null, "K", "tested@phpunit.de","+19264821");
-		$this->messageReceiveProfileId->insert($this->getPDO());
+		$this->mailReceiverId = new Receiver(null, "K", "tested@phpunit.de","okie dokie");
+		$this->mailReceiverProfileId->insert($this->getPDO());
 		//calculate the date using the time the unit test was set up
 		/*$this->VALID_MAILDATE = new \DateTime();*/
 	}
