@@ -30,7 +30,7 @@ class HashtagTest extends FlekTest {
      * content of the updated hashtag
      * @var string $VALID_HASHTAG_CONTENT2
      **/
-    protected $VALID_HASHTAG_CONTENT2 = "This part better work too!"
+    protected $VALID_HASHTAG_CONTENT2 = "This part better work too!";
     /**
      * Test inserting a valid hashtag and verifying that mySQL data matches
      **/
@@ -170,16 +170,4 @@ class HashtagTest extends FlekTest {
         $pdoHashtag = $results[0];
         $this->assertEquals($pdoHashtag->getHashtagName(), $this->VALID_HASHTAG_CONTENT);
     }
-
-    /**
-     *
-     **/
-
-
-    
-
-
-
-
-
 }
