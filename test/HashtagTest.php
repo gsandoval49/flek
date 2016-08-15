@@ -151,7 +151,7 @@ class HashtagTest extends FlekTest {
     }
 
     /**
-     * test grabbing all Tags
+     * test grabbing all Hashtags
      **/
     public function testGetAllValidHashtags() {
         // count the number of rows and save it for later
