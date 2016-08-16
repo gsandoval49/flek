@@ -133,7 +133,7 @@ class MailTest extends FlekTest {
 		$numRows = $this->getConnection()->getRowCount("mail");
 
 		//create new message and insert it to mySQL
-		$mail = new Mail(null, $this->mailSenderId->getProfileId(),$this->VALID_MAILCONTENT);
+		$mail = new Mail(null, $this->VALID_MAILGUNID, $this->mailSenderId->getProfileId(), $this->VALID_MAILCONTENT, $this->VALID_MAILCONTENT2);
 		$mail->insert($this->getPDO());
 
 		//delete the message from mySQL
