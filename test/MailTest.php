@@ -63,10 +63,10 @@ class MailTest extends FlekTest {
 		//for unit testing, probably needs to resolve issue with activationToken in ProfileTest
 		//ask and check to make sure everything is 1-1 with the attributes in Profile
 		//create and insert a Profile to send the test Message
-		$this->mailSenderId = new Profile(null, "j", "test@phpunit.de", "tibuktu", "I eat chickens, mmmmmkay", "+160160128658176","+0856185", 64,32, "01234567890");
+		$this->mailSenderId = new Profile(null, "j", "test@phpunit.de", "tibuktu", "I eat chickens, mmmmmkay", "hash placeholder","salt placeholder", 64,32);
 		$this->mailSenderId->insert($this->getPDO());
 		//create and insert a Profile to receive the test Message
-		$this->mailReceiverId = new Profile(null, "K", "tested@phpunit.de", "fiji","I play hopskotch","okie dokie", "+198469156", 64, 32, "01234567890");
+		$this->mailReceiverId = new Profile(null, "K", "tested@phpunit.de", "fiji","I play hopskotch","okie dokie", "hash placeholder", "salt placeholder", 64, 32);
 		$this->mailReceiverId->insert($this->getPDO());
 		//calculate the date using the time the unit test was set up
 		/*$this->VALID_MAILDATE = new \DateTime();*/
