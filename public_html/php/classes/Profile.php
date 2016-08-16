@@ -578,7 +578,7 @@ profileAccessToken, profileActivationToken FROM profile WHERE profileAccessToken
 		$parameters = array("profileAccessToken" => $profileAccessToken);
 		$statement->execute($parameters);
 
-		//build an array of profiles
+		//throw the object
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			try {
 				$profile = null;
@@ -642,4 +642,3 @@ profileAccessToken, profileActivationToken FROM profile";
 
 }
 
-?>

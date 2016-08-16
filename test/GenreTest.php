@@ -35,7 +35,7 @@ class GenreTest extends FlekTest {
 		//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("genre");
 		//create a new genre and insert into mySQL
-		$genre = new Genre(null, $this->VALLID_GENRENAME);
+		$genre = new Genre(null, $this->VALID_GENRENAME);
 		$genre->insert($this->getPDO());
 		//grab the data from mySQL and enforce the fields match our expectations
 		$pdoGenre = Genre::getGenrebyGenreId($this->getPDO(), $genre->getGenreId());
@@ -46,7 +46,7 @@ class GenreTest extends FlekTest {
 	/**
 	 * test inserting a Genre that already exists
 	 *
-	 * @expectedException \PDOException
+	 * @expectedException PDOException
 	 **/
 	public function testInsertInvalidGenre() {
 		//create a Genre with a non null genre id and watch it fail
@@ -75,12 +75,12 @@ class GenreTest extends FlekTest {
 	/**
 	 *test updating a Genre that already exists
 	 *
-	 * @expectedException \PDOException
+	 * @expectedException PDOException
 	 **/
 	public function testUpdateInvalidGenre() {
 		//create a Genre with a non null genre id and watch it fail
 		$genre = new Genre(null, $this->VALID_GENRENAME);
-		$genre->insert($this->getPDO());
+		$genre->update($this->getPDO());
 	}
 
 	/**
@@ -131,12 +131,8 @@ class GenreTest extends FlekTest {
 		$genre = new Genre(null, $this->VALID_GENRENAME);
 		$genre->insert($this->getPDO());
 		//grab the data from mySQL and enforce the fields match our expectations
-		$results = Genre::getGenreByGenreName($this->getPDO(), $genre->getGenreName());
+		$pdoGenre = Genre::getGenreByGenreName($this->getPDO(), $genre->getGenreName());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("genre"));
-		$this->assertCount(1, $results);
-		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Flek\\Genre", $results);
-		//grab the result from the array and validate it
-		$pdoGenre = $results[0];
 		$this->assertEquals($pdoGenre->getGenreName(), $this->VALID_GENRENAME);
 	}
 	/**
@@ -166,4 +162,3 @@ class GenreTest extends FlekTest {
 		$this->assertEquals($pdoGenre->getGenreName(), $this->VALID_GENRENAME);
 	}
 }
-?>
