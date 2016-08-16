@@ -59,7 +59,7 @@ class Genre implements \JsonSerializable {
 	/**
 	 * mutator method for genre id
 	 *
-	 * @param int|null $newGenreId new value of genre id
+	 * @param int $newGenreId new value of genre id
 	 * @throws \RangeException if $newGenreId is not positive
 	 * @throws \TypeError if $newGenreId is not an integer
 	 **/
@@ -119,10 +119,10 @@ class Genre implements \JsonSerializable {
 			throw(new \PDOException("not a new genre"));
 		}
 		//create a query template
-		$query = "INSERT INTO genre(genreName) VALUES(:genreName)";
+		$query = "INSERT INTO genre(genreName) VALUES(:genreName)";                //insert genre id???
 		$statement = $pdo->prepare($query);
 		//bind the member variables to the place holders in the template
-		$parameters = ["genreName" => $this->genreName];
+		$parameters = ["genreName" => $this->genreName];                            //insert genre id??
 		$statement->execute($parameters);
 		//update the null genreId with what mySQL just gave us
 		$this->genreId = intval($pdo->lastInsertId());
@@ -220,7 +220,7 @@ class Genre implements \JsonSerializable {
 		$query = "SELECT genreId, genreName FROM genre WHERE genreId = :genreId";
 		$statement = $pdo->prepare($query);
 		//bind the genre id ot the place holder in the template
-		$parameters = array("genreId" => $genreId);
+		$parameters = ["genreId" => $genreId];
 		$statement->execute($parameters);
 		//get the genre from mySQL
 		try {
