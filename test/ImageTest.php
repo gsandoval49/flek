@@ -42,6 +42,15 @@ class ImageTest extends FlekTest {
 	 */
 	protected $VALID_GENRE = "Graffiti Artists";
 
+	protected $VALID_PROFILEACCESSTOKEN = "01234567890";
+
+	protected $VALID_PROFILEACTIVATIONTOKEN ="01234567890123456789012345678901";
+
+	protected $VALID_PROFILEACTIVATIONTOKEN2 = "01234567890123456789012345678902";
+
+
+
+
 	/*
  * profile that created the image; this is for the foreign key relations
  * @var imageProfileId
@@ -72,13 +81,13 @@ class ImageTest extends FlekTest {
 		$this->image = new Image(null, "pictures of art", "here in the Land of Enchantment", "100 degrees", "2848394850596505050505",
 			"connectwithart.com");
 		$this->image->insert($this->getPDO());
-
 */
 
+
 		//create a user that owns the image
-		$this->profile = new Profile(null,"Arlene", "bar@foo.com", "foo@bar.com", "Taos, NM", "Albuquerque,NM", "profile is empty or insecure", "test is still passing");
+		$this->profile = new Profile(null, "dpeshlakai", "bar@foo.com", "foo@bar.com", "Taos, NM", "Albuquerque,NM", "profile is empty or insecure", "test is still passing", "01234567890", "01234567890123456789012345678901", "01234567890123456789012345678902");
 		$this->profile->insert($this->getPDO());
-		$pdoProfile = Profile::getProfileByImageId($this->getPDO(), $this->profile->getImageId());
+		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $this->profile->getProfileId());
 
 
 	}
