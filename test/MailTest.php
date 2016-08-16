@@ -81,7 +81,7 @@ class MailTest extends FlekTest {
 		$numRows = $this->getConnection()->getRowCount("mail");
 
 		//create a new message and insert it to mySQL
-		$mail = new Mail(null, $this->sender->getProfileId(),$this->VALID_MAILCONTENT);
+		$mail = new Mail(null, $this->VALID_MAILGUNID, $this->mailSenderId->getProfileId(),$this->mailReceiverId->getProfileId(), $this->VALID_MAILCONTENT);
 		$mail->insert($this->getPDO());
 	}
 	/**
@@ -112,7 +112,7 @@ class MailTest extends FlekTest {
 		//grab the data from mySQL and enforce the fields match our expectations
 		$pdoMail = Mail::getMailByMailId($this->getPDO(), $mail->getMailId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("mail"));
-		$this->assertEquals($pdoMail->getProfileId(), $this->sender->getProfileId());
+		$this->assertEquals($pdoMail->getProfileId(), $this->mailSenderId->getProfileId());
 		$this->assertEquals($pdoMail->getMailContent(), $this->VALID_MAILCONTENT2);
 
 	}
