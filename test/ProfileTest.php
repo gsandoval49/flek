@@ -79,7 +79,7 @@ class ProfileTest extends FlekTest {
 	protected $VALID_PROFILEACCESSTOKEN = "01234567890";
 
 	/**
-	 * activation token for prof ile
+	 * activation token for profile
 	 * @var string $VALID_PROFILEACTIVATIONTOKEN
 	 **/
 	protected $VALID_PROFILEACTIVATIONTOKEN = "01234567890123456789012345678901";
