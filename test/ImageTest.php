@@ -61,6 +61,12 @@ class ImageTest extends FlekTest {
 	//run the default setUp() method first
 		parent::setup();
 
+		/*
+		 * creating setup for hash and salt
+		 */
+		$this->VALID_PROFILEACTIVATIONTOKEN = bin2hex(random_bytes(16));
+		$this->salt = bin2hex(random_bytes(32));
+		$this->hash = hash_pbkdf2("sha256", "abc123", $this->salt, 262144);
 		//create and insert a image to own the test
 /*
 		$this->image = new Image(null, "pictures of art", "here in the Land of Enchantment", "100 degrees", "2848394850596505050505",
@@ -70,7 +76,7 @@ class ImageTest extends FlekTest {
 */
 
 		//create a user that owns the image
-		$this->profile = new Profile(null, "Arlene", "bar@foo.com", "foo@bar.com", "Taos, NM", "so many type of art to see", "local artists in the state of new mexico", "art lovers are welcome", "test is still passing");
+		$this->profile = new Profile(null, "Arlene", "bar@foo.com", "foo@bar.com", "Taos, NM", "so many type of art to see", "local artists in the state of new mexico", "profile is empty or insecure", "test is still passing");
 		$this->profile->insert($this->getPDO());
 
 }
@@ -79,7 +85,7 @@ class ImageTest extends FlekTest {
  * test inserting a valid Image and verify that the actual mySQL data matches
  */
 	public function testInsertValidImage() {
-		//count the number of rows and svaid it for later
+		//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("image");
 
 		//create a new image and insert to into mySQL
