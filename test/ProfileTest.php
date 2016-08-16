@@ -73,6 +73,19 @@ class ProfileTest extends FlekTest {
 	private $salt;
 
 	/**
+	 * content of the profile hash
+	 * @var string $VALID_PROFILEHASH
+	**/
+
+protected $VALID_PROFILEHASH= "12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678";
+
+	/** content of the Profile Salt
+	 * @var string $VALID_PROFILESALT
+	 **/
+
+	protected $VALID_PROFILESALT= "1234567890123456789012345678901234567890123456789012345678901234";
+
+	/**
 	 * access token for profile
 	 * @var string $VALID_PROFILEACCESSTOKEN
 	 **/
