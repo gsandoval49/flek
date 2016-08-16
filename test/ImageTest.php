@@ -76,10 +76,12 @@ class ImageTest extends FlekTest {
 */
 
 		//create a user that owns the image
-		$this->profile = new Profile(null, "Arlene", "bar@foo.com", "foo@bar.com", "Taos, NM", "Albuquerque,NM", "profile is empty or insecure", "test is still passing");
+		$this->profile = new Profile(null,"Arlene", "bar@foo.com", "foo@bar.com", "Taos, NM", "Albuquerque,NM", "profile is empty or insecure", "test is still passing");
 		$this->profile->insert($this->getPDO());
+		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $this->profile->getProfileId());
 
-}
+
+	}
 
 /*
  * test inserting a valid Image and verify that the actual mySQL data matches
