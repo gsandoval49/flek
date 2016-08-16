@@ -1,7 +1,7 @@
 <?php
 namespace Edu\Cnm\Flek\Test;
 
-use Edu\Cnm\Flek\{Image};
+use Edu\Cnm\Flek\{Image, Profile};
 
 // grab the class under scrutiny
 require_once("FlekTest.php");
@@ -62,13 +62,15 @@ class ImageTest extends FlekTest {
 		parent::setup();
 
 		//create and insert a image to own the test
+/*
 		$this->image = new Image(null, "pictures of art", "here in the Land of Enchantment", "100 degrees", "2848394850596505050505",
 			"connectwithart.com");
 		$this->image->insert($this->getPDO());
 
+*/
+
 		//create a user that owns the image
-		$this->profile = new Profile(null, "Arlene", "so many type of art to see", "local artists in the state of new mexico", "
-		art lovers are welcome");
+		$this->profile = new Profile(null, "Arlene", "bar@foo.com", "foo@bar.com", "Taos, NM", "so many type of art to see", "local artists in the state of new mexico", "art lovers are welcome");
 		$this->profile->insert($this->getPDO());
 
 }
