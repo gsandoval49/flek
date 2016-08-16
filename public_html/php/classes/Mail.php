@@ -65,7 +65,7 @@ class Mail implements \JsonSerializable {
  * @throws \TypeError if data types violate type hints
  * @throws \Exception if some other exception occurs
  * */
-	public function __construct(int $newMailId = null, string $newMailSubject, int $newMailSenderId, int $newMailReceiverId,int $newMailGunId,string $newMailContent, $newMailDateTime = null) {
+	public function __construct(int $newMailId = null, string $newMailSubject, int $newMailSenderId, int $newMailReceiverId,int $newMailGunId,string $newMailContent) {
 		try {
  			$this->setMailId($newMailId);
 			$this->setMailSubject($newMailSubject);

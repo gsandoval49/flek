@@ -83,7 +83,7 @@ class MailTest extends FlekTest {
 		$numRows = $this->getConnection()->getRowCount("mail");
 
 		//create a new message and insert it to mySQL
-		$mail = new Mail(null, $this->VALID_MAILGUNID, $this->mailSenderId->getProfileId(),$this->mailReceiverId->getProfileId(), $this->VALID_MAILCONTENT);
+		$mail = new Mail(null, $this->VALID_MAILGUNID, $this->mailSenderId->getProfileId(),$this->mailReceiverId, $this->VALID_MAILCONTENT);
 		$mail->insert($this->getPDO());
 	}
 	/**
