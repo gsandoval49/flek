@@ -61,7 +61,7 @@ class MailTest extends FlekTest {
 		parent::setUp();
 
 		//create and insert a Profile to send the test Message
-		$this->mailSenderId = new Profile(null, "j", "test@phpunit.de", "tibuktu", "I eat chickens, mmmmmkay", "+160160128658176","+0856185","+529692562058652");
+		$this->mailSenderId = new Profile(null, "j", "test@phpunit.de", "tibuktu", "I eat chickens, mmmmmkay", "+160160128658176","+0856185","+529692562058652", "very well");
 		$this->mailSenderId->insert($this->getPDO());
 		//create and insert a Profile to receive the test Message
 		$this->mailReceiverId = new Profile(null, "K", "tested@phpunit.de", "fiji","I play hopskotch","okie dokie", "+198469156", "+19856158076");
