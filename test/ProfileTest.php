@@ -272,7 +272,7 @@ class ProfileTest extends FlekTest {
 	}
 
 	/**
-	 *test grabbing a Profile by profile activation token
+	 *test grabbing a Profile by profile access token
 	 **/
 	public function testGetValidProfileAccessToken() {
 		//count the number of rows and save it for later
@@ -296,7 +296,7 @@ class ProfileTest extends FlekTest {
 	}
 
 	/**
-	 *test grabbing a Profile by profile activation token that does not exist
+	 *test grabbing a Profile by profile access token that does not exist
 	 **/
 	public function testGetInvalidProfileByProfileAccessToken() {
 		//grab a Profile by searching for profile activation token that doesn't exist
