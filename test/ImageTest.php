@@ -78,7 +78,7 @@ class ImageTest extends FlekTest {
 		//create a user that owns the image
 		$this->profile = new Profile(null,"Arlene", "bar@foo.com", "foo@bar.com", "Taos, NM", "Albuquerque,NM", "profile is empty or insecure", "test is still passing");
 		$this->profile->insert($this->getPDO());
-		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $this->profile->getProfileId());
+		$pdoProfile = Profile::getProfileByImageId($this->getPDO(), $this->profile->getImageId());
 
 
 	}
@@ -91,7 +91,7 @@ class ImageTest extends FlekTest {
 		$numRows = $this->getConnection()->getRowCount("image");
 
 		//create a new image and insert to into mySQL
-		$image = new Image(null, $this->profile->getImageProfileId(), $this->VALID_CONTENT, $this->VALID_SECUREURL, $this->VALID_PUBLIC, $this-> $this->VALID_GENRE);
+		$image = new Image(null, $this->profile->getImageProfileId(), $this->VALID_CONTENT, $this->VALID_SECUREURL, $this->VALID_PUBLIC, $this->VALID_GENRE);
 		$image->insert($this->getPDO());
 
 		//grab the data from mySQL and enforce the fields match our expectations
