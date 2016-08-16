@@ -63,10 +63,12 @@ class MailTest extends FlekTest {
 		//for unit testing, probably needs to resolve issue with activationToken in ProfileTest
 		//ask and check to make sure everything is 1-1 with the attributes in Profile
 		//create and insert a Profile to send the test Message
-		$this->mailSenderId = new Profile(null, "j", "test@phpunit.de", "tibuktu", "I eat chickens, mmmmmkay", "hash placeholder","salt placeholder", "01234567890","01234567890123456789012345678901");
+		/*$this->mailSenderId = new Profile(null, $this->VALID_PROFILENAME, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILELOCATION, $this->VALID_PROFILEBIO, $this->hash, $this->salt, $this->VALID_PROFILEACCESSTOKEN, $this->VALID_PROFILEACTIVATIONTOKEN);
+		$this->mailReceiverId = new Profile (null, $this->VALID_PROFILENAME, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILELOCATION, $this->VALID_PROFILEBIO, $this->hash, $this->salt, $this->VALID_PROFILEACCESSTOKEN, $this->VALID_PROFILEACTIVATIONTOKEN);*/
+		$this->mailSenderId = new Profile(null, "j", "test@phpunit.de", "tibuktu", "I eat chickens, mmmmmkay", "12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678","1234567890123456789012345678901234567890123456789012345678901234", "01234567890","01234567890123456789012345678901");
 		$this->mailSenderId->insert($this->getPDO());
 		//create and insert a Profile to receive the test Message
-		$this->mailReceiverId = new Profile(null, "K", "tested@phpunit.de", "fiji","I play hopskotch","okie dokie", "hash placeholder", "salt placeholder", "01234567890", "01234567890123456789012345678901");
+		$this->mailReceiverId = new Profile(null, "K", "tested@phpunit.de", "fiji","I play hopskotch","okie dokie", "12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678", "1234567890123456789012345678901234567890123456789012345678901234", "01234567890", "01234567890123456789012345678901");
 		$this->mailReceiverId->insert($this->getPDO());
 		//calculate the date using the time the unit test was set up
 		/*$this->VALID_MAILDATE = new \DateTime();*/
