@@ -1,7 +1,7 @@
 <?php
 namespace Edu\Cnm\Flek\Test;
 
-use Edu\Cnm\Flek\{Favorite};
+use Edu\Cnm\Flek\{Favorite, Profile};
 
 //grab the project test parameters
 require_once(dirname(__DIR__) . "/public_html/php/classes/autoload.php");
@@ -40,6 +40,17 @@ class FavoriteTest extends FlekTest {
 	public final function setUp() {
 		// run the default setUp() method first
 		parent::setUp();
+		/*
+	 * creating setup for hash and salt
+	 */
+		$this->VALID_PROFILEACTIVATIONTOKEN = bin2hex(random_bytes(16));
+		$this->salt = bin2hex(random_bytes(32));
+		$this->hash = hash_pbkdf2("sha256", "abc123", $this->salt, 262144);
+
+		//create a user that owns the image
+		$this->profile = new Profile(null, "Arlene", "bar@foo.com", "foo@bar.com", "Taos, NM", "so many type of art to see", "local artists in the state of new mexico", "profile is empty or insecure", "test is still passing");
+		$this->profile->insert($this->getPDO());
+		/*
 		// create and insert a Favoritee to own the test Favorite
 		$this->favoritee = new Favorite(null, "It's going to rain today", "test@phpunit.de", "here in the land of enchantment
 		its 77 degrees right now");
@@ -49,10 +60,11 @@ class FavoriteTest extends FlekTest {
 		$this->favoriter = new Favorite(null, "I cant wait to see the Star wars movie", "508 warehouse is doing an event today");
 		$this->favoriter->insert($this->getPDO());
 }
-
+*/
+	}
 
 	/*
-	 * test inerting a valid Favorite and verify that the actual mySQL data matches
+	 * test inserting a valid Favorite and verify that the actual mySQL data matches
 	 */
 		public function testInsertValidFavorite() {
 			//count the number of rows and save it for later

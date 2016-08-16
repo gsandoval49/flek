@@ -76,7 +76,7 @@ class ImageTest extends FlekTest {
 */
 
 		//create a user that owns the image
-		$this->profile = new Profile(null, "Arlene", "bar@foo.com", "foo@bar.com", "Taos, NM", "so many type of art to see", "local artists in the state of new mexico", "profile is empty or insecure", "test is still passing");
+		$this->profile = new Profile(null, "Arlene", "bar@foo.com", "foo@bar.com", "Taos, NM", "Albuquerque,NM", "profile is empty or insecure", "test is still passing");
 		$this->profile->insert($this->getPDO());
 
 }
