@@ -118,9 +118,7 @@ class ImageTest extends FlekTest {
 	public function testInsertInvalidImage() {
 	//create a image with a non null image id and watch it fail
 		$image = new Image(FlekTest::INVALID_KEY, $this->profile->getProfileId(), $this->VALID_CONTENT,
-			$this->VALID_SECUREURL, $this->VALID_PUBLIC, $this->VALID_GENRE,$this->VALID_PROFILENAME,$this->VALID_PROFILEEMAIL,
-		 $this->VALID_PROFILELOCATION, $this->VALID_PROFILEBIO, $this->hash, $this->salt, $this->VALID_PROFILEACCESSTOKEN
-		, $this->VALID_PROFILEACTIVATIONTOKEN);
+			$this->VALID_SECUREURL, $this->VALID_PUBLIC, $this->VALID_GENRE, $this->hash, $this->salt, 	$this->VALID_PROFILEACCESSTOKEN, $this->VALID_PROFILEACTIVATIONTOKEN);
 		$image->insert($this->getPDO());
 	}
 
@@ -168,8 +166,8 @@ public function testDeleteValidImage() {
 	//count the number of rows and save it for later
 	$numRows = $this->getConnection()->getRowCount("image");
 
-	//creat a new Image and insert to into mySQL
-	$image = new Image(null, $this->profile->getImageId(), $this->VALID_CONTENT, $this->VALID_SECUREURL,
+	//create a new Image and insert to into mySQL
+	$image = new Image(null, $this->profile->getProfileId(), $this->VALID_CONTENT, $this->VALID_SECUREURL,
 	$this->VALID_PUBLIC, $this->VALID_GENRE);
 	$image->insert($this->getPDO());
 
@@ -203,7 +201,7 @@ public function testGetValidImageByImageId() {
 	//count the number of rows and save it for later
 	$numRows = $this->getConnection()->getRowCount("image");
 	//create a new Image and insert to into mySQL
-	$image = new Image(null, $this->profile - getImageId(), $this->VALID_CONTENT, $this->VALID_SECUREURL,
+	$image = new Image(null, $this->profile - getProfileId(), $this->VALID_CONTENT, $this->VALID_SECUREURL,
 		$this->VALID_PUBLIC, $this->VALID_GENRE);
 	$image->insert($this->getPDO());
 
