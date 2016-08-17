@@ -20,10 +20,11 @@ require_once(dirname(__DIR__) . "/public_html/php/classes/autoload.php");
  */
 class ImageTest extends FlekTest {
 
-	protected $VALID_IMAGEPROFILEID = "dpeshlakai";
+	protected $VALID_IMAGEPROFILEID = null;
+
 	/*
 	 * description of the uploaded image
-	 * @var string $VALID_IMAGEDESCRIPTION
+	 * @var string $valid_imagedescription
 	 */
 	protected $VALID_IMAGEDESCRIPTION = "Image test is still passing!";
 	/*
@@ -42,7 +43,7 @@ class ImageTest extends FlekTest {
 	 * genre id for image uploaded
 	 * @var int $VALID_IMAGEGENREID
 	 */
-	protected $VALID_IMAGEGENREID = "45345345454545";
+	protected $VALID_IMAGEGENREID = "123456789000";
 
 	/**
 	 * profile that creates image; this is for the foreign key relations
@@ -81,12 +82,13 @@ class ImageTest extends FlekTest {
 		$numRows = $this->getConnection()->getRowCount("image");
 
 		//create a new image and insert to into mySQL
-		$image = new Image($this->profile->getProfileId(), $this->VALID_IMAGEDESCRIPTION, $this->VALID_IMAGESECUREURL, $this->VALID_IMAGEPUBLICID, $this->VALID_IMAGEGENREID);
+		$image = new Image(null, $this->profile->getProfileId(), $this->VALID_IMAGEDESCRIPTION, $this->VALID_IMAGESECUREURL, $this->VALID_IMAGEPUBLICID, $this->VALID_IMAGEGENREID);
 		$image->insert($this->getPDO());
 		//grab the data from mySQL and enforce the fields match our expectations
 		$pdoImage = Image::getImageByImageId($this->getPDO(), $image->getImageId());
+
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("image"));
-		$this->assertEquals($pdoImage->getImageProfileId(), $this->VALID_IMAGEPROFILEID);
+		$this->assertEquals($pdoImage->getImageProfileId(), $this->profile->getProfileId());
 		$this->assertEquals($pdoImage->getImageDescription(), $this->VALID_IMAGEDESCRIPTION);
 		$this->assertEquals($pdoImage->getImageSecureUrl(), $this->VALID_IMAGESECUREURL);
 		$this->assertEquals($pdoImage->getImagePublicId(), $this->VALID_IMAGEPUBLICID);
