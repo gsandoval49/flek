@@ -331,7 +331,7 @@ class Profile implements \JsonSerializable {
 		}
 		//make sure profileSalt will fit in database
 		if(strlen($newProfileSalt) !== 64) {
-			throw(new \RangeException("profile has has to be 64"));
+			throw(new \RangeException("profile salt has to be 64"));
 		}
 		//convert and store profile salt
 		$this->profileSalt = $newProfileSalt;

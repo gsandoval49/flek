@@ -9,7 +9,6 @@ require_once("FlekTest.php");
  *
  * This is a complete PHPUnit test of the genre class. It is complete because *ALL* mySQL/PDO enabled methods are
  * tested for both invalid and valid inputs.
- *
  * @see Genre
  * @author Christina Sosa <csosa4@cnm.edu>
  **/
@@ -36,7 +35,7 @@ class GenreTest extends FlekTest {
 		//grab the data from mySQL and enforce the fields match our expectations
 		$pdoGenre = Genre::getGenrebyGenreId($this->getPDO(), $genre->getGenreId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("genre"));
-		$this->assertEquals($pdoGenre->getGenreName(), $this->VALID_GENRENAME);
+		$this->assertEquals($pdoGenre->getGenreName($this->VALID_GENRENAME), $this->VALID_GENRENAME);
 	}
 	/**
 	 * test inserting a Genre that already exists
@@ -122,14 +121,14 @@ class GenreTest extends FlekTest {
 		//grab the data from mySQL and enforce the fields match our expectations
 		$pdoGenre = Genre::getGenreByGenreName($this->getPDO(), $genre->getGenreName());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("genre"));
-		$this->assertEquals($pdoGenre->getGenreName(), $this->VALID_GENRENAME); //error here
+		$this->assertEquals($pdoGenre->getGenreName(), $this->VALID_GENRENAME);
 	}
 	/**
 	 *test grabbing a Genre by name that does not exist
 	 **/
 	public function testGetInvalidGenreByGenreName() {
 		//grab a genre id that exceeds the maximum allowable genre id
-		$genre = Genre::getGenreByGenreName($this->getPDO(), "this genre name never existed");
+		$genre = Genre::getGenreByGenreName($this->getPDO(), "this genre name does not exist");
 		$this->assertNull($genre);
 	}
 	/**
