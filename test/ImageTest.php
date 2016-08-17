@@ -19,28 +19,6 @@ require_once(dirname(__DIR__) . "/public_html/php/classes/autoload.php");
  * @author Diane Peshlakai <dpeshlakai3@cnm.edu>
  */
 class ImageTest extends FlekTest {
-
-	/**
-	 * name of profile
-	 * @var string $VALID_PROFILENAME
-	 **/
-	protected $VALID_PROFILENAME = "csosa4";
-
-
-	protected $VALID_PROFILEEMAIL = "foo@bar.com";
-
-	protected $VALID_PROFILEEMAIL2 = "foo2@bar.com";
-
-
-	protected $VALID_PROFILELOCATION = "Rio Rancho, NM";
-
-	protected $VALID_PROFILEBIO = "Test is passing";
-
-	private $hash;
-
-	private $salt;
-
-
 	/*
 	 * description of the uploaded image
 	 * @var string $VALID_IMAGEDESCRIPTION
@@ -68,8 +46,6 @@ class ImageTest extends FlekTest {
 
 	protected $VALID_PROFILEACTIVATIONTOKEN = "01234567890123456789012345678901";
 
-
-
 	/*
  * profile that created the image; this is for the foreign key relations
  * @var imageProfileId
@@ -82,54 +58,55 @@ class ImageTest extends FlekTest {
 	 */
 	protected $profile = null;
 
+	private $hash;
+
+	private $salt;
+
 	/*
 	 * create dependent objects before running each test
 	 */
 	public final function setUp() {
-	//run the default setUp() method first
+		//run the default setUp() method first
 		parent::setup();
 
 		$this->salt = bin2hex(random_bytes(32));
 		$this->hash = hash_pbkdf2("sha256", "abc123", $this->salt, 262144);
 
 		//create a new Profile and insert it into mySQL
-		$profile = new Profile(null, $this->VALID_PROFILENAME,
-											  $this->VALID_PROFILEEMAIL,
-											  $this->VALID_PROFILELOCATION,
-											  $this->VALID_PROFILEBIO,
-											  $this->hash,
-											  $this->salt,
-											  $this->VALID_PROFILEACCESSTOKEN,
-											  $this->VALID_PROFILEACTIVATIONTOKEN);
-		$profile->insert($this->getPDO());
-
-/*
-		//create a user that owns the image
-		$this->profile = new Profile(null, "dpeshlakai", "bar@foo.com", "foo@bar.com", "Taos, NM", "Albuquerque,NM", "profile is empty or insecure", "test is still passing", "01234567890", "01234567890123456789012345678901", "01234567890123456789012345678902");
+		$this->profile = new Profile(null, $this->VALID_CONTENT,
+			$this->VALID_SECUREURL,
+			$this->VALID_GENRE,
+			$this->hash,
+			$this->salt,
+			$this->VALID_PROFILEACCESSTOKEN,
+			$this->VALID_PROFILEACTIVATIONTOKEN);
 		$this->profile->insert($this->getPDO());
-		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $this->profile->getProfileId());
 
-*/
+	}
+		/*
+				//create a user that owns the image
+		*
+				$this->profile = new Profile(null, "dpeshlakai", "bar@foo.com", "foo@bar.com", "Taos, NM", "Albuquerque,NM", "profile is empty or insecure", "test is still passing", "01234567890", "01234567890123456789012345678901", "01234567890123456789012345678902");
+				$this->profile->insert($this->getPDO());
+				$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $this->profile->getProfileId());
+
+
 	}
 
 /*
  * test inserting a valid Image and verify that the actual mySQL data matches
- */
+*/
 	public function testInsertValidImage() {
 		//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("image");
 
 		//create a new image and insert to into mySQL
-		$image = new Image(null, $this->profile->getProfileId(), $this->VALID_CONTENT, $this->VALID_SECUREURL, $this->VALID_PUBLIC, $this->VALID_GENRE, $this->VALID_PROFILENAME,$this->VALID_PROFILEEMAIL,
-			$this->VALID_PROFILELOCATION, $this->VALID_PROFILEBIO, $this->hash, $this->salt, $this->VALID_PROFILEACCESSTOKEN
-			, $this->VALID_PROFILEACTIVATIONTOKEN);
+		$image = new Image(null, $this->profile->getProfileId(), $this->VALID_CONTENT, $this->VALID_SECUREURL, $this->VALID_PUBLIC, 				$this->VALID_GENRE);
 		$image->insert($this->getPDO());
 
 		//grab the data from mySQL and enforce the fields match our expectations
-		$pdoImage = Image::getImageByImageId($this->getPDO(),
-			$image->getImageId());
+		$pdoImage = Image::getImageByImageId($this->getPDO(), $image->getImageId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("image"));
-		$this->assertEquals($pdoImage->getImageProfileId(), $this->profile->getProfileId());
 		$this->assertEquals($pdoImage->getImageDescription(), $this->VALID_CONTENT);
 		$this->assertEquals($pdoImage->getImageSecureUrl(), $this->VALID_SECUREURL);
 		$this->assertEquals($pdoImage->getImagePublicId(), $this->VALID_PUBLIC);
@@ -141,7 +118,7 @@ class ImageTest extends FlekTest {
 	 * test inserting a image that already exists
 	 *
 	 * @expectedException PDOException
-	 */
+*/
 	public function testInsertInvalidImage() {
 	//create a image with a non null image id and watch it fail
 		$image = new Image(FlekTest::INVALID_KEY, $this->profile->getProfileId(), $this->VALID_CONTENT,
@@ -153,7 +130,7 @@ class ImageTest extends FlekTest {
 
 	/*
 	 * test inserting a image, editing it and then updating it
-	 */
+*/
 	public function testUpdateValidImage() {
 	//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("image");
@@ -180,7 +157,7 @@ class ImageTest extends FlekTest {
  * test updating a Image that already exists
  *
  * @expectedException PDOException
- */
+*/
 	public function testUpdateInvalidImage() {
 	//create a Image, try to update it without actually updating it and watch it fail
 	$image = new Image(null, $this->profile->getImageId(), $this->VALID_CONTENT, $this->VALID_SECUREURL, $this
@@ -190,7 +167,7 @@ class ImageTest extends FlekTest {
 
 /*
  * test creating a Image and then deleting it
- */
+*/
 public function testDeleteValidImage() {
 	//count the number of rows and save it for later
 	$numRows = $this->getConnection()->getRowCount("image");
@@ -215,7 +192,7 @@ public function testDeleteValidImage() {
  * test deleting a Image that does not exist
  *
  * @expectedException PDOException
- */
+*/
 public function testDeleteInvalidImage() {
  	//create a Image and try to delete it without actually inserting it
 	$image = new Image(null, $this->profile->getImageId, $this->VALID_CONTENT, $this->VALID_SECUREURL,
@@ -225,7 +202,7 @@ public function testDeleteInvalidImage() {
 
 /*
  * test inserting a Image and regrabbing it from mySQL
- */
+*/
 public function testGetValidImageByImageId() {
 	//count the number of rows and save it for later
 	$numRows = $this->getConnection()->getRowCount("image");
@@ -251,7 +228,7 @@ public function testGetValidImageByImageId() {
 
 /*
  * test grabbing a Image that does not exist
- */
+*/
 	public function testGetInvalidImageByImageId() {
 		//grab a profile id that exceeds the maxiumum allowable image profile id
 		$image = Image::getImageByImageId($this->getPDO(), FlekTest::INVALID_KEY);
@@ -259,7 +236,7 @@ public function testGetValidImageByImageId() {
 }
 	/*
 	 * test grabbing a Image by Image description
-	 */
+*/
 	public function testGetValidImageByImageDescription() {
 		//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("image");
@@ -276,7 +253,7 @@ public function testGetValidImageByImageId() {
 
 		/*
 		 * grab the result from the array and validate it
-		 */
+*/
 		$pdoImage = $results[0];
 		$this->assertEquals($pdoImage->getImageProfileId(), $this->profile->getImageProfileId());
 		$this->assertEquals($pdoImage->getImageDescription(), $this->VALID_CONTENT);
@@ -287,7 +264,7 @@ public function testGetValidImageByImageId() {
 
 	/*
 	 * test grabbing a Image by description that does not exist
-	 */
+*/
 	public function testGetInvalidImageByImageDescription() {
 		//grab a image by searching for content that does not exist
 		$image = Image::getImageByImageDescription($this->getPDO(), "there will be nothing");
@@ -296,7 +273,7 @@ public function testGetValidImageByImageId() {
 
 	/*
 	 * test grabbing all Images
-	 */
+*/
 	public function testGetAllValidImages() {
 		//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("image");
@@ -319,5 +296,6 @@ public function testGetValidImageByImageId() {
 		$this->assertEquals($pdoImage->getImageSecureUrl(), $this->VALID_SECUREURL);
 		$this->assertEquals($pdoImage->getImagePublicId(), $this->VALID_PUBLIC);
 		$this->assertEquals($pdoImage->getImageGenreId(), $this->VALID_GENRE);
-}
-}
+
+		}
+		}
