@@ -73,7 +73,9 @@ class ImageTest extends FlekTest {
 		$this->hash = hash_pbkdf2("sha256", "abc123", $this->salt, 262144);
 
 		//create a new Profile and insert it into mySQL
+
 		$this->profile = new Profile(null, $this->VALID_CONTENT,
+			$this->VALID_PUBLIC,
 			$this->VALID_SECUREURL,
 			$this->VALID_GENRE,
 			$this->hash,
@@ -86,7 +88,7 @@ class ImageTest extends FlekTest {
 		$this->profile = new Profile(null, "j", "test@phpunit.de", "tibuktu", "I eat chickens, mmmmmkay", "12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678", "1234567890123456789012345678901234567890123456789012345678901234", "01234567890", "01234567890123456789012345678901");
 		$this->profile->insert($this->getPDO());
 
-		$this->image = new Profile(null, "j", "test@phpunit.de", "tibuktu", "I eat chickens, mmmmkay", "12984798745893748954897534545837458738457845", "97328947293847348374837447", "01234567890", "0123456788988747349734");
+		$this->image = new Image(null, "j", "test@phpunit.de", "tibuktu", "I eat chickens, mmmmmkay", "12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678", "1234567890123456789012345678901234567890123456789012345678901234", "01234567890", "01234567890123456789012345678901");
 		$this->profile->insert($this->getPDO());
 	}
 		/*
@@ -107,7 +109,7 @@ class ImageTest extends FlekTest {
 		$numRows = $this->getConnection()->getRowCount("image");
 
 		//create a new image and insert to into mySQL
-		$image = new Image(null, $this->profile->getProfileId(), $this->VALID_CONTENT, $this->VALID_SECUREURL, $this->VALID_PUBLIC, 				$this->VALID_GENRE);
+		$image = new Image(null, $this->VALID_CONTENT, $this->VALID_SECUREURL, $this->VALID_PUBLIC, $this->VALID_GENRE);
 		$image->insert($this->getPDO());
 
 		//grab the data from mySQL and enforce the fields match our expectations
@@ -117,7 +119,6 @@ class ImageTest extends FlekTest {
 		$this->assertEquals($pdoImage->getImageSecureUrl(), $this->VALID_SECUREURL);
 		$this->assertEquals($pdoImage->getImagePublicId(), $this->VALID_PUBLIC);
 		$this->assertEquals($pdoImage->getImageGenreId(), $this->VALID_GENRE);
-
 	}
 
 	/*
