@@ -226,10 +226,10 @@ class SocialLogin implements \JsonSerializable {
         // make plural using entity name. calling array socialLogins
         $socialLogins = new \SplFixedArray($statement->rowCount());
         $statement->setFetchMode(\PDO::FETCH_ASSOC);
-        while (($row = $statement->fetch()) !== false) {
+        while(($row = $statement->fetch()) !== false) {
             try {
-                $socialLoginName = new SocialLogin($row["socialLoginId"], $row["socialLoginName"]);
-                $socialLogins[$socialLogins->key()] = $socialLoginName;
+                $socialLogin = new SocialLogin($row["socialLoginId"], $row["socialLoginName"]);
+                $socialLogins[$socialLogins->key()] = $socialLogin;
                 $socialLogins->next();
             } catch (\Exception $exception) {
                 //if the row couldn't be converted, rethrow it
@@ -259,11 +259,10 @@ class SocialLogin implements \JsonSerializable {
         $statement = $pdo->prepare($query);
 
         // bind the socialLogin id to the place holder in the template
-        $parameters = ["socialLoginId" => $socialLoginId];
+        $parameters = array("socialLoginId" => $socialLoginId);
         $statement->execute($parameters);
 
-        // grab the sociaLoginId from mySQL
-        // TODO verify if $socialLogin or $socialLoginId?
+        // grab the socialLogin from mySQL
         try {
             $socialLogin = null;
             $statement->setFetchMode(\PDO::FETCH_ASSOC);
@@ -295,7 +294,7 @@ class SocialLogin implements \JsonSerializable {
         // build an array of SocialLogins
         $socialLogins = new \SplFixedArray($statement->rowCount());
         $statement->setFetchMode(\PDO::FETCH_ASSOC);
-        while(($row = $statement->fetch()) !==false) {
+        while(($row = $statement->fetch()) !== false) {
             try {
                 $socialLogin = new SocialLogin($row["socialLoginId"], $row["socialLoginName"]);
                 $socialLogins[$socialLogins->key()] = $socialLogin;
