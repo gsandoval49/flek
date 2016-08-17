@@ -54,7 +54,7 @@ class ImageTest extends FlekTest {
 
 	/*
 	 * profile that creates image; this is for the foreign key relations
-	 * @var imageProfileId
+	 * @var imageCreatorId
 	 */
 	protected $profile = null;
 
@@ -98,12 +98,15 @@ class ImageTest extends FlekTest {
 		$numRows = $this->getConnection()->getRowCount("image");
 
 		//create a new image and insert to into mySQL
-		$image = Image(null, $this->profile->getImageProfileId(), $this->VALID_CONTENT, $this->VALID_SECUREURL, $this->VALID_PUBLIC, $this->VALID_GENRE, $this->VALID_PROFILEACCESSTOKEN, $this->VALID_PROFILEACTIVATIONTOKEN);
+		$image = new Image(null, $this->profile->getImageId(), $this->profile->getProfileId(), $this->VALID_CONTENT, $this->VALID_SECUREURL, $this->VALID_PUBLIC, $this->VALID_GENRE, $this->VALID_PROFILEACCESSTOKEN, $this->VALID_PROFILEACTIVATIONTOKEN);
 		$image->insert($this->getPDO());
 
 		//grab the data from mySQL and enforce the fields match our expectations
 		$pdoImage = Image::getImageByImageId($this->getPDO(), $image->getImageId());
+
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("image"));
+		$this->assertEqual($pdoImage->getImageId(), $this->profile->getProfileId());
+
 		$this->assertEquals($pdoImage->getImageDescription(), $this->VALID_CONTENT);
 		$this->assertEquals($pdoImage->getImageSecureUrl(), $this->VALID_SECUREURL);
 		$this->assertEquals($pdoImage->getImagePublicId(), $this->VALID_PUBLIC);
@@ -117,7 +120,7 @@ class ImageTest extends FlekTest {
 */
 	public function testInsertInvalidImage() {
 	//create a image with a non null image id and watch it fail
-		$image = new Image(ImageTest::INVALID_KEY, $this->profile->getProfileId(), $this->VALID_CONTENT,
+		$image = Image(ImageTest::INVALID_KEY, $this->profile->getProfileId(), $this->VALID_CONTENT,
 			$this->VALID_SECUREURL, $this->VALID_PUBLIC, $this->VALID_GENRE, $this->hash, $this->salt, 	$this->VALID_PROFILEACCESSTOKEN, $this->VALID_PROFILEACTIVATIONTOKEN);
 		$image->insert($this->getPDO());
 
