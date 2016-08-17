@@ -167,9 +167,14 @@ class Image implements \JsonSerializable {
 	 * @param string $newImageSecureUrl
 	 */
 	public function setImageSecureUrl(string $newImageSecureUrl) {
-		//verify the image secure url is positive
-		if($newImageSecureUrl <= 0) {
-			throw(new \RangeException("image secure url is not positive"));
+		//verify the image content is secure
+		$newImageSecureUrl = trim($newImageSecureUrl);
+		$newImageSecureUrl = filter_var($newImageSecureUrl, FILTER_SANITIZE_STRING);
+		if(empty($newImageSecureUrl) === true) {
+			throw(new \InvalidArgumentException("image content is empty or insecure"));
+		}
+		if(strlen($newImageSecureUrl) > 140) {
+			throw(new \RangeException("image content too large"));
 		}
 		//convert and store the image secure url
 		$this->imageSecureId = $newImageSecureUrl;
