@@ -73,7 +73,7 @@ class ImageTest extends FlekTest {
 		$this->hash = hash_pbkdf2("sha256", "abc123", $this->salt, 262144);
 
 		//create a new Profile and insert it into mySQL
-
+/*
 		$this->profile = new Profile(null, $this->VALID_CONTENT,
 			$this->VALID_PUBLIC,
 			$this->VALID_SECUREURL,
@@ -83,7 +83,7 @@ class ImageTest extends FlekTest {
 			$this->VALID_PROFILEACCESSTOKEN,
 			$this->VALID_PROFILEACTIVATIONTOKEN);
 		$this->profile->insert($this->getPDO());
-
+*/
 
 		$this->profile = new Profile(null, "j", "test@phpunit.de", "tibuktu", "I eat chickens, mmmmmkay", "12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678", "1234567890123456789012345678901234567890123456789012345678901234", "01234567890", "01234567890123456789012345678901");
 		$this->profile->insert($this->getPDO());
@@ -98,12 +98,12 @@ class ImageTest extends FlekTest {
 		$numRows = $this->getConnection()->getRowCount("image");
 
 		//create a new image and insert to into mySQL
-		$image = Image(null, $this->profile->getProfileId(), $this->VALID_CONTENT, $this->VALID_SECUREURL, $this->VALID_PUBLIC, $this->VALID_GENRE, $this->VALID_PROFILEACCESSTOKEN, $this->VALID_PROFILEACTIVATIONTOKEN);
+		$image = Image(null, $this->profile->getImageProfileId(), $this->VALID_CONTENT, $this->VALID_SECUREURL, $this->VALID_PUBLIC, $this->VALID_GENRE, $this->VALID_PROFILEACCESSTOKEN, $this->VALID_PROFILEACTIVATIONTOKEN);
 		$image->insert($this->getPDO());
 
 		//grab the data from mySQL and enforce the fields match our expectations
 		$pdoImage = Image::getImageByImageId($this->getPDO(), $image->getImageId());
-		//$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("image"));//
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("image"));
 		$this->assertEquals($pdoImage->getImageDescription(), $this->VALID_CONTENT);
 		$this->assertEquals($pdoImage->getImageSecureUrl(), $this->VALID_SECUREURL);
 		$this->assertEquals($pdoImage->getImagePublicId(), $this->VALID_PUBLIC);
