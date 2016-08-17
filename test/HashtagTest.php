@@ -1,10 +1,23 @@
 <?php
+
+/**
+ * class will consist of hashtagId and hashtagName
+ * Primary key will be hashtagId
+ * No foreign keys
+ *
+ * Testing will be on insertHashtag (A profile creates hashtags when they link it to an image or describe an image), updateHashtag (A profile may change hashtags after listing), deleteHashtag (A profile may delete a listing), getHashtagByHashtagId (HashtagId is a foreign key on another class?) and getHashtagByHashtagName (a profile may search for an item by hashtag name)
+ *
+ * @see Hashtag
+ * @author Giles Sandoval <gsandoval49@cnm.edu> based on code by Dylan McDonald <dmcdonald21@cnm.edu>
+ **/
+
 namespace Edu\Cnm\Flek\Test;
 
 use Edu\Cnm\Flek\Hashtag;
 use PDOException;
 
-//grab the project test parameters
+
+// grab the project test parameters
 require_once("HashtagTest.php");
 
 // grab the class that's going through the x-ray and under the knife :)
@@ -13,22 +26,19 @@ require_once (dirname(__DIR__) . "/public_html/php/classes/autoload.php");
 /**
  * Full PHPUnit test for the Hashtag class
  *
- * This is a complete test of the Hashtag class. It is complete because ALL mySQL/PDO enabled methods are tested for both invalid and valid inputs
- *
- * @see Hashtag
- * @author Giles Sandoval <gsandoval49@cnm.edu>
+ * Unit testing for Hashtag class
  **/
 class HashtagTest extends FlekTest {
     /**
-     * Hashtag content for the tag.
+     * Content of the Hashtag
      * @var string $VALID_HASHTAG_CONTENT
      **/
-    protected $VALID_HASHTAG_CONTENT = "This better work";
+    protected $VALID_HASHTAG_CONTENT = "Comcast doesn't care";
     /**
      * content of the updated hashtag
      * @var string $VALID_HASHTAG_CONTENT2
      **/
-    protected $VALID_HASHTAG_CONTENT2 = "This part better work too!";
+    protected $VALID_HASHTAG_CONTENT2 = "Comcast has no sense of style";
     /**
      * Test inserting a valid hashtag and verifying that mySQL data matches
      **/
@@ -40,11 +50,11 @@ class HashtagTest extends FlekTest {
         // create a new Hashtag and insert into mySQL
         $hashtag = new Hashtag(null, $this->VALID_HASHTAG_CONTENT);
         $hashtag->insert($this->getPDO());
-        // grab the data from mySQL and enforce the fields match
 
+        // grab the data from mySQL and enforce the fields match our expectations
         $pdoHashtag = Hashtag::getHashtagByHashtagId($this->getPDO(), $hashtag->getHashtagId());
         $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("hashtag"));
-        $this->assertEquals($pdoHashtag->getHashtagName($this->VALID_HASHTAG_CONTENT), $this->VALID_HASHTAG_CONTENT); //do i need valid hashtag content twice?
+        $this->assertEquals($pdoHashtag->getHashtagName(), $this->VALID_HASHTAG_CONTENT);
     }
 
     /**
@@ -53,6 +63,7 @@ class HashtagTest extends FlekTest {
      * @expectedException PDOException
      **/
     public function testInsertInvalidHashtag() {
+        // create a Hashtag with a non null hashtag id and watch it fail
         $hashtag = new Hashtag(FlekTest::INVALID_KEY, $this->VALID_HASHTAG_CONTENT);
         $hashtag->insert($this->getPDO());
     }
@@ -66,6 +77,7 @@ class HashtagTest extends FlekTest {
 
         // create a new Hashtag and insert into mySQL
         $hashtag = new Hashtag(null, $this->VALID_HASHTAG_CONTENT);
+        $hashtag->insert($this->getPDO());
 
         // edit the Hashtag and update it in mySQL
         $hashtag->setHashtagName($this->VALID_HASHTAG_CONTENT2);

@@ -26,8 +26,8 @@ class Hashtag implements \JsonSerializable {
     /**
      * constructor for this Hashtag
      *
-     * @param int|null $hashtagId id of this Hashtag or null if new Hashtag
-     * @param string $hashtagName string containing data
+     * @param int|null $newHashtagId id of this Hashtag or null if new Hashtag
+     * @param string $newHashtagName string containing data
      * @throws \InvalidArgumentException if data types are not valid
      * @throws \RangeException if data values are out of bounds (e.g., strings too long, negative integers)
      * @throws \TypeError if data types violate type hints
@@ -66,7 +66,7 @@ class Hashtag implements \JsonSerializable {
      *
      * @param int|null $newHashtagId
      * @throws \RangeException if $newHashtagId is not positive
-     * @throws \TypeError if $newHashtagId is not an interger
+     * @throws \TypeError if $newHashtagId is not an integer
     **/
     public function setHashtagId(int $newHashtagId = null) {
         // base case: if the hashtag id is null, this a new hashtag without a mySQL assigned id (yet)
@@ -76,7 +76,7 @@ class Hashtag implements \JsonSerializable {
         }
 
         // verify the hashtag id is positive
-        if($newHashtagId <= 0) {
+        if($newHashtagId <=0) {
             throw(new \RangeException("hashtag id is not positive"));
         }
 
@@ -121,23 +121,23 @@ class Hashtag implements \JsonSerializable {
     /**
      * inserts this Hashtag into mySQL
      *
-     *@param \Pdo $pdo PDO connection object
+     *@param \PDO $pdo PDO connection object
      *@throws \PDOException when mySQL related errors occur
      *@throws \TypeError if $pdo is not a PDO connection object
      **/
     public function insert(\PDO $pdo) {
-        // enforce the hashtagId is null (i.e., don't insert a Hashtag id that already exists)
+        // enforce the hashtagId is null (i.e., don't insert a hashtag that already exists)
         if($this->hashtagId !== null) {
             throw(new \PDOException("not a new hashtag"));
         }
 
         // create query template
-        $query = "INSERT INTO hashtag(hashtagId, hashtagName) VALUES(:hashtagId, :hashtagName)";
+        $query = "INSERT INTO hashtag(hashtagName) VALUES(:hashtagName)";
         $statement = $pdo->prepare($query);
 
         // bind the member variables to the place holders in the template
-        // CHECK TO SEE IF THIS CODE NEEDS TO BE IN HERE. AND ALSO DELETED TEH $formattedDate
-        $parameters = ["hashtagId" => $this->hashtagId, "hashtagName" => $this->hashtagName];
+        // CHECK TO SEE IF THIS CODE NEEDS TO BE IN HERE. AND ALSO DELETED the $formattedDate
+        $parameters = ["hashtagName" => $this->hashtagName];
         $statement->execute($parameters);
 
         // update the null hashtagId with what mySQL just gave us

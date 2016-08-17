@@ -80,7 +80,7 @@ CREATE TABLE genre (
 CREATE TABLE hashtag (
 	hashtagId INT UNSIGNED NOT NULL,
 	hashtagName VARCHAR(32),
-/*	hashtagDateTime DATETIME NOT NULL,*/
+-- hashtagDateTime DATETIME NOT NULL,
 	PRIMARY KEY (hashtagId)
 );
 
