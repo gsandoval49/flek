@@ -19,6 +19,8 @@ require_once(dirname(__DIR__) . "/public_html/php/classes/autoload.php");
  * @author Diane Peshlakai <dpeshlakai3@cnm.edu>
  */
 class ImageTest extends FlekTest {
+
+	protected $VALID_IMAGEPROFILEID = "dpeshlakai";
 	/*
 	 * description of the uploaded image
 	 * @var string $VALID_IMAGEDESCRIPTION
@@ -79,12 +81,13 @@ class ImageTest extends FlekTest {
 		$numRows = $this->getConnection()->getRowCount("image");
 
 		//create a new image and insert to into mySQL
-		$image = new Image(null, $this->VALID_IMAGEDESCRIPTION, $this->VALID_IMAGESECUREURL, $this->VALID_IMAGEPUBLICID, $this->VALID_IMAGEGENREID, $this->hash, $this->salt);
+		$image = new Image(null, $this->profile->getProfileId(), $this->VALID_IMAGEPROFILEID, $this->VALID_IMAGEDESCRIPTION, $this->VALID_IMAGESECUREURL, $this->VALID_IMAGEPUBLICID, $this->VALID_IMAGEGENREID, $this->hash, $this->salt);
 		$image->insert($this->getPDO());
 
 		//grab the data from mySQL and enforce the fields match our expectations
 		$pdoImage = Image::getImageByImageId($this->getPDO(), $image->getImageId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("image"));
+		$this->assertEquals($pdoImage->getImageProfileId(), $this->VALID_IMAGEPROFILEID);
 		$this->assertEquals($pdoImage->getImageDescription(), $this->VALID_IMAGEDESCRIPTION);
 		$this->assertEquals($pdoImage->getImageSecureUrl(), $this->VALID_IMAGESECUREURL);
 		$this->assertEquals($pdoImage->getImagePublicId(), $this->VALID_IMAGEPUBLICID);
@@ -99,7 +102,7 @@ class ImageTest extends FlekTest {
 	public function testInsertInvalidImage() {
 	//create a image with a non null image id and watch it fail
 		$image = Image(FlekTest::INVALID_KEY, $this->profile->getProfileId(), $this->VALID_IMAGEDESCRIPTION,
-			$this->VALID_IMAGESECUREURL, $this->VALID_IMAGEPUBLICID, $this->VALID_IMAGEGENREID, $this->VALID_HASH, $this->VALID_SALT,	$this->VALID_PROFILEACCESSTOKEN, $this->VALID_PROFILEACTIVATIONTOKEN);
+			$this->VALID_IMAGESECUREURL, $this->VALID_IMAGEPUBLICID, $this->VALID_IMAGEGENREID, $this->hash, $this->salt);
 		$image->insert($this->getPDO());
 
 	}
@@ -183,8 +186,8 @@ public function testGetValidImageByImageId() {
 	//count the number of rows and save it for later
 	$numRows = $this->getConnection()->getRowCount("image");
 	//create a new Image and insert to into mySQL
-	$image = new Image(null, $this->profile->getProfileId(), $this->VALID_IMAGEDESCRIPTION, $this->VALID_IMAGESECUREURL,
-		$this->VALID_IMAGEPUBLICID, $this->VALID_IMAGEGENREID);
+	$image = new Image(null, $this->profile->getProfileId(), $this->VALID_IMAGEPROFILEID, $this->VALID_IMAGEDESCRIPTION, $this->VALID_IMAGESECUREURL,
+		$this->VALID_IMAGEPUBLICID, $this->VALID_IMAGEGENREID, null);
 	$image->insert($this->getPDO());
 
 	//grab the data from mySQL and enforce the fields to match our expectations
