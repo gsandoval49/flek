@@ -201,7 +201,7 @@ class SocialLogin implements \JsonSerializable {
      * @throws \TypeError when variables are not the correct data type
      **/
 
-    public static function getSocialLoginbySocialLoginName(\PDO $pdo, string $socialLoginName) {
+    public static function getSocialLoginBySocialLoginName(\PDO $pdo, string $socialLoginName) {
         // sanitize the description before searching
         $socialLoginName = trim($socialLoginName);
         $socialLoginName = filter_var($socialLoginName, FILTER_SANITIZE_STRING);
@@ -244,7 +244,7 @@ class SocialLogin implements \JsonSerializable {
      * @throws \PDOException when mySQL related errors occur
      * @throws \TypeError when variables are not the correct data type
      **/
-    public static function getSocialLoginbySocialLoginId(\PDO $pdo, int $socialLoginId) {
+    public static function getSocialLoginBySocialLoginId(\PDO $pdo, int $socialLoginId) {
         // sanitize the $socialLoginId before searching
         if($socialLoginId <= 0) {
             throw(new \PDOException("social login id is not positive"));

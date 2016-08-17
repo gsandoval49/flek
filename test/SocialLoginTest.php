@@ -1,9 +1,7 @@
 <?php
 namespace Edu\Cnm\Flek\Test;
 
-use Edu\Cnm\Flek\{
-    SocialLogin
-};
+use Edu\Cnm\Flek\{SocialLogin};
 use PDOException;
 
 // grab the class that's going through the x-ray and under the knife :)
@@ -20,15 +18,15 @@ require_once("SocialLoginTest.php");
  **/
 class SocialLoginTest extends FlekTest {
     /**
-     * SocialLogin content for the social login content.
-     * @var string $VALID_SOCIAL_LOGIN_CONTENT
+     * SocialLogin NAME for the social login NAME.
+     * @var string $VALID_SOCIAL_LOGIN_NAME
      **/
-    protected $VALID_SOCIAL_LOGIN_CONTENT = "This social stuff has to work";
+    protected $VALID_SOCIAL_LOGIN_NAME = "This social stuff has to work";
     /**
-     * content of the updated SocialLogin
-     * @var string $VALID_SOCIAL_LOGIN_CONTENT2
+     * NAME of the updated SocialLogin
+     * @var string $VALID_SOCIAL_LOGIN_NAME2
      **/
-    protected $VALID_SOCIAL_LOGIN_CONTENT2 = "This 2nd content of social better work too!";
+    protected $VALID_SOCIAL_LOGIN_NAME2 = "This 2nd NAME of social better work too!";
     /**
      * Test inserting a valid social login and verifying that mySQL data matches
      **/
@@ -38,22 +36,23 @@ class SocialLoginTest extends FlekTest {
         $numRows = $this->getConnection()->getRowCount("socialLogin");
 
         // create a new SocialLogin and insert into mySQL
-        $socialLogin = new SocialLogin(null, $this->VALID_SOCIAL_LOGIN_CONTENT);
+        $socialLogin = new SocialLogin(null, $this->VALID_SOCIAL_LOGIN_NAME);
         $socialLogin->insert($this->getPDO());
 
         // grab the data from mySQL and enforce the fields match
         $pdoSocialLogin = SocialLogin::getSocialLoginbySocialLoginId($this->getPDO(), $socialLogin->getSocialLoginId());
         $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("socialLogin"));
-        $this->assertEquals($pdoSocialLogin->getSocialLoginName($this->VALID_SOCIAL_LOGIN_CONTENT, $this->VALID_SOCIAL_LOGIN_CONTENT)); //do i need valid social login content twice?
+        $this->assertEquals($pdoSocialLogin->getSocialLoginId($this->VALID_SOCIAL_LOGIN_NAME));
+
     }
 
     /**
-     * test inserting a SocialLogin that already  exists
+     * test inserting a SocialLogin that already exists
      *
      * @expectedException PDOException
      **/
     public function testInsertInvalidSocialLogin() {
-        $socialLogin = new SocialLogin(FlekTest::INVALID_KEY, $this->VALID_SOCIAL_LOGIN_CONTENT);
+        $socialLogin = new SocialLogin(FlekTest::INVALID_KEY, $this->VALID_SOCIAL_LOGIN_NAME);
         $socialLogin->insert($this->getPDO());
     }
 
@@ -65,16 +64,16 @@ class SocialLoginTest extends FlekTest {
         $numRows = $this->getConnection()->getRowCount("socialLogin");
 
         // create a new SocialLogin and insert into mySQL
-        $socialLogin = new SocialLogin(null, $this->VALID_SOCIAL_LOGIN_CONTENT);
+        $socialLogin = new SocialLogin(null, $this->VALID_SOCIAL_LOGIN_NAME);
 
         // edit the SocialLogin and update it in mySQL
-        $socialLogin->setSocialLoginName($this->VALID_SOCIAL_LOGIN_CONTENT2);
+        $socialLogin->setSocialLoginName($this->VALID_SOCIAL_LOGIN_NAME2);
         $socialLogin->update($this->getPDO());
 
         // grab the data from mySQL and enforce the fields to match our expectations
         $pdoSocialLogin = SocialLogin::getSocialLoginbySocialLoginId($this->getPDO(), $socialLogin->getSocialLoginId());
         $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("socialLogin"));
-        $this->assertEquals($pdoSocialLogin->getSocialLoginName(), $this->VALID_SOCIAL_LOGIN_CONTENT2);
+        $this->assertEquals($pdoSocialLogin->getSocialLoginName(), $this->VALID_SOCIAL_LOGIN_NAME2);
     }
 
     /**
@@ -85,7 +84,7 @@ class SocialLoginTest extends FlekTest {
         $numRows = $this->getConnection()->getRowCount("socialLogin");
 
         // create a new SocialLogin and insert into mySQL
-        $socialLogin = new SocialLogin(null, $this->VALID_SOCIAL_LOGIN_CONTENT);
+        $socialLogin = new SocialLogin(null, $this->VALID_SOCIAL_LOGIN_NAME);
         $socialLogin->insert($this->getPDO());
 
         // delete the SocialLogin from mySQL
@@ -105,19 +104,19 @@ class SocialLoginTest extends FlekTest {
      **/
     public function testDeleteInvalidSocialLogin() {
         //create a SocialLogin and try to delete it without actually inserting it
-        $socialLogin = new SocialLogin(null, $this->VALID_SOCIAL_LOGIN_CONTENT);
+        $socialLogin = new SocialLogin(null, $this->VALID_SOCIAL_LOGIN_NAME);
         $socialLogin->delete($this->getPDO());
     }
 
     /**
-     * test grabbing a SocialLogin by social login content
+     * test grabbing a SocialLogin by social login NAME
      **/
-    public function testGetValidSocialLoginBySocialLoginContent() {
+    public function testGetValidSocialLoginBySocialLoginName() {
         // count the number of rows and save it for later
         $numRows = $this->getConnection()->getRowCount("socialLogin");
 
         // create a new SocialLogin and insert to into mySQL
-        $socialLogin = new SocialLogin(null, $this->VALID_SOCIAL_LOGIN_CONTENT);
+        $socialLogin = new SocialLogin(null, $this->VALID_SOCIAL_LOGIN_NAME);
         $socialLogin->insert($this->getPDO());
 
         // grab the data from mySQL and enforce the fields match our expectations
@@ -127,7 +126,7 @@ class SocialLoginTest extends FlekTest {
 
         // grab the result from the array and validate it
         $pdoSocialLogin = $results[0];
-        $this->assertEquals($pdoSocialLogin->getSocialLoginName(), $this->VALID_SOCIAL_LOGIN_CONTENT);
+        $this->assertEquals($pdoSocialLogin->getSocialLoginName(), $this->VALID_SOCIAL_LOGIN_NAME);
     }
 
     /**
@@ -140,12 +139,12 @@ class SocialLoginTest extends FlekTest {
     }
 
     /**
-     * test grabbing a SocialLogin by content that does not exist, apparently Dylan didn't do this :)
+     * test grabbing a SocialLogin by NAME that does not exist, apparently Dylan didn't do this :)
      *
      * See if I still need to have this function in if it comes up as an error? this was an example from Gerald.
      **/
     public function testGetInvalidSocialLoginBySocialLoginName() {
-        // grab a SocialLogin by content that does NOT exist
+        // grab a SocialLogin by NAME that does NOT exist
         $socialLogin = SocialLogin::getSocialLoginbySocialLoginName($this->getPDO(), "nobody ever made this SOCIALLOGIN NAME. LET'S SEE IF THIS WORKS.");
         $this->assertCount(0, $socialLogin);
     }
@@ -158,7 +157,7 @@ class SocialLoginTest extends FlekTest {
         $numRows = $this->getConnection()->getRowCount("socialLogin");
 
         // create a new SocialLogin and insert into mySQL
-        $socialLogin = new SocialLogin(null, $this->VALID_SOCIAL_LOGIN_CONTENT);
+        $socialLogin = new SocialLogin(null, $this->VALID_SOCIAL_LOGIN_NAME);
         $socialLogin->insert($this->getPDO());
 
         //grab the data from mySQL and enforce the fields match our expectations
@@ -168,7 +167,7 @@ class SocialLoginTest extends FlekTest {
 
         // grab the result from the array and validate it
         $pdoSocialLogin = $results[0];
-        $this->assertEquals($pdoSocialLogin->getSocialLoginName(), $this->VALID_SOCIAL_LOGIN_CONTENT);
+        $this->assertEquals($pdoSocialLogin->getSocialLoginName(), $this->VALID_SOCIAL_LOGIN_NAME);
     }
 }
 
