@@ -12,6 +12,9 @@ require_once("autoload.php");
  * @version 1.0.0
  **/
 class SocialLogin implements \JsonSerializable {
+    // use ValidateDate;
+    // ValidateDate took out because we are not using in our classes. That will be phase 2 :)
+
     /**
      * id for Social Login; this is the primary key
      * @var int $socialLoginId
@@ -64,9 +67,9 @@ class SocialLogin implements \JsonSerializable {
     /**
      * mutator method for Social Login id
      *
-     * @param int|null $newSocialLoginId
+     * @param int|null $newSocialLoginId new value of socialLoginId
      * @throws \RangeException if $newSocialLoginId is not positive
-     * @throws \TypeError if $newSocialLoginId is not an interger
+     * @throws \TypeError if $newSocialLoginId is not an integer
      **/
 
     public function setSocialLoginId(int $newSocialLoginId = null) {
@@ -77,7 +80,7 @@ class SocialLogin implements \JsonSerializable {
         }
 
         // verify the socialLogin id is positive
-        if ($newSocialLoginId <= 0) {
+        if ($newSocialLoginId <=0) {
             throw(new \RangeException("social login id is not positive"));
         }
 
@@ -123,7 +126,7 @@ class SocialLogin implements \JsonSerializable {
     /**
      * inserts this Social Login ID into mySQL
      *
-     *@param \Pdo $pdo PDO connection object
+     *@param \PDO $pdo PDO connection object
      *@throws \PDOException when mySQL related errors occur
      *@throws \TypeError if $pdo is not a PDO connection object
      **/
@@ -135,10 +138,11 @@ class SocialLogin implements \JsonSerializable {
 
         // create query template
         $query = "INSERT INTO socialLogin(socialLoginId, socialLoginName) VALUES(:socialLoginId, :socialLoginName)";
+        // in example, socialLoginId was omitted but no errors were brought up. keeping for now.
         $statement = $pdo->prepare($query);
 
         // bind the member variables to the place holders in the template
-        // CHECK TO SEE IF THIS CODE NEEDS TO BE IN HERE. AND ALSO DELETED TEH $formattedDate
+        // CHECK TO SEE IF THIS CODE NEEDS TO BE IN HERE. AND ALSO DELETED the $formattedDate
         $parameters = ["socialLoginId" => $this->socialLoginId, "socialLoginName" => $this->socialLoginName];
         $statement->execute($parameters);
 
@@ -147,7 +151,7 @@ class SocialLogin implements \JsonSerializable {
     }
 
     /**
-     * deletes this Social Login ID from mySQL
+     * deletes this Social Login from mySQL
      *
      * @param \PDO $pdo PDO connection object
      * @throws \PDOException when mySQL related errors occur
@@ -155,7 +159,7 @@ class SocialLogin implements \JsonSerializable {
      **/
     public function delete(\PDO $pdo) {
         // enforce the socialLoginId is not null (i.e., don't delete a socialLoginId that hasn't been inserted)
-        if($this->socialLoginId ===null) {
+        if($this->socialLoginId === null) {
             throw(new \PDOException("unable to delete a socialLoginId that does not exist"));
         }
 
@@ -215,7 +219,7 @@ class SocialLogin implements \JsonSerializable {
 
         // bind the social login name to the place holder in the template
         $socialLoginName = "%$socialLoginName%";
-        $parameters = ["socialLoginName" => $socialLoginName];
+        $parameters = array("socialLoginName" => $socialLoginName);
         $statement->execute($parameters);
 
         // build an array of social login names

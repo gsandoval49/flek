@@ -5,10 +5,10 @@
 			<file>MailTest.php</file>
 			<file>SocialLoginTest.php</file>
 			<file>ImageTest.php</file>
-			<file>GenreTest.php</file>
-			<file>HashtagTest.php</file>
-			<file>TagTest.php</file>
-			<file>FavoriteTest.php</file>
+            <file>GenreTest.php</file>
+            <file>HashtagTest.php</file>
+            <file>TagTest.php</file>
+            <file>FavoriteTest.php</file>
 		</testsuite>
 	</testsuites>
 	<filter>
