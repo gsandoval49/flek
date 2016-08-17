@@ -23,28 +23,28 @@ class ImageTest extends FlekTest {
 	 * description of the uploaded image
 	 * @var string $VALID_IMAGEDESCRIPTION
 	 */
-	protected $VALID_CONTENT = "Image test is still passing!";
+	protected $VALID_IMAGECONTENT = "Image test is still passing!";
 	/*
 	 * secure url of the image
 	 * @var string $VALID_IMAGESECUREURL
 	 */
-	protected $VALID_SECUREURL = "DKJFKFKJ34245435";
+	protected $VALID_IMAGESECUREURL = "DKJFKFKJ34245435";
 
 	/*
 	 * public id for the image uploaded
 	 * @var string $VALID_IMAGEPUBLICID
 	 */
-	protected $VALID_PUBLIC = "DKJF23409340939404040";
+	protected $VALID_IMAGEPUBLIC = "DKJF23409340939404040";
 
 	/*
 	 * genre id for image uploaded
 	 * @var int $VALID_IMAGEGENREID
 	 */
-	protected $VALID_GENRE = "45345345454545";
+	protected $VALID_IMAGEGENRE = "45345345454545";
 
-	protected $VALID_PROFILEACCESSTOKEN = "01234567890";
+	protected $VALID_IMAGEPROFILEACCESSTOKEN = "01234567890";
 
-	protected $VALID_PROFILEACTIVATIONTOKEN = "01234567890123456789012345678901";
+	protected $VALID_IMAGECTIVATIONTOKEN = "01234567890123456789012345678901";
 
 	/*
  * profile that created the image; this is for the foreign key relations
@@ -85,7 +85,7 @@ class ImageTest extends FlekTest {
 		$this->profile->insert($this->getPDO());
 */
 
-		$this->profile = new Profile(null, "j", "test@phpunit.de", "tibuktu", "I eat chickens, mmmmmkay", "12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678", "1234567890123456789012345678901234567890123456789012345678901234", "01234567890", "01234567890123456789012345678901");
+		$this->profile = new Profile(null, "csosa4", "foo@bar.com", "Rio, Rancho", "test is passing", $this->hash, $this->salt, "01234567890", "01234567890123456789012345678901");
 		$this->profile->insert($this->getPDO());
 		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $this->profile->getProfileId());
 
@@ -98,19 +98,16 @@ class ImageTest extends FlekTest {
 		$numRows = $this->getConnection()->getRowCount("image");
 
 		//create a new image and insert to into mySQL
-		$image = new Image(null, $this->profile->getImageId(), $this->profile->getProfileId(), $this->VALID_CONTENT, $this->VALID_SECUREURL, $this->VALID_PUBLIC, $this->VALID_GENRE, $this->VALID_PROFILEACCESSTOKEN, $this->VALID_PROFILEACTIVATIONTOKEN);
+		$image = new Image(null, $this->profileId()->getProfileId(), $this->VALID_IMAGECONTENT, $this->VALID_IMAGESECUREURL, $this->VALID_IMAGEPUBLIC, $this->VALID_IMAGEGENRE, $this->hash, $this->salt, $this->VALID_IMAGEPROFILEACCESSTOKEN, $this->VALID_IMAGECTIVATIONTOKEN);
 		$image->insert($this->getPDO());
 
 		//grab the data from mySQL and enforce the fields match our expectations
 		$pdoImage = Image::getImageByImageId($this->getPDO(), $image->getImageId());
-
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("image"));
-		$this->assertEqual($pdoImage->getImageId(), $this->profile->getProfileId());
-
-		$this->assertEquals($pdoImage->getImageDescription(), $this->VALID_CONTENT);
-		$this->assertEquals($pdoImage->getImageSecureUrl(), $this->VALID_SECUREURL);
-		$this->assertEquals($pdoImage->getImagePublicId(), $this->VALID_PUBLIC);
-		$this->assertEquals($pdoImage->getImageGenreId(), $this->VALID_GENRE);
+		$this->assertEquals($pdoImage->getImageDescription(), $this->VALID_IMAGECONTENT);
+		$this->assertEquals($pdoImage->getImageSecureUrl(), $this->VALID_IMAGESECUREURL);
+		$this->assertEquals($pdoImage->getImagePublicId(), $this->VALID_IMAGEPUBLIC);
+		$this->assertEquals($pdoImage->getImageGenreId(), $this->VALID_IMAGEGENRE);
 	}
 
 	/*
@@ -121,7 +118,7 @@ class ImageTest extends FlekTest {
 	public function testInsertInvalidImage() {
 	//create a image with a non null image id and watch it fail
 		$image = Image(ImageTest::INVALID_KEY, $this->profile->getProfileId(), $this->VALID_CONTENT,
-			$this->VALID_SECUREURL, $this->VALID_PUBLIC, $this->VALID_GENRE, $this->hash, $this->salt, 	$this->VALID_PROFILEACCESSTOKEN, $this->VALID_PROFILEACTIVATIONTOKEN);
+			$this->VALID_SECUREURL, $this->VALID_PUBLIC, $this->VALID_GENRE, $this->VALID_HASH, $this->VALID_SALT,	$this->VALID_PROFILEACCESSTOKEN, $this->VALID_PROFILEACTIVATIONTOKEN);
 		$image->insert($this->getPDO());
 
 	}
