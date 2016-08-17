@@ -6,7 +6,7 @@ require_once("autoload.php");
 /**
  * Social Login Class for Logging into Flek Account
  *
- * This social login is a way for the profile to have access to our site without having to enter email name. It's a quick alternative to having member privelages to begin using the site.
+ * This social login is a way for the profile to have access to our site without having to enter email name. It's a quick alternative to having member privileges to begin using the site.
  *
  * @author Giles Sandoval <gsandoval49@cnm.edu>
  * @version 1.0.0
@@ -176,23 +176,23 @@ class SocialLogin implements \JsonSerializable {
      * @throws \TypeError if $pdo is not a PDO connection object
      **/
     public function update(\PDO $pdo) {
-        // enforce the socialLoginId is not null (i.e., don't update a socialLoginId that hasn't been inserted)
-        if ($this->socialLoginId === null) {
-            throw(new \PDOException("unable to update a social login id that does not exist"));
+        // enforce the socialLoginId is not null (i.e., don't update a socialLogin that hasn't been inserted yet
+        if($this->socialLoginId === null) {
+            throw(new \PDOException("unable to update the social login data that does not exist"));
         }
 
         // create query template
-        $query = "UPDATE socialLogin SET socialLoginId = :socialLoginId, socialLoginName = :socialLoginName";
+        $query = "UPDATE socialLogin SET socialLoginName = :socialLoginName WHERE socialLoginId = :socialLoginId";
         $statement = $pdo->prepare($query);
 
         // bind the member variables to the place holders in the template
         // deleted the formatted date from the example
-        $parameters = ["socialLoginId" => $this->socialLoginId, "socialLoginName" => $this->socialLoginName];
+        $parameters = ["socialLoginName" => $this->socialLoginName, "socialLoginId" => $this->socialLoginId];
         $statement->execute($parameters);
     }
 
     /**
-     * gets the Social Login  by name
+     * gets the Social Login by name
      *
      * @param \PDO $pdo PDO connection object
      * @param string $socialLoginName social login name to search for

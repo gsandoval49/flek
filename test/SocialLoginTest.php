@@ -1,10 +1,13 @@
 <?php
 namespace Edu\Cnm\Flek\Test;
 
-use Edu\Cnm\Flek\{SocialLogin};
+use Edu\Cnm\Flek\SocialLogin;
 use PDOException;
 
 // grab the class that's going through the x-ray and under the knife :)
+// Class will consist of socialLoginId and socialLoginName
+// Primary key will be socialLoginId
+// No foreign keys
 require_once (dirname(__DIR__) . "/public_html/php/classes/autoload.php");
 //grab the project test parameters
 require_once("SocialLoginTest.php");
@@ -18,15 +21,15 @@ require_once("SocialLoginTest.php");
  **/
 class SocialLoginTest extends FlekTest {
     /**
-     * SocialLogin NAME for the social login NAME.
+     * SocialLogin NAME for the socialLogin.
      * @var string $VALID_SOCIAL_LOGIN_NAME
      **/
-    protected $VALID_SOCIAL_LOGIN_NAME = "This social stuff has to work";
+    protected $VALID_SOCIAL_LOGIN_NAME = "Atari";
     /**
      * NAME of the updated SocialLogin
      * @var string $VALID_SOCIAL_LOGIN_NAME2
      **/
-    protected $VALID_SOCIAL_LOGIN_NAME2 = "This 2nd NAME of social better work too!";
+    protected $VALID_SOCIAL_LOGIN_NAME2 = "Xbox";
     /**
      * Test inserting a valid social login and verifying that mySQL data matches
      **/
@@ -40,9 +43,10 @@ class SocialLoginTest extends FlekTest {
         $socialLogin->insert($this->getPDO());
 
         // grab the data from mySQL and enforce the fields match
-        $pdoSocialLogin = SocialLogin::getSocialLoginbySocialLoginId($this->getPDO(), $socialLogin->getSocialLoginId());
+        $pdoSocialLogin = SocialLogin::getSocialLoginBySocialLoginId($this->getPDO(), $socialLogin->getSocialLoginId());
         $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("socialLogin"));
-        $this->assertEquals($pdoSocialLogin->getSocialLoginId($this->VALID_SOCIAL_LOGIN_NAME));
+        $this->assertEquals($pdoSocialLogin->getSocialLoginName(),
+        $this->VALID_SOCIAL_LOGIN_NAME);
 
     }
 
@@ -52,6 +56,7 @@ class SocialLoginTest extends FlekTest {
      * @expectedException PDOException
      **/
     public function testInsertInvalidSocialLogin() {
+        // create a SocialLogin with a non null social login id and watch it fail
         $socialLogin = new SocialLogin(FlekTest::INVALID_KEY, $this->VALID_SOCIAL_LOGIN_NAME);
         $socialLogin->insert($this->getPDO());
     }
@@ -65,6 +70,7 @@ class SocialLoginTest extends FlekTest {
 
         // create a new SocialLogin and insert into mySQL
         $socialLogin = new SocialLogin(null, $this->VALID_SOCIAL_LOGIN_NAME);
+        $socialLogin->insert($this->getPDO());
 
         // edit the SocialLogin and update it in mySQL
         $socialLogin->setSocialLoginName($this->VALID_SOCIAL_LOGIN_NAME2);
@@ -133,7 +139,7 @@ class SocialLoginTest extends FlekTest {
      * test grabbing a SocialLogin Id that does NOT exist
      **/
     public function testGetInvalidSocialLoginBySocialLoginId() {
-        // grab a profile id that exceeds the maximum allowable profile id
+        // grab a social id that exceeds the maximum allowable social id
         $socialLogin = SocialLogin::getSocialLoginbySocialLoginId($this->getPDO(), FlekTest::INVALID_KEY);
         $this->assertNull($socialLogin);
     }
