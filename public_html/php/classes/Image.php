@@ -195,16 +195,17 @@ class Image implements \JsonSerializable {
 	 */
 	public function setImagePublicId(string $newImagePublicId) {
 		//verify the public id is positive/too long
-		if($newImagePublicId <= 0) {
-			throw(new\RangeException("image public id is too long and not positive"));
-		}
-		// verify the image content will fin in the database
+		$newImagePublicId = trim($newImagePublicId);
+		$newImagePublicId = filter_var($newImagePublicId, FILTER_SANITIZE_STRING);
+		if(empty($newImagePublicId) === true) {
+			throw(new \InvalidArgumentException("image content is empty or insecure"));
+		} // verify the image public string will fit in the database
 		if(strlen($newImagePublicId) > 128) {
 			throw(new \RangeException("image description too large"));
 			//convert and store the image public id
 		}
-	}
-
+			$this->ImagePublicId = $newImagePublicId;
+}
 	/*
 	 * accessor method for image genre id
 	 * @return int|null imageGenreId
@@ -219,8 +220,8 @@ class Image implements \JsonSerializable {
 	 * @throws image genre id not positive
 	 */
 	public function setImageGenreId(int $newImageGenreId) {
-		if($newImageGenreId != 0) {
-			throw(new \TypeError("image genre id is not positive"));
+		if($newImageGenreId <= 0) {
+			throw(new \RangeException("image genre id is not positive"));
 			// convert and store the image genre id
 		}
 		$this->imageGenreId = $newImageGenreId;
