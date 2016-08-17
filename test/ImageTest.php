@@ -89,7 +89,7 @@ class ImageTest extends FlekTest {
 		$this->profile->insert($this->getPDO());
 
 		$this->image = new Image(null, "j", "test@phpunit.de", "tibuktu", "I eat chickens, mmmmmkay", "12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678", "1234567890123456789012345678901234567890123456789012345678901234", "01234567890", "01234567890123456789012345678901");
-		$this->profile->insert($this->getPDO());
+		$this->image->insert($this->getPDO());
 	}
 		/*
 				//create a user that owns the image
