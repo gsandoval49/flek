@@ -81,9 +81,8 @@ class ImageTest extends FlekTest {
 		$numRows = $this->getConnection()->getRowCount("image");
 
 		//create a new image and insert to into mySQL
-		$image = new Image(null, $this->profile->getProfileId(), $this->VALID_IMAGEPROFILEID, $this->VALID_IMAGEDESCRIPTION, $this->VALID_IMAGESECUREURL, $this->VALID_IMAGEPUBLICID, $this->VALID_IMAGEGENREID, $this->hash, $this->salt);
+		$image = new Image($this->profile->getProfileId(), $this->VALID_IMAGEDESCRIPTION, $this->VALID_IMAGESECUREURL, $this->VALID_IMAGEPUBLICID, $this->VALID_IMAGEGENREID);
 		$image->insert($this->getPDO());
-
 		//grab the data from mySQL and enforce the fields match our expectations
 		$pdoImage = Image::getImageByImageId($this->getPDO(), $image->getImageId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("image"));

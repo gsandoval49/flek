@@ -54,7 +54,7 @@ class Image implements \JsonSerializable {
 	 * @throws \TypeError if data types violate type hints
 	 * @throws \Exception if some other exception occurs
 	 */
-	public function __construct(int $newImageId = null, int $newImageProfileId, string $newImageDescription, string $newImageSecureUrl, string $newImagePublicId, int $newImageGenreId = null) {
+	public function __construct(int $newImageId = null, int $newImageProfileId = null, string $newImageDescription, string $newImageSecureUrl, string $newImagePublicId, int $newImageGenreId = null) {
 		try {
 			$this->setImageId($newImageId);
 			$this->setImageProfileId($newImageProfileId);
