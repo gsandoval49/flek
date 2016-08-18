@@ -37,12 +37,12 @@ class MailTest extends FlekTest {
 	 * mailgun id of the Message
 	 * @var string $VALID_MAILGUNID
 	 **/
-	protected $VALID_MAILGUNID = "mailgun id test successfull";
+	protected $VALID_MAILGUNID = "17286";
 	/**
 	 * mailgun id of the updated Message
 	 * @var string $VALID_MAILGUNID2
 	 **/
-	protected $VALID_MAILGUNID2 = "mailgun id test still successfull";
+	protected $VALID_MAILGUNID2 = "18286";
 	/**
 	 * content of the Message subject
 	 * @var string $VALID_MAILSUBJECT
@@ -50,7 +50,7 @@ class MailTest extends FlekTest {
 	protected $VALID_MAILSUBJECT = "PHPUnit message subject test successfull";
 	/**
 	 * Profile that created the Message, this is for foreign key relations
-	 * @var Profile messageSentProfileId
+	 * @var int mailSenderId
 	 **/
 	protected $mailSenderId = null;
 	/**
@@ -65,8 +65,7 @@ class MailTest extends FlekTest {
 		//for unit testing, probably needs to resolve issue with activationToken in ProfileTest
 		//ask and check to make sure everything is 1-1 with the attributes in Profile
 		//create and insert a Profile to send the test Message
-		/*$this->mailSenderId = new Profile(null, $this->VALID_PROFILENAME, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILELOCATION, $this->VALID_PROFILEBIO, $this->hash, $this->salt, $this->VALID_PROFILEACCESSTOKEN, $this->VALID_PROFILEACTIVATIONTOKEN);
-		$this->mailReceiverId = new Profile (null, $this->VALID_PROFILENAME, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILELOCATION, $this->VALID_PROFILEBIO, $this->hash, $this->salt, $this->VALID_PROFILEACCESSTOKEN, $this->VALID_PROFILEACTIVATIONTOKEN);*/
+
 		$this->mailSenderId = new Profile(null, "j", "test@phpunit.de", "tibuktu", "I eat chickens, mmmmmkay", "12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678","1234567890123456789012345678901234567890123456789012345678901234", "01234567890","01234567890123456789012345678901");
 		$this->mailSenderId->insert($this->getPDO());
 		//create and insert a Profile to receive the test Message
@@ -83,15 +82,17 @@ class MailTest extends FlekTest {
 	public function testInsertValidMail(){
 		//count the number of rows and verify that the actual mySQL data matches
 		$numRows = $this->getConnection()->getRowCount("mail");
-
 		//create a new message and insert it to mySQL
-		$mail = new Mail(null, $this->VALID_MAILSUBJECT, $this->mailSenderId->getProfileId(),$this->mailReceiverId, $this->VALID_MAILGUNID, $this->VALID_MAILCONTENT);
+		$mail = new Mail(null, $this->VALID_MAILSUBJECT, $this->mailSenderId->getProfileId(),$this->mailReceiverId->getProfileId(), $this->VALID_MAILGUNID, $this->VALID_MAILCONTENT);
 		$mail->insert($this->getPDO());
 
 		//grab the data from mySQL and enforce the fields match our expectations
 		$pdoMail = Mail::getMailByMailId($this->getPDO(), $mail->getMailId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("mail"));
+		$this->assertEquals($pdoMail->getMailSubject(), $this->VALID_MAILSUBJECT);
 		$this->assertEquals($pdoMail->getProfileId(), $this->mailSenderId->getProfileId());
+		$this->assertEquals($pdoMail->getProfileId(), $this->mailReceiverId->getProfileId());
+		$this->assertEquals($pdoMail->getMailGunId(), $this->VALID_MAILGUNID);
 		$this->assertEquals($pdoMail->getMailContent(), $this->VALID_MAILCONTENT);
 	}
 	/**
@@ -100,7 +101,7 @@ class MailTest extends FlekTest {
 	 */
 	public function testInsertInvalidMail(){
 		//create a message with a non null id and watch it fail
-		$mail = new Mail(FlekTest::INVALID_KEY, $this->VALID_MAILGUNID2, $this->mailSenderId->getProfileId(), $this->VALID_MAILCONTENT, $this->VALID_MAILCONTENT2);
+		$mail = new Mail(FlekTest::INVALID_KEY, $this->VALID_MAILSUBJECT, $this->mailSenderId->getProfileId(),$this->mailReceiverId->getProfileId(), $this->VALID_MAILGUNID, $this->VALID_MAILCONTENT);
 		$mail->insert($this->getPDO());
 	}
 	/**
@@ -112,7 +113,7 @@ class MailTest extends FlekTest {
 		$numRows = $this->getConnection()->getRowCount("mail");
 
 		//create new message and insert it to mySQL
-		$mail = new Mail(null, $this->VALID_MAILSUBJECT, $this->mailSenderId->getProfileId(),$this->mailReceiverId, $this->VALID_MAILGUNID, $this->VALID_MAILCONTENT);
+		$mail = new Mail(null, $this->VALID_MAILSUBJECT, $this->mailSenderId->getProfileId(),$this->mailReceiverId->getProfileId(), $this->VALID_MAILGUNID, $this->VALID_MAILCONTENT);
 		$mail->insert($this->getPDO());
 
 		//edit the message and update it in mySQL
@@ -122,7 +123,10 @@ class MailTest extends FlekTest {
 		//grab the data from mySQL and enforce the fields match our expectations
 		$pdoMail = Mail::getMailByMailId($this->getPDO(), $mail->getMailId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("mail"));
+		$this->assertEquals($pdoMail->getMailSubject(), $this->VALID_MAILSUBJECT);
 		$this->assertEquals($pdoMail->getProfileId(), $this->mailSenderId->getProfileId());
+		$this->assertEquals($pdoMail->getProfileId(), $this->mailReceiverId->getProfileId());
+		/*$this->assertEquals($pdoMail->getMailGunId(), $this->VALID_MAILGUNID);*/
 		$this->assertEquals($pdoMail->getMailContent(), $this->VALID_MAILCONTENT2);
 
 	}
@@ -132,7 +136,7 @@ class MailTest extends FlekTest {
 	 */
 	public function testUpdateInvalidMail(){
 		//create a message , try to update it without actually updating it and watch it fail
-		$mail = new Mail(null, $this->VALID_MAILSUBJECT, $this->mailSenderId->getProfileId(),$this->mailReceiverId, $this->VALID_MAILGUNID, $this->VALID_MAILCONTENT);
+		$mail = new Mail(null, $this->VALID_MAILSUBJECT, $this->mailSenderId->getProfileId(),$this->mailReceiverId->getProfileId(), $this->VALID_MAILGUNID, $this->VALID_MAILCONTENT);
 		$mail->update($this->getPDO());
 	}
 	/**
@@ -143,7 +147,7 @@ class MailTest extends FlekTest {
 		$numRows = $this->getConnection()->getRowCount("mail");
 
 		//create new message and insert it to mySQL
-		$mail = new Mail(null, $this->VALID_MAILSUBJECT, $this->mailSenderId->getProfileId(),$this->mailReceiverId, $this->VALID_MAILGUNID, $this->VALID_MAILCONTENT);
+		$mail = new Mail(null, $this->VALID_MAILSUBJECT, $this->mailSenderId->getProfileId(),$this->mailReceiverId->getProfileId(), $this->VALID_MAILGUNID, $this->VALID_MAILCONTENT);
 		$mail->insert($this->getPDO());
 
 		//delete the message from mySQL
@@ -155,6 +159,7 @@ class MailTest extends FlekTest {
 		$pdoMail = Mail::getMailByMailId($this->getPDO(), $mail->getMailId());
 		$this->assertNull($pdoMail);
 		$this->assertEquals($numRows, $this->getConnection()->getRowCount("mail"));
+
 	}
 	/**
 	 * test deleting a message that does not exist
@@ -162,7 +167,7 @@ class MailTest extends FlekTest {
 
 	public function testDeleteInvalidMail() {
 		// create a message and try to delete it without actually inserting it
-		$mail = new Mail(null, $this->VALID_MAILSUBJECT, $this->mailSenderId->getProfileId(),$this->mailReceiverId, $this->VALID_MAILGUNID, $this->VALID_MAILCONTENT);
+		$mail = new Mail(null, $this->VALID_MAILSUBJECT, $this->mailSenderId->getProfileId(),$this->mailReceiverId->getProfileId(), $this->VALID_MAILGUNID, $this->VALID_MAILCONTENT);
 		$mail->delete($this->getPDO());
 	}
 
@@ -174,7 +179,7 @@ class MailTest extends FlekTest {
 		$numRows = $this->getConnection()->getRowCount("mail");
 
 		// create a new message and insert to into mySQL
-		$mail = new Mail(null, $this->VALID_MAILSUBJECT, $this->mailSenderId->getProfileId(),$this->mailReceiverId, $this->VALID_MAILGUNID, $this->VALID_MAILCONTENT);
+		$mail = new Mail(null, $this->VALID_MAILSUBJECT, $this->mailSenderId->getProfileId(),$this->mailReceiverId->getProfileId(), $this->VALID_MAILGUNID, $this->VALID_MAILCONTENT);
 
 		// grab the data from mySQL and enforce the fields match our expectations
 		$results = Mail::getMailByMailContent($this->getPDO(), $mail->getMailContent());
@@ -184,8 +189,12 @@ class MailTest extends FlekTest {
 
 		// grab the result from the array and validate it
 		$pdoMail = $results[0];
-		$this->assertEquals($pdoMail->getProfileId(), $this->profile->getProfileId());
-		$this->assertEquals($pdoMail->getMailContent(), $this->VALID_MailCONTENT);
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("mail"));
+		$this->assertEquals($pdoMail->getMailSubject(), $this->VALID_MAILSUBJECT);
+		$this->assertEquals($pdoMail->getProfileId(), $this->mailSenderId->getProfileId());
+		$this->assertEquals($pdoMail->getProfileId(), $this->mailReceiverId->getProfileId());
+		/*$this->assertEquals($pdoMail->getMailGunId(), $this->VALID_MAILGUNID);*/
+		$this->assertEquals($pdoMail->getMailContent(), $this->VALID_MAILCONTENT);
 	}
 	/**
 	 * test grabbing a message by content that does not exist
@@ -203,7 +212,7 @@ class MailTest extends FlekTest {
 		$numRows = $this->getConnection()->getRowCount("mail");
 
 		// create a new message and insert to into mySQL
-		$mail = new Mail(null, $this->VALID_MAILSUBJECT, $this->mailSenderId->getProfileId(),$this->mailReceiverId, $this->VALID_MAILGUNID, $this->VALID_MAILCONTENT);
+		$mail = new Mail(null, $this->VALID_MAILSUBJECT, $this->mailSenderId->getProfileId(),$this->mailReceiverId->getProfileId(), $this->VALID_MAILGUNID, $this->VALID_MAILCONTENT);
 		$mail->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
@@ -214,7 +223,10 @@ class MailTest extends FlekTest {
 
 		// grab the result from the array and validate it
 		$pdoMail = $results[0];
-		$this->assertEquals($pdoMail->getProfileId(), $this->profile->getProfileId());
-		$this->assertEquals($pdoMail->getMailContent(), $this->VALID_MailCONTENT);
+		$this->assertEquals($pdoMail->getMailSubject(), $this->VALID_MAILSUBJECT);
+		$this->assertEquals($pdoMail->getProfileId(), $this->mailSenderId->getProfileId());
+		$this->assertEquals($pdoMail->getProfileId(), $this->mailReceiverId->getProfileId());
+		/*$this->assertEquals($pdoMail->getMailGunId(), $this->VALID_MAILGUNID);*/
+		$this->assertEquals($pdoMail->getMailContent(), $this->VALID_MAILCONTENT);
 	}
 }

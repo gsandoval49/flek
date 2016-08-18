@@ -262,7 +262,7 @@ class Mail implements \JsonSerializable {
 		$this->mailDateTime =$newMailDateTime;
 	}*/
 
-	/*
+	/**
 	 * inserts message into sql
 	 *
 	 * @param \PDO connection object
@@ -275,17 +275,17 @@ class Mail implements \JsonSerializable {
 	throw(new \PDOException("not a new message"));
 }
 /*create query template*/
-$query = "INSERT INTO mail(mailSubject, mailSenderId, mailReceiverId, mailGunId, mailConent) VALUES(:mailId, :mailSubject, :mailSenderId, :mailReceiverId, :mailGunId,:mailContent)";
+$query = "INSERT INTO mail( mailSubject, mailSenderId, mailReceiverId, mailGunId, mailContent) VALUES(:mailSubject, :mailSenderId, :mailReceiverId, :mailGunId,:mailContent)";
 $statement = $pdo->prepare($query);
 
 /*bind member variables to placeholders*/
-$parameters = ["mailId" => $this->mailId, "mailSubject" => $this->mailSubject, "mailSenderId"=>$this->mailSenderId, "mailReceiverId"=>$this->mailReceiverId, "mailGunId"=>$this->mailGunId, "mailContent"=>$this->mailContent];
+$parameters = [/*"mailId" => $this->mailId, */"mailSubject" => $this->mailSubject, "mailSenderId"=>$this->mailSenderId, "mailReceiverId"=>$this->mailReceiverId, "mailGunId"=>$this->mailGunId, "mailContent"=>$this->mailContent];
 $statement->execute($parameters);
 
 /*update the mail Id with what mySQL just gave us*/
 $this->mailId = intval($pdo->lastInsertId());
 }
-/*
+/**
  * deletes message from mySQL
  * @param \PDO connection object
  * @throws \PDOException when mySQL related errors occur
@@ -329,7 +329,7 @@ public static function getMessageByMessageContent(\PDO $pdo, string $mailContent
 		throw(new\PDOException("message content is invalid"));
 	}
 	/*create query template*/
-	$query = "SELECT mailId, mailSubject, mailSenderId, mailReceiverId, mailGunId, mailContent FROM mail WHERE mailContent LIKE :mailContent";
+	$query = "SELECT /*mailId,*/ mailSubject, mailSenderId, mailReceiverId, mailGunId, mailContent FROM mail WHERE mailContent LIKE :mailContent";
 	$statement = $pdo->prepare($query);
 
 	/*bind the message content to the placeholder*/
@@ -338,19 +338,19 @@ public static function getMessageByMessageContent(\PDO $pdo, string $mailContent
 	$statement = execute($parameters);
 
 	/*build an array of messages*/
-	$messages = new \SplFixedArray($statement->rowCount());
+	$mails = new \SplFixedArray($statement->rowCount());
 	$statement->setFetchMode(\PDO::FETCH_ASSOC);
 	while(($row = $statement->fetch()) !== false){
 		try{
 			$mail = new Mail($row["mailId"], $row["mailSubject"], $row ["mailSenderId"], $row ["mailReceiverId"], $row ["mailGunId"], $row["mailContent"]);
-			$messages[$messages->key()] = $mail;
-			$messages->next();
+			$mails[$mails->key()] = $mail;
+			$mails->next();
 		} catch(\Exception $exception){
 			/*throw the row if it can't be converted*/
 			throw(new\PDOException($exception->getMessage(),0,$exception));
 		}
 		}
-	return($messages);
+	return($mails);
 }
 /*
  * gets message by mailId
@@ -363,7 +363,7 @@ public static function getMailByMailId(\PDO $pdo, int $mailId){
 		throw(new\PDOException("message Id is not positive"));
 	}
 	/*create query template*/
-	$query = "SELECT mailId, mailSubject, mailSenderId, mailReceiverId, mailGunId, mailContent FROM mail WHERE mailId = :mailId";
+	$query = "SELECT /*mailId,*/ mailSubject, mailSenderId, mailReceiverId, mailGunId, mailContent FROM mail WHERE mailId = :mailId";
 	$statement = $pdo->prepare($query);
 
 	/*bind mailId to the placeholder in template*/
@@ -400,20 +400,20 @@ public static function getMailByMailSenderId (\PDO $pdo, int $mailSenderId){
 	$parameters = ["mailSenderId" => $mailSenderId];
 	$statement->execute($parameters);
 	/*build array of messages*/
-	$messages = new \SplFixedArray($statement->rowCount());
+	$mails = new \SplFixedArray($statement->rowCount());
 	$statement->setFetchMode(\PDO::FETCH_ASSOC);
 	while(($row = $statement->fetch()) !== false){
 		try{
 			$mail = new Mail($row["mailId"], $row["mailSenderId"], $row["mailReceiverId"], $row["mailGunId"], $row["mailContent"]);
 			/*I'm not so sure about this one, is this the Id from profile??*/
-			$messages[$messages->key()] = $mail;
-			$messages->next();
+			$mails[$mails->key()] = $mail;
+			$mails->next();
 		} catch(\Exception $exception){
 			/*rethrow if you can't convert the row*/
 			throw(new\PDOException($exception->getMessage(),0, $exception));
 		}
 	}
-return($messages);
+return($mails);
 }
 /*
  * gets mail by receiver id
@@ -432,20 +432,20 @@ public static function getMailByMailReceiverId (\PDO $pdo, int $mailReceiverId){
 	$parameters = ["mailReceiverId" => $mailReceiverId];
 	$statement->execute($parameters);
 	/*build array of messages*/
-	$messages = new \SplFixedArray($statement->rowCount());
+	$mails = new \SplFixedArray($statement->rowCount());
 	$statement->setFetchMode(\PDO::FETCH_ASSOC);
 	while(($row = $statement->fetch()) !== false){
 		try{
 			$mail = new Mail($row["mailId"], $row["mailSenderId"], $row["mailReceiverId"], $row["mailGunId"], $row["mailContent"]);
 			/* really not so sure about this one... is this the Id from profile??*/
-			$messages[$messages->key()] = $mail;
-			$messages->next();
+			$mails[$mails->key()] = $mail;
+			$mails->next();
 		} catch(\Exception $exception){
 			/*rethrow if you can't convert the row*/
 			throw(new\PDOException($exception->getMessage(),0, $exception));
 	}
 }
-return($messages);
+return($mails);
 }
 /**
  * gets all messages
@@ -457,19 +457,19 @@ public static function getAllMessages(\PDO $pdo){
 	$statement = $pdo->prepare($query);
 	$statement->execute();
 	/*build an array of messages*/
-	$messages = new \SplFixedArray($statement->rowCount());
+	$mails = new \SplFixedArray($statement->rowCount());
 	$statement->setFetchMode(\PDO::FETCH_ASSOC);
 	while(($row = $statement->fetch()) !== false){
 		try{
 			$mail = new Mail($row["mailId"], $row["mailSenderId"], $row["mailReceiverId"], $row["mailGunId"], $row["mailContent"]);
-			$messages[$messages->key()] = $mail;
-			$messages->next();
+			$mails[$mails->key()] = $mail;
+			$mails->next();
 		} catch(\Exception $exception){
 			/*rethrow if you can't convert the row*/
 			throw(new\PDOException($exception->getMessage(),0, $exception));
 	}
 }
-return($messages);
+return($mails);
 }
 /**
  * formats state variables for JSON serialization
