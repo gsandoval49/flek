@@ -2,10 +2,6 @@
 namespace Edu\Cnm\Flek;
 require_once ("autoload.php");
 /**
- * cross section of a genre
- *
- * This Genre can be considered a small example of classifying an image within our Flek application.
- *
  * @author Christina Sosa <csosa4@cnm.edu>
  * @version 1.0.0
  **/
@@ -119,10 +115,10 @@ class Genre implements \JsonSerializable {
 			throw(new \PDOException("not a new genre"));
 		}
 		//create a query template
-		$query = "INSERT INTO genre(genreName) VALUES(:genreName)";                //insert genre id???
+		$query = "INSERT INTO genre(genreName) VALUES(:genreName)";
 		$statement = $pdo->prepare($query);
 		//bind the member variables to the place holders in the template
-		$parameters = ["genreName" => $this->genreName];                            //insert genre id??
+		$parameters = ["genreName" => $this->genreName];
 		$statement->execute($parameters);
 		//update the null genreId with what mySQL just gave us
 		$this->genreId = intval($pdo->lastInsertId());
