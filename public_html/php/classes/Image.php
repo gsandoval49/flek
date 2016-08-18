@@ -54,7 +54,7 @@ class Image implements \JsonSerializable {
 	 * @throws \TypeError if data types violate type hints
 	 * @throws \Exception if some other exception occurs
 	 */
-	public function __construct(int $newImageId = null, int $newImageProfileId, string $newImageDescription, string $newImageSecureUrl, string $newImagePublicId, int $newImageGenreId) {
+	public function __construct(int $newImageId = null, int $newImageProfileId, string $newImageDescription, string $newImageSecureUrl, string $newImagePublicId, bool $newImageGenreId = null) {
 		try {
 			$this->setImageId($newImageId);
 			$this->setImageProfileId($newImageProfileId);
@@ -214,19 +214,18 @@ class Image implements \JsonSerializable {
 		return ($this->imageGenreId);
 	}
 
-	/*
+	/**
 	 * mutator method for image genre id
-	 * @param int new value $newImageGenreId
+	 * @param int $newImageGenreId
 	 * @throws image genre id not positive
-	 */
-	public function setImageGenreId(int $newImageGenreId) {
-		if($newImageGenreId <= 0) {
-			throw(new \RangeException("image genre id is not positive"));
-			// convert and store the image genre id
+	 **/
+	public function setImageGenreId(bool $newImageGenreId = null) {
+		if($newImageGenreId == null) {
+			$this->imageGenreId = null;
+			return;
 		}
-		$this->imageGenreId = $newImageGenreId;
+					$this->imageGenreId = $newImageGenreId;
 	}
-
 
 /*
  * inserts the Image into mySQL
@@ -239,14 +238,24 @@ class Image implements \JsonSerializable {
 		throw(new \PDOException("not a new image"));
 	}
 	// create query template
-	$query = "INSERT INTO image(imageId, imageProfileId, imageDescription,imageSecureUrl, imagePublicId, 
+	$query = "INSERT INTO image(imageProfileId, imageDescription,imageSecureUrl, imagePublicId, 
 							imageGenreId) VALUES(:imageProfileId, :imageDescription, :imageSecureUrl, :imagePublicId, :imageGenreId)";
 	$statement = $pdo->prepare($query);
+
+			/**
+			 * change the format of the boolean imageGenreId
+			 */
+			if($this->imageGenreId === false) {
+				$formatGenreId = 0;
+			} else{
+				$formatGenreId = $this->imageGenreId;
+			}
+
 	// bind the member variables to the place holders in the template
 	$parameters = ["imageProfileId" => $this->imageProfileId, "imageDescription" => $this->imageDescription,
-		"imageSecureURl" => $this->imageSecureUrl, "imagePublicId" => $this->imagePublicId, "imageGenreId" => $this->
-		imageGenreId];
-	$statement->execute($parameters);
+		"imageSecureURl" => $this->imageSecureUrl, "imagePublicId" => $this->imagePublicId, "imageGenreId" => $formatGenreId];
+
+			$statement->execute($parameters);
 
 	/*
 	 * update the null imageId with what mySQL just gave us
