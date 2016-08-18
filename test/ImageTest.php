@@ -104,7 +104,7 @@ class ImageTest extends FlekTest {
 */
 	public function testInsertInvalidImage() {
 	//create a image with a non null image id and watch it fail
-		$image = new Image(FlekTest::INVALID_KEY, $this->profile->getProfileId(), $this->VALID_IMAGEDESCRIPTION,
+		$image = new Image(ImageTest::INVALID_KEY, $this->profile->getProfileId(), $this->VALID_IMAGEDESCRIPTION,
 			$this->VALID_IMAGESECUREURL, $this->VALID_IMAGEPUBLICID, $this->VALID_IMAGEGENREID);
 		$image->insert($this->getPDO());
 

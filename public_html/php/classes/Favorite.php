@@ -93,9 +93,14 @@ class Favorite implements \JsonSerializable {
 	 * @throws \InvalidArgument if $newFavoriter is not valid
 	 */
 	public
-	function setFavoriterId(int $newFavoriterId) {
+	function setFavoriterId(int $newFavoriterId = null) {
 		//verify the favoriter id is true
-		if($newFavoriterId = false) {
+		if($newFavoriterId === null) {
+			$this->favoriterId = null;
+			return;
+		}
+		//verify the favoriter id is positive
+		if($newFavoriterId <= 0) {
 			throw(new \InvalidArgumentException("favoriter id is not true output"));
 		}
 		//convert and store the favoriter id
