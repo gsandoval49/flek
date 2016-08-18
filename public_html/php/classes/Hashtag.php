@@ -76,7 +76,7 @@ class Hashtag implements \JsonSerializable {
         }
 
         // verify the hashtag id is positive
-        if($newHashtagId <=0) {
+        if($newHashtagId <= 0) {
             throw(new \RangeException("hashtag id is not positive"));
         }
 
@@ -104,7 +104,7 @@ class Hashtag implements \JsonSerializable {
     public function setHashtagName(string $newHashtagName) {
         // verify the hashtag string is secure
         $newHashtagName = trim($newHashtagName);
-        $newHashtagName = filter_var($newHashtagName, FILTER_SANITIZE_STRING);
+        $newHashtagName = filter_var($newHashtagName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
         if(empty($newHashtagName) === true) {
             throw(new \InvalidArgumentException("hashtag name is empty or insecure"));
         }
@@ -153,7 +153,7 @@ class Hashtag implements \JsonSerializable {
      **/
     public function delete(\PDO $pdo) {
         // enforce the hashtagId is not null (i.e., don't delete a hashtag that hasn't been inserted)
-        if($this->hashtagId ===null) {
+        if($this->hashtagId === null) {
             throw(new \PDOException("unable to delete a hashtag that does not exist"));
         }
 
@@ -180,12 +180,12 @@ class Hashtag implements \JsonSerializable {
         }
 
         // create query template
-        $query = "UPDATE hashtag SET hashtagId = :hashtagId, hashtagName = :hashtagName";
+        $query = "UPDATE hashtag SET hashtagName = :hashtagName WHERE hashtagId = :hashtagId";
         $statement = $pdo->prepare($query);
 
         // bind the member variables to the place holders in the template
         // deleted the formatted date from the example
-        $parameters = ["hashtagId" => $this->hashtagId, "hashtagName" => $this->hashtagName];
+        $parameters = ["hashtagName" => $this->hashtagName, "hashtagId" => $this->hashtagId];
         $statement->execute($parameters);
     }
 
@@ -194,66 +194,24 @@ class Hashtag implements \JsonSerializable {
      *
      * @param \PDO $pdo PDO connection object
      * @param string $hashtagName hashtag name to search for
-     * @return \SplFixedArray SplFixedArray of Hashtags found
+     * @return hashtag|null hashtag or null if not found
      * @throws \PDOException when mySQL related errors occur
      * @throws \TypeError when variables are not the correct data type
      **/
     public static function getHashtagByHashtagName(\PDO $pdo, string $hashtagName){
         // sanitize the description before searching
         $hashtagName = trim($hashtagName);
-        $hashtagName = filter_var($hashtagName, FILTER_SANITIZE_STRING);
+        $hashtagName = filter_var($hashtagName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
         if(empty($hashtagName) === true) {
             throw(new \PDOException("hashtag name is invalid"));
         }
-
         // create query template
         $query = "SELECT hashtagId, hashtagName FROM hashtag WHERE hashtagName LIKE :hashtagName";
         $statement = $pdo->prepare($query);
-
         // bind the hashtag name to the place holder in the template
-        $hashtagName = "%$hashtagName%";
-        $parameters = ["hashtagName" => $hashtagName];
+        // $hashtagName = "%$hashtagName%";
+        $parameters = array("hashtagName" => $hashtagName);
         $statement->execute($parameters);
-
-        // build an array of hashtags
-        $hashtags = new \SplFixedArray($statement->rowCount());
-        $statement->setFetchMode(\PDO::FETCH_ASSOC);
-        while(($row = $statement->fetch()) !== false) {
-            try {
-                $hashtag = new Hashtag($row["hashtagId"], $row["hashtagName"]);
-                $hashtags[$hashtags->key()] = $hashtag;
-                $hashtags->next();
-            } catch(\Exception $exception) {
-                //if the row couldn't be converted, rethrow it
-                throw(new \PDOException($exception->getMessage(),0, $exception));
-            }
-        }
-        return($hashtags);
-    }
-
-    /**
-     * gets the Hashtag by hashtagId
-     *
-     * @param \PDO $pdo PDO connection object
-     * @param int $hashtagId hashtag id to search for
-     * @return Hashtag|null Hashtag found or null if not found
-     * @throws \PDOException when mySQL related errors occur
-     * @throws \TypeError when variables are not the correct data type
-     **/
-    public static function getHashtagByHashtagId(\PDO $pdo, int $hashtagId) {
-        // sanitize the hashtagId before searching
-        if($hashtagId <= 0) {
-            throw(new \PDOException("hashtag id is not positive"));
-        }
-
-        // create query template
-        $query = "SELECT hashtagId, hashtagName FROM hashtag WHERE hashtagId = :hashtagId";
-        $statement = $pdo->prepare($query);
-
-        // bind the hashtag id to the place holder in the template
-        $parameters = ["hashtagId" => $hashtagId];
-        $statement->execute($parameters);
-
         // grab the hashtag from mySQL
         try {
             $hashtag = null;
@@ -270,28 +228,63 @@ class Hashtag implements \JsonSerializable {
     }
 
     /**
-     * gets all Hashtags
+     * gets the Hashtag by hashtagId
      *
      * @param \PDO $pdo PDO connection object
-     * @return \SplFixedArray SplFixedArray of Hashtags found or null if not found
+     * @param int $hashtagId hashtag id to search for
+     * @return hashtag|null hashtag found or null if not found
      * @throws \PDOException when mySQL related errors occur
      * @throws \TypeError when variables are not the correct data type
      **/
-    public static function getAllHashtags(\PDO $pdo) {
+    public static function getHashtagByHashtagId(\PDO $pdo, int $hashtagId)
+    {
+        // sanitize the hashtagId before searching
+        if ($hashtagId <= 0) {
+            throw(new \RangeException("hashtag id is not positive"));
+        }
+        // create query template
+        $query = "SELECT hashtagId, hashtagName FROM hashtag WHERE hashtagId = :hashtagId";
+        $statement = $pdo->prepare($query);
+        // bind the hashtag id to the place holder in the template
+        $parameters = ["hashtagId" => $hashtagId];
+        $statement->execute($parameters);
+        // get the hashtag from mySQL
+        try {
+            $hashtag = null;
+            $statement->setFetchMode(\PDO::FETCH_ASSOC);
+            $row = $statement->fetch();
+            if ($row !== false) {
+                $hashtag = new Hashtag($row["hashtagId"], $row["hashtagName"]);
+            }
+        } catch (\Exception $exception) {
+            // if the row couldn't be converted, rethrow it
+            throw(new \PDOException($exception->getMessage(), 0, $exception));
+        }
+        return ($hashtag);
+    }
+
+    /**
+     * gets all hashtags
+     *
+     * @param \PDO $pdo PDO connection object
+     * @return \SplFixedArray SplFixedArray of hashtags found or null if not found
+     * @throws \PDOException when mySQL related errors occur
+     * @throws \TypeError when variables are not the correct data type
+     **/
+    public static function getsAllHashtags(\PDO $pdo) {
         // create query template
         $query = "SELECT hashtagId, hashtagName FROM hashtag";
         $statement = $pdo->prepare($query);
         $statement->execute();
-
-        // build an array of Hashtags
+        // build an array of hashtags
         $hashtags = new \SplFixedArray($statement->rowCount());
         $statement->setFetchMode(\PDO::FETCH_ASSOC);
-        while(($row = $statement->fetch()) !==false) {
+        while(($row = $statement->fetch()) !== false) {
             try {
                 $hashtag = new Hashtag($row["hashtagId"], $row["hashtagName"]);
                 $hashtags[$hashtags->key()] = $hashtag;
                 $hashtags->next();
-            } catch(\Exception $exception) {
+            } catch (\Exception $exception) {
                 //if the row couldn't be converted, rethrow it
                 throw(new \PDOException($exception->getMessage(), 0, $exception));
             }
@@ -309,6 +302,3 @@ class Hashtag implements \JsonSerializable {
         return($fields);
     }
 }
-
-
-?>
