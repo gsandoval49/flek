@@ -412,7 +412,8 @@ class Profile implements \JsonSerializable {
 		}
 
 		//create query template
-		$query = "INSERT INTO profile(profileName, profileEmail, profileLocation, profileBio, profileHash, profileSalt, profileAccessToken, profileActivationToken) VALUES (:profileName, :profileEmail, :profileLocation, :profileBio, :profileHash, :profileSalt, :profileAccessToken, :profileActivationToken)";
+		$query = "INSERT INTO profile(profileName, profileEmail, profileLocation, profileBio, profileHash, profileSalt, profileAccessToken, profileActivationToken) VALUES (:profileName :profileEmail, :profileLocation, :profileBio, :profileHash, :profileSalt, :profileAccessToken, 
+		:profileActivationToken)";
 		$statement = $pdo->prepare($query);
 
 		//bind the member variables to the place holders in the template
@@ -458,9 +459,7 @@ class Profile implements \JsonSerializable {
 		}
 
 		//create query template
-		$query = "UPDATE profile SET profileId = :profileId, profileName = :profileName, profileEmail = :profileEmail, profileLocation 
-= :profileLocation, profileBio = :profileBio, profileHash = :profileHash, profileSalt = :profileSalt, 
-profileAccessToken = :profileAccessToken, profileActivationToken = :profileActivationToken WHERE profileId = :profileId";
+		$query = "UPDATE profile SET profileId = :profileId, profileName = :profileName, profileEmail = :profileEmail, profileLocation = :profileLocation, profileBio = :profileBio, profileHash = :profileHash, profileSalt = :profileSalt, profileAccessToken = :profileAccessToken, profileActivationToken = :profileActivationToken WHERE profileId = :profileId";
 		$statement = $pdo->prepare($query);
 
 		//bind the member variables to the place holders in the template
@@ -484,8 +483,7 @@ profileAccessToken = :profileAccessToken, profileActivationToken = :profileActiv
 		}
 
 		//create query template
-		$query = "SELECT profileId, profileName, profileEmail, profileLocation, profileBio, profileHash, profileSalt, 
-profileAccessToken, profileActivationToken FROM profile WHERE profileId = :profileId";
+		$query = "SELECT profileId, profileName, profileEmail, profileLocation, profileBio, profileHash, profileSalt, profileAccessToken, profileActivationToken FROM profile WHERE profileId = :profileId";
 		$statement = $pdo->prepare($query);
 
 		//bind the profileId to the place holder in the template
@@ -498,7 +496,7 @@ profileAccessToken, profileActivationToken FROM profile WHERE profileId = :profi
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
-				$profile = new Profile($row["profileId"], $row["profileName"], $row["profileEmail"], $row["profileLocation"], $row["profileBio"], $row["profileHash"], $row["profileSalt"], $row["profileAccessToken"], $row["profileActivationToken"]);
+				$profile = new Profile($row["profileId"], $row["profileName"], $row["profileEmail"], $row["profileLocation"], $row["profileBio"], $row["profileHash"], $row["profileSalt"],$row["profileAccessToken"], $row["profileActivationToken"]);
 			}
 		} catch(\Exception $exception) {
 			//if the row can't be converted, throw it
@@ -526,8 +524,7 @@ profileAccessToken, profileActivationToken FROM profile WHERE profileId = :profi
 		}
 
 		//create query template
-		$query = "SELECT profileId, profileName, profileEmail, profileLocation, profileBio, profileHash, profileSalt, 
-profileAccessToken, profileActivationToken FROM profile WHERE profileEmail LIKE :profileEmail";
+		$query = "SELECT profileId, profileName, profileEmail, profileLocation, profileBio, profileHash, profileSalt, profileAccessToken, profileActivationToken FROM profile WHERE profileEmail LIKE :profileEmail";
 		$statement = $pdo->prepare($query);
 
 		//bind the profile email to the place holder in the template
@@ -569,9 +566,7 @@ profileAccessToken, profileActivationToken FROM profile WHERE profileEmail LIKE 
 		}
 
 		//create query template
-		$query = "SELECT profileId, profileName, profileEmail, profileLocation, profileBio, profileHash, profileSalt, 
-profileAccessToken, profileActivationToken FROM profile WHERE profileAccessToken = 
-:profileAccessToken";
+		$query = "SELECT profileId, profileName, profileEmail, profileLocation, profileBio, profileHash, profileSalt, profileAccessToken, profileActivationToken FROM profile WHERE profileAccessToken = :profileAccessToken";
 		$statement = $pdo->prepare($query);
 
 		//bind the profile access token to the place holder in the template
@@ -606,8 +601,7 @@ profileAccessToken, profileActivationToken FROM profile WHERE profileAccessToken
 	 **/
 	public static function getsAllProfiles(\PDO $pdo) {
 		//create query template
-		$query = "SELECT profileId, profileName, profileEmail, profileLocation, profileBio, profileHash, profileSalt, 
-profileAccessToken, profileActivationToken FROM profile";
+		$query = "SELECT profileId, profileName, profileEmail, profileLocation, profileBio, profileHash, profileSalt, profileAccessToken, profileActivationToken FROM profile";
 		$statement = $pdo->prepare($query);
 		$statement->execute();
 
