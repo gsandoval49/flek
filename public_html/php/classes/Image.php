@@ -238,9 +238,9 @@ class Image implements \JsonSerializable {
 		throw(new \PDOException("not a new image"));
 	}
 	// create query template
-	$query = "INSERT INTO image(imageProfileId, imageDescription,imageSecureUrl, imagePublicId, 
-							imageGenreId) VALUES(:imageProfileId, :imageDescription, :imageSecureUrl, :imagePublicId, :imageGenreId)";
-	$statement = $pdo->prepare($query);
+	$query = "INSERT INTO image(imageProfileId, imageDescription,imageSecureUrl, imagePublicId, imageGenreId) VALUES(:imageProfileId, :imageDescription, :imageSecureUrl, :imagePublicId, :imageGenreId)";
+
+			$statement = $pdo->prepare($query);
 
 			/**
 			 * change the format of the boolean imageGenreId
@@ -263,12 +263,43 @@ class Image implements \JsonSerializable {
 	$this->imageId = intval($pdo->lastInsertId());
 }
 
-/*
+	/*
+	 * updates this Image in mySQL
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related erros
+	 * @throws \TypeError if $pdo is not a PDO coection
+	 */
+	public function update(\PDO $pdo) {
+		//enforce the imageId is not null
+		if($this->imageId === null) {
+			throw(new \PDOException("unable to update a image that does not exist"));
+		}
+
+		// create query template
+		$query = "UPDATE image SET imageProfileId = :imageProfileId, imageDescription = :imageDescription, imageSecureURl =
+			:imageSecureUrl, imagePublicId = :imagePublicId, imageGenreId = :imageGenreId";
+		$statement = $pdo->prepare($query);
+
+		//change the format of the boolean Image Genre Id
+		if($this->imageGenreId === false) {
+			$formatGenreId = 0;
+		}
+		else{
+			$formatGenreId = $this->imageGenreId;
+		}
+		//bind the member variables to the place holders in the template
+		$parameters = ["imageProfileId" => $this->imageProfileId, "imageDescription" => $this->imageDescription,
+			"imageSecureUrl" => $this->imageSecureUrl, "imagePublicId" => $this->imagePublicId, "imageGenreId" => $this->imageGenreId];
+
+		$statement->execute($parameters);
+	}
+
+/**
  * deletes this image from mySQL
  * @param \PDO $pdo PDO connection object
  * @throws \PDOException when mySQL related errors
  * @throws \TypeError if $pdo is no a PDO connection object
- */
+ **/
 		public function delete(\PDO $pdo) {
 	//enforce the imageId is not null
 	if($this->imageId === null) {
@@ -286,29 +317,7 @@ class Image implements \JsonSerializable {
 	$parameters = ["imageId" => $this->imageId];
 	$statement->execute($parameters);
 }
-	/*
-	 * updates this Image in mySQL
-	 * @param \PDO $pdo PDO connection object
-	 * @throws \PDOException when mySQL related erros
-	 * @throws \TypeError if $pdo is not a PDO coection
-	 */
-	public function update(\PDO $pdo) {
-	//enforce the imageId is not null
-	if($this->imageId === null) {
-		throw(new \PDOException("unable to update a image that does not exist"));
-	}
 
-	// create query template
-	$query = "UPDATE image SET imageProfileId = :imageProfileId, imageDescription = :imageDescription, imageSecureURl =
-			:imageSecureUrl, imagePublicId = :imagePublicId, imageGenreId = :imageGenreId";
-	$statement = $pdo->prepare($query);
-
-	//bind the member variables to the place holders in the template
-	$parameters = ["imageProfileId" => $this->imageProfileId, "imageDescription" => $this->imageDescription,
-		"imageSecureUrl" => $this->imageSecureUrl, "imagePublicId" => $this->imagePublicId, "imageGenreId" => $this->imageGenreId];
-
-	$statement->execute($parameters);
-}
 
 	/*
 	 * gets the Image by content
@@ -320,8 +329,8 @@ class Image implements \JsonSerializable {
 	 */
 		public static function getImagebyImageDescription(\PDO $pdo, string $imageDescription) {
 			//sanitize the description before searching
-		$imageDescriotion = trim($imageDescription);
-		$imageDescriotion = filter_var($imageDescription, FILTER_SANITIZE_STRING);
+		$imageDescription = trim($imageDescription);
+		$imageDescription = filter_var($imageDescription, FILTER_SANITIZE_STRING);
 			if(empty($imageDescription) === true) {
 				throw(new \PDOException("image description is invalid"));
 			}

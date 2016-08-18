@@ -1,14 +1,13 @@
 <?php
 namespace Edu\Cnm\Flek\Test;
 
-use Edu\Cnm\Flek\{Favorite, Profile};
+use Edu\Cnm\Flek\{Favorite};
 
 //grab the project test parameters
 require_once(dirname(__DIR__) . "/public_html/php/classes/autoload.php");
-require_once("FlekTest.php");
 
 //grab the class
-require_once (dirname(__DIR__) . "/public_html/php/classes/autoload.php");
+require_once("FlekTest.php");
 
 /*
  * Full PHPUnit test for the Favorite Class
@@ -37,31 +36,6 @@ class FavoriteTest extends FlekTest {
 	/*
 	 * create dependent objects before running each test
 	 */
-	public final function setUp() {
-		// run the default setUp() method first
-		parent::setUp();
-		/*
-	 * creating setup for hash and salt
-	 */
-		$this->VALID_PROFILEACTIVATIONTOKEN = bin2hex(random_bytes(16));
-		$this->salt = bin2hex(random_bytes(32));
-		$this->hash = hash_pbkdf2("sha256", "abc123", $this->salt, 262144);
-
-		//create a user that owns the image
-		$this->profile = new Profile(null, "Arlene", "bar@foo.com", "foo@bar.com", "Taos, NM", "so many type of art to see", "local artists in the state of new mexico", "profile is empty or insecure", "test is still passing");
-		$this->profile->insert($this->getPDO());
-		/*
-		// create and insert a Favoritee to own the test Favorite
-		$this->favoritee = new Favorite(null, "It's going to rain today", "test@phpunit.de", "here in the land of enchantment
-		its 77 degrees right now");
-		$this->favoritee->insert($this->getPDO());
-
-		//create and insert a Favoriter to own the test Favorite
-		$this->favoriter = new Favorite(null, "I cant wait to see the Star wars movie", "508 warehouse is doing an event today");
-		$this->favoriter->insert($this->getPDO());
-}
-*/
-	}
 
 	/*
 	 * test inserting a valid Favorite and verify that the actual mySQL data matches
@@ -70,16 +44,21 @@ class FavoriteTest extends FlekTest {
 			//count the number of rows and save it for later
 			$numRows = $this->getConnection()->getRowCount("Favorite");
 
-		//create a new Favorite and insert to into mySQL
-		$favorite = new Favorite(null, $this->favoritee->getFavoriteeId(), $this->getFavoriterId());
-		$favorite->insert($this->getPDO());
+		//no Dependent objects therefore no setup was setup
+
+			$favorite = new Favorite(null, $this->favoritee);
+			$favorite->insert($this->getPDO());
+
+			$favorite = new Favorite(null, $this->favoriter);
+			$favorite->insert($this->getPDO());
 
 		//grab the data from mySQL and enforce the fields match our expectations
 		$pdoFavorite = Favorite::getFavoritebyFavoriteeIdByFavoriterId($this->getPDO(), $favorite->getFavoriteeId(),
 		$favorite->getFavoriterId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("favorite"));
-		$this->assertEquals($pdoFavorite->getFavoriteeId(), $this->favoritee->getFavoriteeId());
-		$this->assertEquals($pdoFavorite->getFavoriterId(), $this->favoriter->getFavoriterId());
+		$this->assertEquals($pdoFavorite->getFavoriteeId(), $this->favorite);
+		$this->assertEquals($pdoFavorite->getFavoriterId(),
+			$this->favorite);
 }
 
 	/*
@@ -88,7 +67,7 @@ class FavoriteTest extends FlekTest {
 	 */
 		public function testInsertInvalidFavorite() {
 			//create a Favorite with a non null favorite id and watch is fail
-		$favorite = new Favorite(FlekTest::INVALID_KEY, $this->favoritee->getFavoriteeId(), $this->FavoriterId());
+		$favorite = new Favorite(FlekTest::INVALID_KEY, $this->favorite->getFavoriteeId(), $this->favorite->getFavoriterId());
 		$favorite->insert($this->getPDO());
 }
 		/*
