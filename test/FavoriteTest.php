@@ -42,15 +42,13 @@ class FavoriteTest extends FlekTest {
 	 */
 		public function testInsertValidFavorite() {
 			//count the number of rows and save it for later
-			$numRows = $this->getConnection()->getRowCount("Favorite");
+			$numRows = $this->getConnection()->getRowCount("favorite");
 
 		//no Dependent objects therefore no setup was setup
 
-			$favorite = new Favorite(null, $this->favoritee);
+			$favorite = new Favorite(null, $this->favoritee, $this->favoriter);
 			$favorite->insert($this->getPDO());
 
-			$favorite = new Favorite(null, $this->favoriter);
-			$favorite->insert($this->getPDO());
 
 		//grab the data from mySQL and enforce the fields match our expectations
 		$pdoFavorite = Favorite::getFavoritebyFavoriteeIdByFavoriterId($this->getPDO(), $favorite->getFavoriteeId(),
@@ -67,7 +65,7 @@ class FavoriteTest extends FlekTest {
 	 */
 		public function testInsertInvalidFavorite() {
 			//create a Favorite with a non null favorite id and watch is fail
-		$favorite = new Favorite(FlekTest::INVALID_KEY, $this->favorite->getFavoriteeId(), $this->favorite->getFavoriterId());
+		$favorite = new Favorite(FlekTest::INVALID_KEY, $this->favoritee, $this->favoriter);
 		$favorite->insert($this->getPDO());
 }
 		/*
@@ -77,10 +75,12 @@ class FavoriteTest extends FlekTest {
 			//count the number of rows and savie it for later
 		$numRows = $this->getConnection()->getRowCount("favorite");
 		// create a new Favorite and insert to into mySQL
-		$favorite = new Favorite(null, $this->favoritee->getFavoriteeId(), $this->favoriter->getFavoriterId());
+		$favorite = new Favorite(null, $this->favoritee, $this->favoriter);
 		$favorite->insert($this->getPDO());
 
 		//edit the Favorite and update it in mySQL
+			$favorite->setFavoriteeId($this->favoritee);
+			$favorite->setFavoriterId($this->favoriter);
 		$favorite->update($this->getPDO());
 		//grab the data from mySQL and enforce the fields match our expectations
 		$pdoFavorite = Favorite::getFavoriteByFavoriteeIdByFavoriterId($this->getPDO(), $favorite->getFavoriteeId(),
