@@ -110,7 +110,7 @@ class HashtagTest extends FlekTest {
 
         // delete the Hashtag from mySQL
         $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("hashtag"));
-        $hashtag->delete($this->$this->getPDO());
+        $hashtag->delete($this->getPDO());
 
         // grab the data from mySQL and enforce the Hashtag does not exist
         $pdoHashtag = Hashtag::getHashtagByHashtagId($this->getPDO(), $hashtag->getHashtagId());
