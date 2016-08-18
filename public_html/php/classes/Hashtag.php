@@ -58,13 +58,13 @@ class Hashtag implements \JsonSerializable {
      * @return int|null value of hashtag id
      **/
     public function getHashtagId() {
-        return($this->hashtagId);
+        return ($this->hashtagId);
     }
 
     /**
      * mutator method for hashtag id
      *
-     * @param int|null $newHashtagId
+     * @param int $newHashtagId new value of hashtag id
      * @throws \RangeException if $newHashtagId is not positive
      * @throws \TypeError if $newHashtagId is not an integer
     **/

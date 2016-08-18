@@ -78,7 +78,7 @@ CREATE TABLE genre (
 
 -- HASHTAG drop table here
 CREATE TABLE hashtag (
-	hashtagId INT UNSIGNED NOT NULL,
+	hashtagId INT UNSIGNED AUTO_INCREMENT NOT NULL,
 	hashtagName VARCHAR(32),
 -- hashtagDateTime DATETIME NOT NULL,
 	PRIMARY KEY (hashtagId)

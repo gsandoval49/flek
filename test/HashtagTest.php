@@ -5,40 +5,37 @@
  * Primary key will be hashtagId
  * No foreign keys
  *
- * Testing will be on insertHashtag (A profile creates hashtags when they link it to an image or describe an image), updateHashtag (A profile may change hashtags after listing), deleteHashtag (A profile may delete a listing), getHashtagByHashtagId (HashtagId is a foreign key on another class?) and getHashtagByHashtagName (a profile may search for an item by hashtag name)
  *
- * @see Hashtag
- * @author Giles Sandoval <gsandoval49@cnm.edu> based on code by Dylan McDonald <dmcdonald21@cnm.edu>
  **/
 
 namespace Edu\Cnm\Flek\Test;
+use Edu\Cnm\Flek\{Hashtag};
 
-use Edu\Cnm\Flek\Hashtag;
-use PDOException;
-
-
-// grab the project test parameters
-require_once("HashtagTest.php");
 
 // grab the class that's going through the x-ray and under the knife :)
-require_once (dirname(__DIR__) . "/public_html/php/classes/autoload.php");
+require_once(dirname(__DIR__) . "/public_html/php/classes/autoload.php");
+// grab the project test parameters
+require_once("FlekTest.php");
+
 
 /**
  * Full PHPUnit test for the Hashtag class
  *
  * Unit testing for Hashtag class
+ * @see Hashtag
+ * @author Giles Sandoval <gsandoval49@cnm.edu> based on code by Dylan McDonald <dmcdonald21@cnm.edu>
  **/
 class HashtagTest extends FlekTest {
     /**
      * Name of the Hashtag
      * @var string $VALID_HASHTAGNAME
      **/
-    protected $VALID_HASHTAGNAME = "Red Mural";
+    protected $VALID_HASHTAGNAME = "Mural";
     /**
      * NAME of the updated hashtag
      * @var string $VALID_HASHTAGNAME2
      **/
-    protected $VALID_HASHTAGNAME2 = "Street Art";
+    protected $VALID_HASHTAGNAME2 = "Street";
     /**
      * Test inserting a valid hashtag and verifying that mySQL data matches
      **/
