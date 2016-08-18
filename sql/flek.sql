@@ -62,7 +62,7 @@ CREATE TABLE image (
 	imageDescription VARCHAR(128) NOT NULL,
 	imageSecureUrl VARCHAR(128) NOT NULL,
 	imagePublicId VARCHAR(32) NOT NULL,
-	imageGenreId INT UNSIGNED NOT NULL,
+	FOREIGN KEY (imageGenreId) REFERENCES genre(genreId),
 	PRIMARY KEY (imageId)
 );
 

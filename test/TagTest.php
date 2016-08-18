@@ -2,46 +2,84 @@
 namespace Edu\Cnm\Flek\Test;
 
 use Edu\Cnm\Flek\{
-	Hashtag, Tag
+	Hashtag, Tag, Image, Profile
 };
 
 //grab the project test parameters
 require_once(dirname(__DIR__) . "/public_html/php/classes/autoload.php");
 require_once("FlekTest.php");
 
+/**
+ * full php test of the class Tag
+ *
+ * @see \Edu\Cnm\Flek\Tag
+**/
 class TagTest extends FlekTest {
 
-	//Id of the tag itself
-	protected $tagId;
-	//content of the Tag
-	protected $VALID_TAGCONTENT;
-	//Id from the image
-	protected $tagImageId;
-	//Id from the hashtag
-	protected $tagHashtagId;
+	//User that will tag the images
+	protected $PROFILE = null;
 
+	/**
+	 * image that contains the tag
+	 **/
+	protected $IMAGE = null;
+	/**
+	 * tag that is linked to image
+	 * @var Tag tag
+	 **/
+	protected $TAG = null;
+	/**
+	 * hashtag that will include in the tag
+	 **/
+	protected $HASHTAG = null;
 
+	/**
+	 * create dependent objects for each foreign key before running test
+	 **/
 	public final function setUp() {
 		// run the default setUp method first
 		parent::setUp();
+
 		// create and insert a Hashtag to own the test Tag
 		$this->hashtag = new Hashtag(null, "booya", "content");
 		$this->hashtag->insert($this->getPDO());
+
+		//access and activation token & salt and hash generation
+		$this->VALID_PROFILEACCESSTOKEN = bin2hex(random_bytes(16));
+		$this->VALID_PROFILEACTIVATIONTOKEN = bin2hex(random_bytes(16));
+		$this->salt = bin2hex(random_bytes(32));
+		$this->hash = hash_pbkdf2("sha256", "abc123", $this->salt, 262144);
+
 		// create and insert an Image to own the test Tag
-		$this->image = new Image(null, "filename", "image");
-		$this->image->insert($this->getPDO());
+		$this->new Profile(null, $this->);
+		$this->profile->insert($this->getPDO());
+		//create and insert a Hashtag to own the test tag
+		$this->new Hashtag(null, $this->);
+
+		//create a tag to be linked with Image
+		$this->tag = new Tag(null, "");
+		$this->tag->insert($this->getPDO());
 	}
+
+	/**
+	 * test inserting a valid Tag and verifying that mySQL data matches
+	 **/
 	public function testInsertValidTag() {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("tag");
 		// create a new Tag and insert to into mySQL
-		$tag = new Tag(null,$this->tagImageId, $this->tagHashtagId);
+		$tag = new Tag(null, $this->tagImageId, $this->tagHashtagId);
 		$tag->insert($this->getPDO());
 		// grab the data from mySQL and enforce the fields match our expectations
-		$pdoTag = Tag::getTagByTagId($this->getPDO(), $tag->getTagId());
+		$results = Tag::getTagByTagId($this->getPDO(), $tag->getTagImageId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("tag"));
-		$this->assertEquals($pdoTag->getTagName($this->tagImageId), $this->tagHashtagId);
+		$this->assertCounts(1, $results);
+		//grab the results from the array and validate them
+		$pdoTag = $results[0];
+		$this->assertEquals($pdoTag->getTagImageId(), $this->image->getImageId());
+		$this->assertEquals($pdoTag->getTagHashtagId(), $this->hashtag->getHashtagId());
 	}
+
 	/**
 	 * test inserting a Tag that already exists
 	 *
@@ -53,6 +91,56 @@ class TagTest extends FlekTest {
 		$tag = new Tag(FlekTest::INVALID_KEY, $this->tagImageId, $this->tagHashtagId);
 		$tag->insert($this->getPDO());
 	}
+
+	/**
+	 * test creating a Tag then deleting it
+	 **/
+	public function testDeleteValidTag() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("tag");
+		// create a new Tag and insert to into mySQL
+		$tag = new Tag(null, $this->tagImageId, $this->tagHashtagId);
+		$tag->insert($this->getPDO());
+		// delete the Tag from mySQL
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("tag"));
+		$tag->delete($this->getPDO());
+		// grab the data from mySQL and enforce the Tag does not exist
+		$pdoTag = Tag::getTagByTagIdAndHashTagId($this->getPDO(), $tag->getTagImageId(), $tag->getTagHashtagId());
+		$this->assertNull($pdoTag);
+		$this->assertEquals($numRows, $this->getConnection()->getRowCount("tag"));
+	}
+
+	/**
+	 * test deleting a Tag that does not exist
+	 *
+	 * @expectedException PDOException
+	 **/
+	public function testDeleteInvalidTag() {
+		// create a Tag and try to delete it without actually inserting it
+		$tag = new Tag(null, $this->image->tagImageId, $this->hashtag->tagHashtagId);
+		$tag->delete($this->getPDO());
+
+	/**
+	 * testing a tag by valid image id
+	 **/
+	//count the number of rows and save it for later
+	$numRows = $this->getConnection()->getRowCount("tag");
+	//create a new tag and insert it into mySQL
+	$tag = new Tag($this->image->getImageId(), $this->hashtag->getHashtagId());
+	$tag->insert($this->getPDO());
+	//grab the data from mySQL and enforce that the fields match our expectations
+	$results = Tag::getImageByImageId($this->getPDO, tag->getImageId);
+	$this->assertCount(1, $results);
+	$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Flek\\Tag", $results);
+	//grab the results from the array and validate them
+	$pdoTag = $results[0];
+	$this->assertEquals($pdoTag->getTagImageId(), $this->image->getImageId());
+	$this->assertEquals($pdoTag->getHashtagId(), $this->hashtag->getHashtagId());
+}
+
+/**
+ * testing get tag by valid
+**/
 	/**
 	 * test inserting a Tag editing it and then updating it
 	 **/
@@ -80,33 +168,7 @@ class TagTest extends FlekTest {
 		$tag = new Tag(null,  $this->tagImageId, $this->tagHashtagId);
 		$tag->update($this->getPDO());
 	}
-	/**
-	 * test creating a Tag then deleting it
-	 **/
-	public function testDeleteValidTag() {
-		// count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("tag");
-		// create a new Tag and insert to into mySQL
-		$tag = new Tag(null, $this->tagImageId, $this->tagHashtagId);
-		$tag->insert($this->getPDO());
-		// delete the Tag from mySQL
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("tag"));
-		$tag->delete($this->getPDO());
-		// grab the data from mySQL and enforce the Tag does not exist
-		$pdoTag = Tag::getTagByTagId($this->getPDO(), $tag->getTagId());
-		$this->assertNull($pdoTag);
-		$this->assertEquals($numRows, $this->getConnection()->getRowCount("tag"));
-	}
-	/**
-	 * test deleting a Tag that does not exist
-	 *
-	 * @expectedException PDOException
-	 **/
-	public function testDeleteInvalidTag() {
-		// create a Tag and try to delete it without actually inserting it
-		$tag = new Tag(null, $this->tagImageId, $this->tagHashtagId);
-		$tag->delete($this->getPDO());
-	}
+
 	/**
 	 * test grabbing a Tag by tag content
 	 **/

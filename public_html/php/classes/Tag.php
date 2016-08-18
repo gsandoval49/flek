@@ -4,6 +4,7 @@ namespace Edu\Cnm\Flek;
 
 
 require_once("autoload.php");
+
 /**
  * @author Rob Harding
  * @ver 1.0.0
@@ -68,11 +69,6 @@ class Tag implements \JsonSerializable {
 		 * @throws \TypeError if $newTagImageId is not an integer
 		 **/
 		public function setTagImageId(int $newTagImageId) {
-			//base case: if the tag image id is null, this is a new tag image without mySQL assigned to it yet
-			if($newTagImageId === null) {
-				$this->tagImageId = null;
-				return;
-			}
 			//verify the tweet id is positive
 			if($newTagImageId <= 0) {
 				throw(new \RangeException ("image id is not positive"));
@@ -114,19 +110,16 @@ class Tag implements \JsonSerializable {
 		 * @throws \TypeError if $pdo is not a PDO connection object
 		 **/
 		public function insert(\PDO $pdo) {
-			//enforce the tagImageId is null
-			if($this->tagImageId != null) {
-				throw(new \PDOException("not a new tag"));
+			//check tag exists before entering into SQL
+			if($this->tagImageId === null || $this->tagHashtagId === null) {
+				throw(new \PDOException("not a valid tag"));
 			}
 			//create query template
-			$query = "INSERT INTO TAG(tagImageId, tagHashtagId) VALUES(:tagImageId, :tagHashtagId)";
+			$query = "INSERT INTO Tag(tagImageId, tagHashtagId) VALUES(:tagImageId, :tagHashtagId)";
 			$statement = $pdo->prepare($query);
 			//bind the member variables to the place holders in the template
 			$parameters = ["tagHashtagId" => $this->tagHashtagId, "tagImageId" => $this->tagImageId];
 			$statement->execute($parameters);
-
-			// update the null tagHashtagId with what mySQL just gave us
-			$this->tagHashtagId = intval($pdo->lastInsertId());
 		}
 
 
@@ -138,18 +131,92 @@ class Tag implements \JsonSerializable {
 		 * @throws \TypeError if $pdo is not a PDO connection object
 		 **/
 		public function delete(\PDO $pdo) {
-			//enforce the tage Id is not null
-			if($this->tagHashtagId === null) {
+			//check that tag exists before deleting it
+			if($this->tagImageId === null || $this->tagHashtagId === null) {
 				throw(new \PDOException("unable to delete a hashtag that does not exist"));
 			}
 			//create a query template
-			$query = "DELETE FROM Tag WHERE tagHashtagId = :tagHashtagId";
+			$query = "DELETE FROM Tag WHERE tagImageId = :tagImageId AND tagHashtagId = :tagHashtagId";
 			$statement = $pdo->prepare($query);
 
 			//bind the member variables to the place holder in the template
-			$parameters = ["tagHashtagId" => $this->tagHashtagId];
+			$parameters = ["tagImageId" => $this->tagImageId, "tagHashtagId" => $this->tagHashtagId];
 			$statement->execute($parameters);
 		}
+
+	/** gets the tag by tagImageId
+	 * @param \PDO $pdo PDO connection object
+	 * @param int $tagImageId tagHashtag id to search for
+	 * @return tag|null tag found or null if not found
+	 * @throws \PDOException when mySQL related erros occur
+	 * @throws |TypeError when variables are not the correct data type
+	 **/
+	public static function getTagByTagImageId(\PDO $pdo, int $tagImageId) {
+		//sanitize the tagHashtagId before searching
+		if($tagImageId <= 0) {
+			throw(new \PDOException("tagHashtag id is not positive"));
+		}
+		// create query templatte
+		$query = "SELECT tagImageId, tagHashtagId FROM tag WHERE tagImageId = :tagImageId";
+		$statement = $pdo->prepare($query);
+
+		//bind the tagHashtag Id to theplace holder in teh template
+		$parameters = ["tagImageId => $tagImageId"];
+		$statement->execute($parameters);
+
+		//build an arary of tags
+		$tags = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement ->fetch()) !==false) {
+			try {
+				$tag = new tag($row["tagImageId"], $row["tagHashtagId"]);
+				$tags[$tags->key()] = $tag;
+				$tags->next();
+			} catch(\Exception $exception) {
+				//if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return ($tags);
+	}
+
+	/**
+	 * gets the tag by tagHashtagId
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param int $tagHashtagId tagHashtag id to search for
+	 * @return tag|null tag found or null if not found
+	 * @throws \PDOException when mySQL related erros occur
+	 * @throws |TypeError when variables are not the correct data type
+	 **/
+	public static function getTagBytagHashtagId(\PDO $pdo, int $tagHashtagId) {
+		//sanitize the tagHashtagId before searching
+		if($tagHashtagId <= 0) {
+			throw(new \PDOException("Tag Hashtag Id is not positive"));
+		}
+		// create query templatte
+		$query = "SELECT tagImageId, tagHashtagId FROM tag WHERE tagHashtagId = :tagHashtagId";
+		$statement = $pdo->prepare($query);
+
+		//bind the tagHashtag Id to theplace holder in teh template
+		$parameters = ["tagHashtagId" => $tagHashtagId];
+		$statement->execute($parameters);
+
+		//build an array of hashtag tags
+		$tags = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$tag = new tag($row["tagHashtagId"], $row["tagHashtagId"]);
+				$tags[$tags->key()] = $tag;
+				$tags->next();
+			} catch(\Exception $exception) {
+				//if the row could not be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return ($tags);
+	}
 
 		/**
 		 * updates this tag in mySQL
@@ -158,7 +225,7 @@ class Tag implements \JsonSerializable {
 		 * @throws \PDOException when mySQL related erros occur
 		 * @throws \TypeError if $pdo is not a PDO connection object
 		 **/
-		public function update(\PDO $pdo) {
+/*		public function update(\PDO $pdo) {
 			//enforce the tagHashtagId is not null
 			if($this->tagHashtagId === null) {
 				throw(new \PDOException("unable to update a tag that does not exist"));
@@ -171,106 +238,44 @@ class Tag implements \JsonSerializable {
 			//bind the member variables to the place holders in the template
 			$parameter = ["tagHashtagId" => $this->tagHashtagId, "tagImageId" => $this->tagImageId];
 			$statement->execute($parameter);
-		}
+		}*/
 
 		/**
-		 * gets the tag by tagHashtagId
+		 * gets tag by image id and hashtag id
 		 *
 		 * @param \PDO $pdo PDO connection object
-		 * @param int $tagHashtagId tagHashtag id to search for
-		 * @return tag|null tag found or null if not found
-		 * @throws \PDOException when mySQL related erros occur
-		 * @throws |TypeError when variables are not the correct data type
-		 **/
-		public static function getTagBytagHashtagId(\PDO $pdo, int $tagHashtagId) {
-			//sanitize the tagHashtagId before searching
-			if($tagHashtagId <= 0) {
-				throw(new \PDOException("tagHashtag id is not positive"));
-			}
-			// create query templatte
-			$query = "SELECT tagHashtagId, tagImageId FROM tag WHERE tagHashtagId = :tagHashtagId";
-			$statement = $pdo->prepare($query);
-
-			//bind the tagHashtag Id to theplace holder in teh template
-			$parameters = ["tagHashtagId => $tagHashtagId"];
-			$statement->execute($parameters);
-
-			//grab the tag from mySQL
-			try {
-				$tag = null;
-				$statement->setFetchMode(\PDO::FETCH_ASSOC);
-				$row = $statement->fetch();
-				if($row !== false) {
-					$tag = new Tag ($row["tagHashtagId"], $row["tagImageId"]);
-				}
-			} catch(\Exception $exception) {
-				//if the row couldn't be converted, rethrow it
-				throw(new \PDOException($exception->getMessage(), 0, $exception));
-			}
-			return ($tag);
-		}
-
-		/** gets the tag by tagImageId
-	  * @param \PDO $pdo PDO connection object
-	  * @param int $tagImageId tagHashtag id to search for
-			* @return tag|null tag found or null if not found
-	  * @throws \PDOException when mySQL related erros occur
-	  * @throws |TypeError when variables are not the correct data type
-	  **/
-		public static function getTagByTagImageId(\PDO $pdo, int $tagImageId) {
-			//sanitize the tagHashtagId before searching
-			if($tagImageId <= 0) {
-				throw(new \PDOException("tagHashtag id is not positive"));
-			}
-			// create query templatte
-			$query = "SELECT tagHashtagId, tagImageId FROM tag WHERE tagImageId = :tagImageId";
-			$statement = $pdo->prepare($query);
-
-			//bind the tagHashtag Id to theplace holder in teh template
-			$parameters = ["tagImageId => $tagImageId"];
-			$statement->execute($parameters);
-
-			//grab the tag from mySQL
-			try {
-				$tag = null;
-				$statement->setFetchMode(\PDO::FETCH_ASSOC);
-				$row = $statement->fetch();
-				if($row !== false) {
-					$tag = new Tag ($row["tagHashtagId"], $row["tagImageId"]);
-				}
-			} catch(\Exception $exception) {
-				//if the row couldn't be converted, rethrow it
-				throw(new \PDOException($exception->getMessage(), 0, $exception));
-			}
-			return ($tag);
-		}
-
-		/**
-		 * gets all tags
-		 * @param \SplFixedArray SplFixedArray of tags found or null if not found
+		 * @param int $tagImageId image id to search for
+		 * @param int $tagHashtagId hashtag id to search for
+		 * @return tag|null tag if found, null if not
 		 * @throws \PDOException when mySQL related errors occur
 		 * @throws \TypeError when variables are not the correct data type
 		 **/
-		public static function getAllTags(\PDO $pdo) {
-			//create query template
-			$query = "SELECT tagHashtagId, tagImageId FROM tag";
-			$statement = $pdo->prepare($query);
-			$statement->execute();
-
-			//build an array of tags
-			$tags = new \SplFixedArray($statement->rowCount());
-			$statement->setFetchMode(\PDO::FETCH_ASSOC);
-			while(($row = $statement->fetch()) !== false) {
-				try {
-					$tag = new Tag($row["tagId"], $row["tagId"]);
-					$tags[$tag->key()] = $tag;
-					$tags->next();
-				} catch(\Exception $exception) {
-					//if the row couldn't be converted rethrow it
-					throw(new \PDOException($exception->getMessage(), 0, $exception));
-				}
+		public static function getTagByImageIdAndHashtagId(\PDO $pdo, int $tagImageId, int $tagHashtagId) {
+			//sanitize the image id and the hashtag id before searching
+			if($tagImageId < 0) {
+				throw (new \PDOException("beer id is not positive"));
 			}
-			return ($tags);
+			if($tagHashtagId < 0) {
+				throw (new \PDOException("tag id is not positive"));
+			}
+			//create a query template
+			$query = "SELECT tagImageId, tagHashtagId FROM tag WHERE tagImageId = :tagImageId AND tagHashtagId = :tagHashtagId;";
+			$statement = $pdo->prepare($query);
+			//bind the variables to the placeholders in the template
+			$parameters = ["tagImageId" => $tagImageId, "tagHashtagId" => $tagHashtagId];
+			$statement->execute($parameters);
+			//grab the beer tag from mySQL
+			try {
+				$tag = null;
+				$statement->setFetchMode(\PDO::FETCH_ASSOC);
+				$row = $statement->fetch();
+				if($row !== false) {
+					$tag = new tag($row["tagHashtagId"], $row["tagHashtagId"]);
+				}
+			} catch(\Exception $exception) {
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+			return ($tag);
 		}
 
 		/**
