@@ -178,7 +178,7 @@ class HashtagTest extends FlekTest {
         $hashtag->insert($this->getPDO());
 
         //grab the data from mySQL and enforce the fields match our expectations
-        $results = Hashtag::getAllHashtags($this->getPDO());
+        $results = Hashtag::getsAllHashtags($this->getPDO());
         $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("hashtag"));
         $this->assertCount(1, $results);
 
