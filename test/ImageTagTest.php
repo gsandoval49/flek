@@ -131,9 +131,10 @@ class ImageTagTest extends FlekTest {
         $imageTag = new ImageTag($this->image->getImageId(), $this->tag->getTagId());
 		$imageTag->delete($this->getPDO());
 
-		/**
-		 * testing a tag by valid image id
-		 **/
+    /**
+     * testing a tag by valid image id
+     **/
+    public function testGetValidImageTagByImageTagImageId() {
 		//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("imageTag");
 		//create a new imageTag and insert it into mySQL
