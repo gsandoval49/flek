@@ -54,44 +54,42 @@ class ImageTagTest extends FlekTest {
         $password = "madeup4";
 		// $this->VALID_PROFILEACCESSTOKEN = bin2hex(random_bytes(16)); made a dumby above in profile
 		// $this->VALID_PROFILEACTIVATIONTOKEN = bin2hex(random_bytes(16)); made a dumby above in profile
-		$this->salt = bin2hex(random_bytes(32));
-		$this->hash = hash_pbkdf2("sha256", "abc123", $this->salt, 262144);
+		$salt = bin2hex(random_bytes(32));
+		$hash = hash_pbkdf2("sha256", $password, $salt, 262144);
 
-        // create and insert an image that owns the image tag
-        // $this->imageTag = new ImageTag(null, "121", "540", "320", "painting", "www.foobar.com", "xyz345"); comment out because we don't need...i don't think
-        // $this->imageTag->insert($this->getPDO()); "this is a son of a bitch, man" CSosa
+		//create and a genre to be linked to image
+		$this->genre = new Genre(null, $this->image->getImageId(), 4, "Painting");
 
-		// create and insert a tag for an image
-		$this->tag = new Tag(null, "951", "")
+		//create and insert an image that is owned by profile
+		$this->image = new Image(null, $this->genre->getGenreId(), $this->profile->getProfileId(), 31, 45, 80, "My 
+		pretty image", "www.foobar.com", 2);
 
-
-
-
-		//create and insert a Hashtag to own the test tag
-		$this->new Tag(null, $this->);
-
-		//create a tag to be linked with Image
-		$this->tag = new ImageTag(null, "");
+		// create and insert a tag to be linked to image
+		$this->tag = new Tag(null, $this->image->getImageId(), $this->profile->getProfileId(), "951", "Dreamer");
 		$this->tag->insert($this->getPDO());
 	}
 
 	/**
 	 * test inserting a valid Tag and verifying that mySQL data matches
 	 **/
-	public function testInsertValidTag() {
+	public function testInsertValidImageTag() {
 		// count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("tag");
+		$numRows = $this->getConnection()->getRowCount("imageTag");
+
 		// create a new Tag and insert to into mySQL
-		$tag = new Tag(null, $this->tagImageId, $this->tagHashtagId);
-		$tag->insert($this->getPDO());
+		$imageTag = new ImageTag($this->image->getImageId(), $this->tag->getTagId);
+		$imagetag->insert($this->getPDO());
+
 		// grab the data from mySQL and enforce the fields match our expectations
-		$results = Tag::getTagByTagId($this->getPDO(), $tag->getTagImageId());
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("tag"));
-		$this->assertCounts(1, $results);
+		$results = ImageTag::getImageTagByImageId($this->getPDO(), $imageTag->getImageTagImageId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("imageTag"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Flek\\Image", $results);
+
 		//grab the results from the array and validate them
-		$pdoTag = $results[0];
-		$this->assertEquals($pdoTag->getTagImageId(), $this->image->getImageId());
-		$this->assertEquals($pdoTag->getTagHashtagId(), $this->hashtag->getHashtagId());
+		$pdoImageTag = $results[0];
+		$this->assertEquals($pdoImageTag->getImageTagImageId(), $this->image->getImageId());
+		$this->assertEquals($pdoImageTag->getImageTagTagId(), $this->tag->getTagId());
 	}
 
 	/**
