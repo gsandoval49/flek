@@ -341,7 +341,7 @@ class Mail implements \JsonSerializable {
 		}
 		return($mails);
 	}
-	/*
+	/**
 	 * gets message by mailId
 	 *
 	 *
@@ -369,7 +369,7 @@ class Mail implements \JsonSerializable {
 		}
 		return($mail);
 	}
-	/*
+	/**
 	 * gets mail by Sender Id
 	 *
 	 * */
@@ -400,7 +400,7 @@ class Mail implements \JsonSerializable {
 		}
 		return($mails);
 	}
-	/*
+	/**
 	 * gets mail by receiver id
 	 *
 	 *

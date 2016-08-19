@@ -99,6 +99,7 @@ class MailTest extends FlekTest {
 	/**
 	 * test inserting a message that already exists
 	 *
+	 *@expectedException PDOException
 	 */
 	public function testInsertInvalidMail(){
 		//create a message with a non null id and watch it fail
@@ -107,6 +108,7 @@ class MailTest extends FlekTest {
 	}
 	/**
 	 * test inserting a message, editing it, then updating it
+	 *
 	 *
 	 */
 	public function testUpdateValidMail(){
@@ -134,6 +136,7 @@ class MailTest extends FlekTest {
 	/**
 	 * test using a message that does not exist
 	 *
+	 * @expectedException PDOException
 	 */
 	public function testUpdateInvalidMail(){
 		//create a message , try to update it without actually updating it and watch it fail
@@ -142,6 +145,8 @@ class MailTest extends FlekTest {
 	}
 	/**
 	 * test creating a message and deleting it
+	 *
+	 *
 	 */
 	public function testDeleteValidMail(){
 		//count the number of rows and save it for later
@@ -164,6 +169,8 @@ class MailTest extends FlekTest {
 	}
 	/**
 	 * test deleting a message that does not exist
+	 *
+	 * @expectedException PDOException
 	 */
 
 	public function testDeleteInvalidMail() {
@@ -173,7 +180,7 @@ class MailTest extends FlekTest {
 	}
 
 	/**
-	 * test grabbing a message by mail content
+	 * test grabbing a message by mail subject
 	 **/
 	public function testGetValidMailByMailContent() {
 		// count the number of rows and save it for later
@@ -181,6 +188,8 @@ class MailTest extends FlekTest {
 
 		// create a new message and insert to into mySQL
 		$mail = new Mail(null, $this->VALID_MAILSUBJECT, $this->mailSenderId->getProfileId(),$this->mailReceiverId->getProfileId(), $this->VALID_MAILGUNID, $this->VALID_MAILCONTENT);
+
+		$mail->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
 		$results = Mail::getMailByMailContent($this->getPDO(), $mail->getMailContent());
@@ -190,10 +199,10 @@ class MailTest extends FlekTest {
 
 		// grab the result from the array and validate it
 		$pdoMail = $results[0];
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("mail"));
+//		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("mail"));
 		$this->assertEquals($pdoMail->getMailSubject(), $this->VALID_MAILSUBJECT);
 		$this->assertEquals($pdoMail->getMailSenderId(), $this->mailSenderId->getProfileId());
-		$this->assertEquals($pdoMail->getReceiverId(), $this->mailReceiverId->getProfileId());
+		$this->assertEquals($pdoMail->getMailReceiverId(), $this->mailReceiverId->getProfileId());
 		$this->assertEquals($pdoMail->getMailGunId(), $this->VALID_MAILGUNID);
 		$this->assertEquals($pdoMail->getMailContent(), $this->VALID_MAILCONTENT);
 	}
