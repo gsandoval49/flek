@@ -164,7 +164,7 @@ public function testGetInavlidImageTagByImageTagImageId() {
 
 
 	/**
-	 * test get imageIag by valid image id and tag id
+	 * test get imageTag by valid image id and tag id
 	 **/
 	public function testGetValidImageTagByImageIdAndTagId() {
 		// count the number of rows and save it for later
@@ -183,12 +183,12 @@ public function testGetInavlidImageTagByImageTagImageId() {
 			$this->assertEquals($pdoImageTag->getImageTagTagid(), $this->tag->getTagId());
 	}
 	/**
-	 * test grabbing a Tag that does not exist
+	 * test get imageTag and invalid image id, tag id
 	 **/
-	public function testGetInvalidTagByTagId() {
-
-		$tag = Tag::getTagByTagId($this->getPDO(), FlekTest::INVALID_KEY);
-		$this->assertNull($tag);
+	public function testGetImageTagByImageIdAndTagId() {
+		//grab an image id that exceeds maximum allowed
+		$imageTag = ImageTag::getImageTagByImageIdandTagID($this->getPDO(), FlekTest::INVALID_KEY, FlekTest::INVALID_KEY);
+		$this->assertNull($ImageTag);
 	}
 
 }
