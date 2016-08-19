@@ -161,50 +161,26 @@ public function testGetInavlidImageTagByImageTagImageId() {
 		$this->assertCount(0,$imageTag);
 }
 
-	/**
-	 * test inserting a Tag editing it and then updating it
-	 **/
-	public function testUpdateValidTag() {
-		// count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("tag");
-		// create a new Tag and insert to into mySQL
-		$tag = new Tag(null, $this->tagImageId, $this->tagHashtagId);
-		$tag->insert($this->getPDO());
-		// edit the Tag and update it in mySQL
-		$tag->setTagName($this->tagImageId, $this->tagHashtagId2);
-		$tag->update($this->getPDO());
-		// grab the data from mySQL and enforce the fields match our expectations
-		$pdoTag = Tag::getTagByTagId($this->getPDO(), $tag->getTagId());
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("tag"));
-		$this->assertEquals($pdoTag->getTagName(), $this->tagImageId, $this->tagHashtagId2);
-	}
-	/**
-	 * test updating a Tag that does not exists
-	 *
-	 * @expectedException PDOException
-	 **/
-	public function testUpdateInvalidTag() {
-		// create a Tag with a non null tag id and watch it fail
-		$tag = new Tag(null,  $this->tagImageId, $this->tagHashtagId);
-		$tag->update($this->getPDO());
-	}
+
 
 	/**
-	 * test grabbing a Tag by tag content
+	 * test get imageIag by valid image id and tag id
 	 **/
-	public function testGetValidTagByTagContent() {
+	public function testGetValidImageTagByImageIdAndTagId() {
 		// count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("tag");
+		$numRows = $this->getConnection()->getRowCount("imageTag");
 		// create a new Tag and insert to into mySQL
-		$tag = new Tag(null, $this->tagImageId, $this->tagHashtagId);
-		$tag->insert($this->getPDO());
-		// grab the data from mySQL and enforce the fields match our expectations
-		$results = Tag::getTagByTagContent($this->getPDO(), $tag->getTagName());
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("tag"));
-		$this->assertCount(1, $results);
-		// grab the result from the array and validate it
-		$pdoTag = $results[0];
-		$this->assertEquals($pdoTag->getTagName(), $this->tagImageId, $this->tagHashtagId);
+		$imageTag = new ImageTag($this->image->getImageId(), $this->tag->getImageId());
+		$imageTag->insert($this->getPDO());
+		// create new imageTag and insert it into mySQL
+		$imageTag = new ImageTag($this->image->getImageId(), $this->tag->getTagId());
+			$imageTag->insert($this->getPDO());
+
+		// grab the data from mySQL and enforce that the fields match our expectations
+		$pdoImageTag = ImageTag::getImageTagByImageIdAndTagId($this->getPDO(), $imageTag->getImageTagImageId(), $imageTag->getImageTagTagId());
+			$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("imageTag"));
+			$this->assertEquals($pdoImageTag->getImageTagImageId(), $this->image->getImageId());
+			$this->assertEquals($pdoImageTag->getImageTagTagid(), $this->tag->getTagId());
 	}
 	/**
 	 * test grabbing a Tag that does not exist
@@ -213,31 +189,6 @@ public function testGetInavlidImageTagByImageTagImageId() {
 
 		$tag = Tag::getTagByTagId($this->getPDO(), FlekTest::INVALID_KEY);
 		$this->assertNull($tag);
-	}
-	/**
-	 * test grabbing a Tag by content that does not exist- not in documentation
-	 **/
-	public function testGetInvalidTagByTagContent() {
-		// grab a tag by content that does not exist
-		$tag = Tag::getTagByTagContent($this->getPDO(), "this is not a valid Tag");
-		$this->assertCount(0, $tag);
-	}
-	/**
-	 * test grabbing all Tags
-	 **/
-	public function testGetAllValidTags() {
-		// count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("tag");
-		// create a new Tag and insert to into mySQL
-		$tag = new Tag(null, $this->tagImageId, $this->tagHashtagId);
-		$tag->insert($this->getPDO());
-		// grab the data from mySQL and enforce the fields match our expectations
-		$results = Tag::getAllTags($this->getPDO());
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("tag"));
-		$this->assertCount(1, $results);
-		// grab the result from the array and validate it
-		$pdoTag = $results[0];
-		$this->assertEquals($pdoTag->getTagName(), $this->tagImageId, $this->tagHashtagId);
 	}
 
 }
