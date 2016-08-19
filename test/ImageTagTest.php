@@ -33,7 +33,7 @@ class imageTagTest extends FlekTest {
 	/**
 	 * hashtag that will include in the tag
 	 **/
-	protected $HASHTAG = null;
+	protected $IMAGETAG = null;
 
 	/**
 	 * create dependent objects for each foreign key before running test
@@ -43,8 +43,8 @@ class imageTagTest extends FlekTest {
 		parent::setUp();
 
 		// create and insert a Hashtag to own the test Tag
-		$this->hashtag = new Hashtag(null, "booya", "content");
-		$this->hashtag->insert($this->getPDO());
+		$this->tag = new tag(null, "booya", "content");
+		$this->tag->insert($this->getPDO());
 
 		//access and activation token & salt and hash generation
 		$this->VALID_PROFILEACCESSTOKEN = bin2hex(random_bytes(16));
@@ -56,10 +56,10 @@ class imageTagTest extends FlekTest {
 		$this->new Profile(null, $this->);
 		$this->profile->insert($this->getPDO());
 		//create and insert a Hashtag to own the test tag
-		$this->new Hashtag(null, $this->);
+		$this->new Tag(null, $this->);
 
 		//create a tag to be linked with Image
-		$this->tag = new Tag(null, "");
+		$this->tag = new ImageTag(null, "");
 		$this->tag->insert($this->getPDO());
 	}
 
