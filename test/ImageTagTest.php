@@ -135,18 +135,19 @@ class ImageTagTest extends FlekTest {
 		 * testing a tag by valid image id
 		 **/
 		//count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("tag");
-		//create a new tag and insert it into mySQL
-		$tag = new Tag($this->image->getImageId(), $this->hashtag->getHashtagId());
-		$tag->insert($this->getPDO());
+		$numRows = $this->getConnection()->getRowCount("imageTag");
+		//create a new imageTag and insert it into mySQL
+		$imageTag = new ImageTag($this->image->getImageId(), $this->tag->getTagId());
+        $imageTag->insert($this->getPDO());
 		//grab the data from mySQL and enforce that the fields match our expectations
-		$results = Tag::getImageByImageId($this->getPDO, tag->getImageId);
-	$this->assertCount(1, $results);
-	$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Flek\\Tag", $results);
-	//grab the results from the array and validate them
-	$pdoTag = $results[0];
-	$this->assertEquals($pdoTag->getTagImageId(), $this->image->getImageId());
-	$this->assertEquals($pdoTag->getHashtagId(), $this->hashtag->getHashtagId());
+		$results = ImageTag::getImageTagByImageId($this->getPDO(), $imageTag->getImageTagImageId());
+        $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("imageTag"));
+        $this->assertCount(1, $results);
+        $this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Flek\\ImageTag", $results);
+        //grab the results from the array and validate them
+        $pdoImageTag = $results[0];
+        $this->assertEquals($pdoImageTag->getImageTagImageId(), $this->image->getImageId());
+        $this->assertEquals($pdoImageTag->getImageTagTagId(), $this->tag->getTagId());
 }
 
 	/**
