@@ -56,11 +56,11 @@ class FavoriteTest extends FlekTest {
 
 		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $this->profile->getProfileId());
 
-		$this->favoritee = new Profile(null, "csosa4", "foo@bar.com", "Rio, Rancho", "test is passing", $this->hash, $this->salt, "01234567890", "01234567890123456789012345678901");
-		$this->profile->getProfileId();
+		$this->favoriteeId = new Profile(null, "csosa4", "foo@bar2.com", "Rio, Rancho", "test is passing", $this->hash, $this->salt, "01234567890", "01234567890123456789012345678901");
+		$this->favoriteeId->insert($this->getPDO());
 
-		$this->favoriter = new Profile(null, "csosa4", "foo@bar.com", "Rio, Rancho", "test is passing", $this->hash, $this->salt, "01234567890", "01234567890123456789012345678901");
-		$this->profile->getProfileId();
+		$this->favoriterId = new Profile(null, "csosa4", "bar@foo.com", "Rio, Rancho", "test is passing", $this->hash, $this->salt, "01234567890", "01234567890123456789012345678901");
+		$this->favoriterId->insert($this->getPDO());
 
 	}
 
