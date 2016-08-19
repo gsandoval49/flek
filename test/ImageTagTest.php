@@ -151,9 +151,16 @@ class ImageTagTest extends FlekTest {
         $this->assertEquals($pdoImageTag->getImageTagTagId(), $this->tag->getTagId());
 }
 
-	/**
-	 * testing get tag by valid
-	 **/
+/**
+ * testing an imageTag by invalid image id
+**/
+
+public function testGetInavlidImageTagByImageTagImageId() {
+		//grab an image id that exceeds max allowed
+		$imageTag = ImageTag::getImageTagByImageId($this->getPDO(), FlekTest::INVALID_KEY);
+		$this->assertCount(0,$imageTag);
+}
+
 	/**
 	 * test inserting a Tag editing it and then updating it
 	 **/
