@@ -77,7 +77,7 @@ CREATE TABLE image (
 );
 
 
--- HASHTAG drop table here
+-- TAG drop table here
 CREATE TABLE tag (
 	tagId INT UNSIGNED AUTO_INCREMENT NOT NULL,
 	tagName VARCHAR(32),
@@ -85,7 +85,7 @@ CREATE TABLE tag (
 );
 
 
--- IMAGE drop table here
+-- IMAGE TAG drop table here
 CREATE TABLE imageTag (
 	imageTagImageId INT UNSIGNED NOT NULL,
 	imageTagTagId INT UNSIGNED NOT NULL,
