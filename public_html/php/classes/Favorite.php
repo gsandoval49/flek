@@ -118,7 +118,7 @@ class Favorite implements \JsonSerializable {
 	public
 	function insert(\PDO $pdo) {
 		//enforce the favoriteeId is null
-		if($this->favoriteId !== null)
+		if($this->favoriteeId !== null)
 		{
 			throw(new \PDOException("this is not a new favorite id"));
 		}

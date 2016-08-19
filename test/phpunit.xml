@@ -1,7 +1,7 @@
 <phpunit>
 	<testsuites>
 		<testsuite name="Flek">
-			<file>ProfileTest.php</file>
+		<!--	<file>ProfileTest.php</file>
 			<file>MailTest.php</file>
 			<file>SocialLoginTest.php</file>
 			<file>GenreTest.php</file>
