@@ -2,7 +2,8 @@
 namespace Edu\Cnm\Flek\Test;
 
 use Edu\Cnm\Flek\{
-	Hashtag, Tag, Image, Profile
+	Profile, Image, Tag, imageTag
+//would genre be included in this?
 };
 
 //grab the project test parameters
@@ -14,9 +15,10 @@ require_once("FlekTest.php");
  *
  * @see \Edu\Cnm\Flek\Tag
  **/
-class TagTest extends FlekTest {
-
-	//User that will tag the images
+class imageTagTest extends FlekTest {
+	/**
+	 * profile that created the image
+	**/
 	protected $PROFILE = null;
 
 	/**
