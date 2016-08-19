@@ -1,54 +1,51 @@
 <?php
 
 namespace Edu\Cnm\Flek;
-
-
 require_once("autoload.php");
 
 /**
+ * imageTag Class
  * @author Rob Harding
  * @ver 1.0.0
  **/
 
-
 class Tag implements \JsonSerializable {
 	/**
-	 * id for image; this is a foreign key
-	 * @var int $tagImageId
+	 * image id for the image being linked with tags; this is a foreign key
+	 * @var int $imageTagImageId
 	 **/
-	private $tagImageId;
+	private $imageTagImageId;
 	/**
-	 * id for hashtag; this is a foreign key
-	 * @var int $tagHashtagId
+	 * tag id for the tag being linked to the image; this is a foreign key
+	 * @var int $imageTagImageId
 	 **/
-
-	private $tagHashtagId;
+	private $imageTagTagId;
 
 	/**
-	 * @param int|null $newTagImageId id of this image or null if a new image
-	 * @param int|null $newTagHashtagId id of this hashtag or null if new image
+	 * @param int $newImageTagImageId foreign key image id
+	 * @param int $newImageTagTagId foreign key tag id
 	 * @throws \InvalidArgumentException if data types are not valid
 	 * @throws \RangeException if data values are out of bounds (e.g., negative integers)
 	 * @throws \TypeError if data types violate type hints
 	 * @throws \Exception if some other exception occurs
 	 **/
 
-	public function __construct(int $newTagImageId = null, int $newTagHashtagId = null) {
+	public function __construct(int $newImageTagImageId, int $newImageTagTagId) {
 		try {
-			$this->setTagImageId($newTagImageId);
-			$this->setTagHashtagId($newTagHashtagId);
-		} catch(\InvalidArgumentException $InvalidArgument) {
+			$this->setImageTagImageId($newImageTagImageId);
+			$this->setImageTagTagId($newImageTagTagId);
+		} catch(\InvalidArgumentException $invalidArgument) {
 			//rethrow the exception to the caller
-			throw(new \InvalidArgumentException($InvalidArgument->getMessage(), 0, $InvalidArgument));
+			throw(new \InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
 		} catch(\RangeException $range) {
 			//rethrow the exception to the caller
-			throw (new \RangeException($range->getMessage(), 0, $range));
+			throw(new \RangeException($range->getMessage(), 0, $range));
 		} catch(\TypeError $typeError) {
-			//rethrow exception to the caller
-			throw(new \TypeError($typeError->getMessage(), 0, $typeError));
-		} catch(\ Exception $exception) {
 			//rethrow the exception to the caller
-			throw (new \Exception($exception->getMessage(), 0, $exception));
+			throw(new \TypeError($typeError->getMessage(), 0, $typeError));
+		} catch(\Exception $exception) {
+			//rethrow the exception to the caller
+			throw(new \Exception($exception->getMessage(), 0, $exception));
 		}
 	}
 
