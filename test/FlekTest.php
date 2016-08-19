@@ -46,10 +46,10 @@ abstract class FlekTest extends \PHPUnit_Extensions_Database_TestCase {
 		$dataset->addTable("profile");
 		$dataset->addTable("mail");
 		$dataset->addTable("socialLogin");
-		$dataset->addTable("image");
 		$dataset->addTable("genre");
-		$dataset->addTable("hashtag");
+		$dataset->addTable("image");
 		$dataset->addTable("tag");
+		$dataset->addTable("imageTag");
 		$dataset->addTable("favorite");
 		return ($dataset);
 	}
