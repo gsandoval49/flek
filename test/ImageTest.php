@@ -51,6 +51,8 @@ class ImageTest extends FlekTest {
 	 **/
 	protected $profile = null;
 
+	protected $image = null;
+
 	private $hash;
 
 	private $salt;
@@ -66,13 +68,16 @@ class ImageTest extends FlekTest {
 		$this->VALID_PROFILEACTIVATIONTOKEN = bin2hex(random_bytes(16));
 		$password = "abc123";
 		$this->salt = bin2hex(random_bytes(32));
-		$this->hash = hash_pbkdf2("sha256", "abc123", $this->salt, 262144);
+		$this->hash = hash_pbkdf2("sha256", $password, $this->salt, 262144);
 
 		$this->profile = new Profile(null, "csosa4", "foo@bar.com", "Rio, Rancho", "test is passing", $this->hash, $this->salt, "01234567890", "01234567890123456789012345678901");
 		$this->profile->insert($this->getPDO());
 
-/*		*$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $this->profile->getProfileId());*/
+	//	$this->image = new Image(null, "csosa4", "foo@bar.com", "Rio, Rancho", "test is passing", $this->hash, $this->salt, "01234567890", "01234567890123456789012345678901");
+	//	$this->profile->insert($this->getPDO());//
 
+		$this->imageGenreId = new Image (null, $this->profile->getProfileId(),"Image test is still passing!","DKJFKFKJ34245435", "DKJF23409340939404040");
+		$this->profile->insert($this->getPDO());
 	}
 /**
  * test inserting a valid Image and verify that the actual mySQL data matches

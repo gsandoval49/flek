@@ -10,6 +10,7 @@ require_once("autoload.php");
  **/
 class Favorite implements \JsonSerializable {
 	/**
+	 *
 	 * id for Favorite when profile can favorite the profile and identify the profile
 	 *  this is the foreign key
 	 * @var int $favoriteeId
@@ -67,8 +68,8 @@ class Favorite implements \JsonSerializable {
 	public function setFavoriteeId(int $newFavoriteeId = null) {
 		//if the favoritee id is null this a new favoritee given by sender
 		if($newFavoriteeId === null) {
-			$this->favoriteeId = null;
-			return;
+			throw(new \InvalidArgumentException("favoritee cannot be null"));
+
 		}
 		//verify the favoritee id is positive
 		if($newFavoriteeId <= 0) {
@@ -96,12 +97,13 @@ class Favorite implements \JsonSerializable {
 	function setFavoriterId(int $newFavoriterId = null) {
 		//verify the favoriter id is true
 		if($newFavoriterId === null) {
-			$this->favoriterId = null;
-			return;
+			throw(new \InvalidArgumentException("favoriter cannot be null"));
+
 		}
 		//verify the favoriter id is positive
 		if($newFavoriterId <= 0) {
-			throw(new \InvalidArgumentException("favoriter id is not true output"));
+			throw(new \RangeException("favoriter is not positive"));
+
 		}
 		//convert and store the favoriter id
 		$this->favoriterId = $newFavoriterId;
@@ -116,19 +118,22 @@ class Favorite implements \JsonSerializable {
 	public
 	function insert(\PDO $pdo) {
 		//enforce the favoriteeId is null
-		if($this->favoriteeId != null) {
-			throw(new \PDOException("not a new favoritee given"));
+		if($this->favoriteId !== null)
+		{
+			throw(new \PDOException("this is not a new favorite id"));
 		}
 		//create query template
-		$query = "INSERT INTO Favorite(favoriteeId, favoriterId) VALUES(:favoriteeId, :favoriterId)";
+		$query = "INSERT INTO favorite(favoriteeId, favoriterId) VALUES(:favoriteeId, :favoriterId)";
 		$statement = $pdo->prepare($query);
 		//bind the member variables to the place holders in the template
 		$parameters = ["favoriteeId" => $this->favoriteeId, "favoriterId" => $this->favoriterId];
 		$statement->execute($parameters);
 
 		// update the null favoriteeId with what mySQL just gave us
-		$this->favoriteeId = intval($pdo->lastInsertId());
+		$this->favoriteId = intval($pdo->lastInsertId());
 	}
+	//added another for favoriterId
+
 
 	/*
 	 * deletes this favorite from my SQL
@@ -139,11 +144,11 @@ class Favorite implements \JsonSerializable {
 	public
 	function delete(\PDO $pdo) {
 		//enforce the favoritee Id is not null
-		if($this->favoriteeId === null) {
+		if($this->favoriteeId !== null) {
 			throw(new \PDOException("unable to delete a favoritee that does not exist"));
 		}
 		//create a query template
-		$query = "DELETE FROM Favorite WHERE favoriteeId = :favoriteeId";
+		$query = "DELETE FROM favorite WHERE favoriteeId = :favoriteeId";
 		$statement = $pdo->prepare($query);
 
 		//bind the member variables to the place holder in the template
@@ -160,7 +165,7 @@ class Favorite implements \JsonSerializable {
 	public
 	function update(\PDO $pdo) {
 		//enforce the favoriteeId is not null
-		if($this->favoriteeId === null) {
+		if($this->favoriteeId === null || $this->favoriterId === null) {
 			throw(new \PDOException("unable to update a favorite that does not exist"));
 		}
 
@@ -182,7 +187,7 @@ class Favorite implements \JsonSerializable {
 	 * @throws |TypeError when variables are not the correct data type
 	 */
 	public
-	static function getFavoriteByFavoriteeId(\PDO $pdo, int $favoriteeId) {
+	static function getFavoriteByFavoriteId(\PDO $pdo, int $favoriteeId) {
 		//sanitize the favoriteeId before searching
 		if($favoriteeId <= 0) {
 			throw(new \PDOException("favoritee id is not positive"));
@@ -192,7 +197,7 @@ class Favorite implements \JsonSerializable {
 		$statement = $pdo->prepare($query);
 
 		//bind the favoritee Id to the place holder in teh template
-		$parameters = ["favoriteeId => $favoriteeId"];
+		$parameters = ["favoriteId => $favoriteeId"];
 		$statement->execute($parameters);
 
 		//grab the favorite from mySQL
@@ -218,7 +223,7 @@ class Favorite implements \JsonSerializable {
   * @throws |TypeError when variables are not the correct data type
   */
 	public
-	static function getFavoriteByFavoriterId(\PDO $pdo, int $favoriterId) {
+	static function getFavoriteByFavoriteByFavoriteId(\PDO $pdo, int $favoriterId) {
 		//sanitize the favoriteeId before searching
 		if($favoriterId <= 0) {
 			throw(new \PDOException("favoritee id is not positive"));
@@ -228,7 +233,7 @@ class Favorite implements \JsonSerializable {
 		$statement = $pdo->prepare($query);
 
 		//bind the favoritee Id to theplace holder in teh template
-		$parameters = ["favoriterId => $favoriterId"];
+		$parameters = array("favoriterId => $favoriterId");
 		$statement->execute($parameters);
 
 		//grab the favorite from mySQL

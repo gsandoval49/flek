@@ -177,7 +177,7 @@ class Image implements \JsonSerializable {
 			throw(new \RangeException("image content too large"));
 		}
 		//convert and store the image secure url
-		$this->imageSecureId = $newImageSecureUrl;
+		$this->imageSecureUrl = $newImageSecureUrl;
 	}
 
 	/*
@@ -204,7 +204,7 @@ class Image implements \JsonSerializable {
 			throw(new \RangeException("image description too large"));
 			//convert and store the image public id
 		}
-			$this->ImagePublicId = $newImagePublicId;
+			$this->imagePublicId = $newImagePublicId;
 }
 	/*
 	 * accessor method for image genre id
@@ -253,7 +253,7 @@ class Image implements \JsonSerializable {
 
 	// bind the member variables to the place holders in the template
 	$parameters = ["imageProfileId" => $this->imageProfileId, "imageDescription" => $this->imageDescription,
-		"imageSecureURl" => $this->imageSecureUrl, "imagePublicId" => $this->imagePublicId, "imageGenreId" => $formatGenreId];
+		"imageSecureUrl" => $this->imageSecureUrl, "imagePublicId" => $this->imagePublicId, "imageGenreId" => $formatGenreId];
 
 			$statement->execute($parameters);
 
