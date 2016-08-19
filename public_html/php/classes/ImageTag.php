@@ -59,7 +59,7 @@ class Tag implements \JsonSerializable {
 	}
 
 	/**
-	 * mutator method for the tagImageId
+	 * mutator method for the imageTag tagId
 	 *
 	 * @param int $newImageTagImageId
 	 * @throws \RangeException if $newImageTagImageId is not positive
@@ -68,36 +68,35 @@ class Tag implements \JsonSerializable {
 	public function setImageTagImageId(int $newImageTagImageId) {
 		//verify the image tag id is positive
 		if($newImageTagImageId < 0) {
-			throw(new \RangeException ("image id is not positive"));
+			throw(new \RangeException ("tag id is not positive"));
 		}
 		//convert and store the image id*
 		$this->imageTagImageId = $newImageTagImageId;
 	}
 
 	/**
-	 * accessor method for imageTag TagId
+	 * accessor method for imageTag Tagid
 	 *
-	 * @return int value of iamgeTag tag id
-	 **/
-	public function getImageTagTagId() {
+	 * @return int value of imageTag tag id
+	**/
+	public function getImageTagTagId(){
 		return ($this->imageTagTagId);
 	}
 
 	/**
-	 * mutator method for tagHashtagId
+	 * mutator method for imageTag TagId
 	 *
-	 *
-	 * @param int $newTagHashtagId new value of tag hashtag id
-	 * @throws \RangeException if $newTagHashtagId is not positive
-	 * @throws \TypeError if $newTagHashtagId is not an integer
-	 **/
-	public function setTagHashtagId(int $newTagHashtagId) {
-		//verify the porfile id is positive
-		if($newTagHashtagId <= 0) {
-			throw(new \RangeException ("hashtag id is not positive"));
+	 * @param int $newImageTagTagId
+	 * @throws \RangeException if  $newImageTagTagId is not positive
+	 * @throws \TypeError if $newImageTagTagId is not an integer
+	**/
+	public function setImageTagTagId(int $newImageTagTagid) {
+		//verify id is positive
+		if($newImageTagTagid < 0) {
+			throw(new \RangeException("tag id is not positive"));
 		}
-		//convert and store the hashtag id
-		$this->tagHashtagId = $newTagHashtagId;
+		//convert adn store the tag id
+		$this->imageTagTagId = $newImageTagTagid;
 	}
 
 	/**
