@@ -222,8 +222,7 @@ class Favorite implements \JsonSerializable {
   * @throws \PDOException when mySQL related erros occur
   * @throws |TypeError when variables are not the correct data type
   */
-	public
-	static function getFavoriteByFavoriterId(\PDO $pdo, int $favoriterId) {
+	public static function getFavoriteByFavoriterId(\PDO $pdo, int $favoriterId) {
 		//sanitize the favoriteeId before searching
 		if($favoriterId <= 0) {
 			throw(new \PDOException("favoritee id is not positive"));
@@ -252,6 +251,9 @@ class Favorite implements \JsonSerializable {
 	}
 
 
+
+
+
 	 ///get Favoritee Id by Favoriter Id
 	/**
 	 * gets the reviewTag by both review id and tag id
@@ -262,7 +264,7 @@ class Favorite implements \JsonSerializable {
 	 * @return favoriteeId || favoriterId|null reviewTag if found or null if not
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not of the correct data type
-	 * *//
+	 * */
 	public static function getFavoriteByFavoriteeIdByFavoriterId(\PDO $pdo, int $favoriteeId, int $favoriterId) {
 		//sanitize the profileId before searching
 		if($favoriteeId < 0) {
@@ -295,6 +297,7 @@ class Favorite implements \JsonSerializable {
 			return ($favorite);
 
 		}
+	}
 
 
 
