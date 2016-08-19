@@ -25,8 +25,8 @@ class Favorite implements \JsonSerializable {
 
 	/**
 	 * constructor for favorite
-	 * @param int|null $newFavoritee
-	 * @param int|null $newFavoriter
+	 * @param int|null $newFavoriteeId
+	 * @param int|null $newFavoriterId
 	 * @throws \InvalidArgumentException if data types are not valid
 	 * @throws \RangeException if data values are out of bounds
 	 * @throws \Exception is some other exception occurs
@@ -130,7 +130,7 @@ class Favorite implements \JsonSerializable {
 		$statement->execute($parameters);
 
 		// update the null favoriteeId with what mySQL just gave us
-		$this->favoriteId = intval($pdo->lastInsertId());
+		$this->favoriteeId = intval($pdo->lastInsertId());
 	}
 	//added another for favoriterId
 
@@ -270,7 +270,7 @@ class Favorite implements \JsonSerializable {
 		while(($row = $statement->fetch()) !== false) {
 			try {
 				$favorite = new Favorite($row["favoriteeId"], $row["favoriterId"]);
-				$favorites[$favorite->key()] = $favorite;
+				$favorites[$favorites->key()] = $favorite;
 				$favorites->next();
 			} catch(\Exception $exception) {
 				//if the row couldn't be converted rethrow it

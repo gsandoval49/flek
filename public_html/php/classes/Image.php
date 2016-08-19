@@ -337,7 +337,7 @@ class Image implements \JsonSerializable {
 
 		// create query template
 		$query = "SELECT imageId, imageProfileId, imageDescription, imageSecureUrl, imagePublicId, imageGenreId
-		 	FROM image WHERE imageDecription LIKE :imageDescription";
+		 	FROM image WHERE imageDescription LIKE :imageDescription";
 		$statement = $pdo->prepare($query);
 
 		//bind the image description to the place holder in the template
@@ -346,7 +346,7 @@ class Image implements \JsonSerializable {
 		$statement->execute($parameters);
 
 		//build an array of images
-		$image = new \SplFixedArray($statement->rowCount());
+		$images = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 		try {
@@ -360,7 +360,7 @@ class Image implements \JsonSerializable {
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
 	}
-		return($image);
+		return($images);
 }
 	/*
 	 * gets the image by imageId
@@ -377,7 +377,7 @@ class Image implements \JsonSerializable {
 		throw(new \PDOException("Image id is not positive"));
 	}
 	// create query template
-	$query = "SELECT imageId, imageProfileId, imageDescription, imageSecureId, imagePublicId, imageGenreId FROM 
+	$query = "SELECT imageId, imageProfileId, imageDescription, imageSecureUrl, imagePublicId, imageGenreId FROM 
 			image WHERE imageId = :imageId";
 	$statement = $pdo->prepare($query);
 	//bind the image id to the place holder in the template
@@ -463,9 +463,9 @@ class Image implements \JsonSerializable {
 				$image = new Image($row["imageId"], $row["imageProfileId"], $row["imageDescription"], $row["imageSecureUrl"],
 					$row["imagePublicId"], $row["imageGenreId"]);
 
-				$images = new Image($row["imageId"], $row["imageProfileId"], $row["imageDescription"], $row["imageSecureUrl"],
+				$image = new Image($row["imageId"], $row["imageProfileId"], $row["imageDescription"], $row["imageSecureUrl"],
 					$row["imagePublicId"], $row["imageGenreId"]);
-				$images[$image->key()] = $image;
+				$images[$images->key()] = $image;
 				$images->next();
 			} catch(\Exception $exception) {
 				//if the row couldn't be converted, rethrow it
