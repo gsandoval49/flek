@@ -123,14 +123,13 @@ class ImageTagTest extends FlekTest {
 	}
 
 	/**
-	 * test deleting a Tag that does not exist
+	 * test deleting a imageTag that does not exist
 	 *
-	 * @expectedException PDOException
 	 **/
-	public function testDeleteInvalidTag() {
-		// create a Tag and try to delete it without actually inserting it
-		$tag = new Tag(null, $this->image->tagImageId, $this->hashtag->tagHashtagId);
-		$tag->delete($this->getPDO());
+	public function testDeleteInvalidImageTag() {
+		// create a imageTag and try to delete it without actually inserting it
+        $imageTag = new ImageTag($this->image->getImageId(), $this->tag->getTagId());
+		$imageTag->delete($this->getPDO());
 
 		/**
 		 * testing a tag by valid image id
