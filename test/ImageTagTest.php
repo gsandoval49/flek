@@ -105,21 +105,21 @@ class ImageTagTest extends FlekTest {
 	}
 
 	/**
-	 * test creating a Tag then deleting it
+	 * test creating a imageTag then deleting it
 	 **/
-	public function testDeleteValidTag() {
+	public function testDeleteValidImageTag() {
 		// count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("tag");
-		// create a new Tag and insert to into mySQL
-		$tag = new Tag(null, $this->tagImageId, $this->tagHashtagId);
-		$tag->insert($this->getPDO());
-		// delete the Tag from mySQL
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("tag"));
-		$tag->delete($this->getPDO());
-		// grab the data from mySQL and enforce the Tag does not exist
-		$pdoTag = Tag::getTagByTagIdAndHashTagId($this->getPDO(), $tag->getTagImageId(), $tag->getTagHashtagId());
-		$this->assertNull($pdoTag);
-		$this->assertEquals($numRows, $this->getConnection()->getRowCount("tag"));
+		$numRows = $this->getConnection()->getRowCount("imageTag");
+		// create a new imageTag and insert to into mySQL
+		$imageTag = new ImageTag($this->image->getImageId(), $this->tag->getTagId());
+        $imageTag->insert($this->getPDO());
+		// delete the imageTag from mySQL
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("imageTag"));
+        $imageTag->delete($this->getPDO());
+		// grab the data from mySQL and enforce that the imageTag does not exist
+		$pdoImageTag = ImageTag::getImageTagByImageIdAndTagId($this->getPDO(), $imageTag->getImageTagImageId(), $imageTag->getImageTagTagId());
+		$this->assertNull($pdoImageTag);
+		$this->assertEquals($numRows, $this->getConnection()->getRowCount("imageTag"));
 	}
 
 	/**
