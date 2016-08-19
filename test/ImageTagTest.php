@@ -2,8 +2,8 @@
 namespace Edu\Cnm\Flek\Test;
 
 use Edu\Cnm\Flek\{
-	Profile, Image, Tag, ImageTag
-//would genre be included in this?
+	Profile, Image, Tag, Genre, ImageTag
+// why is it grey, moving on and if comes up later during in test we'll deal...
 };
 
 //grab the project test parameters
@@ -11,29 +11,33 @@ require_once(dirname(__DIR__) . "/public_html/php/classes/autoload.php");
 require_once("FlekTest.php");
 
 /**
- * full php test of the class Tag
+ * Full PHPunit test for the image tag class
  *
- * @see \Edu\Cnm\Flek\Tag
+ * @see \Edu\Cnm\Flek\ImageTag
+ * @author Christina Sosa <csosa4@cnm.edu>, Rob Harding <rharding6@cnm.edu>, Giles Sandoval <gsandoval49@cnm.edu>
+ *
  **/
 class ImageTagTest extends FlekTest {
-	/**
-	 * profile that created the image
+    /**
+     * profile that posted the image;
+     * @var int Profile profile
+     **/
+    protected $profile = null;
+    /**
+	 * image associated with image being reviewed
+     * @var int Image image
 	**/
-	protected $PROFILE = null;
-
-	/**
-	 * image that contains the tag
-	 **/
-	protected $IMAGE = null;
+	protected $image = null;
 	/**
 	 * tag that is linked to image
-	 * @var Tag tag
+	 * @var string Tag tag
 	 **/
-	protected $TAG = null;
-	/**
-	 * hashtag that will include in the tag
-	 **/
-	protected $IMAGETAG = null;
+	protected $tag = null;
+    /**
+     * genre that is linked to image
+     * @var string Genre genre
+     **/
+    protected $genre = null;
 
 	/**
 	 * create dependent objects for each foreign key before running test
@@ -42,19 +46,27 @@ class ImageTagTest extends FlekTest {
 		// run the default setUp method first
 		parent::setUp();
 
-		// create and insert a Hashtag to own the test Tag
-		$this->imageTag = new ImageTag(null, "booya", "content");
-		$this->imageTag->insert($this->getPDO());
+        // create and insert a profile that owns the image
+        // access and activation are included for test purposes; delete if we don't need.
+        $this->profile = new Profile(null, $this->profile->getProfileId(), 130, "John", "foo@bar.com", "Albuquerque", "Hey I am John", $hash, $salt, "fds456", "12345678901234567890123456789012");
 
 		//access and activation token & salt and hash generation
-		$this->VALID_PROFILEACCESSTOKEN = bin2hex(random_bytes(16));
-		$this->VALID_PROFILEACTIVATIONTOKEN = bin2hex(random_bytes(16));
+        $password = "madeup4";
+		// $this->VALID_PROFILEACCESSTOKEN = bin2hex(random_bytes(16)); made a dumby above in profile
+		// $this->VALID_PROFILEACTIVATIONTOKEN = bin2hex(random_bytes(16)); made a dumby above in profile
 		$this->salt = bin2hex(random_bytes(32));
 		$this->hash = hash_pbkdf2("sha256", "abc123", $this->salt, 262144);
 
-		// create and insert an Image to own the test Tag
-		$this->new Profile(null, $this->);
-		$this->profile->insert($this->getPDO());
+        // create and insert an image that owns the image tag
+        // $this->imageTag = new ImageTag(null, "121", "540", "320", "painting", "www.foobar.com", "xyz345"); comment out because we don't need...i don't think
+        // $this->imageTag->insert($this->getPDO()); "this is a son of a bitch, man" CSosa
+
+		// create and insert a tag for an image
+		$this->tag = new Tag(null, "951", "")
+
+
+
+
 		//create and insert a Hashtag to own the test tag
 		$this->new Tag(null, $this->);
 
