@@ -22,8 +22,8 @@ class Tag implements \JsonSerializable {
 	private $imageTagTagId;
 
 	/**
-	 * @param int $newImageTagImageId foreign key image id
-	 * @param int $newImageTagTagId foreign key tag id
+	 * @param int $newImageTagImageId
+	 * @param int $newImageTagTagId
 	 * @throws \InvalidArgumentException if data types are not valid
 	 * @throws \RangeException if data values are out of bounds (e.g., negative integers)
 	 * @throws \TypeError if data types violate type hints
@@ -50,41 +50,42 @@ class Tag implements \JsonSerializable {
 	}
 
 	/**
-	 * accessor method for the tagImageId
+	 * accessor method for the imageTag imageId
 	 *
-	 * @return int|null value of tag image id
+	 * @return int value of imageTag image id
 	 **/
-	public function getTagImageId() {
-		return ($this->tagImageId);
+	public function getImageTagImageId() {
+		return ($this->imageTagImageId);
 	}
 
 	/**
 	 * mutator method for the tagImageId
 	 *
-	 * @param int|null $newTagImageId new value of tag image id
-	 * @throws \RangeException if $newTagImageId is not positive
-	 * @throws \TypeError if $newTagImageId is not an integer
+	 * @param int $newImageTagImageId
+	 * @throws \RangeException if $newImageTagImageId is not positive
+	 * @throws \TypeError if $newImageTagImageId is not an integer
 	 **/
-	public function setTagImageId(int $newTagImageId = null) {
-		//verify the tweet id is positive
-		if($newTagImageId <= 0) {
+	public function setImageTagImageId(int $newImageTagImageId) {
+		//verify the image tag id is positive
+		if($newImageTagImageId < 0) {
 			throw(new \RangeException ("image id is not positive"));
 		}
 		//convert and store the image id*
-		$this->tagImageId = $newTagImageId;
+		$this->imageTagImageId = $newImageTagImageId;
 	}
 
 	/**
-	 * accessor method for tagHashtagId
+	 * accessor method for imageTag TagId
 	 *
-	 * @return int value of tag hashtag id
+	 * @return int value of iamgeTag tag id
 	 **/
-	public function getTagHashtagId() {
-		return ($this->tagHashtagId);
+	public function getImageTagTagId() {
+		return ($this->imageTagTagId);
 	}
 
 	/**
 	 * mutator method for tagHashtagId
+	 *
 	 *
 	 * @param int $newTagHashtagId new value of tag hashtag id
 	 * @throws \RangeException if $newTagHashtagId is not positive
