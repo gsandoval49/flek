@@ -1,15 +1,15 @@
 <?php
 
 /**
- * class will consist of hashtagId and hashtagName
- * Primary key will be hashtagId
+ * class will consist of tagId and tagName
+ * Primary key will be tagId
  * No foreign keys
  *
  *
  **/
 
 namespace Edu\Cnm\Flek\Test;
-use Edu\Cnm\Flek\{Hashtag};
+use Edu\Cnm\Flek\{Tag};
 
 
 // grab the class that's going through the x-ray and under the knife :)
@@ -19,171 +19,171 @@ require_once("FlekTest.php");
 
 
 /**
- * Full PHPUnit test for the Hashtag class
+ * Full PHPUnit test for the Tag class
  *
- * Unit testing for Hashtag class
- * @see Hashtag
+ * Unit testing for Tag class
+ * @see Tag
  * @author Giles Sandoval <gsandoval49@cnm.edu> based on code by Dylan McDonald <dmcdonald21@cnm.edu>
  **/
-class HashtagTest extends FlekTest {
+class TagTest extends FlekTest {
     /**
-     * Name of the Hashtag
-     * @var string $VALID_HASHTAGNAME
+     * Name of the Tag
+     * @var string $VALID_TAGNAME
      **/
-    protected $VALID_HASHTAGNAME = "Mural";
+    protected $VALID_TAGNAME = "Mural";
     /**
-     * NAME of the updated hashtag
-     * @var string $VALID_HASHTAGNAME2
+     * NAME of the updated tag
+     * @var string $VALID_TAGNAME2
      **/
-    protected $VALID_HASHTAGNAME2 = "Street";
+    protected $VALID_TAGNAME2 = "Street";
     /**
-     * Test inserting a valid hashtag and verifying that mySQL data matches
+     * Test inserting a valid tag and verifying that mySQL data matches
      **/
-    public function testInsertValidHashtag() {
+    public function testInsertValidTag() {
         // NO DEPENDENT OBJECTS - didn't create dependent objects code aka setUp
         // count the number of rows and save it for later later
-        $numRows = $this->getConnection()->getRowCount("hashtag");
+        $numRows = $this->getConnection()->getRowCount("tag");
 
-        // create a new Hashtag and insert into mySQL
-        $hashtag = new Hashtag(null, $this->VALID_HASHTAGNAME);
-        $hashtag->insert($this->getPDO());
+        // create a new Tag and insert into mySQL
+        $tag = new Tag(null, $this->VALID_TAGNAME);
+        $tag->insert($this->getPDO());
 
         // grab the data from mySQL and enforce the fields match our expectations
-        $pdoHashtag = Hashtag::getHashtagByHashtagId($this->getPDO(), $hashtag->getHashtagId());
-        $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("hashtag"));
-        $this->assertEquals($pdoHashtag->getHashtagName($this->VALID_HASHTAGNAME), $this->VALID_HASHTAGNAME);
+        $pdoTag = Tag::getTagByTagId($this->getPDO(), $tag->getTagId());
+        $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("tag"));
+        $this->assertEquals($pdoTag->getTagName($this->VALID_TAGNAME), $this->VALID_TAGNAME);
     }
 
     /**
-     * test inserting a Hashtag that already exists
+     * test inserting a Tag that already exists
      *
      * @expectedException PDOException
      **/
-    public function testInsertInvalidHashtag() {
-        // create a Hashtag with a non null hashtag id and watch it fail
-        $hashtag = new Hashtag(FlekTest::INVALID_KEY, $this->VALID_HASHTAGNAME);
-        $hashtag->insert($this->getPDO());
+    public function testInsertInvalidTag() {
+        // create a Tag with a non null tag id and watch it fail
+        $tag = new Tag(FlekTest::INVALID_KEY, $this->VALID_TAGNAME);
+        $tag->insert($this->getPDO());
     }
 
     /**
-     * test inserting a Hashtag, editing it, and then updating it
+     * test inserting a Tag, editing it, and then updating it
      **/
-    public function testUpdateValidHashtag() {
+    public function testUpdateValidTag() {
         // count the number of rows and save it for later
-        $numRows = $this->getConnection()->getRowCount("hashtag");
+        $numRows = $this->getConnection()->getRowCount("tag");
 
-        // create a new Hashtag and insert into mySQL
-        $hashtag = new Hashtag(null, $this->VALID_HASHTAGNAME);
-        $hashtag->insert($this->getPDO());
+        // create a new Tag and insert into mySQL
+        $tag = new Tag(null, $this->VALID_TAGNAME);
+        $tag->insert($this->getPDO());
 
-        // edit the Hashtag and update it in mySQL
-        $hashtag->setHashtagName($this->VALID_HASHTAGNAME2);
-        $hashtag->update($this->getPDO());
+        // edit the Tag and update it in mySQL
+        $tag->setTagName($this->VALID_TAGNAME2);
+        $tag->update($this->getPDO());
 
         // grab the data from mySQL and enforce the fields to match our expectations
-        $pdoHashtag = Hashtag::getHashtagByHashtagId($this->getPDO(), $hashtag->getHashtagId());
-        $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("hashtag"));
-        $this->assertEquals($pdoHashtag->getHashtagName(), $this->VALID_HASHTAGNAME2);
+        $pdoTag = Tag::getTagByTagId($this->getPDO(), $tag->getTagId());
+        $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("tag"));
+        $this->assertEquals($pdoTag->getTagName(), $this->VALID_TAGNAME2);
     }
 
     /**
-     * test updating a Hashtag that already exists
+     * test updating a Tag that already exists
      *
      * @expectedException PDOException
      **/
-    public function testUpdateInvalidHashtag() {
-        // create a hashtag with a non null hashtag id and watch it fail
-        $hashtag = new Hashtag(null, $this->VALID_HASHTAGNAME);
-        $hashtag->update($this->getPDO());
+    public function testUpdateInvalidTag() {
+        // create a tag with a non null tag id and watch it fail
+        $tag = new Tag(null, $this->VALID_TAGNAME);
+        $tag->update($this->getPDO());
     }
 
     /**
-     * test updating a Hashtag and then deleting it
+     * test updating a Tag and then deleting it
      **/
-    public function testDeleteValidHashtag() {
+    public function testDeleteValidTag() {
         //count the number of rows and save it for later
-        $numRows = $this->getConnection()->getRowCount("hashtag");
+        $numRows = $this->getConnection()->getRowCount("tag");
 
-        // create a new Hashtag and insert into mySQL
-        $hashtag = new Hashtag(null, $this->VALID_HASHTAGNAME);
-        $hashtag->insert($this->getPDO());
+        // create a new Tag and insert into mySQL
+        $tag = new Tag(null, $this->VALID_TAGNAME);
+        $tag->insert($this->getPDO());
 
-        // delete the Hashtag from mySQL
-        $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("hashtag"));
-        $hashtag->delete($this->getPDO());
+        // delete the Tag from mySQL
+        $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("tag"));
+        $tag->delete($this->getPDO());
 
-        // grab the data from mySQL and enforce the Hashtag does not exist
-        $pdoHashtag = Hashtag::getHashtagByHashtagId($this->getPDO(), $hashtag->getHashtagId());
-        $this->assertNull($pdoHashtag);
-        $this->assertEquals($numRows, $this->getConnection()->getRowCount("hashtag"));
+        // grab the data from mySQL and enforce the Tag does not exist
+        $pdoTag = Tag::getTagByTagId($this->getPDO(), $tag->getTagId());
+        $this->assertNull($pdoTag);
+        $this->assertEquals($numRows, $this->getConnection()->getRowCount("tag"));
     }
 
     /**
-     * test deleting a Hashtag that does NOT exist
+     * test deleting a Tag that does NOT exist
      *
      * @expectedException PDOException
      **/
-    public function testDeleteInvalidHashtag() {
-        //create a Hashtag and try to delete it without actually inserting it
-        $hashtag = new Hashtag(null, $this->VALID_HASHTAGNAME);
-        $hashtag->delete($this->getPDO());
+    public function testDeleteInvalidTag() {
+        //create a Tag and try to delete it without actually inserting it
+        $tag = new Tag(null, $this->VALID_TAGNAME);
+        $tag->delete($this->getPDO());
     }
 
     /**
-     * test grabbing a Hashtag that does NOT exist
+     * test grabbing a Tag that does NOT exist
      **/
-    public function testGetInvalidHashtagByHashtagId() {
+    public function testGetInvalidTagByTagId() {
         // grab a profile id that exceeds the maximum allowable profile id
-        $hashtag = Hashtag::getHashtagByHashtagId($this->getPDO(), FlekTest::INVALID_KEY);
-        $this->assertNull($hashtag);
+        $tag = Tag::getTagByTagId($this->getPDO(), FlekTest::INVALID_KEY);
+        $this->assertNull($tag);
     }
 
     /**
-     * test grabbing a Hashtag by hashtag NAME
+     * test grabbing a Tag by tag NAME
      **/
-    public function testGetValidHashtagByHashtagName() {
+    public function testGetValidTtagByTagName() {
         // count the number of rows and save it for later
-        $numRows = $this->getConnection()->getRowCount("hashtag");
+        $numRows = $this->getConnection()->getRowCount("tag");
 
-        // create a new Hashtag and insert to into mySQL
-        $hashtag = new Hashtag(null, $this->VALID_HASHTAGNAME);
-        $hashtag->insert($this->getPDO());
+        // create a new Tag and insert to into mySQL
+        $tag = new Tag(null, $this->VALID_TAGNAME);
+        $tag->insert($this->getPDO());
 
         // grab the data from mySQL and enforce the fields match our expectations
-        $pdoHashtag = Hashtag::getHashtagByHashtagName($this->getPDO(), $hashtag->getHashtagName());
-        $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("hashtag"));
-        $this->assertEquals($pdoHashtag->getHashtagName(), $this->VALID_HASHTAGNAME);
+        $pdoTag = Tag::getTagByTagName($this->getPDO(), $tag->getTagName());
+        $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("tag"));
+        $this->assertEquals($pdoTag->getTagName(), $this->VALID_TAGNAME);
     }
 
 
 
     /**
-     * test grabbing a Hashtag by name that does not exist, apparently Dylan didn't do this :)
+     * test grabbing a Tag by name that does not exist, apparently Dylan didn't do this :)
      **/
-    public function testGetInvalidHashtagByHashtagName() {
-        // grab a hashtag by name that does NOT exist
-        $hashtag = Hashtag::getHashtagByHashtagName($this->getPDO(), "this hashtag does not exist");
-        $this->assertNull($hashtag);
+    public function testGetInvalidTagByTagName() {
+        // grab a tag by name that does NOT exist
+        $tag = Tag::getTagByTagName($this->getPDO(), "this tag does not exist");
+        $this->assertNull($tag);
     }
 
     /**
-     * test grabbing all Hashtags
+     * test grabbing all Tags
      **/
-    public function testGetAllValidHashtags() {
+    public function testGetAllValidTags() {
         // count the number of rows and save it for later
-        $numRows = $this->getConnection()->getRowCount("hashtag");
+        $numRows = $this->getConnection()->getRowCount("tag");
 
-        // create a new Hashtag and insert into mySQL
-        $hashtag = new Hashtag(null, $this->VALID_HASHTAGNAME);
-        $hashtag->insert($this->getPDO());
+        // create a new Ttag and insert into mySQL
+        $tag = new Tag(null, $this->VALID_TAGNAME);
+        $tag->insert($this->getPDO());
 
         //grab the data from mySQL and enforce the fields match our expectations
-        $results = Hashtag::getsAllHashtags($this->getPDO());
-        $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("hashtag"));
+        $results = Tag::getsAllTags($this->getPDO());
+        $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("tag"));
         $this->assertCount(1, $results);
 
         // grab the result from the array and validate it
-        $pdoHashtag = $results[0];
-        $this->assertEquals($pdoHashtag->getHashtagName(), $this->VALID_HASHTAGNAME);
+        $pdoTag = $results[0];
+        $this->assertEquals($pdoTag->getTagName(), $this->VALID_TAGNAME);
     }
 }

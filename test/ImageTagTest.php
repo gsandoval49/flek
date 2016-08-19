@@ -43,8 +43,8 @@ class imageTagTest extends FlekTest {
 		parent::setUp();
 
 		// create and insert a Hashtag to own the test Tag
-		$this->tag = new tag(null, "booya", "content");
-		$this->tag->insert($this->getPDO());
+		$this->imageTag = new ImageTag(null, "booya", "content");
+		$this->imageTag->insert($this->getPDO());
 
 		//access and activation token & salt and hash generation
 		$this->VALID_PROFILEACCESSTOKEN = bin2hex(random_bytes(16));
