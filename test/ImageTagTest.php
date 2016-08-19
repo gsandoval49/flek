@@ -2,7 +2,7 @@
 namespace Edu\Cnm\Flek\Test;
 
 use Edu\Cnm\Flek\{
-	Profile, Image, Tag, imageTag
+	Profile, Image, Tag, ImageTag
 //would genre be included in this?
 };
 
@@ -15,7 +15,7 @@ require_once("FlekTest.php");
  *
  * @see \Edu\Cnm\Flek\Tag
  **/
-class imageTagTest extends FlekTest {
+class ImageTagTest extends FlekTest {
 	/**
 	 * profile that created the image
 	**/

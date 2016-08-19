@@ -9,7 +9,7 @@ require_once("autoload.php");
  * @ver 1.0.0
  **/
 
-class Tag implements \JsonSerializable {
+class ImageTag implements \JsonSerializable {
 	/**
 	 * image id for the image being linked with tags; this is a foreign key
 	 * @var int $imageTagImageId
