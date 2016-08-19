@@ -5,38 +5,38 @@ namespace Edu\Cnm\Flek;
 require_once("autoload.php");
 
 /**
- * Hashtag class
+ * Tag class
  *
  * @author Giles Sandoval <gsandoval49@cnm.edu>
  * @version 1.0.0
  **/
-class Hashtag implements \JsonSerializable {
+class Tag implements \JsonSerializable {
     /**
-     * id of the Hashtag that is created by the tag that has the image
+     * id of the Tag that is created by the tag that has the image
      * this is the primary key
-     * @var int $hashtagId
+     * @var int $tagId
      **/
-    private $hashtagId;
+    private $tagId;
     /**
-     * name or label of the Hashtag that is attached to the hashtag Id
-     * @var string $hashtagName
+     * name or label of the Tag that is attached to the tag Id
+     * @var string $tagName
      **/
-    private $hashtagName;
+    private $tagName;
 
     /**
-     * constructor for this Hashtag
+     * constructor for this Tag
      *
-     * @param int|null $newHashtagId id of this Hashtag or null if new Hashtag
-     * @param string $newHashtagName string containing data
+     * @param int|null $newTagId id of this Tag or null if new Tag
+     * @param string $newTagName string containing data
      * @throws \InvalidArgumentException if data types are not valid
      * @throws \RangeException if data values are out of bounds (e.g., strings too long, negative integers)
      * @throws \TypeError if data types violate type hints
      * @throws \Exception if some other exception occurs
      **/
-    public function __construct(int $newHashtagId = null, string $newHashtagName) {
+    public function __construct(int $newTagId = null, string $newTagName) {
         try {
-            $this->setHashtagId($newHashtagId);
-            $this->setHashtagName($newHashtagName);
+            $this->setTagId($newTagId);
+            $this->setTagName($newTagName);
         } catch(\InvalidArgumentException $invalidArgument) {
             // rethrow the exception to the caller
             throw(new \InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
@@ -53,243 +53,243 @@ class Hashtag implements \JsonSerializable {
     }
 
     /**
-     * accessor method for hashtag id
+     * accessor method for tag id
      *
-     * @return int|null value of hashtag id
+     * @return int|null value of tag id
      **/
-    public function getHashtagId() {
-        return ($this->hashtagId);
+    public function getTagId() {
+        return ($this->tagId);
     }
 
     /**
-     * mutator method for hashtag id
+     * mutator method for tag id
      *
-     * @param int $newHashtagId new value of hashtag id
-     * @throws \RangeException if $newHashtagId is not positive
-     * @throws \TypeError if $newHashtagId is not an integer
+     * @param int $newTagId new value of tag id
+     * @throws \RangeException if $newTagId is not positive
+     * @throws \TypeError if $newTagId is not an integer
      **/
-    public function setHashtagId(int $newHashtagId = null) {
-        // base case: if the hashtag id is null, this a new hashtag without a mySQL assigned id (yet)
-        if($newHashtagId === null) {
-            $this->hashtagId = null;
+    public function setTagId(int $newTagId = null) {
+        // base case: if the tag id is null, this a new tag without a mySQL assigned id (yet)
+        if($newTagId === null) {
+            $this->tagId = null;
             return;
         }
 
-        // verify the hashtag id is positive
-        if($newHashtagId <= 0) {
-            throw(new \RangeException("hashtag id is not positive"));
+        // verify the tag id is positive
+        if($newTagId <= 0) {
+            throw(new \RangeException("tag id is not positive"));
         }
 
-        // convert and store the hashtag id
-        $this->hashtagId = $newHashtagId;
+        // convert and store the tag id
+        $this->tagId = $newTagId;
     }
 
     /**
-     * accessor method for hashtag name
+     * accessor method for tag name
      *
-     * @return string value of hashtag name
+     * @return string value of tag name
      **/
-    public function getHashtagName() {
-        return($this->hashtagName);
+    public function getTagName() {
+        return($this->tagName);
     }
 
     /**
-     * mutator method for hashtag name
+     * mutator method for tag name
      *
-     * @param string $newHashtagName new value of hashtag name
-     * @throws \InvalidArgumentException if $newHashtagName is not a string or insecure
-     * @throws \RangeException if $newHashtagName is > 32 characters
-     * @throws \TypeError if $newHashtagName is not a string
+     * @param string $newTagName new value of tag name
+     * @throws \InvalidArgumentException if $newTagName is not a string or insecure
+     * @throws \RangeException if $newTagName is > 32 characters
+     * @throws \TypeError if $newTagName is not a string
      **/
-    public function setHashtagName(string $newHashtagName) {
-        // verify the hashtag string is secure
-        $newHashtagName = trim($newHashtagName);
-        $newHashtagName = filter_var($newHashtagName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-        if(empty($newHashtagName) === true) {
-            throw(new \InvalidArgumentException("hashtag name is empty or insecure"));
+    public function setTagName(string $newTagName) {
+        // verify the tag string is secure
+        $newTagName = trim($newTagName);
+        $newTagName = filter_var($newTagName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+        if(empty($newTagName) === true) {
+            throw(new \InvalidArgumentException("tag name is empty or insecure"));
         }
 
-        // verify the hashtag name will fit in the database
-        if(strlen($newHashtagName) > 32) {
-            throw(new \RangeException("hashtag name is too large"));
+        // verify the tag name will fit in the database
+        if(strlen($newTagName) > 32) {
+            throw(new \RangeException("tag name is too large"));
         }
 
-        // store the hashtag name
-        $this->hashtagName = $newHashtagName;
+        // store the tag name
+        $this->tagName = $newTagName;
     }
 
     /**
-     * inserts this Hashtag into mySQL
+     * inserts this Tag into mySQL
      *
      *@param \PDO $pdo PDO connection object
      *@throws \PDOException when mySQL related errors occur
      *@throws \TypeError if $pdo is not a PDO connection object
      **/
     public function insert(\PDO $pdo) {
-        // enforce the hashtagId is null (i.e., don't insert a hashtag that already exists)
-        if($this->hashtagId !== null) {
-            throw(new \PDOException("not a new hashtag"));
+        // enforce the tagId is null (i.e., don't insert a tag that already exists)
+        if($this->tagId !== null) {
+            throw(new \PDOException("not a new tag"));
         }
 
         // create query template
-        $query = "INSERT INTO hashtag(hashtagName) VALUES(:hashtagName)";
+        $query = "INSERT INTO tag(tagName) VALUES(:tagName)";
         $statement = $pdo->prepare($query);
 
         // bind the member variables to the place holders in the template
         // CHECK TO SEE IF THIS CODE NEEDS TO BE IN HERE. AND ALSO DELETED the $formattedDate
-        $parameters = ["hashtagName" => $this->hashtagName];
+        $parameters = ["tagName" => $this->tagName];
         $statement->execute($parameters);
 
-        // update the null hashtagId with what mySQL just gave us
-        $this->hashtagId = intval($pdo->lastInsertId());
+        // update the null tagId with what mySQL just gave us
+        $this->tagId = intval($pdo->lastInsertId());
     }
 
     /**
-     * deletes this Hashtag from mySQL
+     * deletes this Tag from mySQL
      *
      * @param \PDO $pdo PDO connection object
      * @throws \PDOException when mySQL related errors occur
      * @throws \TypeError if $pdo is not a PDO connection object
      **/
     public function delete(\PDO $pdo) {
-        // enforce the hashtagId is not null (i.e., don't delete a hashtag that hasn't been inserted)
-        if($this->hashtagId === null) {
-            throw(new \PDOException("unable to delete a hashtag that does not exist"));
+        // enforce the tagId is not null (i.e., don't delete a tag that hasn't been inserted)
+        if($this->tagId === null) {
+            throw(new \PDOException("unable to delete a tag that does not exist"));
         }
 
         // create query template
-        $query = "DELETE FROM hashtag WHERE hashtagId = :hashtagId";
+        $query = "DELETE FROM tag WHERE tagId = :tagId";
         $statement = $pdo->prepare($query);
 
         // bind the member variables to the place holder in the template
-        $parameters = ["hashtagId" => $this->hashtagId];
+        $parameters = ["tagId" => $this->tagId];
         $statement->execute($parameters);
     }
 
     /**
-     * updates this Hashtag in mySQL
+     * updates this Tag in mySQL
      *
      * @param \PDO $pdo PDO connection object
      * @throws \PDOException when mySQL related errors occur
      * @throws \TypeError if $pdo is not a PDO connection object
      **/
     public function update(\PDO $pdo) {
-        // enforce the hashtagId is not null (i.e., don't update a hashtag that hasn't been inserted)
-        if($this->hashtagId === null) {
-            throw(new \PDOException("unable to update a hashtag that does not exist"));
+        // enforce the tagId is not null (i.e., don't update a tag that hasn't been inserted)
+        if($this->tagId === null) {
+            throw(new \PDOException("unable to update a tag that does not exist"));
         }
 
         // create query template
-        $query = "UPDATE hashtag SET hashtagName = :hashtagName WHERE hashtagId = :hashtagId";
+        $query = "UPDATE tag SET tagName = :tagName WHERE tagId = :tagId";
         $statement = $pdo->prepare($query);
 
         // bind the member variables to the place holders in the template
         // deleted the formatted date from the example
-        $parameters = ["hashtagName" => $this->hashtagName, "hashtagId" => $this->hashtagId];
+        $parameters = ["tagName" => $this->tagName, "tagId" => $this->tagId];
         $statement->execute($parameters);
     }
 
     /**
-     * gets the Hashtag by name
+     * gets the Tag by name
      *
      * @param \PDO $pdo PDO connection object
-     * @param string $hashtagName hashtag name to search for
-     * @return hashtag|null hashtag or null if not found
+     * @param string $tagName tag name to search for
+     * @return tag|null tag or null if not found
      * @throws \PDOException when mySQL related errors occur
      * @throws \TypeError when variables are not the correct data type
      **/
-    public static function getHashtagByHashtagName(\PDO $pdo, string $hashtagName){
+    public static function getTagByTagName(\PDO $pdo, string $tagName){
         // sanitize the description before searching
-        $hashtagName = trim($hashtagName);
-        $hashtagName = filter_var($hashtagName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-        if(empty($hashtagName) === true) {
-            throw(new \PDOException("hashtag name is invalid"));
+        $tagName = trim($tagName);
+        $tagName = filter_var($tagName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+        if(empty($tagName) === true) {
+            throw(new \PDOException("tag name is invalid"));
         }
         // create query template
-        $query = "SELECT hashtagId, hashtagName FROM hashtag WHERE hashtagName LIKE :hashtagName";
+        $query = "SELECT tagId, tagName FROM tag WHERE tagName LIKE :tagName";
         $statement = $pdo->prepare($query);
-        // bind the hashtag name to the place holder in the template
-        // $hashtagName = "%$hashtagName%";
-        $parameters = array("hashtagName" => $hashtagName);
+        // bind the tag name to the place holder in the template
+        // $tagName = "%$tagName%";
+        $parameters = array("tagName" => $tagName);
         $statement->execute($parameters);
-        // grab the hashtag from mySQL
+        // grab the tag from mySQL
         try {
-            $hashtag = null;
+            $tag = null;
             $statement->setFetchMode(\PDO::FETCH_ASSOC);
             $row = $statement->fetch();
             if($row !== false) {
-                $hashtag = new Hashtag($row["hashtagId"], $row["hashtagName"]);
+                $tag = new Tag($row["tagId"], $row["tagName"]);
             }
         } catch(\Exception $exception) {
             // if the row couldn't be converted, rethrow it
             throw(new \PDOException($exception->getMessage(), 0, $exception));
         }
-        return($hashtag);
+        return($tag);
     }
 
     /**
-     * gets the Hashtag by hashtagId
+     * gets the Tag by tagId
      *
      * @param \PDO $pdo PDO connection object
-     * @param int $hashtagId hashtag id to search for
-     * @return hashtag|null hashtag found or null if not found
+     * @param int $tagId tag id to search for
+     * @return tag|null tag found or null if not found
      * @throws \PDOException when mySQL related errors occur
      * @throws \TypeError when variables are not the correct data type
      **/
-    public static function getHashtagByHashtagId(\PDO $pdo, int $hashtagId)
+    public static function getTagByTagId(\PDO $pdo, int $tagId)
     {
-        // sanitize the hashtagId before searching
-        if ($hashtagId <= 0) {
-            throw(new \RangeException("hashtag id is not positive"));
+        // sanitize the tagId before searching
+        if ($tagId <= 0) {
+            throw(new \RangeException("tag id is not positive"));
         }
         // create query template
-        $query = "SELECT hashtagId, hashtagName FROM hashtag WHERE hashtagId = :hashtagId";
+        $query = "SELECT tagId, tagName FROM tag WHERE tagId = :tagId";
         $statement = $pdo->prepare($query);
-        // bind the hashtag id to the place holder in the template
-        $parameters = ["hashtagId" => $hashtagId];
+        // bind the tag id to the place holder in the template
+        $parameters = ["tagId" => $tagId];
         $statement->execute($parameters);
-        // get the hashtag from mySQL
+        // get the tag from mySQL
         try {
-            $hashtag = null;
+            $tag = null;
             $statement->setFetchMode(\PDO::FETCH_ASSOC);
             $row = $statement->fetch();
             if ($row !== false) {
-                $hashtag = new Hashtag($row["hashtagId"], $row["hashtagName"]);
+                $tag = new Tag($row["tagId"], $row["tagName"]);
             }
         } catch (\Exception $exception) {
             // if the row couldn't be converted, rethrow it
             throw(new \PDOException($exception->getMessage(), 0, $exception));
         }
-        return ($hashtag);
+        return ($tag);
     }
 
     /**
-     * gets all hashtags
+     * gets all tags
      *
      * @param \PDO $pdo PDO connection object
-     * @return \SplFixedArray SplFixedArray of hashtags found or null if not found
+     * @return \SplFixedArray SplFixedArray of tags found or null if not found
      * @throws \PDOException when mySQL related errors occur
      * @throws \TypeError when variables are not the correct data type
      **/
-    public static function getsAllHashtags(\PDO $pdo) {
+    public static function getsAllTags(\PDO $pdo) {
         // create query template
-        $query = "SELECT hashtagId, hashtagName FROM hashtag";
+        $query = "SELECT tagId, tagName FROM tag";
         $statement = $pdo->prepare($query);
         $statement->execute();
-        // build an array of hashtags
-        $hashtags = new \SplFixedArray($statement->rowCount());
+        // build an array of tags
+        $tags = new \SplFixedArray($statement->rowCount());
         $statement->setFetchMode(\PDO::FETCH_ASSOC);
         while(($row = $statement->fetch()) !== false) {
             try {
-                $hashtag = new Hashtag($row["hashtagId"], $row["hashtagName"]);
-                $hashtags[$hashtags->key()] = $hashtag;
-                $hashtags->next();
+                $tag = new Tag($row["tagId"], $row["tagName"]);
+                $tags[$tags->key()] = $tag;
+                $tags->next();
             } catch (\Exception $exception) {
                 //if the row couldn't be converted, rethrow it
                 throw(new \PDOException($exception->getMessage(), 0, $exception));
             }
         }
-        return ($hashtags);
+        return ($tags);
     }
 
     /**
