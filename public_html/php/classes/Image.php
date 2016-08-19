@@ -9,39 +9,40 @@ require_once("autoload.php");
  * @version 1.0.0
  */
 class Image implements \JsonSerializable {
-	/*
+	/**
 	id for Image: this is the primary key
 	* @var int $imageId
 	 */
 	private $imageId;
-	/*
+	/**
+	 * id to identify the genre the image is assigned to
+	 * @var int $imageGenreId
+	 */
+	private $imageGenreId;
+
+	/**
 	 * id of the profile that sent this Image;
 	 * @var int $imageProfileId
 	 */
 	private $imageProfileId;
-	/*
+	/**
 	 * textual description of the Image
 	 * @var string $imageDescription
 	 */
 	private $imageDescription;
-	/*
+	/**
 	 * url sent when image is uploaded
 	 * @var string $imageSecureUrl
 	 */
 	private $imageSecureUrl;
-	/*
+	/**
 	 * id sent to identify the image uploaded
 	 * @var string $imagePublicId
 	 */
 	private $imagePublicId;
-	/*
-	 * id to identify the genre the image is assigned to
-	 * @var string $imageGenreId
-	 */
-	private $imageGenreId;
 
 
-	/*
+	/**
 	 * constructor for the Image
 	 * @param int|null $newImageId of this Image or null
 	 * @param int|null $newImageProfileId of the profile that sent this Image
@@ -54,14 +55,15 @@ class Image implements \JsonSerializable {
 	 * @throws \TypeError if data types violate type hints
 	 * @throws \Exception if some other exception occurs
 	 */
-	public function __construct(int $newImageId = null, int $newImageProfileId, string $newImageDescription, string $newImageSecureUrl, string $newImagePublicId, bool $newImageGenreId = null) {
+	public function __construct(int $newImageId = null,int $newImageGenreId = null, int $newImageProfileId, string $newImageDescription, string $newImageSecureUrl, string $newImagePublicId) {
 		try {
 			$this->setImageId($newImageId);
+			$this->setImageGenreId($newImageGenreId);
 			$this->setImageProfileId($newImageProfileId);
 			$this->setImageDescription($newImageDescription);
 			$this->setImageSecureUrl($newImageSecureUrl);
 			$this->setImagePublicId($newImagePublicId);
-			$this->setImageGenreId($newImageGenreId);
+
 		} catch(\InvalidArgumentException $invalidArgument) {
 			//rethrow the exception to the caller
 			throw(new \InvalidArgumentException(
@@ -78,7 +80,7 @@ class Image implements \JsonSerializable {
 		}
 	}
 
-	/*
+	/**
 	 * accessor method for image id
 	 * @return int|null value of image id
 	 */
@@ -86,10 +88,10 @@ class Image implements \JsonSerializable {
 		return ($this->imageId);
 	}
 
-	/*
+	/**
 	 * mutator method for image id
 	 * @param int|null $newImageId new value of image id
-	 * @throws \Range Exception if $newImageId is not positive
+	 * @throws \RangeException if $newImageId is not positive
 	 */
 	public function setImageId(int $newImageId = null) {
 //if image is null this a new image
@@ -105,15 +107,15 @@ class Image implements \JsonSerializable {
 		$this->imageId = $newImageId;
 	}
 
-	/*
+	/**
 	 * accessor method for imageProfileId
-	 * @return int}null value of imageProfileId
+	 * @return int|null value of imageProfileId
 	 */
 	public function getImageProfileId() {
 		return ($this->imageProfileId);
 	}
 
-	/*
+	/**
 	 * mutator method for image profile Id
 	 * @param int $newImageProfileId new value of image profile id
 	 * @throws \RangeException if @newImageProfileId is not positive
@@ -127,7 +129,7 @@ class Image implements \JsonSerializable {
 		$this->imageProfileId = $newImageProfileId;
 	}
 
-	/*
+	/**
 	 * accessor method for imageDescription
 	 * @return string value of image description
 	 */
@@ -135,7 +137,7 @@ class Image implements \JsonSerializable {
 		return ($this->imageDescription);
 	}
 
-	/*
+	/**
 	 * mutator method for image Description
 	 * @throw method for image Description
 	 */
@@ -154,7 +156,7 @@ class Image implements \JsonSerializable {
 		$this->imageDescription = $newImageDescription;
 	}
 
-	/*
+	/**
 	 * accessor method for image secure url
 	 * #return string  value of image secure url
 	*/
@@ -162,7 +164,9 @@ class Image implements \JsonSerializable {
 		return ($this->imageSecureUrl);
 	}
 
-	/*mutator method for image secure url
+	/**
+	 *
+	 *mutator method for image secure url
 	/*
 	 * @param string $newImageSecureUrl
 	 */
@@ -180,7 +184,7 @@ class Image implements \JsonSerializable {
 		$this->imageSecureUrl = $newImageSecureUrl;
 	}
 
-	/*
+	/**
 	 * accessor method for image public id
 	 * @return string $newImagePublicId
 	 */
@@ -188,7 +192,7 @@ class Image implements \JsonSerializable {
 		return ($this->imagePublicId);
 	}
 
-	/*
+	/**
 	 * mutator method for image public id
 	 * @param string imagePublicId
 	  * @throw string is not positive and string too long
@@ -206,7 +210,7 @@ class Image implements \JsonSerializable {
 		}
 			$this->imagePublicId = $newImagePublicId;
 }
-	/*
+	/**
 	 * accessor method for image genre id
 	 * @return int|null imageGenreId
 	 */
@@ -219,15 +223,15 @@ class Image implements \JsonSerializable {
 	 * @param int $newImageGenreId
 	 * @throws image genre id not positive
 	 **/
-	public function setImageGenreId(bool $newImageGenreId = null) {
+	public function setImageGenreId(int $newImageGenreId = null) {
 		if($newImageGenreId == null) {
 			$this->imageGenreId = null;
 			return;
 		}
-					$this->imageGenreId = $newImageGenreId;
+		$this->imageGenreId = $newImageGenreId;
 	}
 
-/*
+/**
  * inserts the Image into mySQL
  * @param \PDO $pdo PDO connection object
  * @throws \TypeError if $pdo is not a PDO connection object
@@ -238,32 +242,30 @@ class Image implements \JsonSerializable {
 		throw(new \PDOException("not a new image"));
 	}
 	// create query template
-	$query = "INSERT INTO image(imageProfileId, imageDescription,imageSecureUrl, imagePublicId, imageGenreId) VALUES(:imageProfileId, :imageDescription, :imageSecureUrl, :imagePublicId, :imageGenreId)";
+	$query = "INSERT INTO image(imageGenreId, imageProfileId, imageDescription,imageSecureUrl, imagePublicId) VALUES( :imageGenreId, :imageProfileId, :imageDescription, :imageSecureUrl, :imagePublicId)";
 
 			$statement = $pdo->prepare($query);
-
-			/**
-			 * change the format of the boolean imageGenreId
-			 */
+/*
+			//change the format of the boolean imageGenreId
 			if($this->imageGenreId === false) {
 				$formatGenreId = 0;
 			} else{
 				$formatGenreId = $this->imageGenreId;
-			}
+			}*/
 
 	// bind the member variables to the place holders in the template
-	$parameters = ["imageProfileId" => $this->imageProfileId, "imageDescription" => $this->imageDescription,
-		"imageSecureUrl" => $this->imageSecureUrl, "imagePublicId" => $this->imagePublicId, "imageGenreId" => $formatGenreId];
+	$parameters = [ "imageGenreId" =>$this->imageGenreId, "imageProfileId" => $this->imageProfileId, "imageDescription" => $this->imageDescription,
+		"imageSecureUrl" => $this->imageSecureUrl, "imagePublicId" => $this->imagePublicId /*$formatGenreId*/];
 
 			$statement->execute($parameters);
 
-	/*
+	/**
 	 * update the null imageId with what mySQL just gave us
 	 */
 	$this->imageId = intval($pdo->lastInsertId());
 }
 
-	/*
+	/**
 	 * updates this Image in mySQL
 	 * @param \PDO $pdo PDO connection object
 	 * @throws \PDOException when mySQL related erros
@@ -276,20 +278,20 @@ class Image implements \JsonSerializable {
 		}
 
 		// create query template
-		$query = "UPDATE image SET imageProfileId = :imageProfileId, imageDescription = :imageDescription, imageSecureURl =
-			:imageSecureUrl, imagePublicId = :imagePublicId, imageGenreId = :imageGenreId";
+		$query = "UPDATE image SET imageGenreId = :imageGenreId, imageProfileId = :imageProfileId, imageDescription = :imageDescription, imageSecureURl =
+			:imageSecureUrl, imagePublicId = :imagePublicId";
 		$statement = $pdo->prepare($query);
-
+/*
 		//change the format of the boolean Image Genre Id
 		if($this->imageGenreId === false) {
 			$formatGenreId = 0;
 		}
 		else{
 			$formatGenreId = $this->imageGenreId;
-		}
+		}*/
 		//bind the member variables to the place holders in the template
-		$parameters = ["imageProfileId" => $this->imageProfileId, "imageDescription" => $this->imageDescription,
-			"imageSecureUrl" => $this->imageSecureUrl, "imagePublicId" => $this->imagePublicId, "imageGenreId" => $this->imageGenreId];
+		$parameters = ["imageGenreId" => $this->imageGenreId, "imageProfileId" => $this->imageProfileId, "imageDescription" => $this->imageDescription,
+			"imageSecureUrl" => $this->imageSecureUrl, "imagePublicId" => $this->imagePublicId, ];
 
 		$statement->execute($parameters);
 	}
@@ -305,13 +307,13 @@ class Image implements \JsonSerializable {
 	if($this->imageId === null) {
 		throw(new \PDOException("unable to delete image that does not exist"));
 	}
-	/*
+	/**
 	 * create query template
 	 */
 	$query = "DELETE FROM image WHERE imageId = :imageId";
 	$statement = $pdo->prepare($query);
 
-	/*
+	/**
 	 * bind the member variables to the place holder the template
 	 */
 	$parameters = ["imageId" => $this->imageId];
@@ -319,7 +321,7 @@ class Image implements \JsonSerializable {
 }
 
 
-	/*
+	/**
 	 * gets the Image by content
 	 * @param /PDO $pdo PDO connection object
 	 * @param string $imageDescription image description to search for
@@ -336,7 +338,7 @@ class Image implements \JsonSerializable {
 			}
 
 		// create query template
-		$query = "SELECT imageId, imageProfileId, imageDescription, imageSecureUrl, imagePublicId, imageGenreId
+		$query = "SELECT imageId, imageGenreId, imageProfileId, imageDescription, imageSecureUrl, imagePublicId 
 		 	FROM image WHERE imageDescription LIKE :imageDescription";
 		$statement = $pdo->prepare($query);
 
@@ -350,9 +352,9 @@ class Image implements \JsonSerializable {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 		try {
-			$image = new Image($row["imageId"], $row["imageProfileId"], $row["imageDescription"], $row["imageSecureId"],
-				$row["imagePublicId"], $row["imageGenreId"], $row["imagePublicId"], $row["imageSecureId"], $row["imagePublicId"]
-				, $row["imageGenreId"]);
+			$image = new Image($row["imageId"], $row["imageGenreId"], $row["imageProfileId"], $row["imageDescription"], $row["imageSecureUrl"],
+				$row["imagePublicId"], $row["imageGenreId"], $row["imagePublicId"], $row["imageSecureUrl"], $row["imagePublicId"]
+				 );
 			$images[$images->key()] = $image;
 			$images->next();
 		} catch(\Exception $exception) {
@@ -362,7 +364,7 @@ class Image implements \JsonSerializable {
 	}
 		return($images);
 }
-	/*
+	/**
 	 * gets the image by imageId
 	 * @param \PDO $pdo PDO cennection object
 	 * @param int $imageId image id to search for
@@ -371,17 +373,17 @@ class Image implements \JsonSerializable {
 	 * @throws \TypeError when variables are not the correct data types
 	 */
 
-		public static function getImagebyImageId(\PDO $pdo, int $imageId) {
+		public static function getImageByImageId(\PDO $pdo, int $imageId) {
 	// sanitize the imageId before seraching
 	if($imageId <= 0) {
 		throw(new \PDOException("Image id is not positive"));
 	}
 	// create query template
-	$query = "SELECT imageId, imageProfileId, imageDescription, imageSecureUrl, imagePublicId, imageGenreId FROM 
+	$query = "SELECT imageId, imageGenreId, imageProfileId, imageDescription, imageSecureUrl, imagePublicId FROM 
 			image WHERE imageId = :imageId";
 	$statement = $pdo->prepare($query);
 	//bind the image id to the place holder in the template
-	$parameter = ["imageId => $imageId"];
+	$parameter = ["imageId" => $imageId];
 	$statement->execute($parameter);
 
 	//grab the image from mySQL
@@ -390,8 +392,8 @@ class Image implements \JsonSerializable {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		$row = $statement->fetch();
 		if($row !== false) {
-			$image = new image($row["imageId"], $row["imageProfileId"], $row["imageDescription"], $row["imageSecureId"],
-				$row["imagePublicId"], $row["imageGenreId"]);
+			$image = new image($row["imageId"], $row["imageGenreId"], $row["imageProfileId"], $row["imageDescription"], $row["imageSecureUrl"],
+				$row["imagePublicId"] );
 		}
 	} catch(\Exception $exception) {
 		// if the row couldn't be converted, rethrow it
@@ -400,7 +402,7 @@ class Image implements \JsonSerializable {
 	return ($image);
 }
 
-	/*
+	/**
 	 * get the image by profile id
 	 * @param \PDO $pdo PDO connection object
 	 * @param int $imageProfileId image id to search by
@@ -409,18 +411,18 @@ class Image implements \JsonSerializable {
 	 * @throws \TypeError when variables are no the correct data types
 	 */
 
-	public static function getImagebyImageProfileId(\PDO $pdo, int $imageProfileId) {
+	public static function getImageByImageProfileId(\PDO $pdo, int $imageProfileId) {
 	// sanitize the profile id before searching
 	if($imageProfileId <= 0) {
 		throw(new \RangeException("image profile id must be positive"));
 	}
 	//create query template
-	$query = "SELECT imageId, imageProfileId, imageDescription, imageSecureUrl, imagePublicId, imageGenreId FROM image 
+	$query = "SELECT imageId, imageGenreId, imageProfileId, imageDescription, imageSecureUrl, imagePublicId  FROM image 
 		WHERE imageProfileId = :imageProfileId";
 	$statement = $pdo->prepare($query);
 	//bind the image proile id to the place holder in the template
 
-	$parameters = ["imageProfileId => $imageProfileId"];
+	$parameters = ["imageProfileId" => $imageProfileId];
 	$statement->execute($parameters);
 
 	//build an array of images
@@ -428,8 +430,8 @@ class Image implements \JsonSerializable {
 	$statement->setFetchMode(\PDO::FETCH_ASSOC);
 	while(($row = $statement->fetch()) !== false) {
 		try {
-			$image = new Image($row["imageId"], $row["imageProfileId"], $row["imageDescription"], $row["imageSecureUrl"],
-				$row["imagePublicId"], $row["imageGenreId"]);
+			$image = new Image($row["imageId"], $row["imageGenreId"], $row["imageProfileId"], $row["imageDescription"], $row["imageSecureUrl"],
+				$row["imagePublicId"]);
 
 			$images[$images->key()] = $image;
 			$images->next();
@@ -440,7 +442,7 @@ class Image implements \JsonSerializable {
 	}
 	return ($images);
 }
-/*
+/**
  * get all images
  * @param \PDO $pdo PDO connection object
  * @return \SplFixedArray of images found or null if not found
@@ -449,7 +451,7 @@ class Image implements \JsonSerializable {
  */
 	public static function getAllImages(\PDO $pdo) {
 		//create query templates
-		$query = "SELECT imageId, imageProfileId, imageDescription, imageSecureUrl, imagePublicId, imageGenreId
+		$query = "SELECT imageId,  imageGenreId, imageProfileId, imageDescription, imageSecureUrl, imagePublicId
 		FROM image";
 		$statement = $pdo->prepare($query);
 		$statement->execute();
@@ -460,11 +462,11 @@ class Image implements \JsonSerializable {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$image = new Image($row["imageId"], $row["imageProfileId"], $row["imageDescription"], $row["imageSecureUrl"],
-					$row["imagePublicId"], $row["imageGenreId"]);
+				/*$image = new Image($row["imageId"], $row["imageGenreId"], $row["imageProfileId"], $row["imageDescription"], $row["imageSecureUrl"],
+					$row["imagePublicId"] );*/
 
-				$image = new Image($row["imageId"], $row["imageProfileId"], $row["imageDescription"], $row["imageSecureUrl"],
-					$row["imagePublicId"], $row["imageGenreId"]);
+				$image = new Image($row["imageId"], $row["imageGenreId"], $row["imageProfileId"], $row["imageDescription"], $row["imageSecureUrl"],
+					$row["imagePublicId"]);
 				$images[$images->key()] = $image;
 				$images->next();
 			} catch(\Exception $exception) {

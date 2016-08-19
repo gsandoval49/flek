@@ -215,6 +215,59 @@ class MailTest extends FlekTest {
 		$this->assertCount(0, $mail);
 	}
 	/**
+	 * test grabbing a Message by sent profile id
+	 **/
+	public function testGetValidMailByMailSenderId() {
+		//count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("mail");
+
+		// create a new message and insert to into mySQL
+		$mail = new Mail(null, $this->VALID_MAILSUBJECT, $this->mailSenderId->getProfileId(), $this->mailReceiverId->getProfileId(), $this->VALID_MAILGUNID, $this->VALID_MAILCONTENT);
+
+		$mail->insert($this->getPDO());
+
+		//grab the data from MySQL and enforce that the fields match our expectations
+		$results = Mail::getMailByMailSenderId($this->getPDO(), $mail->getMailSenderId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("mail"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Flek\\Mail", $results);
+
+		//grab the result from the array and validate it
+		$pdoMail = $results[0];
+		$this->assertEquals($pdoMail->getMailSubject(), $this->VALID_MAILSUBJECT);
+		$this->assertEquals($pdoMail->getMailSenderId(), $this->mailSenderId->getProfileId());
+		$this->assertEquals($pdoMail->getMailReceiverId(), $this->mailReceiverId->getProfileId());
+		$this->assertEquals($pdoMail->getMailGunId(), $this->VALID_MAILGUNID);
+		$this->assertEquals($pdoMail->getMailContent(), $this->VALID_MAILCONTENT);
+	}
+
+	/**
+	 * test grabbing a Message by receiver profile id
+	 **/
+	public function testGetValidMailByMailReceiverId() {
+		//count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("mail");
+
+		// create a new message and insert to into mySQL
+		$mail = new Mail(null, $this->VALID_MAILSUBJECT, $this->mailSenderId->getProfileId(), $this->mailReceiverId->getProfileId(), $this->VALID_MAILGUNID, $this->VALID_MAILCONTENT);
+
+		$mail->insert($this->getPDO());
+		//grab the data from MySQL and enforce that the fields match our expectations
+		$results = Mail::getMailByMailReceiverId($this->getPDO(), $mail->getMailReceiverId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("mail"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Flek\\Mail", $results);
+
+		//grab the result from the array and validate it
+		$pdoMail = $results[0];
+		$this->assertEquals($pdoMail->getMailSubject(), $this->VALID_MAILSUBJECT);
+		$this->assertEquals($pdoMail->getMailSenderId(), $this->mailSenderId->getProfileId());
+		$this->assertEquals($pdoMail->getMailReceiverId(), $this->mailReceiverId->getProfileId());
+		$this->assertEquals($pdoMail->getMailGunId(), $this->VALID_MAILGUNID);
+		$this->assertEquals($pdoMail->getMailContent(), $this->VALID_MAILCONTENT);
+	}
+
+		/**
 	 * test grabbing all messages
 	 **/
 	/*public function testGetAllMail() {

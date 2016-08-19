@@ -389,7 +389,7 @@ class Mail implements \JsonSerializable {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false){
 			try{
-				$mail = new Mail($row["mailId"], $row["mailSenderId"], $row["mailReceiverId"], $row["mailGunId"], $row["mailContent"]);
+				$mail = new Mail($row["mailId"], $row["mailSubject"],$row["mailSenderId"], $row["mailReceiverId"], $row["mailGunId"], $row["mailContent"]);
 				/*I'm not so sure about this one, is this the Id from profile??*/
 				$mails[$mails->key()] = $mail;
 				$mails->next();
@@ -421,7 +421,7 @@ class Mail implements \JsonSerializable {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false){
 			try{
-				$mail = new Mail($row["mailId"], $row["mailSenderId"], $row["mailReceiverId"], $row["mailGunId"], $row["mailContent"]);
+				$mail = new Mail($row["mailId"], $row["mailSubject"], $row["mailSenderId"], $row["mailReceiverId"], $row["mailGunId"], $row["mailContent"]);
 				/* really not so sure about this one... is this the Id from profile??*/
 				$mails[$mails->key()] = $mail;
 				$mails->next();
