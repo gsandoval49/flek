@@ -70,7 +70,7 @@ class ImageTagTest extends FlekTest {
 	}
 
 	/**
-	 * test inserting a valid Tag and verifying that mySQL data matches
+	 * test inserting a valid ImageTag and verifying that mySQL data matches
 	 **/
 	public function testInsertValidImageTag() {
 		// count the number of rows and save it for later
@@ -93,15 +93,15 @@ class ImageTagTest extends FlekTest {
 	}
 
 	/**
-	 * test inserting a Tag that already exists
+	 * test inserting an imageTag that already exists
 	 *
 	 * @expectedException PDOException
 	 **/
 
-	public function testInsertInvalidTag() {
-		// create a Tag with a non null tag id and watch it fail
-		$tag = new Tag(FlekTest::INVALID_KEY, $this->tagImageId, $this->tagHashtagId);
-		$tag->insert($this->getPDO());
+	public function testInsertInvalidImageTag() {
+		// create a imageTag with a non null tag id and watch it fail
+		$imageTag = new ImageTag(FlekTest::INVALID_KEY, $this->tag->getTagId());
+		$imageTag->insert($this->getPDO());
 	}
 
 	/**
