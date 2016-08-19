@@ -179,7 +179,7 @@ class ImageTag implements \JsonSerializable {
 	}
 
 	/**
-	 * gets the tag by tagHashtagId
+	 * gets the tag by ImageTagId
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @param int $imageTagTagId tag id to search for
@@ -188,7 +188,7 @@ class ImageTag implements \JsonSerializable {
 	 * @throws |TypeError when variables are not the correct data type
 	 **/
 	public static function getImageTagByTagId(\PDO $pdo, int $imageTagTagId) {
-		//sanitize the tagHashtagId before searching
+		//sanitize the ImageTagtagId before searching
 		if($imageTagTagId < 0) {
 			throw(new \PDOException("Tag Id is not positive"));
 		}
@@ -196,11 +196,11 @@ class ImageTag implements \JsonSerializable {
 		$query = "SELECT imageTagImageId, imageTagTagId FROM imageTag WHERE imageTagTagId = :imageTagTagId";
 		$statement = $pdo->prepare($query);
 
-		//bind the tagHashtag Id to theplace holder in teh template
+		//bind the ImageTagTag Id to theplace holder in teh template
 		$parameters = ["imageTagTagid" => imageTagTagId];
 		$statement->execute($parameters);
 
-		//build an array of hashtag tags
+		//build an array of imageTags tags
 		$imageTags = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
@@ -227,7 +227,7 @@ class ImageTag implements \JsonSerializable {
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
 	public static function getImageTagByImageIdAndTagId(\PDO $pdo, int $imageTagImageId, int $imageTagTagId) {
-		//sanitize the image id and the hashtag id before searching
+		//sanitize the image id and the tag id before searching
 		if($imageTagImageId < 0) {
 			throw (new \PDOException("image id is not positive"));
 		}
