@@ -68,7 +68,7 @@ class Tag implements \JsonSerializable {
 		 * @throws \RangeException if $newTagImageId is not positive
 		 * @throws \TypeError if $newTagImageId is not an integer
 		 **/
-		public function setTagImageId(int $newTagImageId) {
+		public function setTagImageId(int $newTagImageId = null) {
 			//verify the tweet id is positive
 			if($newTagImageId <= 0) {
 				throw(new \RangeException ("image id is not positive"));

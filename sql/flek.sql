@@ -1,7 +1,7 @@
 -- SQL statements for drop tables
 DROP TABLE IF EXISTS favorite;
+DROP TABLE IF EXISTS ImageTag;
 DROP TABLE IF EXISTS tag;
-DROP TABLE IF EXISTS hashtag;
 DROP TABLE IF EXISTS genre;
 DROP TABLE IF EXISTS image;
 DROP TABLE IF EXISTS socialLogin;
@@ -77,23 +77,22 @@ CREATE TABLE genre (
 
 
 -- HASHTAG drop table here
-CREATE TABLE hashtag (
-	hashtagId INT UNSIGNED AUTO_INCREMENT NOT NULL,
-	hashtagName VARCHAR(32),
--- hashtagDateTime DATETIME NOT NULL,
-	PRIMARY KEY (hashtagId)
+CREATE TABLE tag (
+	tagId INT UNSIGNED AUTO_INCREMENT NOT NULL,
+	tagName VARCHAR(32),
+	PRIMARY KEY (tagId)
 );
 
 
--- TAG drop table here
-CREATE TABLE tag (
-	tagImageId INT UNSIGNED NOT NULL,
-	tagHashtagId INT UNSIGNED NOT NULL,
-	INDEX (tagImageId),
-	INDEX (tagHashtagId),
-	FOREIGN KEY (tagImageId) REFERENCES image(imageId),
-	FOREIGN KEY (tagHashtagId) REFERENCES hashtag(hashtagId),
-	PRIMARY KEY (tagImageId, tagHashtagId)
+-- IMAGE drop table here
+CREATE TABLE ImageTag (
+	ImageTagImageId INT UNSIGNED AUTO_INCREMENT NOT NULL,
+	ImageTagTagId INT UNSIGNED AUTO_INCREMENT NOT NULL,
+	INDEX (ImageTagImageId),
+	INDEX (ImageTagTagId),
+	FOREIGN KEY (ImageTagImageId) REFERENCES image(imageId),
+	FOREIGN KEY (ImageTagTagId) REFERENCES tag(tagId),
+	PRIMARY KEY (ImageTagImageId, ImageTagTagId)
 );
 
 -- FAVORITE drop table here
