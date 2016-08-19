@@ -18,26 +18,26 @@ require_once("FlekTest.php");
  *
  **/
 class ImageTagTest extends FlekTest {
-    /**
-     * profile that posted the image;
-     * @var int Profile profile
-     **/
-    protected $profile = null;
-    /**
+	/**
+	 * profile that posted the image;
+	 * @var int Profile profile
+	 **/
+	protected $profile = null;
+	/**
 	 * image associated with image being reviewed
-     * @var int Image image
-	**/
+	 * @var int Image image
+	 **/
 	protected $image = null;
 	/**
 	 * tag that is linked to image
 	 * @var string Tag tag
 	 **/
 	protected $tag = null;
-    /**
-     * genre that is linked to image
-     * @var string Genre genre
-     **/
-    protected $genre = null;
+	/**
+	 * genre that is linked to image
+	 * @var string Genre genre
+	 **/
+	protected $genre = null;
 
 	/**
 	 * create dependent objects for each foreign key before running test
@@ -46,12 +46,12 @@ class ImageTagTest extends FlekTest {
 		// run the default setUp method first
 		parent::setUp();
 
-        // create and insert a profile that owns the image
-        // access and activation are included for test purposes; delete if we don't need.
-        $this->profile = new Profile(null, $this->profile->getProfileId(), 130, "John", "foo@bar.com", "Albuquerque", "Hey I am John", $hash, $salt, "fds456", "12345678901234567890123456789012");
+		// create and insert a profile that owns the image
+		// access and activation are included for test purposes; delete if we don't need.
+		$this->profile = new Profile(null, $this->profile->getProfileId(), 130, "John", "foo@bar.com", "Albuquerque", "Hey I am John", $hash, $salt, "fds456", "12345678901234567890123456789012");
 
 		//access and activation token & salt and hash generation
-        $password = "madeup4";
+		$password = "madeup4";
 		// $this->VALID_PROFILEACCESSTOKEN = bin2hex(random_bytes(16)); made a dumby above in profile
 		// $this->VALID_PROFILEACTIVATIONTOKEN = bin2hex(random_bytes(16)); made a dumby above in profile
 		$salt = bin2hex(random_bytes(32));
@@ -62,7 +62,7 @@ class ImageTagTest extends FlekTest {
 
 		//create and insert an image that is owned by profile
 		$this->image = new Image(null, $this->genre->getGenreId(), $this->profile->getProfileId(), 31, 45, 80, "My 
-		pretty image", "www.foobar.com", 2);
+	pretty image", "www.foobar.com", 2);
 
 		// create and insert a tag to be linked to image
 		$this->tag = new Tag(null, $this->image->getImageId(), $this->profile->getProfileId(), "951", "Dreamer");
@@ -78,7 +78,7 @@ class ImageTagTest extends FlekTest {
 
 		// create a new Tag and insert to into mySQL
 		$imageTag = new ImageTag($this->image->getImageId(), $this->tag->getTagId);
-		$imagetag->insert($this->getPDO());
+		$imageTag->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
 		$results = ImageTag::getImageTagByImageId($this->getPDO(), $imageTag->getImageTagImageId());
@@ -112,10 +112,10 @@ class ImageTagTest extends FlekTest {
 		$numRows = $this->getConnection()->getRowCount("imageTag");
 		// create a new imageTag and insert to into mySQL
 		$imageTag = new ImageTag($this->image->getImageId(), $this->tag->getTagId());
-        $imageTag->insert($this->getPDO());
+		$imageTag->insert($this->getPDO());
 		// delete the imageTag from mySQL
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("imageTag"));
-        $imageTag->delete($this->getPDO());
+		$imageTag->delete($this->getPDO());
 		// grab the data from mySQL and enforce that the imageTag does not exist
 		$pdoImageTag = ImageTag::getImageTagByImageIdAndTagId($this->getPDO(), $imageTag->getImageTagImageId(), $imageTag->getImageTagTagId());
 		$this->assertNull($pdoImageTag);
@@ -128,70 +128,70 @@ class ImageTagTest extends FlekTest {
 	 **/
 	public function testDeleteInvalidImageTag() {
 		// create a imageTag and try to delete it without actually inserting it
-        $imageTag = new ImageTag($this->image->getImageId(), $this->tag->getTagId());
+		$imageTag = new ImageTag($this->image->getImageId(), $this->tag->getTagId());
 		$imageTag->delete($this->getPDO());
+	}
+		/**
+		 * testing a tag by valid image id
+		 **/
+		public function testGetValidImageTagByImageTagImageId() {
+			//count the number of rows and save it for later
+			$numRows = $this->getConnection()->getRowCount("imageTag");
+			//create a new imageTag and insert it into mySQL
+			$imageTag = new ImageTag($this->image->getImageId(), $this->tag->getTagId());
+			$imageTag->insert($this->getPDO());
+			//grab the data from mySQL and enforce that the fields match our expectations
+			$results = ImageTag::getImageTagByImageId($this->getPDO(), $imageTag->getImageTagImageId());
+			$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("imageTag"));
+			$this->assertCount(1, $results);
+			$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Flek\\ImageTag", $results);
+			//grab the results from the array and validate them
+			$pdoImageTag = $results[0];
+			$this->assertEquals($pdoImageTag->getImageTagImageId(), $this->image->getImageId());
+			$this->assertEquals($pdoImageTag->getImageTagTagId(), $this->tag->getTagId());
+		}
 
-    /**
-     * testing a tag by valid image id
-     **/
-    public function testGetValidImageTagByImageTagImageId() {
-		//count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("imageTag");
-		//create a new imageTag and insert it into mySQL
-		$imageTag = new ImageTag($this->image->getImageId(), $this->tag->getTagId());
-        $imageTag->insert($this->getPDO());
-		//grab the data from mySQL and enforce that the fields match our expectations
-		$results = ImageTag::getImageTagByImageId($this->getPDO(), $imageTag->getImageTagImageId());
-        $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("imageTag"));
-        $this->assertCount(1, $results);
-        $this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Flek\\ImageTag", $results);
-        //grab the results from the array and validate them
-        $pdoImageTag = $results[0];
-        $this->assertEquals($pdoImageTag->getImageTagImageId(), $this->image->getImageId());
-        $this->assertEquals($pdoImageTag->getImageTagTagId(), $this->tag->getTagId());
-}
+		/**
+		 * testing an imageTag by invalid image id
+		 **/
 
-/**
- * testing an imageTag by invalid image id
-**/
-
-public function testGetInavlidImageTagByImageTagImageId() {
-		//grab an image id that exceeds max allowed
-		$imageTag = ImageTag::getImageTagByImageId($this->getPDO(), FlekTest::INVALID_KEY);
-		$this->assertCount(0,$imageTag);
-}
+		public function testGetInavlidImageTagByImageTagImageId() {
+			//grab an image id that exceeds max allowed
+			$imageTag = ImageTag::getImageTagByImageId($this->getPDO(), FlekTest::INVALID_KEY);
+			$this->assertCount(0, $imageTag);
+		}
 
 
-
-	/**
-	 * test get imageTag by valid image id and tag id
-	 **/
-	public function testGetValidImageTagByImageIdAndTagId() {
-		// count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("imageTag");
-		// create a new Tag and insert to into mySQL
-		$imageTag = new ImageTag($this->image->getImageId(), $this->tag->getImageId());
-		$imageTag->insert($this->getPDO());
-		// create new imageTag and insert it into mySQL
-		$imageTag = new ImageTag($this->image->getImageId(), $this->tag->getTagId());
+		/**
+		 * test get imageTag by valid image id and tag id
+		 **/
+		public function testGetValidImageTagByImageIdAndTagId() {
+			// count the number of rows and save it for later
+			$numRows = $this->getConnection()->getRowCount("imageTag");
+			// create a new Tag and insert to into mySQL
+			$imageTag = new ImageTag($this->image->getImageId(), $this->tag->getImageId());
+			$imageTag->insert($this->getPDO());
+			// create new imageTag and insert it into mySQL
+			$imageTag = new ImageTag($this->image->getImageId(), $this->tag->getTagId());
 			$imageTag->insert($this->getPDO());
 
-		// grab the data from mySQL and enforce that the fields match our expectations
-		$pdoImageTag = ImageTag::getImageTagByImageIdAndTagId($this->getPDO(), $imageTag->getImageTagImageId(), $imageTag->getImageTagTagId());
+			// grab the data from mySQL and enforce that the fields match our expectations
+			$pdoImageTag = ImageTag::getImageTagByImageIdAndTagId($this->getPDO(), $imageTag->getImageTagImageId(), $imageTag->getImageTagTagId());
 			$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("imageTag"));
 			$this->assertEquals($pdoImageTag->getImageTagImageId(), $this->image->getImageId());
 			$this->assertEquals($pdoImageTag->getImageTagTagid(), $this->tag->getTagId());
-	}
-	/**
-	 * test get imageTag and invalid image id, tag id
-	 **/
-	public function testGetImageTagByImageIdAndTagId() {
-		//grab an image id that exceeds maximum allowed
-		$imageTag = ImageTag::getImageTagByImageIdandTagID($this->getPDO(), FlekTest::INVALID_KEY, FlekTest::INVALID_KEY);
-		$this->assertNull($ImageTag);
-	}
+		}
 
-}
+		/**
+		 * test get imageTag and invalid image id, tag id
+		 **/
+		public function testGetImageTagByImageIdAndTagId() {
+			//grab an image id that exceeds maximum allowed
+			$imageTag = ImageTag::getImageTagByImageIdandTagID($this->getPDO(), FlekTest::INVALID_KEY, FlekTest::INVALID_KEY);
+			$this->assertNull($imageTag);
+		}
+
+	}
 
 
 
