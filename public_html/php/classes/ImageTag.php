@@ -112,7 +112,7 @@ class ImageTag implements \JsonSerializable {
 			throw(new \PDOException("imageTag not valid"));
 		}
 		//create query template
-		$query = "INSERT INTO imageTag(imageTagImageId, imageTagTagId) VALUES(:imageTagImageId, :imageTagTagid)";
+		$query = "INSERT INTO imageTag(imageTagImageId, imageTagTagId) VALUES(:imageTagImageId, :imageTagTagId)";
 		$statement = $pdo->prepare($query);
 		//bind the member variables to the place holders in the template
 		$parameters = ["imageTagImageId" => $this->imageTagImageId, "imageTagTagId" => $this->imageTagTagId];
