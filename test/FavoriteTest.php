@@ -35,6 +35,7 @@ class FavoriteTest extends FlekTest {
 	 * @var Profile profile for Favorite
 	 */
 	//protected $favoriterId = null;
+	protected $favorite = null;
 
 
 	private $hash;
@@ -45,7 +46,7 @@ class FavoriteTest extends FlekTest {
 
 	protected $profileActivationToken = "01234567890123456789012345678901";
 
-	protected $profileActivationToken2 = "243647587688685764859687";
+	protected $profileActivationToken2 = "2 43647587688685764859687";
 	/*
 	 * create dependent objects before running each test
 	 */
@@ -62,7 +63,7 @@ class FavoriteTest extends FlekTest {
 		$this->profile = new Profile(null,"csosa4", "foo@bar.com", "Rio, Rancho", "test is passing", $this->hash, $this->salt, $this->profileAccessToken, $this->profileActivationToken);
 		$this->profile->insert($this->getPDO());
 
-		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $this->profile->getProfileId());
+		//$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $this->profile->getProfileId());
 
 	}
 
@@ -77,11 +78,11 @@ class FavoriteTest extends FlekTest {
 		$profile->insert($this->getPDO());
 
 		// create a new Favorite and insert to into mySQL
-		$favorite = new Favorite($this->profile->getProfileId());
-		$favorite->insert($this->getPDO());
+		$this->favorite = new Favorite($this->profile->getProfileId());
+		$this->favorite->insert($this->getPDO());
 
 		//grab the data from mySQL and enforce the fields match our expectations
-		$results = Favorite::getFavoriteByFavoriteeIdAndFavoriterId($this->getPDO(), $favorite->getFavoriteeId(), $favorite->getFavoriterId());
+		$results = Favorite::getFavoriteByFavoriteeIdAndFavoriterId($this->getPDO(), $profile->getFavoriteeId(), $profile->getFavoriterId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("favorite"));
 $this->assertCount(1, $results);
 
@@ -93,6 +94,7 @@ $this->assertCount(1, $results);
 			$this->assertEquals($pdoFavorite->getFavoriteeId(),$this->profile->getProfileId());
 
 		$this->assertEquals($pdoFavorite->getFavoriterId(), $this->profile->getProfileId());
+		$this->assertEquals($pdoFavorite->getProfileId(), $this->profile->getProfileId());
 		$this->assertEquals($pdoFavorite->getProfileActivationToken(), $this->profileActivationToken);
 }
 

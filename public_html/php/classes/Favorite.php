@@ -39,9 +39,6 @@ class Favorite implements \JsonSerializable {
 	public function __construct(int $newFavoriteeId = null, int $newFavoriterId = null) {
 		try {
 			$this->setFavoriteeId($newFavoriteeId);
-		} catch(\InvalidArgumentException $invalidArgument) {
-			//rethrow the exception to the caller
-			throw(new \InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
 		} catch(\RangeException $range) {
 			//rethrow exception to caller
 			throw(new \RangeException($range->getMessage(), 0, $range));
@@ -68,14 +65,14 @@ class Favorite implements \JsonSerializable {
 	 * @throws \RangeException if $newFavoriteeId is not positive
 	 * @throws \Exception if $newFavoriteeId is not valid
 	 */
-	public function setFavoriteeId(int $newFavoriteeId) {
+	public function setFavoriteeId(int $newFavoriteeId = null) {
 		//if the favoritee id is null this a new favoritee given by sender
-		if($newFavoriteeId = null) {
+		if($newFavoriteeId === null) {
 			$this->FavoriteeId = null;
 			return;
 		}
 		if($newFavoriteeId < 0){
-			throw(\InvalidArgumentException("Incorrect input"));
+			throw(new \RangeException ("Incorrect input"));
 		}
 		// convert and store favoriteeId
 		$this->favoriteeId = intval($newFavoriteeId);
@@ -98,9 +95,15 @@ class Favorite implements \JsonSerializable {
 	 * @throws \InvalidArgument if $newFavoriter is not valid
 	 */
 	public
-	function setFavoriterId(int $newFavoriterId) {
+	function setFavoriterId(int $newFavoriterId = null) {
+		//base case: if the favoriterId is null this a new favorite without a mySQL assigned id (yet)
+		if($newFavoriterId === null) {
+			$this->favoriterId = null;
+			return;
+		}
 		if($newFavoriterId < 0){
-			throw(\InvalidArgumentException("Incorrect input"));
+
+			throw(new\RangeException("Incorrect input"));
 		}
 		// convert and store favoriteeId
 		$this->favoriterId = intval($newFavoriterId);
@@ -115,8 +118,8 @@ class Favorite implements \JsonSerializable {
 	public
 	function insert(\PDO $pdo) {
 		//enforce the favoriteeId is null and favoriterId is null
-		if($this->favoriteeId === null || $this->favoriterId === null) {
-			throw(new \PDOException("cannot enter a foreign key it does not exist"));
+		if($this->favoriterId !== null || $this->favoriteeId !== null) {
+			throw(new \PDOException("not a new favorite id"));
 		}
 		//create query template
 		$query = "INSERT INTO favorite(favoriteeId, favoriterId) VALUES(:favoriteeId, :favoriterId)";
