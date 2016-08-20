@@ -154,7 +154,7 @@ class ImageTagTest extends FlekTest {
 			$this->assertCount(0, $imageTag);
 		}
 
-
+//this test may have redunancies
 		/**
 		 * test get imageTag by valid image id and tag id
 		 **/
