@@ -162,9 +162,6 @@ class ImageTagTest extends FlekTest {
 			// count the number of rows and save it for later
 			$numRows = $this->getConnection()->getRowCount("imageTag");
 			// create a new Tag and insert to into mySQL
-			$imageTag = new ImageTag($this->image->getImageId(), $this->tag->getImageId());
-			$imageTag->insert($this->getPDO());
-			// create new imageTag and insert it into mySQL
 			$imageTag = new ImageTag($this->image->getImageId(), $this->tag->getTagId());
 			$imageTag->insert($this->getPDO());
 
