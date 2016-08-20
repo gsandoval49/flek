@@ -23,7 +23,17 @@ class FavoriteTest extends FlekTest {
 	/*
 	 * Profile that created Favoritee and Favoriter
 	 *@var Profile profile for Favorite
+	 *
 	 */
+	protected $profile = null;
+
+	protected $activate;
+
+	protected $profileAccessToken = "01234567890";
+
+	protected $profileActivationToken = "01234567890123456789012345678901";
+
+
 	protected $favoriteeId = null;
 	/*
 	 * profile that created Favoriter
@@ -35,6 +45,7 @@ class FavoriteTest extends FlekTest {
 	private $hash;
 
 	private $salt;
+
 	/*
 	 * create dependent objects before running each test
 	 */
@@ -48,7 +59,7 @@ class FavoriteTest extends FlekTest {
 		$this->salt = bin2hex(random_bytes(32));
 		$this->hash = hash_pbkdf2("sha256", "abc123", $this->salt, 262144);
 
-		$this->profile = new Profile(null, "csosa4", "foo@bar.com", "Rio, Rancho", "test is passing", $this->hash, $this->salt, "01234567890", "01234567890123456789012345678901");
+		$this->profile = new Profile(null, $this->activate, $this->profileAccessToken, $this->profileActivationToken, "csosa4", "foo@bar.com", "Rio, Rancho", "test is passing", $this->hash, $this->salt, "01234567890", "01234567890123456789012345678901");
 		$this->profile->insert($this->getPDO());
 
 		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $this->profile->getProfileId());
@@ -62,12 +73,15 @@ class FavoriteTest extends FlekTest {
 		//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("favorite");
 
+		$profile = new Profile(null,"01234567890","01234567890123456789012345678901", "csosa4", "bar@foo.com", "Rio, Rancho", "test is passing", $this->hash, $this->salt, "01234567890", "01234567890123456789012345678901");
+		$profile->insert($this->getPDO());
+
 		//create a new Favorite and insert it into mySQL
 		$favorite = new Favorite($this->profile->getProfileId());
 		$favorite->insert($this->getPDO());
 
 		//grab the data from mySQL and enforce the fields match our expectations
-		$results = Favorite::getFavoriteByFavoriteeId(($this->getPDO()), $favorite->getFavoriteeId(), $favorite->getFavoriterId());
+		$results = Favorite::getFavoriteByFavoriteeIdAndFavoriterId($this->getPDO(), $favorite->getFavoriteeId(), $favorite->getFavoriterId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("favorite"));
 $this->assertCount(1, $results);
 

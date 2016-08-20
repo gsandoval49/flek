@@ -59,6 +59,7 @@ class ImageTest extends FlekTest {
 
 	private $salt;
 
+
 	/**
 	 * create dependent objects before running each test
 	 **/
