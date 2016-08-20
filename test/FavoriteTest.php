@@ -29,23 +29,23 @@ class FavoriteTest extends FlekTest {
 
 	protected $activate;
 
-	protected $profileAccessToken = "01234567890";
-
-	protected $profileActivationToken = "01234567890123456789012345678901";
-
-
-	protected $favoriteeId = null;
+	//protected $favoriteeId = null;
 	/*
 	 * profile that created Favoriter
 	 * @var Profile profile for Favorite
 	 */
-	protected $favoriterId = null;
+	//protected $favoriterId = null;
 
 
 	private $hash;
 
 	private $salt;
 
+	protected $profileAccessToken = "01234567890";
+
+	protected $profileActivationToken = "01234567890123456789012345678901";
+
+	protected $profileActivationToken2 = "243647587688685764859687";
 	/*
 	 * create dependent objects before running each test
 	 */
@@ -59,7 +59,7 @@ class FavoriteTest extends FlekTest {
 		$this->salt = bin2hex(random_bytes(32));
 		$this->hash = hash_pbkdf2("sha256", "abc123", $this->salt, 262144);
 
-		$this->profile = new Profile(null, $this->activate, $this->profileAccessToken, $this->profileActivationToken, "csosa4", "foo@bar.com", "Rio, Rancho", "test is passing", $this->hash, $this->salt, "01234567890", "01234567890123456789012345678901");
+		$this->profile = new Profile(null,"csosa4", "foo@bar.com", "Rio, Rancho", "test is passing", $this->hash, $this->salt, $this->profileAccessToken, $this->profileActivationToken);
 		$this->profile->insert($this->getPDO());
 
 		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $this->profile->getProfileId());
@@ -73,10 +73,10 @@ class FavoriteTest extends FlekTest {
 		//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("favorite");
 
-		$profile = new Profile(null,"01234567890","01234567890123456789012345678901", "csosa4", "bar@foo.com", "Rio, Rancho", "test is passing", $this->hash, $this->salt, "01234567890", "01234567890123456789012345678901");
+		$profile = new Profile(null, "csosa4", "bar@foo.com", "Rio, Rancho", "test is passing", $this->hash, $this->salt, "01234567890", "01234567890123456789012345678901");
 		$profile->insert($this->getPDO());
 
-		//create a new Favorite and insert it into mySQL
+		// create a new Favorite and insert to into mySQL
 		$favorite = new Favorite($this->profile->getProfileId());
 		$favorite->insert($this->getPDO());
 
@@ -93,6 +93,7 @@ $this->assertCount(1, $results);
 			$this->assertEquals($pdoFavorite->getFavoriteeId(),$this->profile->getProfileId());
 
 		$this->assertEquals($pdoFavorite->getFavoriterId(), $this->profile->getProfileId());
+		$this->assertEquals($pdoFavorite->getProfileActivationToken(), $this->profileActivationToken);
 }
 
 	/**
