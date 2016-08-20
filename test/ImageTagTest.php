@@ -48,14 +48,14 @@ class ImageTagTest extends FlekTest {
 
 		// create and insert a profile that owns the image
 		// access and activation are included for test purposes; delete if we don't need.
-		$this->profile = new Profile(null, $this->profile->getProfileId(), 130, "John", "foo@bar.com", "Albuquerque", "Hey I am John", $hash, $salt, "fds456", "12345678901234567890123456789012");
+		$this->profile = new Profile(130, "John", "foo@bar.com", "Albuquerque", "Hey I am John", "fds456", "12345678901234567890123456789012");
 
 		//access and activation token & salt and hash generation
 		$password = "madeup4";
 		// $this->VALID_PROFILEACCESSTOKEN = bin2hex(random_bytes(16)); made a dumby above in profile
 		// $this->VALID_PROFILEACTIVATIONTOKEN = bin2hex(random_bytes(16)); made a dumby above in profile
-		$salt = bin2hex(random_bytes(32));
 		$hash = hash_pbkdf2("sha256", $password, $salt, 262144);
+		$salt = bin2hex(random_bytes(32));
 
 		//create and a genre to be linked to image
 		$this->genre = new Genre(null, $this->image->getImageId(), 4, "Painting");
