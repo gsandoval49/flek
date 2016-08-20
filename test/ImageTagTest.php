@@ -48,24 +48,17 @@ class ImageTagTest extends FlekTest {
 
 		// create and insert a profile that owns the image
 		// access and activation are included for test purposes; delete if we don't need.
-		$this->profile = new Profile(130, "John", "foo@bar.com", "Albuquerque", "Hey I am John", "fds456", "12345678901234567890123456789012");
-
-		//access and activation token & salt and hash generation
-		$password = "madeup4";
-		// $this->VALID_PROFILEACCESSTOKEN = bin2hex(random_bytes(16)); made a dumby above in profile
-		// $this->VALID_PROFILEACTIVATIONTOKEN = bin2hex(random_bytes(16)); made a dumby above in profile
-		$hash = hash_pbkdf2("sha256", $password, $salt, 262144);
-		$salt = bin2hex(random_bytes(32));
+		$this->profile = new Profile(null, "j", "test@phpunit.de", "tibuktu", "I eat chickens, mmmmmkay", "12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678","1234567890123456789012345678901234567890123456789012345678901234", "01234567890","01234567890123456789012345678901");
 
 		//create and a genre to be linked to image
-		$this->genre = new Genre(null, $this->image->getImageId(), 4, "Painting");
+		$this->genre = new Genre(null, 4, "Painting");
 
 		//create and insert an image that is owned by profile
-		$this->image = new Image(null, $this->genre->getGenreId(), $this->profile->getProfileId(), 31, 45, 80, "My 
+		$this->image = new Image(null, $this->profile->getProfileId(), 31, 45, 80, "My 
 	pretty image", "www.foobar.com", 2);
 
 		// create and insert a tag to be linked to image
-		$this->tag = new Tag(null, $this->image->getImageId(), $this->profile->getProfileId(), "951", "Dreamer");
+		$this->tag = new Tag(null, "Bob");
 		$this->tag->insert($this->getPDO());
 	}
 
@@ -77,7 +70,7 @@ class ImageTagTest extends FlekTest {
 		$numRows = $this->getConnection()->getRowCount("imageTag");
 
 		// create a new Tag and insert to into mySQL
-		$imageTag = new ImageTag($this->image->getImageId(), $this->tag->getTagId);
+		$imageTag = new ImageTag($this->image->getImageId(), $this->tag->getTagId());
 		$imageTag->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
