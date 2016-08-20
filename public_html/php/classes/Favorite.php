@@ -111,8 +111,7 @@ class Favorite implements \JsonSerializable {
 	public
 	function insert(\PDO $pdo) {
 		//enforce the favoriteeId is null
-		if($this->favoriteeId === null || $this->favoriterId === null)
-		{
+		if($this->favoriteeId === null || $this->favoriterId === null) {
 			throw(new \PDOException("this is not a new favorite id"));
 		}
 		//create query template
@@ -181,52 +180,60 @@ class Favorite implements \JsonSerializable {
 	 * @throws |TypeError when variables are not the correct data type
 	 */
 	public
-	static function getFavoriteByFavoriteeId(\PDO $pdo, int $favoriteeId) {
+	static function getFavoriteeIdByProfileId(\PDO $pdo, int $favoriteeIdProfileId) {
 		//sanitize the favoriteeId before searching
-		if($favoriteeId <= 0) {
+		if($favoriteeIdProfileId <= 0) {
 			throw(new \PDOException("favoritee id is not positive"));
 		}
 		// create query template
-		$query = "SELECT favoriteeId, favoriterId FROM favorite WHERE favoriteeId = :favoriteeId";
+		$query = "SELECT favoriteeId, favoriterId FROM profile WHERE favoriteeIdProfileId = :favoriteeIdProfileId";
 		$statement = $pdo->prepare($query);
 
 		//bind the favoritee Id to the place holder in teh template
-		$parameters = ["favoriteId => $favoriteeId"];
+		$parameters = ["favoriteeIdProfileId => $favoriteeIdProfileId"];
 		$statement->execute($parameters);
 
-		//grab the favorite from mySQL
-		try {
-			$favorite = null;
-			$statement->setFetchMode(\PDO::FETCH_ASSOC);
-			$row = $statement->fetch();
-			if($row !== false) {
-				$favorite = new Favorite ($row["favoriteeId"], $row["favoriterId"]);
+		//build an array of reviewTags
+		$favorites = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+
+			//grab the favorite from mySQL
+			try {
+
+				$favorite = new Favorite($row["favoriteeId"], $row["favoriterId"]);
+				$favorites[$favorites->key()] = $favorite;
+				$favorites->next();
+			} catch(\Exception $exception) {
+				//if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
-		} catch(\Exception $exception) {
-			//if the row couldn't be converted, rethrow it
-			throw(new \PDOException($exception->getMessage(), 0, $exception));
+
+
+			return ($favorites);
 		}
-		return ($favorite);
 	}
 
-	/* gets the favorite by favoriterId
+	/* gets the favoriterId by ProfileId
   * @param \PDO $pdo PDO connection object
   * @param int $favoriterId favoritee id to search for
 		* @return favorite|null favorite found or null if not found
   * @throws \PDOException when mySQL related erros occur
   * @throws |TypeError when variables are not the correct data type
   */
-	public static function getFavoriteByFavoriterId(\PDO $pdo, int $favoriterId) {
+
+	public
+	static function getFavoriterIdByProfileId(\PDO $pdo, int $favoriterIdProfileId) {
 		//sanitize the favoriteeId before searching
-		if($favoriterId <= 0) {
+		if($favoriterIdProfileId <= 0) {
 			throw(new \PDOException("favoritee id is not positive"));
 		}
-		// create query templatte
-		$query = "SELECT favoriteeId, favoriterId FROM favorite WHERE favoriterId = :favoriterId";
+		// create query template
+		$query = "SELECT favoriteeIdProfileId, favoriterIdProfileId FROM favorite WHERE favoriterId = :favoriterId";
 		$statement = $pdo->prepare($query);
 
-		//bind the favoritee Id to theplace holder in teh template
-		$parameters = array("favoriterId => $favoriterId");
+		//bind the favoritee Id to the place holder in teh template
+		$parameters = ["favoriteIdProfileId => $favoriterIdProfileId"];
 		$statement->execute($parameters);
 
 		//grab the favorite from mySQL
@@ -245,36 +252,28 @@ class Favorite implements \JsonSerializable {
 	}
 
 
-
-
-
-	 ///get Favoritee Id by Favoriter Id
 	/**
-	 * gets the reviewTag by both review id and tag id
+	 * gets the favorite by both favoriteeId and favoriterid
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param int $favoritee id to search for
-	 * @param int $favoriter id to search for
-	 * @return favoriteeId || favoriterId|null reviewTag if found or null if not
+	 * @param int $favoriteeIdProfileId to search for
+	 * @param int $favoriterIdProfileId to search for
+	 * @return favorite|null favorite if found or null if not
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not of the correct data type
-	 * */
-	public static function getFavoriteByFavoriteeIdByFavoriterId(\PDO $pdo, int $favoriteeId, int $favoriterId) {
+	 **/
+	public static function getFavoriteeIdAndFavoriterIdByProfileId(\PDO $pdo, int $favoriteeIdProfileId, int $favoriterIdProfileId) {
 		//sanitize the profileId before searching
-		if($favoriteeId < 0) {
+		if($favoriteeIdProfileId < 0) {
 			throw(new \PDOException("review id is not positive"));
 		}
-		if($favoriterId < 0) {
+		if($favoriterIdProfileId < 0) {
 			throw(new \PDOException("tag is is not positive"));
 
 
 			//create a query template
-			$query = "SELECT favoriteeId, favoriterId FROM favorite WHERE favoriteeId = :favoriteeId AND favoriterId = :favoriterId";
+			$query = "SELECT favoriteeIdProfileId, favoriterIdProfileId FROM favorite WHERE favoriteeIdProfileId = :favoriteeIdProfileId AND favoriterIdProfileId = :favoriterIdProfileId";
 			$statement = $pdo->prepare($query);
-
-			//bind the profileId to the place holder in the template
-			$parameters = array("favoriteeId" => $favoriteeId, "favoriterId" => $favoriterId);
-			$statement->execute($parameters);
 
 			//grab the reviewTag from mySQL
 			try {
@@ -282,19 +281,16 @@ class Favorite implements \JsonSerializable {
 				$statement->setFetchMode(\PDO::FETCH_ASSOC);
 				$row = $statement->fetch();
 				if($row !== false) {
-					$favorite = new Favorite($row["favoriteeId"], $row["favoriterId"]);
+					$favorite = new favorite($row["favoriteeIdProfileId"], $row["favoriterIdProfileId"]);
 				}
 			} catch(\Exception $exception) {
 				//if the row couldn't be converted rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 			return ($favorite);
-
 		}
+
 	}
-
-
-
 
 	/*
 	 * gets all Favorites
@@ -304,7 +300,7 @@ class Favorite implements \JsonSerializable {
 	 */
 	public static function getAllFavorites(\PDO $pdo) {
 		//create query template
-		$query = "SELECT favoriteeId, favoriterId FROM favorite";
+		$query = "SELECT favoriteeIdProfileId, favoriterIdProfileId FROM favorite";
 		$statement = $pdo->prepare($query);
 		$statement->execute();
 
@@ -313,7 +309,7 @@ class Favorite implements \JsonSerializable {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$favorite = new Favorite($row["favoriteeId"], $row["favoriterId"]);
+				$favorite = new Favorite($row["favoriteeIdProfileId"], $row["favoriterIdProfileId"]);
 				$favorites[$favorites->key()] = $favorite;
 				$favorites->next();
 			} catch(\Exception $exception) {

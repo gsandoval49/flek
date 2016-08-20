@@ -73,14 +73,17 @@ class FavoriteTest extends FlekTest {
 
 		//no Dependent objects therefore no setup was setup
 
-		$favorite = new Favorite($this->profile->getFavoriterByProfileId());
+		$favorite = new Favorite($this->getProfileId(), $this->profile->getProfileId);
 		$favorite->insert($this->getPDO());
 
 
 		//grab the data from mySQL and enforce the fields match our expectations
-		$pdoFavorite = Favorite::getFavoriteByFavoriteeId($this->getPDO(), $favorite->getFavoriteeId(),
-			$favorite->getFavoriterId());
+		$results = Favorite::getFavoriteeIdByFavoriterId($this->getPDO(), $favorite->getFavoriteeId(), $favorite->getFavoriterId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("favorite"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Flek\\Favorite", $results);
+
+		$pdoFavorite = $results[0];
 		$this->assertEquals($pdoFavorite->getFavoriteeId(), $this->profile->getProfileId());
 		$this->assertEquals($pdoFavorite->getFavoriterId(), $this->profile->getProfileId());
 
