@@ -197,7 +197,7 @@ class ImageTag implements \JsonSerializable {
 		$statement = $pdo->prepare($query);
 
 		//bind the ImageTagTag Id to theplace holder in teh template
-		$parameters = ["imageTagTagid" => imageTagTagId];
+		$parameters = ["imageTagTagId" => imageTagTagId];
 		$statement->execute($parameters);
 
 		//build an array of imageTags tags

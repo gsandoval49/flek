@@ -150,7 +150,7 @@ class ImageTagTest extends FlekTest {
 
 		public function testGetInavlidImageTagByImageTagImageId() {
 			//grab an image id that exceeds max allowed
-			$imageTag = ImageTag::getImageTagByImageId($this->getPDO(), FlekTest::INVALID_KEY);
+			$imageTag = ImageTag::getImageTagByTagImageId($this->getPDO(), FlekTest::INVALID_KEY);
 			$this->assertCount(0, $imageTag);
 		}
 
