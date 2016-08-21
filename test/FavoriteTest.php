@@ -25,18 +25,9 @@ class FavoriteTest extends FlekTest {
 	 *@var Profile profile for Favorite
 	 *
 	 **/
-	protected $profile = null;
+	protected $favoriteeId = null;
 
-	protected $activate;
-
-	//protected $favoriteeId = null;
-	/*
-	 * profile that created Favoriter
-	 * @var Profile profile for Favorite
-	 */
-	//protected $favoriterId = null;
-	protected $favorite = null;
-
+	protected $favoriterId = null;
 
 	private $hash;
 
@@ -60,10 +51,15 @@ class FavoriteTest extends FlekTest {
 		$this->salt = bin2hex(random_bytes(32));
 		$this->hash = hash_pbkdf2("sha256", "abc123", $this->salt, 262144);
 
-		$this->profile = new Profile(null,"csosa4", "foo@bar.com", "Rio, Rancho", "test is passing", $this->hash, $this->salt, $this->profileAccessToken, $this->profileActivationToken);
+		$this->profile = new Profile(null,"csosa4", "foo@bar1.com", "Rio, Rancho", "test is passing", $this->hash, $this->salt, $this->profileAccessToken, $this->profileActivationToken);
 		$this->profile->insert($this->getPDO());
 
 		//$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $this->profile->getProfileId());
+		$this->favoriteeId = new Profile(null,"csosa4", "foo@bar.com", "Rio, Rancho", "test is passing", $this->hash, $this->salt, $this->profileAccessToken, $this->profileActivationToken);
+		$this->favoriteeId->insert($this->getPDO());
+		//create and insert a Profile favorite to be given
+		$this->favoriterId = new Profile(null,"csosa4", "bar@foo2.com", "Rio, Rancho", "test is passing", $this->hash, $this->salt, $this->profileAccessToken, $this->profileActivationToken);
+		$this->favoriterId->insert($this->getPDO());
 
 	}
 
@@ -74,15 +70,15 @@ class FavoriteTest extends FlekTest {
 		//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("favorite");
 
-		$profile = new Profile(null, "csosa4", "bar@foo.com", "Rio, Rancho", "test is passing", $this->hash, $this->salt, "01234567890", "01234567890123456789012345678901");
-		$profile->insert($this->getPDO());
+		//$profile = new Profile(null, "csosa4", "bar@foo.com", "Rio, Rancho", "test is passing", $this->hash, $this->salt, "01234567890", "01234567890123456789012345678901");
+		//$profile->insert($this->getPDO());
 
 		// create a new Favorite and insert to into mySQL
-		$this->favorite = new Favorite($this->profile->getProfileId());
-		$this->favorite->insert($this->getPDO());
+		$favorite = new Favorite($this->favoriteeId->getProfileId(),$this->favoriterId->getProfileId(), $this->hash, $this->salt, "01234567890", "01234567890123456789012345678901");
+		$favorite->insert($this->getPDO());
 
 		//grab the data from mySQL and enforce the fields match our expectations
-		$results = Favorite::getFavoriteByFavoriteeIdAndFavoriterId($this->getPDO(), $profile->getFavoriteeId(), $profile->getFavoriterId());
+		$results = Favorite::getFavoriteByFavoriteeIdAndFavoriterId($this->getPDO(), $favorite->getFavoriteeId(), $favorite->getFavoriterId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("favorite"));
 		$this->assertCount(1, $results);
 
