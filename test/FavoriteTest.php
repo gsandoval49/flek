@@ -47,7 +47,7 @@ class FavoriteTest extends FlekTest {
 	protected $profileActivationToken = "01234567890123456789012345678901";
 
 	protected $profileActivationToken2 = "2 43647587688685764859687";
-	/*
+	/**
 	 * create dependent objects before running each test
 	 */
 	public final function setUp() {
@@ -109,9 +109,9 @@ $this->assertCount(1, $results);
 
 	}
 
-	/*
+	/**
 	 * test creating a Favorite and then deleting it
-	 */
+	 **/
 	public function testDeleteValidFavorite() {
 		//count the number the rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("favorite");
@@ -129,20 +129,20 @@ $this->assertCount(1, $results);
 		$this->assertEquals($numRows, $this->getConnection()->getRowCount("favorite"));
 	}
 
-	/*
+	/**
 	 * test deleting a Favorite that does not exist
 	 *
 	 * @expected Exception PDOException
-	 */
+	 **/
 	public function testDeleteInvalidFavorite() {
 		// create a Favorite and try to delete it without actually inserting it
 		$favorite = new Favorite($this->profile->getProfileId());
 		$favorite->delete($this->getPDO());
 	}
 
-	/*
+	/**
 	 * test inserting a Favorite and regrabbing it from mySQL
-	 */
+	 **/
 	public function testGetValidFavoriteByFavoriteeIdAndFavoriterId() {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("favorite");
@@ -159,9 +159,9 @@ $this->assertCount(1, $results);
 
 	}
 
-	/*
+	/**
 	 * test grabbing a Favorite that does not exist
-	 */
+	 **/
 	public function testGetInvalidFavoriteByFavoriteeIdAndFavoriterId() {
 		//grab a favorite id that exceeds the masimum allowable favorite id
 		$favorite = Favorite::FavoriteByFavoriteeIdAndFavoriterId($this->getPDO(), FlekTest::INVALID_KEY, FlekTest::INVALID_KEY);
