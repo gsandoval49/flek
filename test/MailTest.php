@@ -63,8 +63,10 @@ class MailTest extends FlekTest {
 	//run the default set up() method first
 		parent::setUp();
 
-		//for unit testing, probably needs to resolve issue with activationToken in ProfileTest
-		//ask and check to make sure everything is 1-1 with the attributes in Profile
+
+		//supposedly this is the "manual" method of setting up two foreign keys
+
+		// the attributes here need to match up to the class 1-1
 		//create and insert a Profile to send the test Message
 
 		$this->mailSenderId = new Profile(null, "j", "test@phpunit.de", "tibuktu", "I eat chickens, mmmmmkay", "12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678","1234567890123456789012345678901234567890123456789012345678901234", "01234567890","01234567890123456789012345678901");

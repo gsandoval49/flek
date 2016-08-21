@@ -109,16 +109,15 @@ class Favorite implements \JsonSerializable {
 		$this->favoriterId = intval($newFavoriterId);
 		}
 
-	/*
+	/**
 	 * inserts this Favorite into mySQL
 	 * @param \PDO $pdo PDO connection object
 	 * @throws \PDOException wheny mySQL related errors
 	 * @throws \TypeError if $pdo is not a PDO connection object
-	 */
-	public
-	function insert(\PDO $pdo) {
-		//enforce the favoriteeId is null and favoriterId is null
-		if($this->favoriterId !== null || $this->favoriteeId !== null) {
+	 **/
+	public function insert(\PDO $pdo) {
+		//enforce the favoriteeId is null and faFvoriterId is null
+		if($this->favoriteeId !== null || $this->favoriterId !== null) {
 			throw(new \PDOException("not a new favorite id"));
 		}
 		//create query template
