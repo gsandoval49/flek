@@ -7,8 +7,8 @@
 			<!--<file>GenreTest.php</file>-->
 			<!--<file>ImageTest.php</file>-->
 			<!--<file>TagTest.php</file>-->
-			<!--<file>ImageTagTest.php</file>-->
-			<file>FavoriteTest.php</file>
+			<file>ImageTagTest.php</file>
+			<!--<file>FavoriteTest.php</file>-->
 		</testsuite>
 	</testsuites>
 	<filter>
