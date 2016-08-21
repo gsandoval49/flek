@@ -142,7 +142,7 @@ class ImageTagTest extends FlekTest {
 			$imageTag = new ImageTag($this->image->getImageId(), $this->tag->getTagId());
 			$imageTag->insert($this->getPDO());
 			//grab the data from mySQL and enforce that the fields match our expectations
-			$results = ImageTag::getImageTagByImageId($this->getPDO(), $imageTag->getImageTagImageId());
+			$results = ImageTag::getImageTagByTagImageId($this->getPDO(), $imageTag->getImageTagImageId());
 			$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("imageTag"));
 			$this->assertCount(1, $results);
 			$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Flek\\ImageTag", $results);

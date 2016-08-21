@@ -133,7 +133,7 @@ class ImageTag implements \JsonSerializable {
 			throw(new \PDOException("unable to delete a ImageTag that does not exist"));
 		}
 		//create a query template
-		$query = "DELETE FROM imageTag WHERE (imageTagImageId = :imageTagImageid AND imageTagTagId = :imageTagTagId)";
+		$query = "DELETE FROM imageTag WHERE (imageTagImageId = :imageTagImageId AND imageTagTagId = :imageTagTagId)";
 		$statement = $pdo->prepare($query);
 
 		//bind the member variables to the place holder in the template
@@ -154,12 +154,12 @@ class ImageTag implements \JsonSerializable {
 		if($imageTagImageId <= 0) {
 			throw(new \PDOException("image id is not positive"));
 		}
-		// create query templatte
+		// create query template
 		$query = "SELECT imageTagImageId, imageTagTagId FROM imageTag WHERE imageTagImageId = :imageTagImageId";
 		$statement = $pdo->prepare($query);
 
 		//bind the variables to the place holder in teh template
-		$parameters = ["imageTagImageId => $imageTagImageId"];
+		$parameters = ["imageTagImageId"=> $imageTagImageId];
 		$statement->execute($parameters);
 
 		//build an arary of image tags
