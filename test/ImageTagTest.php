@@ -85,7 +85,7 @@ class ImageTagTest extends FlekTest {
 		/*$this->assertCount(1, $results);
 		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Flek\\Image", $results);*/
 		$this->assertEquals($pdoImageTag->getImageTagImageId(), $this->image->getImageId());
-		$this->assertEquals($pdoImageTag->getImageTagTagId(), $this->image->getImageId());
+		$this->assertEquals($pdoImageTag->getImageTagTagId(), $this->tag->getTagId());
 
 		//grab the results from the array and validate them
 //		$pdoImageTag = $results[0];
