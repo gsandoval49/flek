@@ -40,6 +40,18 @@ class ImageTagTest extends FlekTest {
 	protected $genre = null;
 
 	/**
+	 * image id for the image being linked with tags; this is a foreign key
+	 * @var int $imageTagImageId
+	 **/
+	protected $imageTagImageId;
+	/**
+	 * tag id for the tag being linked to the image; this is a foreign key
+	 * @var int $imageTagImageId
+	 **/
+	protected $imageTagTagId;
+
+
+	/**
 	 * create dependent objects for each foreign key before running test
 	 **/
 	public final function setUp() {
