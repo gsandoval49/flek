@@ -51,13 +51,17 @@ class ImageTagTest extends FlekTest {
 		// create and insert a profile that owns the image
 		// access and activation are included for test purposes; delete if we don't need.
 		$this->profile = new Profile(null, "j", "test@phpunit.de", "tibuktu", "I eat chickens, mmmmmkay", "12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678","1234567890123456789012345678901234567890123456789012345678901234", "01234567890","01234567890123456789012345678901");
+		$this->profile->insert($this->getPDO());
 
 		//create and a genre to be linked to image
 		$this->genre = new Genre(null, 4, "Painting");
+		$this->genre->insert($this->getPDO());
 
 		//create and insert an image that is owned by profile
-		$this->image = new Image(null, $this->profile->getProfileId(), 31, 45, 80, "My 
+		$this->image = new Image(null, $this->genre->getGenreId(),$this->profile->getProfileId(), "My 
 	pretty image", "www.foobar.com", 2);
+		$this->image->insert($this->getPDO());
+
 
 		// create and insert a tag to be linked to image
 		$this->tag = new Tag(null, "Bob");
