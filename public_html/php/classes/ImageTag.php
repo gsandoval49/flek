@@ -235,7 +235,7 @@ class ImageTag implements \JsonSerializable {
 			throw (new \PDOException("tag id is not positive"));
 		}
 		//create a query template
-		$query = "SELECT imageTagImageId, imageTagTAgId FROM imageTag WHERE imageTagImageId = :imageTagImageId AND imageTagTagId = :imageTagTagId;";
+		$query = "SELECT imageTagImageId, imageTagTagId FROM imageTag WHERE imageTagImageId = :imageTagImageId AND imageTagTagId = :imageTagTagId;";
 		$statement = $pdo->prepare($query);
 		//bind the variables to the placeholders in the template
 		$parameters = ["imageTagImageId" => $imageTagImageId, "imageTagTagId" => $imageTagTagId];
