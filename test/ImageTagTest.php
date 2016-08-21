@@ -32,23 +32,13 @@ class ImageTagTest extends FlekTest {
 	 * tag that is linked to image
 	 * @var string Tag tag
 	 **/
-	protected $tag = null;
+	protected $tag = "user created tag";
 	/**
 	 * genre that is linked to image
 	 * @var string Genre genre
 	 **/
 	protected $genre = null;
 
-	/**
-	 * image id for the image being linked with tags; this is a foreign key
-	 * @var int $imageTagImageId
-	 **/
-	protected $imageTagImageId;
-	/**
-	 * tag id for the tag being linked to the image; this is a foreign key
-	 * @var int $imageTagImageId
-	 **/
-	protected $imageTagTagId;
 
 
 	/**

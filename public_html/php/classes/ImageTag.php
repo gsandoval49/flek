@@ -90,13 +90,13 @@ class ImageTag implements \JsonSerializable {
 	 * @throws \RangeException if  $newImageTagTagId is not positive
 	 * @throws \TypeError if $newImageTagTagId is not an integer
 	**/
-	public function setImageTagTagId(int $newImageTagTagid) {
+	public function setImageTagTagId(int $newImageTagTagId) {
 		//verify id is positive
-		if($newImageTagTagid < 0) {
+		if($newImageTagTagId < 0) {
 			throw(new \RangeException("tag id is not positive"));
 		}
 		//convert adn store the tag id
-		$this->imageTagTagId = $newImageTagTagid;
+		$this->imageTagTagId = $newImageTagTagId;
 	}
 
 	/**
@@ -129,7 +129,7 @@ class ImageTag implements \JsonSerializable {
 	 **/
 	public function delete(\PDO $pdo) {
 		//check that tag exists before deleting it
-		if($this->imageTagImageId === null || $this->iamgeTagTagId === null) {
+		if($this->imageTagImageId === null || $this->imageTagTagId === null) {
 			throw(new \PDOException("unable to delete a ImageTag that does not exist"));
 		}
 		//create a query template
@@ -137,7 +137,7 @@ class ImageTag implements \JsonSerializable {
 		$statement = $pdo->prepare($query);
 
 		//bind the member variables to the place holder in the template
-		$parameters = ["iamgeTagImageId" => $this->imageTagImageId, "imageTagTagId" => $this->imageTagTagId];
+		$parameters = ["imageTagImageId" => $this->imageTagImageId, "imageTagTagId" => $this->imageTagTagId];
 		$statement->execute($parameters);
 	}
 
@@ -197,7 +197,7 @@ class ImageTag implements \JsonSerializable {
 		$statement = $pdo->prepare($query);
 
 		//bind the ImageTagTag Id to theplace holder in teh template
-		$parameters = ["imageTagTagId" => imageTagTagId];
+		$parameters = ["imageTagTagId" => $imageTagTagId];
 		$statement->execute($parameters);
 
 		//build an array of imageTags tags
