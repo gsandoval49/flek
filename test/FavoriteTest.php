@@ -9,7 +9,7 @@ require_once(dirname(__DIR__) . "/public_html/php/classes/autoload.php");
 //grab the class
 require_once("FlekTest.php");
 
-/*
+/**
  * Full PHPUnit test for the Favorite Class
  *
  * This is a complete PHPUnit test of the Favorite class. It is complete because *ALL* mySQL/PDO enabled methods
@@ -17,14 +17,14 @@ require_once("FlekTest.php");
  *
  * @see Favorite
  * @author Diane Peshlakai <dpeshlakai3@cnm.edu>
- */
+ **/
 
 class FavoriteTest extends FlekTest {
-	/*
+	/**
 	 * Profile that created Favoritee and Favoriter
 	 *@var Profile profile for Favorite
 	 *
-	 */
+	 **/
 	protected $profile = null;
 
 	protected $activate;

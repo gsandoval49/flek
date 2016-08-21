@@ -162,7 +162,7 @@ class ImageTag implements \JsonSerializable {
 		$parameters = ["imageTagImageId"=> $imageTagImageId];
 		$statement->execute($parameters);
 
-		//build an arary of image tags
+		//build an array of image tags
 		$imageTags = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement ->fetch()) !==false) {
