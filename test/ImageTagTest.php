@@ -177,7 +177,7 @@ class ImageTagTest extends FlekTest {
 			$pdoImageTag = ImageTag::getImageTagByImageIdAndTagId($this->getPDO(), $imageTag->getImageTagImageId(), $imageTag->getImageTagTagId());
 			$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("imageTag"));
 			$this->assertEquals($pdoImageTag->getImageTagImageId(), $this->image->getImageId());
-			$this->assertEquals($pdoImageTag->getImageTagTagid(), $this->tag->getTagId());
+			$this->assertEquals($pdoImageTag->getImageTagTagId(), $this->tag->getTagId());
 		}
 
 		/**
@@ -185,7 +185,7 @@ class ImageTagTest extends FlekTest {
 		 **/
 		public function testGetImageTagByImageIdAndTagId() {
 			//grab an image id that exceeds maximum allowed
-			$imageTag = ImageTag::getImageTagByImageIdandTagID($this->getPDO(), FlekTest::INVALID_KEY, FlekTest::INVALID_KEY);
+			$imageTag = ImageTag::getImageTagByImageIdAndTagId($this->getPDO(), FlekTest::INVALID_KEY, FlekTest::INVALID_KEY);
 			$this->assertNull($imageTag);
 		}
 
