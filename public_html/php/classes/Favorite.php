@@ -95,8 +95,8 @@ class Favorite implements \JsonSerializable {
 	/**
 	 * mutator method for favoriter id
 	 * @param int|null $newFavoriter new value of favoriter id
-	 * @throws \InvalidArgument if $newFavoriter is not valid
-	 */
+	 * @throws \RangeException if $newFavoriter is not valid
+	 **/
 	public function setFavoriterId(int $newFavoriterId) {
 		//base case: if the favoriterId is null this a new favorite without a mySQL assigned id (yet)
 		if($newFavoriterId <= 0) {
@@ -191,7 +191,8 @@ class Favorite implements \JsonSerializable {
 		}
 
 
-	/** gets the favoriterId by ProfileId
+	/**
+	 * gets the favoriterId by ProfileId
   * @param \PDO $pdo PDO connection object
   * @param int $favoriterId favoritee id to search for
 	*@return favorite|null favorite found or null if not found
