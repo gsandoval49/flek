@@ -41,7 +41,12 @@ class Favorite implements \JsonSerializable {
 		try {
 			$this->setFavoriteeId($newFavoriteeId);
 			$this->setFavoriterId($newFavoriterId);
-		} catch(\RangeException $range) {
+		}
+		catch(\InvalidArgumentException $invalidargument) {
+			//rethrow invalid argument to caller
+			throw(new \InvalidArgumentException($invalidargument->getMessage(), 0, $invalidargument));
+		}
+		 catch(\RangeException $range) {
 			//rethrow exception to caller
 			throw(new \RangeException($range->getMessage(), 0, $range));
 		} catch(\TypeError $typeError) {
@@ -67,14 +72,11 @@ class Favorite implements \JsonSerializable {
 	 * @throws \RangeException if $newFavoriteeId is not positive
 	 * @throws \Exception if $newFavoriteeId is not valid
 	 */
-	public function setFavoriteeId(int $newFavoriteeId = null) {
+	public function setFavoriteeId(int $newFavoriteeId) {
 		//if the favoritee id is null this a new favoritee given by sender
-		if($newFavoriteeId === null) {
-			$this->favoriteeId = null;
-			return;
-		}
-		if($newFavoriteeId < 0){
-			throw(new \RangeException ("Incorrect input"));
+
+		if($newFavoriteeId <= 0){
+			throw(new \RangeException ("favoritee id cannot be equal to null"));
 		}
 		// convert and store favoriteeId
 		$this->favoriteeId = intval($newFavoriteeId);
@@ -96,15 +98,10 @@ class Favorite implements \JsonSerializable {
 	 * @param int|null $newFavoriter new value of favoriter id
 	 * @throws \InvalidArgument if $newFavoriter is not valid
 	 */
-	public function setFavoriterId(int $newFavoriterId = null) {
+	public function setFavoriterId(int $newFavoriterId) {
 		//base case: if the favoriterId is null this a new favorite without a mySQL assigned id (yet)
-		if($newFavoriterId === null) {
-			$this->favoriterId = null;
-			return;
-		}
-		if($newFavoriterId < 0){
-
-			throw(new\RangeException("Incorrect input"));
+		if($newFavoriterId <= 0) {
+			throw(new \RangeException("favoriter id cannot be equal to null"));
 		}
 		// convert and store favoriteeId
 		$this->favoriterId = intval($newFavoriterId);
@@ -118,7 +115,7 @@ class Favorite implements \JsonSerializable {
 	 **/
 	public function insert(\PDO $pdo) {
 		//enforce the favoriteeId is null and FavoriterId is null
-		if($this->favoriteeId == null || $this->favoriterId == null) {
+		if($this->favoriteeId === null || $this->favoriterId === null) {
 			throw(new \PDOException("not a new favoritee id or favoriter id"));
 		}
 		//create query template
@@ -128,10 +125,6 @@ class Favorite implements \JsonSerializable {
 		$parameters = ["favoriteeId" => $this->favoriteeId, "favoriterId" => $this->favoriterId];
 		$statement->execute($parameters);
 
-		// update the null favoriteeId with
-		// what mySQL just gave us
-		$this->favoriteeId = intval($pdo->lastInsertId());
-		$this->favoriterId = intval($pdo->lastInsertId());
 	}
 
 	/**

@@ -21,6 +21,11 @@ require_once("FlekTest.php");
 
 class FavoriteTest extends FlekTest {
 	/**
+	 * profile that favorited the profile; this is for the foreign key relations
+	 * @var Profile profile
+	 * */
+	protected $profile = null;
+	/**
 	 * Profile that created Favoritee and Favoriter
 	 *@var Profile $favoriteeId	 *
 	 **/
@@ -30,6 +35,7 @@ class FavoriteTest extends FlekTest {
 	 *@var Profile $favoriterId	 *
 	 **/
 	protected $favoriterId = null;
+
 
 	/**
 	 * create dependent objects before running each test
@@ -75,8 +81,8 @@ class FavoriteTest extends FlekTest {
 
 		$pdoFavorite = Favorite::getFavoriteByFavoriteeIdAndFavoriterId($this->getPDO(), $favorite->getFavoriteeId(), $favorite->getFavoriterId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("favorite"));
-		$this->assertEquals($pdoFavorite->getFavoriteeId(), $this->favoriteeId->getProfileId());
-		$this->assertEquals($pdoFavorite->getFavoriterId(), $this->favoriterId->getProfileId());
+		$this->assertEquals($pdoFavorite->getFavoriteFavoriteeId(), $this->favoriteeId->getProfileId());
+		$this->assertEquals($pdoFavorite->getFavoriteFavoriterId(), $this->favoriterId->getProfileId());
 	}
 
 	/**
@@ -86,7 +92,7 @@ class FavoriteTest extends FlekTest {
 	 **/
 	public function testInsertInvalidFavorite() {
 		//create an Favorite with a null composite key (favoriteeId and favoriterId) and watch it fail
-		$favorite = new Favorite(FlekTest::INVALID_KEY,$this->favoriteeId->getProfileId(), $this->favoriterId->getProfileId());
+		$favorite = new Favorite($this->favoriteeId->getProfileId(), $this->favoriterId->getProfileId());
 		$favorite->insert($this->getPDO());
 
 	}
