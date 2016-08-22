@@ -60,7 +60,7 @@ class Favorite implements \JsonSerializable {
 	/**
 	 * accessor method for favoritee id
 	 * @return int value of favoritee id
-	 */
+	 **/
 	public function getFavoriteeId() {
 		return ($this->favoriteeId);
 	}
@@ -86,7 +86,7 @@ class Favorite implements \JsonSerializable {
 	/**
 	 * accessor method for favoriter id
 	 * @return int value of favoriter id
-	 */
+	 **/
 	public
 	function getFavoriterId() {
 		return ($this->favoriterId);
