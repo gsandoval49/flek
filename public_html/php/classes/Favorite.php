@@ -82,7 +82,7 @@ class Favorite implements \JsonSerializable {
 
 
 
-	/*
+	/**
 	 * accessor method for favoriter id
 	 * @return int value of favoriter id
 	 */
@@ -91,12 +91,12 @@ class Favorite implements \JsonSerializable {
 		return ($this->favoriterId);
 	}
 
-	/*
+	/**
 	 * mutator method for favoriter id
 	 * @param int|null $newFavoriter new value of favoriter id
 	 * @throws \InvalidArgument if $newFavoriter is not valid
 	 */
-	public  function setFavoriterId(int $newFavoriterId = null) {
+	public function setFavoriterId(int $newFavoriterId = null) {
 		//base case: if the favoriterId is null this a new favorite without a mySQL assigned id (yet)
 		if($newFavoriterId === null) {
 			$this->favoriterId = null;
@@ -134,7 +134,7 @@ class Favorite implements \JsonSerializable {
 		$this->favoriterId = intval($pdo->lastInsertId());
 	}
 
-	/*
+	/**
 	 * deletes this favorite from my SQL
 	 * @param \PDO $pdo PDO connection object
 	 * @throws \PDOException when mySQL related erros occur
@@ -142,25 +142,21 @@ class Favorite implements \JsonSerializable {
 	 */
 	public function delete(\PDO $pdo) {
 		//enforce the favoritee Id is not null
-		if($this->favoriteeId === null) {
+		if($this->favoriteeId === null || $this->favoriterId === null) {
 			throw(new \PDOException("unable to delete a favoritee that does not exist"));
 		}
 		//create a query template
-		$query = "DELETE FROM favorite WHERE favoriteeId = :favoriteeId";
+		$query = "DELETE FROM favorite WHERE (favoriteeId = :favoriteeId AND favoriterId = :favoriterI)";
 		$statement = $pdo->prepare($query);
 
 		//bind the member variables to the place holder in the template
-		$parameters = ["favoriteeId" => $this->favoriteeId];
+		$parameters = ["favoriteeId" => $this->favoriteeId, "favoriterId" => $this->favoriterId];
+
 		$statement->execute($parameters);
 	}
 
-	/*
-	 * updates this Favorite in mySQL
-	 * @param \PDO $pdo PDO connection object
-	 * @throws \PDOException when mySQL related erros occur
-	 * @throws \TypeError if $pdo is not a PDO connection object
 
-	/*
+	/**
 	 * gets the favorite by favoriteeId
 	 * @param \PDO $pdo PDO connection object
 	 * @param int $favoriteeId favoritee id to search for
@@ -168,8 +164,7 @@ class Favorite implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related erros occur
 	 * @throws |TypeError when variables are not the correct data type
 	 */
-	public
-	static function getFavoriteByFavoriteeId(\PDO $pdo, int $favoriteeId) {
+	public static function getFavoriteByFavoriteeId(\PDO $pdo, int $favoriteeId) {
 
 		//sanitize the favoriteeId before searching
 		if($favoriteeId <= 0) {
@@ -204,7 +199,7 @@ class Favorite implements \JsonSerializable {
 		}
 
 
-	/* gets the favoriterId by ProfileId
+	/** gets the favoriterId by ProfileId
   * @param \PDO $pdo PDO connection object
   * @param int $favoriterId favoritee id to search for
 		* @return favorite|null favorite found or null if not found
@@ -212,8 +207,7 @@ class Favorite implements \JsonSerializable {
   * @throws |TypeError when variables are not the correct data type
   */
 
-	public
-	static function getFavoriteByFavoriterId(\PDO $pdo, int $favoriterId) {
+	public static function getFavoriteByFavoriterId(\PDO $pdo, int $favoriterId) {
 		//sanitize the favoriteeId before searching
 		if($favoriterId <= 0) {
 			throw(new \PDOException("favoritee id is not positive"));

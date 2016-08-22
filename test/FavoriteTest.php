@@ -38,12 +38,12 @@ class FavoriteTest extends FlekTest {
 		// run the parent method first
 		parent::setUp();
 		//create and insert a Profile favoritee to be given
-		$favoriteeId = new Profile(null,"csosa4", "foo@bar.com", "Rio, Rancho", "test is passing", "12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678","1234567890123456789012345678901234567890123456789012345678901234", "01234567890","01234567890123456789012345678901");
-		$favoriteeId->insert($this->getPDO());
+		$this->favoriteeId = new Profile(null,"csosa4", "foo@bar.com", "Rio, Rancho", "test is passing", "12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678","1234567890123456789012345678901234567890123456789012345678901234", "01234567890","01234567890123456789012345678901");
+		$this->favoriteeId->insert($this->getPDO());
 
 		//create and insert a Profile favoriter to be given
-		$favoriterId = new Profile(null,"csosa4", "bar@foo2.com", "Rio, Rancho", "test is passing", "12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678","1234567890123456789012345678901234567890123456789012345678901234", "01234567890","01234567890123456789012345678901");
-		$favoriterId->insert($this->getPDO());
+		$this->favoriterId = new Profile(null,"csosa4", "bar@foo2.com", "Rio, Rancho", "test is passing", "12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678","1234567890123456789012345678901234567890123456789012345678901234", "01234567890","01234567890123456789012345678901");
+		$this->favoriterId->insert($this->getPDO());
 
 	}
 
@@ -157,7 +157,7 @@ class FavoriteTest extends FlekTest {
 			$this->favoriterId->getProfileId());
 		$favorite->insert($this->getPDO());
 		//grab the data from mySQL and enforce the fields match our expectations
-		$results = Favorite::getFavoriteeId($this->getPDO(), $favorite->getFavoriteeId());
+		$results = Favorite::getFavoriteByFavoriteeId($this->getPDO(), $favorite->getFavoriteeId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("favorite"));
 		$this->assertCount(1, $results);
 		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Flek\\Favorite", $results);
@@ -181,7 +181,7 @@ class FavoriteTest extends FlekTest {
 		$favorite = new Favorite($this->favoriteeId->getProfileId(), $this->favoriterId->getProfileId());
 		$favorite->insert($this->getPDO());
 		//grab the data from mySQL and enforce that the fields match our expectations
-		$results = Favorite::getFavoriteByFavoriterId($this->getConnection()->getRowCount("favorite"));
+		$results = Favorite::getFavoriteByFavoriterId(($this->getPDO()), $favorite->getFavoriterId());
 			$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("favorite"));
 		$this->assertCount(1, $results);
 		$this->assertContainsOnlyInstanceOf("Edu\\Cnm\\Flek\\Favorite", $results);
