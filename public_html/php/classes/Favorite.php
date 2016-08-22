@@ -20,6 +20,7 @@ class Favorite implements \JsonSerializable {
 	 * int $favoriterId
 	 * id for the favorite the profile can favorite vice versa
 	 * this is a foreign key
+	 * @var int $favoriterId
 	 **/
 	private $favoriterId;
 
