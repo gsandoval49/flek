@@ -20,7 +20,7 @@ require_once("FlekTest.php");
  **/
 
 class FavoriteTest extends FlekTest {
-	
+
 	/**
 	 * profile that favorited the profile; this is for the foreign key relations
 	 * @var Profile profile
@@ -120,7 +120,7 @@ class FavoriteTest extends FlekTest {
 	}
 
 	/**
-	 * test grabbing an Favorite by the FavoriteeIdProfileId
+	 * test grabbing an Favorite by the FavoriteeId
 	 **/
 	public function testGetValidFavoriteByFavoriteeId() {
 		//count the number of rows and save it for later
@@ -142,7 +142,7 @@ class FavoriteTest extends FlekTest {
 	}
 
 	/**
-	 * test grabbing a Favorite by person giving favorite profile id
+	 * test grabbing a Favorite by person giving favorite id
 	 **/
 	public function testGetValidFavoriteByFavoriterId() {
 		//count the number of rows and save it for later
