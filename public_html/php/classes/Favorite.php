@@ -117,7 +117,7 @@ class Favorite implements \JsonSerializable {
 	 **/
 	public function insert(\PDO $pdo) {
 		//enforce the favoriteeId is null and FavoriterId is null
-		if($this->favoriteeId !== null || $this->favoriterId !== null) {
+		if($this->favoriteeId == null || $this->favoriterId == null) {
 			throw(new \PDOException("not a new favoritee id or favoriter id"));
 		}
 		//create query template
