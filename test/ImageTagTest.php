@@ -178,8 +178,38 @@ class ImageTagTest extends FlekTest {
 			$this->assertEquals($pdoImageTag->getImageTagImageId(), $this->image->getImageId());
 			$this->assertEquals($pdoImageTag->getImageTagTagId(), $this->tag->getTagId());
 		}
+	/**
+	 * testing a tag by valid tag id
+	 **/
+	public function testGetValidImageTagByImageTagId() {
+		//count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("imageTag");
+		//create a new imageTag and insert it into mySQL
+		$imageTag = new ImageTag($this->image->getImageId(), $this->tag->getTagId());
+		$imageTag->insert($this->getPDO());
+		//grab the data from mySQL and enforce that the fields match our expectations
+		$results = ImageTag::getImageTagByTagImageId($this->getPDO(), $imageTag->getImageTagImageId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("imageTag"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Flek\\ImageTag", $results);
+		//grab the results from the array and validate them
+		$pdoImageTag = $results[0];
+		$this->assertEquals($pdoImageTag->getImageTagImageId(), $this->image->getImageId());
+		$this->assertEquals($pdoImageTag->getImageTagTagId(), $this->tag->getTagId());
+	}
 
-		/**
+	/**
+	 * testing an imageTag by invalid tag id
+	 **/
+
+	public function testGetInavlidImageTagByImageTagTagId() {
+		//grab an image id that exceeds max allowed
+		$imageTag = ImageTag::getImageTagByTagImageId($this->getPDO(), FlekTest::INVALID_KEY);
+		$this->assertCount(0, $imageTag);
+	}
+
+
+	/**
 		 * test get imageTag and invalid image id, tag id
 		 **/
 		public function testGetImageTagByImageIdAndTagId() {
