@@ -37,7 +37,7 @@ class FavoriteTest extends FlekTest {
 
 	protected $profileActivationToken = "01234567890123456789012345678901";
 
-	protected $profileActivationToken2 = "2 43647587688685764859687";
+	protected $profileActivationToken2 = "243647587688685764859687";
 	/*
 	 * create dependent objects before running each test
 	 */
@@ -88,7 +88,7 @@ class FavoriteTest extends FlekTest {
 
 		//grab the results from the array and validate them
 
-		$pdoFavorite = Favorite::getFavoriteByFavoriterId($this->getPDO(), $favorite->getFavoriteeId(), $favorite->getFavoriterId());
+		$pdoFavorite = Favorite::getFavoriteByFavoriteeIdAndFavoriterId($this->getPDO(), $favorite->getFavoriteeId(), $favorite->getFavoriterId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("favorite"));
 		$this->assertEquals($pdoFavorite->getFavoriteeId(), $this->favoriteeId->getProfileId());
 		$this->assertEquals($pdoFavorite->getFavoriterId(), $this->favoriterId->getProfileId());
@@ -121,7 +121,7 @@ class FavoriteTest extends FlekTest {
 		$favorite->delete($this->getPDO());
 
 		//grab the data from mySQL and enforce the Favorite does not exist
-		$pdoFavorite = Favorite::getFavoriteByFavoriteeId($this->getPDO(), $favorite->getFavoriteeId(), $favorite->getFavoriterId());
+		$pdoFavorite = Favorite::getFavoriteByFavoriteeIdAndFavoriterId($this->getPDO(), $favorite->getFavoriteeId(), $favorite->getFavoriterId());
 		$this->assertNull($pdoFavorite);
 		$this->assertEquals($numRows, $this->getConnection()->getRowCount("favorite"));
 	}

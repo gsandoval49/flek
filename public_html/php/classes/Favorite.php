@@ -39,6 +39,7 @@ class Favorite implements \JsonSerializable {
 	public function __construct(int $newFavoriteeId = null, int $newFavoriterId = null) {
 		try {
 			$this->setFavoriteeId($newFavoriteeId);
+			$this->setFavoriterId($newFavoriterId);
 		} catch(\RangeException $range) {
 			//rethrow exception to caller
 			throw(new \RangeException($range->getMessage(), 0, $range));
@@ -94,8 +95,7 @@ class Favorite implements \JsonSerializable {
 	 * @param int|null $newFavoriter new value of favoriter id
 	 * @throws \InvalidArgument if $newFavoriter is not valid
 	 */
-	public
-	function setFavoriterId(int $newFavoriterId = null) {
+	public function setFavoriterId(int $newFavoriterId = null) {
 		//base case: if the favoriterId is null this a new favorite without a mySQL assigned id (yet)
 		if($newFavoriterId === null) {
 			$this->favoriterId = null;
@@ -291,7 +291,7 @@ class Favorite implements \JsonSerializable {
 	 * @param \SplFixedArray SplFixedArray of Favorites found or null if not found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
-	 */
+	 *
 	public static function getAllFavorites(\PDO $pdo) {
 		//create query template
 		$query = "SELECT favoriteeId, favoriterId FROM favorite";
