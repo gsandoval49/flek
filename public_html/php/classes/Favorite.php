@@ -24,9 +24,6 @@ class Favorite implements \JsonSerializable {
 	 **/
 	private $favoriterId;
 
-	private $profileAccessToken;
-
-	private $profileActivationToken;
 
 	/**
 	 * constructor for favorite
@@ -49,10 +46,12 @@ class Favorite implements \JsonSerializable {
 		 catch(\RangeException $range) {
 			//rethrow exception to caller
 			throw(new \RangeException($range->getMessage(), 0, $range));
-		} catch(\TypeError $typeError) {
+		}
+			catch(\TypeError $typeError) {
 			//rethrow exception to caller
 			throw(new \TypeError($typeError->getMessage(), 0, $typeError));
-		} catch(\Exception $exception) {
+		}
+			catch(\Exception $exception) {
 			//rethrow regular exception to caller
 			throw(new \Exception($exception->getMessage(), 0, $exception));
 		}
@@ -71,7 +70,7 @@ class Favorite implements \JsonSerializable {
 	 * @param int}null $newFavoriteeId new value of favoritee id
 	 * @throws \RangeException if $newFavoriteeId is not positive
 	 * @throws \Exception if $newFavoriteeId is not valid
-	 */
+	 **/
 	public function setFavoriteeId(int $newFavoriteeId) {
 		//if the favoritee id is null this a new favoritee given by sender
 
@@ -110,7 +109,7 @@ class Favorite implements \JsonSerializable {
 	/**
 	 * inserts this Favorite into mySQL
 	 * @param \PDO $pdo PDO connection object
-	 * @throws \PDOException wheny mySQL related errors
+	 * @throws \PDOException when mySQL related errors
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 **/
 	public function insert(\PDO $pdo) {
@@ -132,7 +131,7 @@ class Favorite implements \JsonSerializable {
 	 * @param \PDO $pdo PDO connection object
 	 * @throws \PDOException when mySQL related erros occur
 	 * @throws \TypeError if $pdo is not a PDO connection object
-	 */
+	 **/
 	public function delete(\PDO $pdo) {
 		//enforce the favoritee Id is not null
 		if($this->favoriteeId === null || $this->favoriterId === null) {
@@ -154,9 +153,9 @@ class Favorite implements \JsonSerializable {
 	 * @param \PDO $pdo PDO connection object
 	 * @param int $favoriteeId favoritee id to search for
 	 * @return favorite|null favorite found or null if not found
-	 * @throws \PDOException when mySQL related erros occur
+	 * @throws \PDOException when mySQL related errors occur
 	 * @throws |TypeError when variables are not the correct data type
-	 */
+	 **/
 	public static function getFavoriteByFavoriteeId(\PDO $pdo, int $favoriteeId) {
 
 		//sanitize the favoriteeId before searching
@@ -195,10 +194,10 @@ class Favorite implements \JsonSerializable {
 	/** gets the favoriterId by ProfileId
   * @param \PDO $pdo PDO connection object
   * @param int $favoriterId favoritee id to search for
-		* @return favorite|null favorite found or null if not found
+	*@return favorite|null favorite found or null if not found
   * @throws \PDOException when mySQL related erros occur
   * @throws |TypeError when variables are not the correct data type
-  */
+  **/
 
 	public static function getFavoriteByFavoriterId(\PDO $pdo, int $favoriterId) {
 		//sanitize the favoriteeId before searching
@@ -220,7 +219,8 @@ class Favorite implements \JsonSerializable {
 				$favorite = new Favorite($row["favoriteeId"], $row["favoriterId"]);
 				$favorites[$favorites->key()] = $favorite;
 				$favorites->next();
-			} catch(\Exception $exception) {
+			}
+				catch(\Exception $exception) {
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
@@ -234,8 +234,8 @@ class Favorite implements \JsonSerializable {
 	 * gets the favorite by both favoriteeId and favoriterid
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param int $favoriteeIdProfileId to search for
-	 * @param int $favoriterIdProfileId to search for
+	 * @param int $favoriteeId to search for
+	 * @param int $favoriterId to search for
 	 * @return favorite|null favorite if found or null if not
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not of the correct data type
@@ -243,10 +243,10 @@ class Favorite implements \JsonSerializable {
 	public static function getFavoriteByFavoriteeIdAndFavoriterId(\PDO $pdo, int $favoriteeId, int $favoriterId) {
 		//sanitize the profileId before searching
 		if($favoriteeId < 0) {
-			throw(new \PDOException("review id is not positive"));
+			throw(new \PDOException("favoritee id is not positive"));
 		}
 		if($favoriterId < 0) {
-			throw(new \PDOException("tag is is not positive"));
+			throw(new \PDOException("favoriter id is not positive"));
 		}
 
 			//create a query template
@@ -257,7 +257,7 @@ class Favorite implements \JsonSerializable {
 			$parameters = ["favoriteeId" => $favoriteeId, "favoriterId" => $favoriterId];
 			$statement->execute($parameters);
 
-			//grab the reviewTag from mySQL
+			//grab the favorite from mySQL
 			try {
 				$favorite = null;
 				$statement->setFetchMode(\PDO::FETCH_ASSOC);
@@ -265,45 +265,14 @@ class Favorite implements \JsonSerializable {
 				if($row !== false) {
 					$favorite = new favorite($row["favoriteeId"], $row["favoriterId"]);
 				}
-			} catch(\Exception $exception) {
+			}
+				catch(\Exception $exception) {
 				//if the row couldn't be converted rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 			return ($favorite);
 		}
-
-
-
-	/*
-	 * gets all Favorites
-	 * @param \SplFixedArray SplFixedArray of Favorites found or null if not found
-	 * @throws \PDOException when mySQL related errors occur
-	 * @throws \TypeError when variables are not the correct data type
-	 *
-	public static function getAllFavorites(\PDO $pdo) {
-		//create query template
-		$query = "SELECT favoriteeId, favoriterId FROM favorite";
-		$statement = $pdo->prepare($query);
-		$statement->execute();
-
-		//build an array of favorites
-		$favorites = new \SplFixedArray($statement->rowCount());
-		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while(($row = $statement->fetch()) !== false) {
-			try {
-				$favorite = new Favorite($row["favoriteeId"], $row["favoriterId"]);
-				$favorites[$favorites->key()] = $favorite;
-				$favorites->next();
-			} catch(\Exception $exception) {
-				//if the row couldn't be converted rethrow it
-				throw(new \PDOException($exception->getMessage(), 0, $exception));
-			}
-		}
-		return ($favorites);
-	}
-
-
-	/*
+	/**
 	 * formats the state variables for JSON serialization
 	 * @return array resulting state variables to serialize
 	 **/

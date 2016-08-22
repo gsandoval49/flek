@@ -20,6 +20,7 @@ require_once("FlekTest.php");
  **/
 
 class FavoriteTest extends FlekTest {
+	
 	/**
 	 * profile that favorited the profile; this is for the foreign key relations
 	 * @var Profile profile
@@ -62,24 +63,13 @@ class FavoriteTest extends FlekTest {
 		//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("favorite");
 
-		//$profile = new Profile(null, "csosa4", "bar@foo.com", "Rio, Rancho", "test is passing", $this->hash, $this->salt, "01234567890", "01234567890123456789012345678901");
-		//$profile->insert($this->getPDO());
-
 		// create a new Favorite and insert to into mySQL
 		$favorite = new Favorite($this->favoriteeId->getProfileId(), $this->favoriterId->getProfileId());
 		$favorite->insert($this->getPDO());
 
-		//grab the data from mySQL and enforce the fields match our expectations
-		//$results = Favorite::getFavoriteByFavoriteeIdAndFavoriterId($this->getPDO(), $favorite->getFavoriteeId(), $favorite->getFavoriterId());
-		//$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("favorite"));
-		//$this->assertCount(1, $results);
-
-		//$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Favorite\\Test", $results);
-
-
 		//grab the results from the array and validate them
 
-		$pdoFavorite = Favorite::getFavoriteByFavoriteeIdAndFavoriterId($this->getPDO(), $favorite->getFavoriteeId(), $favorite->getFavoriterId());
+		$pdoFavorite = Favorite::getFavoriteByFavoriteeIdAndFavoriterId( $this->getPDO(), $favorite->getFavoriteeId(), $favorite->getFavoriterId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("favorite"));
 		$this->assertEquals($pdoFavorite->getFavoriteeId(), $this->favoriteeId->getProfileId());
 		$this->assertEquals($pdoFavorite->getFavoriterId(), $this->favoriterId->getProfileId());
@@ -130,29 +120,6 @@ class FavoriteTest extends FlekTest {
 	}
 
 	/**
-	 * test inserting a Favorite and regrabbing it from mySQL
-	 **
-	public function testGetValidFavoriteByFavoriteeIdAndFavoriterId() {
-		// count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("favorite");
-
-		// create a new Favorite and insert to into mySQL
-		$favorite = new Favorite($this->favoriteeId->getProfileId(), $this->favoriterId->getProfileId());
-		$favorite->insert($this->getPDO());
-
-		// grab the data from mySQL and enforce the fields match our expectations
-		$pdoFavorite = Favorite::getFavoriteByFavoriteeIdAndFavoriterId($this->getPDO(), $favorite->getFavoriteeId(), $favorite->getFavoriterId());
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("favorite"));
-		$this->assertEquals($pdoFavorite->getFavoriteeId(), $this->favoriteeId->getProfileId());
-		$this->assertEquals($pdoFavorite->getFavoriterId(), $this->favoriterId->getProfileId());
-
-	}
-
-
-
-
-
-	/**
 	 * test grabbing an Favorite by the FavoriteeIdProfileId
 	 **/
 	public function testGetValidFavoriteByFavoriteeId() {
@@ -173,8 +140,6 @@ class FavoriteTest extends FlekTest {
 		$this->assertEquals($pdoFavorite->getFavoriterId(), $this->favoriterId->getProfileId());
 
 	}
-
-
 
 	/**
 	 * test grabbing a Favorite by person giving favorite profile id
