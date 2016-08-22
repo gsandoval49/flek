@@ -170,7 +170,7 @@ class Favorite implements \JsonSerializable {
 		$parameters = ["favoriteeId" => $favoriteeId];
 		$statement->execute($parameters);
 
-		//build an array of reviewTags
+		//build an array of favorites
 		$favorites = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
