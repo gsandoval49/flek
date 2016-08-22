@@ -131,7 +131,7 @@ class Favorite implements \JsonSerializable {
 	 * @param \PDO $pdo PDO connection object
 	 * @throws \PDOException when mySQL related erros occur
 	 * @throws \TypeError if $pdo is not a PDO connection object
-	 */
+	 **/
 	public function delete(\PDO $pdo) {
 		//enforce the favoritee Id is not null
 		if($this->favoriteeId === null || $this->favoriterId === null) {
