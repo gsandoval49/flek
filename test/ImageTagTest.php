@@ -3,7 +3,6 @@ namespace Edu\Cnm\Flek\Test;
 
 use Edu\Cnm\Flek\{
 	Profile, Image, Tag, Genre, ImageTag
-// why is it grey, moving on and if comes up later during in test we'll deal...
 };
 
 //grab the project test parameters

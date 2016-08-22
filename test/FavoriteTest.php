@@ -31,17 +31,17 @@ class FavoriteTest extends FlekTest {
 	 **/
 	protected $favoriterId = null;
 
-	/*
+	/**
 	 * create dependent objects before running each test
-	 */
+	 **/
 	public final function setUp() {
 		// run the parent method first
 		parent::setUp();
-
+		//create and insert a Profile favoritee to be given
 		$favoriteeId = new Profile(null,"csosa4", "foo@bar.com", "Rio, Rancho", "test is passing", "12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678","1234567890123456789012345678901234567890123456789012345678901234", "01234567890","01234567890123456789012345678901");
 		$favoriteeId->insert($this->getPDO());
 
-		//create and insert a Profile favorite to be given
+		//create and insert a Profile favoriter to be given
 		$favoriterId = new Profile(null,"csosa4", "bar@foo2.com", "Rio, Rancho", "test is passing", "12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678","1234567890123456789012345678901234567890123456789012345678901234", "01234567890","01234567890123456789012345678901");
 		$favoriterId->insert($this->getPDO());
 
@@ -79,6 +79,7 @@ class FavoriteTest extends FlekTest {
 
 	/**
 	 * test inserting an Favorite that already exists
+	 *
 	 * @expectedException /PDOException
 	 **/
 	public function testInsertInvalidFavorite() {
@@ -88,9 +89,9 @@ class FavoriteTest extends FlekTest {
 
 	}
 
-	/*
+	/**
 	 * test creating a Favorite and then deleting it
-	 */
+	 **/
 	public function testDeleteValidFavorite() {
 		//count the number the rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("favorite");
@@ -109,20 +110,20 @@ class FavoriteTest extends FlekTest {
 		$this->assertEquals($numRows, $this->getConnection()->getRowCount("favorite"));
 	}
 
-	/*
+	/**
 	 * test deleting a Favorite that does not exist
 	 *
 	 * @expected Exception PDOException
-	 */
+	 **/
 	public function testDeleteInvalidFavorite() {
 		// create a Favorite and try to delete it without actually inserting it
 		$favorite = new Favorite($this->favoriteeId->getProfileId(), $this->favoriterId->getProfileId());
 		$favorite->delete($this->getPDO());
 	}
 
-	/*
+	/**
 	 * test inserting a Favorite and regrabbing it from mySQL
-	 *
+	 **
 	public function testGetValidFavoriteByFavoriteeIdAndFavoriterId() {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("favorite");
@@ -139,9 +140,9 @@ class FavoriteTest extends FlekTest {
 
 	}
 
-	/*
+	/**
 	 * test grabbing a Favorite that does not exist
-	 *
+	 **
 	public function testGetInvalidFavoriteByFavoriteeIdAndFavoriterId() {
 		//grab a favorite id that exceeds the masimum allowable favorite id
 		$favorite = Favorite::FavoriteByFavoriteeIdAndFavoriterId($this->getPDO(), FlekTest::INVALID_KEY, FlekTest::INVALID_KEY);
