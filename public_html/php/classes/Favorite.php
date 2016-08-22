@@ -238,7 +238,6 @@ class Favorite implements \JsonSerializable {
 	 * @param int $favoriterId to search for
 	 * @return favorite|null favorite if found or null if not
 	 * @throws \PDOException when mySQL related errors occur
-	 * @throws \TypeError when variables are not of the correct data type
 	 **/
 	public static function getFavoriteByFavoriteeIdAndFavoriterId(\PDO $pdo, int $favoriteeId, int $favoriterId) {
 		//sanitize the profileId before searching
