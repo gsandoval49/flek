@@ -22,14 +22,12 @@ require_once("FlekTest.php");
 class FavoriteTest extends FlekTest {
 	/**
 	 * Profile that created Favoritee and Favoriter
-	 *@var Profile favoriteeId
-	 *
+	 *@var Profile $favoriteeId	 *
 	 **/
 	protected $favoriteeId = null;
 	/**
 	 * Profile that created Favoritee and Favoriter
-	 *@var Profile favoriterId
-	 *
+	 *@var Profile $favoriterId	 *
 	 **/
 	protected $favoriterId = null;
 
@@ -40,8 +38,8 @@ class FavoriteTest extends FlekTest {
 		// run the parent method first
 		parent::setUp();
 
-		$this->favoriteeId = new Profile(null,"csosa4", "foo@bar.com", "Rio, Rancho", "test is passing", "12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678","1234567890123456789012345678901234567890123456789012345678901234", "01234567890","01234567890123456789012345678901");
-		$this->favoriteeId->insert($this->getPDO());
+		$favoriteeId = new Profile(null,"csosa4", "foo@bar.com", "Rio, Rancho", "test is passing", "12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678","1234567890123456789012345678901234567890123456789012345678901234", "01234567890","01234567890123456789012345678901");
+		$favoriteeId->insert($this->getPDO());
 
 		//create and insert a Profile favorite to be given
 		$favoriterId = new Profile(null,"csosa4", "bar@foo2.com", "Rio, Rancho", "test is passing", "12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678","1234567890123456789012345678901234567890123456789012345678901234", "01234567890","01234567890123456789012345678901");
