@@ -139,7 +139,7 @@ class Favorite implements \JsonSerializable {
 			throw(new \PDOException("unable to delete a favoritee that does not exist"));
 		}
 		//create a query template
-		$query = "DELETE FROM favorite WHERE (favoriteeId = :favoriteeId AND favoriterId = :favoriterI)";
+		$query = "DELETE FROM favorite WHERE (favoriteeId = :favoriteeId AND favoriterId = :favoriterId)";
 		$statement = $pdo->prepare($query);
 
 		//bind the member variables to the place holder in the template
@@ -210,12 +210,12 @@ class Favorite implements \JsonSerializable {
 		$statement = $pdo->prepare($query);
 
 		//bind the favoritee Id to the place holder in teh template
-		$parameters = ["favoriteIdProfileId => $favoriterId"];
+		$parameters = ["favoriterId" => $favoriterId];
 		$statement->execute($parameters);
 		// build array of favorites
 		$favorites = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while($row = $statement->fetch() !== false) {
+		while(($row = $statement->fetch()) !== false) {
 			try {
 				$favorite = new Favorite($row["favoriteeId"], $row["favoriterId"]);
 				$favorites[$favorites->key()] = $favorite;
@@ -247,7 +247,7 @@ class Favorite implements \JsonSerializable {
 		}
 		if($favoriterId < 0) {
 			throw(new \PDOException("tag is is not positive"));
-
+		}
 
 			//create a query template
 			$query = "SELECT favoriteeId, favoriterId FROM favorite WHERE favoriteeId = :favoriteeId AND favoriterId = :favoriterId";
@@ -271,7 +271,7 @@ class Favorite implements \JsonSerializable {
 			}
 			return ($favorite);
 		}
-	}
+
 
 
 	/*

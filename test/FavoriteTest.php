@@ -81,8 +81,8 @@ class FavoriteTest extends FlekTest {
 
 		$pdoFavorite = Favorite::getFavoriteByFavoriteeIdAndFavoriterId($this->getPDO(), $favorite->getFavoriteeId(), $favorite->getFavoriterId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("favorite"));
-		$this->assertEquals($pdoFavorite->getFavoriteFavoriteeId(), $this->favoriteeId->getProfileId());
-		$this->assertEquals($pdoFavorite->getFavoriteFavoriterId(), $this->favoriterId->getProfileId());
+		$this->assertEquals($pdoFavorite->getFavoriteeId(), $this->favoriteeId->getProfileId());
+		$this->assertEquals($pdoFavorite->getFavoriterId(), $this->favoriterId->getProfileId());
 	}
 
 	/**
@@ -190,12 +190,12 @@ class FavoriteTest extends FlekTest {
 		$results = Favorite::getFavoriteByFavoriterId(($this->getPDO()), $favorite->getFavoriterId());
 			$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("favorite"));
 		$this->assertCount(1, $results);
-		$this->assertContainsOnlyInstanceOf("Edu\\Cnm\\Flek\\Favorite", $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Flek\\Favorite", $results);
 
 		//grab the result from the array and validate it
 		$pdoFavorite = $results[0];
-		$this->assertEquals($pdoFavorite->favoriteeId(), $this->favoriteeId->getProfileId());
-		$this->assertEquals($pdoFavorite->favoriterId(), $this->favoriterId->getProfileId());
+		$this->assertEquals($pdoFavorite->getFavoriteeId(), $this->favoriteeId->getProfileId());
+		$this->assertEquals($pdoFavorite->getFavoriterId(), $this->favoriterId->getProfileId());
 	}
 
 }
