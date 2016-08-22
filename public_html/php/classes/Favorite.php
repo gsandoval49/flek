@@ -152,7 +152,7 @@ class Favorite implements \JsonSerializable {
 	 * gets the favorite by favoriteeId
 	 * @param \PDO $pdo PDO connection object
 	 * @param int $favoriteeId favoritee id to search for
-	 * @return favorite /Spl array of objects
+	 * @return \SplFixedArray of favoriteeId
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
@@ -195,7 +195,7 @@ class Favorite implements \JsonSerializable {
 	 * gets the favoriterId by ProfileId
   * @param \PDO $pdo PDO connection object
   * @param int $favoriterId favoritee id to search for
-	*@return favorite /Spl fixed array of favorites
+	*@return \SPLFixedArray of favoriterId
   * @throws \PDOException when mySQL related erros occur
   * @throws \TypeError when variables are not the correct data type
   **/
@@ -237,7 +237,7 @@ class Favorite implements \JsonSerializable {
 	 * @param \PDO $pdo PDO connection object
 	 * @param int $favoriteeId to search for
 	 * @param int $favoriterId to search for
-	 * @return  favorite /Spl fixed array of favorites
+	 * @return  \SplFixedArray of favoriteeId and favoriterId
 	 * @throws \PDOException when mySQL related errors occur
 	 **/
 	public static function getFavoriteByFavoriteeIdAndFavoriterId(\PDO $pdo, int $favoriteeId, int $favoriterId) {
