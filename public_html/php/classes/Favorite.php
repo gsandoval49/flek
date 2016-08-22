@@ -68,7 +68,7 @@ class Favorite implements \JsonSerializable {
 	public function setFavoriteeId(int $newFavoriteeId = null) {
 		//if the favoritee id is null this a new favoritee given by sender
 		if($newFavoriteeId === null) {
-			$this->FavoriteeId = null;
+			$this->favoriteeId = null;
 			return;
 		}
 		if($newFavoriteeId < 0){
@@ -116,9 +116,9 @@ class Favorite implements \JsonSerializable {
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 **/
 	public function insert(\PDO $pdo) {
-		//enforce the favoriteeId is null and faFvoriterId is null
+		//enforce the favoriteeId is null and FavoriterId is null
 		if($this->favoriteeId !== null || $this->favoriterId !== null) {
-			throw(new \PDOException("not a new favorite id"));
+			throw(new \PDOException("not a new favoritee id or favoriter id"));
 		}
 		//create query template
 		$query = "INSERT INTO favorite(favoriteeId, favoriterId) VALUES(:favoriteeId, :favoriterId)";
@@ -127,7 +127,8 @@ class Favorite implements \JsonSerializable {
 		$parameters = ["favoriteeId" => $this->favoriteeId, "favoriterId" => $this->favoriterId];
 		$statement->execute($parameters);
 
-		// update the null favoriteeId with what mySQL just gave us
+		// update the null favoriteeId with
+		// what mySQL just gave us
 		$this->favoriteeId = intval($pdo->lastInsertId());
 		$this->favoriterId = intval($pdo->lastInsertId());
 	}
@@ -138,8 +139,7 @@ class Favorite implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related erros occur
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 */
-	public
-	function delete(\PDO $pdo) {
+	public function delete(\PDO $pdo) {
 		//enforce the favoritee Id is not null
 		if($this->favoriteeId === null) {
 			throw(new \PDOException("unable to delete a favoritee that does not exist"));
@@ -198,10 +198,10 @@ class Favorite implements \JsonSerializable {
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 
-
+		}
 			return ($favorites);
 		}
-	}
+
 
 	/* gets the favoriterId by ProfileId
   * @param \PDO $pdo PDO connection object
@@ -224,21 +224,22 @@ class Favorite implements \JsonSerializable {
 		//bind the favoritee Id to the place holder in teh template
 		$parameters = ["favoriteIdProfileId => $favoriterId"];
 		$statement->execute($parameters);
-
-		//grab the favorite from mySQL
-		try {
-			$favorite = null;
-			$statement->setFetchMode(\PDO::FETCH_ASSOC);
-			$row = $statement->fetch();
-			if($row !== false) {
-				$favorite = new Favorite ($row["favoriteeId"], $row["favoriterId"]);
+		// build array of favorites
+		$favorites = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while($row = $statement->fetch() !== false) {
+			try {
+				$favorite = new Favorite($row["favoriteeId"], $row["favoriterId"]);
+				$favorites[$favorites->key()] = $favorite;
+				$favorites->next();
+			} catch(\Exception $exception) {
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
-		} catch(\Exception $exception) {
-			//if the row couldn't be converted, rethrow it
-			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
-		return ($favorite);
+		return($favorites);
 	}
+
+
 
 
 	/**
@@ -250,7 +251,7 @@ class Favorite implements \JsonSerializable {
 	 * @return favorite|null favorite if found or null if not
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not of the correct data type
-	 **/
+	 **
 	public static function getFavoriteByFavoriteeIdAndFavoriterId(\PDO $pdo, int $favoriteeId, int $favoriterId) {
 		//sanitize the profileId before searching
 		if($favoriteeId < 0) {
@@ -282,8 +283,8 @@ class Favorite implements \JsonSerializable {
 			}
 			return ($favorite);
 		}
+*/
 
-	}
 
 	/*
 	 * gets all Favorites
@@ -313,10 +314,11 @@ class Favorite implements \JsonSerializable {
 		return ($favorites);
 	}
 
+
 	/*
 	 * formats the state variables for JSON serialization
 	 * @return array resulting state variables to serialize
-	 */
+	 **/
 	public function jsonSerialize() {
 		$fields = get_object_vars($this);
 		return ($fields);
