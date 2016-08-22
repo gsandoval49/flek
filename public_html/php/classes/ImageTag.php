@@ -146,7 +146,7 @@ class ImageTag implements \JsonSerializable {
 	 * @param \PDO $pdo PDO connection object
 	 * @param int $imageTagImageId image id to search for
 	 * @return tag|null tag found or null if not found
-	 * @throws \PDOException when mySQL related erros occur
+	 * @throws \PDOException when mySQL related errors occur
 	 * @throws |TypeError when variables are not the correct data type
 	 **/
 	public static function getImageTagByTagImageId(\PDO $pdo, int $imageTagImageId) {

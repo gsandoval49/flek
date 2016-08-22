@@ -129,7 +129,7 @@ class Favorite implements \JsonSerializable {
 	/**
 	 * deletes this favorite from my SQL
 	 * @param \PDO $pdo PDO connection object
-	 * @throws \PDOException when mySQL related erros occur
+	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 **/
 	public function delete(\PDO $pdo) {
@@ -152,9 +152,9 @@ class Favorite implements \JsonSerializable {
 	 * gets the favorite by favoriteeId
 	 * @param \PDO $pdo PDO connection object
 	 * @param int $favoriteeId favoritee id to search for
-	 * @return favorite|null favorite found or null if not found
+	 * @return favorite /Spl array of objects
 	 * @throws \PDOException when mySQL related errors occur
-	 * @throws |TypeError when variables are not the correct data type
+	 * @throws \TypeError when variables are not the correct data type
 	 **/
 	public static function getFavoriteByFavoriteeId(\PDO $pdo, int $favoriteeId) {
 
@@ -195,9 +195,9 @@ class Favorite implements \JsonSerializable {
 	 * gets the favoriterId by ProfileId
   * @param \PDO $pdo PDO connection object
   * @param int $favoriterId favoritee id to search for
-	*@return favorite|null favorite found or null if not found
+	*@return favorite /Spl fixed array of favorites
   * @throws \PDOException when mySQL related erros occur
-  * @throws |TypeError when variables are not the correct data type
+  * @throws \TypeError when variables are not the correct data type
   **/
 
 	public static function getFavoriteByFavoriterId(\PDO $pdo, int $favoriterId) {
@@ -237,7 +237,7 @@ class Favorite implements \JsonSerializable {
 	 * @param \PDO $pdo PDO connection object
 	 * @param int $favoriteeId to search for
 	 * @param int $favoriterId to search for
-	 * @return favorite|null favorite if found or null if not
+	 * @return  favorite /Spl fixed array of favorites
 	 * @throws \PDOException when mySQL related errors occur
 	 **/
 	public static function getFavoriteByFavoriteeIdAndFavoriterId(\PDO $pdo, int $favoriteeId, int $favoriterId) {
