@@ -95,7 +95,7 @@ class Favorite implements \JsonSerializable {
 	 * @param int|null $newFavoriter new value of favoriter id
 	 * @throws \InvalidArgument if $newFavoriter is not valid
 	 */
-	public function setFavoriterId(int $newFavoriterId = null) {
+	public  function setFavoriterId(int $newFavoriterId = null) {
 		//base case: if the favoriterId is null this a new favorite without a mySQL assigned id (yet)
 		if($newFavoriterId === null) {
 			$this->favoriterId = null;
@@ -251,7 +251,7 @@ class Favorite implements \JsonSerializable {
 	 * @return favorite|null favorite if found or null if not
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not of the correct data type
-	 **
+	 **/
 	public static function getFavoriteByFavoriteeIdAndFavoriterId(\PDO $pdo, int $favoriteeId, int $favoriterId) {
 		//sanitize the profileId before searching
 		if($favoriteeId < 0) {
@@ -266,7 +266,7 @@ class Favorite implements \JsonSerializable {
 			$statement = $pdo->prepare($query);
 
 			//bind the variables to the place holders in the template
-			$parameters = ["favoriteeId" => $favoriteeId, "favoriterId" => 					$favoriterId];
+			$parameters = ["favoriteeId" => $favoriteeId, "favoriterId" => $favoriterId];
 			$statement->execute($parameters);
 
 			//grab the reviewTag from mySQL
@@ -283,7 +283,7 @@ class Favorite implements \JsonSerializable {
 			}
 			return ($favorite);
 		}
-*/
+	}
 
 
 	/*

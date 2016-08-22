@@ -1,7 +1,7 @@
 <?php
 namespace Edu\Cnm\Flek\Test;
 
-use Edu\Cnm\Flek\{Profile, Favorite};
+use Edu\Cnm\Flek\{Favorite, Profile};
 
 //grab the project test parameters
 require_once(dirname(__DIR__) . "/public_html/php/classes/autoload.php");
@@ -55,6 +55,7 @@ class FavoriteTest extends FlekTest {
 		//$this->profile->insert($this->getPDO());
 
 		//$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $this->profile->getProfileId());
+
 		$this->favoriteeId = new Profile(null,"csosa4", "foo@bar.com", "Rio, Rancho", "test is passing", $this->hash, $this->salt, $this->profileAccessToken, $this->profileActivationToken);
 		$this->favoriteeId->insert($this->getPDO());
 
