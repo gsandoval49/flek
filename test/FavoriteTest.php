@@ -49,6 +49,8 @@ class FavoriteTest extends FlekTest {
 
 	/**
 	 * test inserting a valid Favorite and verify that the actual mySQL data matches
+	 *
+	 * @expectedException PDOException
 	 **/
 	public function testInsertValidFavorite() {
 		//count the number of rows and save it for later
