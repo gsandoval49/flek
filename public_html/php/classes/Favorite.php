@@ -36,7 +36,7 @@ class Favorite implements \JsonSerializable {
 	 * @throws \Exception is some other exception occurs
 	 * @throws \TypeError if data types violate type hints
 	 **/
-	public function __construct(int $newFavoriteeId = null, int $newFavoriterId = null) {
+	public function __construct(int $newFavoriteeId, int $newFavoriterId) {
 		try {
 			$this->setFavoriteeId($newFavoriteeId);
 			$this->setFavoriterId($newFavoriterId);
@@ -52,7 +52,7 @@ class Favorite implements \JsonSerializable {
 		}
 	}
 
-	/*
+	/**
 	 * accessor method for favoritee id
 	 * @return int value of favoritee id
 	 */
@@ -60,7 +60,7 @@ class Favorite implements \JsonSerializable {
 		return ($this->favoriteeId);
 	}
 
-	/*
+	/**
 	 * mutator method for favoritee id
 	 * @param int}null $newFavoriteeId new value of favoritee id
 	 * @throws \RangeException if $newFavoriteeId is not positive

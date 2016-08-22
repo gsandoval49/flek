@@ -22,22 +22,17 @@ require_once("FlekTest.php");
 class FavoriteTest extends FlekTest {
 	/**
 	 * Profile that created Favoritee and Favoriter
-	 *@var Profile profile for Favorite
+	 *@var Profile favoriteeId
 	 *
 	 **/
 	protected $favoriteeId = null;
-
+	/**
+	 * Profile that created Favoritee and Favoriter
+	 *@var Profile favoriterId
+	 *
+	 **/
 	protected $favoriterId = null;
 
-	private $hash;
-
-	private $salt;
-
-	protected $profileAccessToken = "01234567890";
-
-	protected $profileActivationToken = "01234567890123456789012345678901";
-
-	protected $profileActivationToken2 = "243647587688685764859687";
 	/*
 	 * create dependent objects before running each test
 	 */
@@ -45,23 +40,12 @@ class FavoriteTest extends FlekTest {
 		// run the parent method first
 		parent::setUp();
 
-		$this->VALID_PROFILEACCESSTOKEN = bin2hex(random_bytes(16));
-		$this->VALID_PROFILEACTIVATIONTOKEN = bin2hex(random_bytes(16));
-		$password = "abc123";
-		$this->salt = bin2hex(random_bytes(32));
-		$this->hash = hash_pbkdf2("sha256", "abc123", $this->salt, 262144);
-
-		//$this->profile = new Profile(null,"csosa4", "foo@bar1.com", "Rio, Rancho", "test is passing", $this->hash, $this->salt, $this->profileAccessToken, $this->profileActivationToken);
-		//$this->profile->insert($this->getPDO());
-
-		//$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $this->profile->getProfileId());
-
-		$this->favoriteeId = new Profile(null,"csosa4", "foo@bar.com", "Rio, Rancho", "test is passing", $this->hash, $this->salt, $this->profileAccessToken, $this->profileActivationToken);
+		$this->favoriteeId = new Profile(null,"csosa4", "foo@bar.com", "Rio, Rancho", "test is passing", "12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678","1234567890123456789012345678901234567890123456789012345678901234", "01234567890","01234567890123456789012345678901");
 		$this->favoriteeId->insert($this->getPDO());
 
 		//create and insert a Profile favorite to be given
-		$this->favoriterId = new Profile(null,"csosa4", "bar@foo2.com", "Rio, Rancho", "test is passing", $this->hash, $this->salt, $this->profileAccessToken, $this->profileActivationToken);
-		$this->favoriterId->insert($this->getPDO());
+		$favoriterId = new Profile(null,"csosa4", "bar@foo2.com", "Rio, Rancho", "test is passing", "12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678","1234567890123456789012345678901234567890123456789012345678901234", "01234567890","01234567890123456789012345678901");
+		$favoriterId->insert($this->getPDO());
 
 	}
 
@@ -76,7 +60,7 @@ class FavoriteTest extends FlekTest {
 		//$profile->insert($this->getPDO());
 
 		// create a new Favorite and insert to into mySQL
-		$favorite = new Favorite($this->favoriteeId->getProfileId(), $this->favoriterId->getProfileId(), $this->hash, $this->salt, "01234567890", "01234567890123456789012345678901");
+		$favorite = new Favorite($this->favoriteeId->getProfileId(), $this->favoriterId->getProfileId());
 		$favorite->insert($this->getPDO());
 
 		//grab the data from mySQL and enforce the fields match our expectations
