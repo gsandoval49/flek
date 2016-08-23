@@ -62,24 +62,45 @@ try {
 	//Get profile by Name then update it
 	if(empty($name) === false) {
 		$name = Flek\profile::getProfileByProfileName($pdo, $name);
-			if($profile !== null) {
-				$reply->data = $profiles;
-	}
-
-	//Get profile by Email and then update it
-	if(empty($email) === false) {
-		$email = Flek\profile::getProfileByProfileEmail($pdo, $email);
 		if($profile !== null) {
 			$reply->data = $profiles;
 		}
 
-		//Get All profiles then update it
-	} else {
+		//Get profile by Email and then update it
+		if(empty($email) === false) {
+			$email = Flek\profile::getProfileByProfileEmail($pdo, $email);
+			if($profile !== null) {
+				$reply->data = $profiles;
+			}
+
+			//Get All profiles then update it
+		} else {
 			$profiles = Flek\Profile::getAllProfiles($pdo);
 			if($profiles !== null) {
-					$reply->data = $profiles;
+				$reply->data = $profiles;
 			}
+		}
+		//----------------------PUT---------------------------------
+	elseif
+		((empty($_SESSION["profile"]) === false) && (($_SESSION["profile"]->getProfileId()) === $id));
 	}
+	else if ($method === "PUT") {
+		verifyXsrf();
+		$requestContent = file_get_contents("php://input");
+
+		$requestObject = json_decode($requestContent);
+
+		//make sure name of the profile is available
+		if(empty($requestObject->profileName) === true) {
+			throw(new \InvalidArgumentException("No profile name for Profile", 405));
+		}
+
+		//make sure profile id is available
+		if(empty($requestObject->profileId) === true) {
+			throw(new \InvalidArgumentException("No profile id for Profile", 405)):
+	}
+
+
 
 
 
