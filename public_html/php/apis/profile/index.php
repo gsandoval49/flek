@@ -35,10 +35,51 @@ try {
 	$location = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
 	// DO WE ALSO GET PASSWORD ?
 
-	//make sure the id is valid for methods that require it
+	//make sure the primary key is valid for methods that require it
 	if($method === "GET" || $method === "PUT") && (empty($id) === true || $id < 0) {
 		throw(new InvalidArgumentException(("id cannot be empty or negative", 405));
 	}
 
-	//handle GET request - if id is present, that
-}
+	//make sure the profile name is valid for methods that require it
+	if($method === "GET" || $method === "PUT") && (empty($profile) === true || $profile < 0) {
+		throw(new InvalidArgumentException(("profile cannot be empty or negative", 405));
+	}
+
+	//make sure the email is valid for methods that require it
+	if($method === "GET" || $method === "PUT") && (empty($email) === true || $location < 0) {
+		throw(new InvalidArgumentException(("location cannot be empty or negative", 405));
+	}
+
+	//----------------------GET---------------------------------
+	elseif((empty($_SESSION["profile"]) === false) && (($_SESSION["profile"]->getProfileId()) === $id));
+
+	//Get profile by profile id then update it
+	if(empty($id) === false) {
+		$profile = Flek\profile::getProfileByProfileId($pdo, $id);
+			if($profile !== null) {
+				$reply->data = $profiles;
+			}
+	//Get profile by Name then update it
+	if(empty($name) === false) {
+		$name = Flek\profile::getProfileByProfileName($pdo, $name);
+			if($profile !== null) {
+				$reply->data = $profiles;
+	}
+
+	//Get profile by Email and then update it
+	if(empty($email) === false) {
+		$email = Flek\profile::getProfileByProfileEmail($pdo, $email);
+		if($profile !== null) {
+			$reply->data = $profiles;
+		}
+
+		//Get All profiles then update it
+	} else {
+			$profiles = Flek\Profile::getAllProfiles($pdo);
+			if($profiles !== null) {
+					$reply->data = $profiles;
+			}
+	}
+
+
+
