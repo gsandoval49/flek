@@ -7,7 +7,7 @@ require_once ("/etc/apache2/capstone-mysql/encrypted-config.php");
 use Edu\Cnm\Flek\Activation;
 
 /**
- * api for Activation
+ * api for Activation Token
  *
  * @author Christina Sosa <csosa4@cnm.edu>; referenced Derek Mauldin <derek.e.mauldin@gmail.com>
 **/
@@ -34,6 +34,31 @@ try {
 		//set XSRF cookie
 		setXsrfCookie();
 	//get the Sign up based on the given field
-
+	$emailActivationToken = filter_input(INPUT_GET, "id", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($emailActivationToken)) {
+			throw(new \RangeException("No Activation Token"));
+		}
+		$profile = Profile::getProfileByProfileActivationToken($pdo, $emailActivationToken);
+		if(empty($user)) {
+			throw(new \InvalidArgumentException("No profile for Activation Token"));
+		}
+		$profile->setProfileActivationToken(null);
+		$profile->update($pdo);
+	} else {
+		throw(new\Exception("Invalid HTTP method"));
 	}
+	//update reply with exception information
+} catch (Exception $exception) {
+	$reply->status = $exception->getCode();
+	$reply->message = $exception->getMessage();
+} catch(\TypeError $typeError) {
+	$reply->status = $typeError->getCode();
+	$reply->message = $typeError->getMessage();
+
+	header("Content-type: application/json");
+	if($reply->data === null) {
+		unset($reply->data);
+	}
+	//encode and return reply to front end caller
+	echo json_encode($reply);
 }
