@@ -30,4 +30,15 @@ try {
 
 	//sanitize input
 	$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
+	$name = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
+	$email = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
+	$location = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
+	// DO WE ALSO GET PASSWORD ?
+
+	//make sure the id is valid for methods that require it
+	if($method === "GET" || $method === "PUT") && (empty($id) === true || $id < 0) {
+		throw(new InvalidArgumentException(("id cannot be empty or negative", 405));
+	}
+
+	//handle GET request - if id is present, that
 }
