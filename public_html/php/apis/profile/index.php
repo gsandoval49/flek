@@ -97,8 +97,34 @@ try {
 
 		//make sure profile id is available
 		if(empty($requestObject->profileId) === true) {
-			throw(new \InvalidArgumentException("No profile id for Profile", 405)):
+			throw(new \InvalidArgumentException("No profile id for Profile", 405));
 	}
+
+		// Retrieve the profile that will be updated in this PUT.
+		$profile = Profile::getProfileByProfileId($pdo, $id);
+		if($profile === null) {
+			throw(new RuntimeException("The profile does not exist", 404));
+		}
+		//put Profile attributes into the profile and update
+		$profile->setProfileId($requestObject->profileId);
+		$profile->setProfileName($requestObject->profileName);
+		$profile->setProfileEmail($requestObject->profileEmail);
+		$profile->update($pdo);
+
+		//update reply
+		$reply->message = "Profile updated ok";
+
+
+
+
+
+
+
+		// make sure profile name is available
+		if(empty($requestObject->profileName) === true) {
+			throw(new \InvalidArgumentException("No profile name for Profile", 405));
+	}
+
 
 
 
