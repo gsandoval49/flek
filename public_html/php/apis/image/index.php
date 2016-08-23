@@ -41,7 +41,7 @@ try {
 	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/flek.ini");
 
 	//determine which HTTP method was used
-	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] :$_SERVER["REQUEST_METHOD"];
+	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 	$reply->method = $method;
 
 	//sanitize the input
@@ -52,7 +52,15 @@ try {
 		throw (new InvalidArgumentException("id cannot be empty or negative", 405));
 	}
 
+	if($method === "POST") {
+
+	}
+
 	if($method === "GET") {
+
+	}
+
+	if($method === "DELETE") {
 
 	}
 
