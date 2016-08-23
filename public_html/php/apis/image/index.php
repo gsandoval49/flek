@@ -1,11 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: robis_000
- * Date: 8/22/2016
- * author: Rob Harding
- * version 1.0.0
-<?php
+
 /**
  * Created by PhpStorm.
  * User: robis_000
@@ -22,7 +16,12 @@ use Edu\Cnm\Flek\(Image);
 /**
  * api for Image class
  *
+ * POST - use the files array to send image to cloudinary
+ * GET - get the meta-data from cloudinary instead of the image itself
+ * DELETE - delete image
+ *
  * @author Rob Harding
+ * @version 1.0.0
  **/
 
 
