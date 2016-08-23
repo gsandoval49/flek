@@ -9,11 +9,11 @@ require_once "autoloader.php";
 require_once "/lib/xsrf.php";
 require_once("/etc/apache2/flek-mysql/encrypted-config.php");
 
-use Edu\Cnm\Flek\(Image);
+use Edu\Cnm\Flek\(Genre);
 
 
 /**
- * api for SocialLogin class
+ * api for Genre class
  *
  * @author Rob Harding
  **/
