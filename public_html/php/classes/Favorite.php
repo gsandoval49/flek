@@ -2,6 +2,7 @@
 namespace Edu\Cnm\Flek;
 
 require_once("autoload.php");
+
 /**
  * This favorite can be considered a small example of what could be stored when profiles
  *
@@ -38,20 +39,16 @@ class Favorite implements \JsonSerializable {
 		try {
 			$this->setFavoriteeId($newFavoriteeId);
 			$this->setFavoriterId($newFavoriterId);
-		}
-		catch(\InvalidArgumentException $invalidargument) {
+		} catch(\InvalidArgumentException $invalidargument) {
 			//rethrow invalid argument to caller
 			throw(new \InvalidArgumentException($invalidargument->getMessage(), 0, $invalidargument));
-		}
-		 catch(\RangeException $range) {
+		} catch(\RangeException $range) {
 			//rethrow exception to caller
 			throw(new \RangeException($range->getMessage(), 0, $range));
-		}
-			catch(\TypeError $typeError) {
+		} catch(\TypeError $typeError) {
 			//rethrow exception to caller
 			throw(new \TypeError($typeError->getMessage(), 0, $typeError));
-		}
-			catch(\Exception $exception) {
+		} catch(\Exception $exception) {
 			//rethrow regular exception to caller
 			throw(new \Exception($exception->getMessage(), 0, $exception));
 		}
@@ -67,20 +64,19 @@ class Favorite implements \JsonSerializable {
 
 	/**
 	 * mutator method for favoritee id
-	 * @param int}null $newFavoriteeId new value of favoritee id
+	 * @param int }null $newFavoriteeId new value of favoritee id
 	 * @throws \RangeException if $newFavoriteeId is not positive
 	 * @throws \Exception if $newFavoriteeId is not valid
 	 **/
 	public function setFavoriteeId(int $newFavoriteeId) {
 		//if the favoritee id is null this a new favoritee given by sender
 
-		if($newFavoriteeId <= 0){
+		if($newFavoriteeId <= 0) {
 			throw(new \RangeException ("favoritee id cannot be equal to null"));
 		}
 		// convert and store favoriteeId
 		$this->favoriteeId = intval($newFavoriteeId);
 	}
-
 
 
 	/**
@@ -104,7 +100,7 @@ class Favorite implements \JsonSerializable {
 		}
 		// convert and store favoriteeId
 		$this->favoriterId = intval($newFavoriterId);
-		}
+	}
 
 	/**
 	 * inserts this Favorite into mySQL
@@ -187,18 +183,18 @@ class Favorite implements \JsonSerializable {
 			}
 
 		}
-			return ($favorites);
-		}
+		return ($favorites);
+	}
 
 
 	/**
 	 * gets the favoriterId by ProfileId
-  * @param \PDO $pdo PDO connection object
-  * @param int $favoriterId favoritee id to search for
-	*@return \SPLFixedArray of favoriterId
-  * @throws \PDOException when mySQL related erros occur
-  * @throws \TypeError when variables are not the correct data type
-  **/
+	 * @param \PDO $pdo PDO connection object
+	 * @param int $favoriterId favoritee id to search for
+	 * @return \SPLFixedArray of favoriterId
+	 * @throws \PDOException when mySQL related erros occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
 
 	public static function getFavoriteByFavoriterId(\PDO $pdo, int $favoriterId) {
 		//sanitize the favoriteeId before searching
@@ -220,15 +216,12 @@ class Favorite implements \JsonSerializable {
 				$favorite = new Favorite($row["favoriteeId"], $row["favoriterId"]);
 				$favorites[$favorites->key()] = $favorite;
 				$favorites->next();
-			}
-				catch(\Exception $exception) {
+			} catch(\Exception $exception) {
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
-		return($favorites);
+		return ($favorites);
 	}
-
-
 
 
 	/**
@@ -249,29 +242,29 @@ class Favorite implements \JsonSerializable {
 			throw(new \PDOException("favoriter id is not positive"));
 		}
 
-			//create a query template
-			$query = "SELECT favoriteeId, favoriterId FROM favorite WHERE favoriteeId = :favoriteeId AND favoriterId = :favoriterId";
-			$statement = $pdo->prepare($query);
+		//create a query template
+		$query = "SELECT favoriteeId, favoriterId FROM favorite WHERE favoriteeId = :favoriteeId AND favoriterId = :favoriterId";
+		$statement = $pdo->prepare($query);
 
-			//bind the variables to the place holders in the template
-			$parameters = ["favoriteeId" => $favoriteeId, "favoriterId" => $favoriterId];
-			$statement->execute($parameters);
+		//bind the variables to the place holders in the template
+		$parameters = ["favoriteeId" => $favoriteeId, "favoriterId" => $favoriterId];
+		$statement->execute($parameters);
 
-			//grab the favorite from mySQL
-			try {
-				$favorite = null;
-				$statement->setFetchMode(\PDO::FETCH_ASSOC);
-				$row = $statement->fetch();
-				if($row !== false) {
-					$favorite = new favorite($row["favoriteeId"], $row["favoriterId"]);
-				}
+		//grab the favorite from mySQL
+		try {
+			$favorite = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$favorite = new favorite($row["favoriteeId"], $row["favoriterId"]);
 			}
-				catch(\Exception $exception) {
-				//if the row couldn't be converted rethrow it
-				throw(new \PDOException($exception->getMessage(), 0, $exception));
-			}
-			return ($favorite);
+		} catch(\Exception $exception) {
+			//if the row couldn't be converted rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
+		return ($favorite);
+	}
+
 	/**
 	 * formats the state variables for JSON serialization
 	 * @return array resulting state variables to serialize
