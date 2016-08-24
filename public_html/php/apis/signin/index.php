@@ -17,4 +17,11 @@ if(session_status() !== PHP_SESSION_ACTIVE) {
 $reply = new stdClass();
 $reply->status = 200;
 $reply->data = null;
+try {
+	//grab mySQL statement
+	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/flek.ini");
+	//determine which HTTP method was used
+	$method = array_key_exists("HTTP_X_HTTP_MEHTOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
+
+}
 
