@@ -79,4 +79,12 @@ EOF;
 	} else {
 		throw(new InvalidArgumentException("Error sending email."));
 	}
+} catch(\Exception $exception) {
+	$reply->status = $exception->getCode();
+	$reply->message = $exception->getMessage();
+} catch(\TypeError $typeError) {
+	$reply->status = $typeError->getCode();
+	$reply->message = $typeError->getMessage();
 }
+header("Content-type: application/json");
+echo json_encode($reply);
