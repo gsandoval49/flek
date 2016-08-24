@@ -30,6 +30,7 @@ try {
 
     // sanitize input
     $id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
+    // TODO: check to see if I need $name here
 
     // ensuring the id is valid for methods that require it, no \ wack needed in InvalidArgumentException
     if(($method === "DELETE" || $method === "PUT") && (empty($id) === true || $id < 0)) {
@@ -67,9 +68,23 @@ try {
         }
 
         // perform the actual put or post
-        if($method = "PUT")
+        if($method = "PUT") {
 
+            // retrieve the tag to update
+            $tag = Tag::getTagByTagId($pdo, $id);
+            if($tag === null) {
+                throw(new RuntimeException("Tag does not exist", 404));
+            }
 
+            // update all attributes
+            $tag->setTagName($requestObject->tagName);
+            $tag->update($pdo);
+
+            // update reply
+            $reply->message = "Tag updated OK";
+        } else if ($method === "POST") {
+
+        }
     }
 }
 
