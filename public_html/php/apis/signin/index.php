@@ -29,6 +29,12 @@ try {
 		$requestObject = json_decode($requestContent);
 
 		//check that the necessary fields have been sent and filter
+		if(empty($requestObject->profilePassword) === true) {
+			throw(new InvalidArgumentException("Must enter a password."));
+		} else {
+			$password = filter_var($requestObject->profilePassword, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		}
+
 	}
 }
 

@@ -42,7 +42,7 @@ try {
 			throw(new \RangeException("No Activation Token"));
 		}
 		$profile = Profile::getProfileByProfileActivationToken($pdo, $emailActivationToken);
-		if(empty($user)) {
+		if(empty($profile)) {
 			throw(new \InvalidArgumentException("No profile for Activation Token"));
 		}
 		$profile->setProfileActivationToken(null);

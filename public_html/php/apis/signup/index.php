@@ -33,7 +33,7 @@ try{
 	if($method === "POST") {
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
-		//check that the user fields that are required have been sent
+		//check that the profile fields that are required have been sent
 		if(empty($requestObject->profileName) === true) {
 			throw(new InvalidArgumentException("Must fill in first and last name."));
 		} else {
