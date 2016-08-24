@@ -72,6 +72,11 @@ try{
 <h2>Welcome to Flek!</h2>
 <p>Please visit the following URL to set a new password and complete the sign-up process: </p>
 EOF;
-
+		$response = sendEmail ($profileEmail, $profileName, $messageSubject, $message);
+		if($response === "Email sent.") {
+			$reply->message = "Sign up was successful! Please check your email for activation message.";
+		}
+	} else {
+		throw(new InvalidArgumentException("Error sending email."));
 	}
 }
