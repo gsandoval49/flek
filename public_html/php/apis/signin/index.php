@@ -21,7 +21,7 @@ try {
 	//grab mySQL statement
 	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/flek.ini");
 	//determine which HTTP method was used
-	$method = array_key_exists("HTTP_X_HTTP_MEHTOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
+	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 	//perform the post
 	if($method === "POST") {
 		//verifyXsrf();
@@ -29,6 +29,11 @@ try {
 		$requestObject = json_decode($requestContent);
 
 		//check that the necessary fields have been sent and filter
+		if(empty($requestObject->profileEmail) === true) {
+			throw(new InvalidArgumentException("Invalid email address."));
+		} else {
+			$email = filter_var($requestObject->profileEmail, FILTER_SANITIZE_EMAIL);
+		}
 		if(empty($requestObject->profilePassword) === true) {
 			throw(new InvalidArgumentException("Must enter a password."));
 		} else {
