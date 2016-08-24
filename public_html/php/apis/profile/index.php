@@ -7,7 +7,7 @@ require_once("/etc/apache2/flek-mysql/encrypted-config.php");
 use Edu\Cnm\Flek\(Profile);
 
 /**
- * api for Profile class
+ * Api for Profile class
  *
  * @author Diane Peshlakai <dpeshlakai3@cnm.edu>
  **/
@@ -30,11 +30,11 @@ try {
 
 	//sanitize input
 	$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
-	$name = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
-	$email = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
-	$location = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
+	$name = filter_input(INPUT_GET, "name", FILTER_VALIDATE_INT);
+	$email = filter_input(INPUT_GET, "email", FILTER_VALIDATE_INT);
+	$location = filter_input(INPUT_GET, "location", FILTER_VALIDATE_INT);
 	// DO WE ALSO GET PASSWORD ?
-
+	//ensure the information is valid
 	//make sure the primary key is valid for methods that require it
 	if($method === "GET" || $method === "PUT") && (empty($id) === true || $id < 0) {
 		throw(new InvalidArgumentException(("id cannot be empty or negative", 405));
@@ -91,14 +91,20 @@ try {
 		$requestObject = json_decode($requestContent);
 
 		//make sure name of the profile is available
-		if(empty($requestObject->profileName) === true) {
+		if(empty($requestObject->profileId) === true) {
 			throw(new \InvalidArgumentException("No profile name for Profile", 405));
 		}
 
 		//make sure profile id is available
-		if(empty($requestObject->profileId) === true) {
+		if(empty($requestObject->profileName) === true) {
 			throw(new \InvalidArgumentException("No profile id for Profile", 405));
 	}
+
+		//make sure profile email is available
+		if(empty($requestObject->profileEmail) === true) {
+			throw(new \InvalidArgumentException("No profile email for Profile", 405));
+	}
+
 
 		// Retrieve the profile that will be updated in this PUT.
 		$profile = Profile::getProfileByProfileId($pdo, $id);
