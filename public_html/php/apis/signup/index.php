@@ -4,7 +4,7 @@ require_once "autoloader.php";
 require_once "/lib/xsrf.php";
 require_once ("/etc/apache2/capstone-mysql/encrypted-config.php");
 
-use Edu\Cnm\Flek;
+use Edu\Cnm\Flek\Profile;
 
 /**
  * api for signup
@@ -61,6 +61,17 @@ try{
 		$profileActivationToken = bin2hex(random_bytes(16));
 		$profile = new Flek\Profile(null, null, $profileAccessToken, $profileActivationToken, $profileName, $profileEmail, $profileLocation);
 		$profile->insert($pdo);
+		$messageSubject = "Flek Account Activation";
+
+//building the activation link that can travel to another server and still work. This is the link that will be clicked to confirm the account.
+//FIXME: make sure URL is /public_html/activation/$activation
+		$basePath = dirname($_SERVER["SCRIPT_NAME"], 4);
+		$urlglue = $basePath . "/activation/" . $activation;
+		$confirmLink = "https://" . $_SERVER["SERVER_NAME"] . $urlglue;
+		$message = <<< EOF
+<h2>Welcome to Flek!</h2>
+<p>Please visit the following URL to set a new password and complete the sign-up process: </p>
+EOF;
 
 	}
 }
