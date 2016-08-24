@@ -29,7 +29,7 @@ try{
 	//determine which HTTP method was used
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER
 	["REQUEST_METHOD"];
-	$reply->method = $method
+	$reply->method = $method;
 	if($method === "POST") {
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
@@ -44,15 +44,23 @@ try{
 		} else {
 			$profileEmail = filter_var($requestObject->profileEmail, FILTER_SANITIZE_EMAIL);
 		}
+		if(empty($requestObject->profileLocation) ===true) {
+			throw(new InvalidArgumentException("Must fill in location."));
+		} else {
+			$profileLocation = filter_var($requestObject->profileLocation, FILTER_SANITIZE_STRING,
+				FILTER_FLAG_NO_ENCODE_QUOTES);
+		}
 		if(empty($requestObject->password) ===true) {
 			throw(new InvalidArgumentException("Must fill in password."));
 		} else {
 			$password = filter_var($requestObject->password, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		}
-		if(empty($requestObject->verifyPassword) === true) {
-			throw(new InvalidArgumentException("Please verify password."));
-		} else {
-			$verifyPassword = filter_var($requestObject->verifyPassword, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-		}
+		$hash = hash_pbkdf2("sha512", "abc123", $this->$salt, 262144);
+		$salt = bin2hex(random_bytes(32));
+		$profileAccessToken = bin2hex(random_bytes(16));
+		$profileActivationToken = bin2hex(random_bytes(16));
+		$profile = new Flek\Profile(null, null, $profileAccessToken, $profileActivationToken, $profileName, $profileEmail, $profileLocation);
+		$profile->insert($pdo);
+
 	}
 }
