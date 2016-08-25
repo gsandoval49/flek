@@ -84,9 +84,45 @@ try {
             $reply->message = "Tag updated OK";
         } else if ($method === "POST") {
 
+            // create new tag and insert into database
+            // TODO double check to see if code should be new "Flek\Tag"
+            $tag = new Edu\Cnm\Flek\Tag(null, $requestObject->tagName);
+            $tag->insert($pdo);
         }
+    } else if ($method === "DELETE") {
+        verifyXsrf();
+
+        // retrieve the tag to be deleted
+        $tag = Edu\Cnm\Flek\Tag::getTagByTagId($pdo, $id);
+        if($tag === null) {
+            throw(new RuntimeException("Tag does not exist", 404));
+        }
+
+        // delete the tag
+        $tag->delete($pdo);
+
+        // update reply
+        $reply->message = "Tag deleted OK";
+    } else {
+        throw(new InvalidArgumentException("Invalid HTTP method request"));
     }
+    // update reply with exception information
+} catch(Exception $exception) {
+    $reply->status = $exception->getCode();
+    $reply->message = $exception->getMessage();
+} catch(TypeError $typeError) {
+    $reply->status = $typeError->getCode();
+    $reply->status = $typeError->getMessage();
 }
+
+header("Content=type: application/json");
+if($reply->data === null) {
+    unset($reply->data);
+}
+
+// encode and return reply to front end caller
+echo json_encode($reply);
+
 
 
 
