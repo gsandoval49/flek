@@ -34,8 +34,8 @@ try {
 	$name = filter_input(INPUT_GET, "name", FILTER_SANITIZE_STRING);
 	$email = filter_input(INPUT_GET, "email", FILTER_SANITIZE_STRING);
 	$location = filter_input(INPUT_GET, "location", FILTER_SANITIZE_STRING);
-	$profileActivationToken = filter_input(INPUT_GET, "profileActivationToken", FILTER_SANITIZE_STRING);
-
+	$profileActivationToken = filter_input(INPUT_GET, "profileActivationToken", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	$bio = filter_input(INPUT_GET, "bio", FILTER_SANITIZE_STRING);
 	// DO WE ALSO GET PASSWORD ?
 	//ensure the information is valid
 	//make sure the primary key is valid for methods that require it
@@ -43,15 +43,22 @@ try {
 		throw(new InvalidArgumentException(("id cannot be empty or negative", 405));
 }
 
-	//make sure the profile name is valid for methods that require it
-	if($method === "GET" || $method === "PUT") && (empty($profile) === true || $profile < 0) {
-		throw(new InvalidArgumentException(("profile cannot be empty or negative", 405));
+// restrict to just anyone logged in
+if((empty($_SESSION["profile"]) === false);	{
 }
 
+		if(empty($_SESSION["profile"]) === false &&
+	$_SESSION["profile"]->getProfileId() === $id);
+
+}
+	//make sure the profile name is valid for methods that require it
+	//if($method === "GET" || $method === "PUT") && (empty($profile) === true || $profile < 0) {
+		//throw(new InvalidArgumentException(("profile cannot be empty or negative", 405));
+
 	//make sure the email is valid for methods that require it
-	if($method === "GET" || $method === "PUT") && (empty($email) === true || $location < 0) {
-		throw(new InvalidArgumentException(("location cannot be empty or negative", 405));
-	}
+	//if($method === "GET" || $method === "PUT") && (empty($email) === true || $email < 0) {
+		//throw(new InvalidArgumentException(("location cannot be empty or negative", 405));
+
 
 	//----------------------GET---------------------------------
 
@@ -66,14 +73,14 @@ if($method === "GET") {
 		}
 	}
 	//Get profile by Name then update it
-	if(empty($name) === false) {
+	elseif(empty($name) === false) {
 		$name = Flek\profile::getProfileByProfileName($pdo, $name);
 		if($profile !== null) {
 			$reply->data = $profiles;
 		}
 	}
 		//Get profile by Email and then update it
-		if(empty($email) === false) {
+		elseif(empty($email) === false) {
 			$email = Flek\profile::getProfileByProfileEmail($pdo, $email);
 			if($profile !== null) {
 				$reply->data = $profiles;
@@ -88,7 +95,7 @@ if($method === "GET") {
 }
 		//----------------------PUT---------------------------------
 	elseif
-		((empty($_SESSION["profile"]) === false) && (($_SESSION["profile"]->getProfileId()) === $id) {
+		((empty($_SESSION["profile"]) === false) && ($_SESSION["profile"]->getProfileId()) === $id)) {
 			throw(new \InvalidArgumentException("you are not authorized to activate this profile"));
 	}
 

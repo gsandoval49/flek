@@ -29,3 +29,11 @@ try {
 	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/flek.ini");
 	//determine which HTTP method was used
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
+
+
+	// sanitize input
+	$favoriteeId = filter_input(INPUT_GET, "favoriteeId" ,FILTER_VALIDATE_INT);
+	$favoriterId = filter_input(INPUT_GET, "favoriterId" ,FILTER_VALIDATE_INT);
+
+
+	
