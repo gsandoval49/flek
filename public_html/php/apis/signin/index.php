@@ -49,7 +49,17 @@ try {
 		if($hash !== $profile->getProfileHash()) {
 			throw(new \InvalidArgumentException("Password or email is incorrect."));
 		}
-
+	} else {
+		throw(new InvalidArgumentException("Invalid HTTP method request."));
 	}
+} catch(\Exception $exception) {
+	$reply->status = $exception->getCode();
+	$reply->message = $exception->getMessage();
+} catch(\TypeError $typeError) {
+	$reply->status = $typeError->getCode();
+	$reply->message = $typeError->getMessage();
 }
+header("Content-type: application/json");
+echo json_encode($reply);
+
 
