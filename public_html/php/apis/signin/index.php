@@ -39,6 +39,16 @@ try {
 		} else {
 			$password = filter_var($requestObject->profilePassword, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		}
+		//create a profile $profile = Profile::getProfileByProfileEmail($pdo, $email);
+		if(empty($profile)) {
+			throw(new InvalidArgumentException("Invalid Email"));
+		}
+		//hash for $password
+		$hash = hash_pbkdf2("sha512", "abc123", $this->$salt, 262144);
+		//verify hash is correct
+		if($hash !== $profile->getProfileHash()) {
+			throw(new \InvalidArgumentException("Password or email is incorrect."));
+		}
 
 	}
 }
