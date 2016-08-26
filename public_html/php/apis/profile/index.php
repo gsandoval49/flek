@@ -27,7 +27,7 @@ try {
 	$pdo = connectToEncryptMySQL("/etc/apache2/flek-mysql/profile.ini");
 
 	// determine which HTTP method was used
-	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
+	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER("REQUEST_METHOD");
 
 	//sanitize input
 	$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
@@ -66,7 +66,7 @@ try {
 if($method === "GET") {
 	// set XSRF cookie
 	setXsrfCookie();
-	// get a specific user and  reply
+	// get a Specific profile by Id
 	if(empty ($id) === false) {
 		$user = Flek\Profile::getProfileByProfileId($pdo, $id);
 		if($profile !== null) {
@@ -75,16 +75,16 @@ if($method === "GET") {
 	}
 	//Get profile by Name then update it
 	elseif(empty($name) === false) {
-		$name = Flek\profile::getProfileByProfileName($pdo, $name);
+		$name = Flek\Profile::getProfileByProfileName($pdo, $name);
 		if($profile !== null) {
-			$reply->data = $profiles;
+			$reply->data = $profile;
 		}
 	}
 		//Get profile by Email and then update it
 		elseif(empty($email) === false) {
-			$email = Flek\profile::getProfileByProfileEmail($pdo, $email);
+			$email = Flek\Profile::getProfileByProfileEmail($pdo, $email);
 			if($profile !== null) {
-				$reply->data = $profiles;
+				$reply->data = $profile;
 			}
 		}
 			//Get All profiles then update it
@@ -100,14 +100,6 @@ if($method === "GET") {
 	verifyXsrf();
 	$requestContent = file_get_contents("php://input");
 	$requestObject = json_decode($requestContent);
-	//	((empty($_SESSION["profile"]) === false) && ($_SESSION["profile"]->getProfileId()) === $id)) {
-	//	throw(new \InvalidArgumentException("you are not authorized to activate this profile"));
-
-
-	//make sure name of the profile is available
-	if(empty($requestObject->profileId) === true) {
-		throw(new \InvalidArgumentException("No profile name for Profile", 405));
-	}
 
 	//make sure profile id is available
 	if(empty($requestObject->profileName) === true) {
@@ -119,25 +111,56 @@ if($method === "GET") {
 		throw(new \InvalidArgumentException("No profile email for Profile", 405));
 	}
 
-
-	// Retrieve the profile that will be updated in this PUT.
-	$profile = Profile::getProfileByProfileId($pdo, $id);
-	if($profile === null) {
-		throw(new RuntimeException("The profile does not exist", 404));
+	//make sure profile location is available
+	if(empty($requestObject->profileLocation) === true) {
+		throw(new \InvalidArgumentException("No profile location for Profile", 405));
 	}
-	//put Profile attributes into the profile and update
+
+	//make sure profile bio is available
+	if(empty($requestObject->profileBio) === true) {
+		throw(new \InvalidArgumentException("No profile biography for Profile", 405));
+	}
+	//prefrom the put
+	if($method === "PUT") ;
+
+	//restrict each user to their account
+	if(empty($_SESSION["profile"]) === false || $_SESSION["profile"]->getProfileId() !== $id) {
+		throw(new \InvalidArgumentException("You are not allowed to access this profile"));
+	}
+
+
+	//retrieve the profile and update it
+	$profile = Flek\Profile::getProfileByProfileId($pdo, $id);
+	if($profile === null) {
+		throw(new RuntimeException("Profile does not exist"));
+	}
+
+	//put new Profile attributes into the profile and update
 	$profile->setProfileId($requestObject->profileId);
 	$profile->setProfileName($requestObject->profileName);
 	$profile->setProfileEmail($requestObject->profileEmail);
+	$profile->setProfileLocation($requestObject->profileLocation);
+	$profile->setProfileBio($requestObject->profileBio);
+
+	if($requstObject->profilePassword !== null) {
+		$hash = hash_pbkdf2("sha256", $requestObject->getProfileId, $profile->getProfileSalt(), 262144);
+		$profile->setProfileHash($hash);
+	}
 	$profile->update($pdo);
+
 
 	//update reply
 	$reply->message = "Profile updated ok";
+}	else {
+	throw(new InvalidArgumentException("Invalid HTTP method request"));
+}
+	//update reply with exception information
+}	catch(Exception $exception) {
+		$reply->status = $exception-.getCode();
+		$reply->message = $exception
 
 
-	// make sure profile name is available
-	if(empty($requestObject->profileName) === true) {
-		throw(new \InvalidArgumentException("No profile name for Profile", 405));
+
 	}
 }
 
