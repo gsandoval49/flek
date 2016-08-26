@@ -1,7 +1,3 @@
-
-require 'vendor/autoload.php';
-use Mailgun\Mailgun;
-
 <?php
 
 /**
@@ -12,7 +8,7 @@ use Mailgun\Mailgun;
 
 require_once ("/etc/apache2/capstone-mysql/encrypted-config.php");
 
-$config = readConfig("/etc/apache2/capstone-mysql/devconnect.ini");
+$config = readConfig("/etc/apache2/capstone-mysql/flek.ini");
 $mailgun = json_decode($config["mailgun"]);
 
 // now $mailgun->domain and $mailgun->apiKey exist

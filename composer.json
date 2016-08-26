@@ -1,6 +1,6 @@
 {
   "require": {
     "adoy/oauth2": "@stable",
-    "mailgun/mailgun-php": "@stable",
+    "mailgun/mailgun-php": "@stable"
   }
 }

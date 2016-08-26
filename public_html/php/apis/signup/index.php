@@ -4,6 +4,9 @@ require_once "autoloader.php";
 require_once "/lib/xsrf.php";
 require_once ("/etc/apache2/capstone-mysql/encrypted-config.php");
 
+/*grabs composers autoload file - this was done in mail scrum meeting*/
+require_once (dirname(__DIR__4) . "vendor/autoload.php");
+
 use Edu\Cnm\Flek\Profile;
 
 /**
