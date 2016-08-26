@@ -27,7 +27,7 @@ try {
 	$pdo = connectToEncryptMySQL("/etc/apache2/flek-mysql/profile.ini");
 
 	// determine which HTTP method was used
-	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER("REQUEST_METHOD");
+	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 
 	//sanitize input
 	$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
@@ -39,128 +39,136 @@ try {
 	// DO WE ALSO GET PASSWORD ?
 	//ensure the information is valid
 	//make sure the primary key is valid for methods that require it
-	if($method === "GET" || $method === "PUT") && (empty($id) === true || $id < 0) {
-		throw(new InvalidArgumentException(("id cannot be empty or negative", 405));
-}
+	if($method === "GET" & (empty($id) === true || $id < 0)) {
+		throw(new InvalidArgumentException("id cannot be empty or negative", 405));
+	} elseif($method = "PUT") {
+		throw(new Exception ("This action is forbidden", 405));
+	}
 
-
+	//Do i need to restrict in GET ????
 // restrict to just anyone logged in
-	if((empty($_SESSION["profile"]) === false));	{
-}
 
-		if(empty($_SESSION["profile"]) === false &&
-	$_SESSION["profile"]->getProfileId() === $id);
+	//if(empty($_SESSION["profile"]) === false &&
+	//$_SESSION["profile"]->getProfileId() === $id);
 
-}
+
 	//make sure the profile name is valid for methods that require it
 	//if($method === "GET" || $method === "PUT") && (empty($profile) === true || $profile < 0) {
-		//throw(new InvalidArgumentException(("profile cannot be empty or negative", 405));
+	//throw(new InvalidArgumentException(("profile cannot be empty or negative", 405));
 
 	//make sure the email is valid for methods that require it
 	//if($method === "GET" || $method === "PUT") && (empty($email) === true || $email < 0) {
-		//throw(new InvalidArgumentException(("location cannot be empty or negative", 405));
+	//throw(new InvalidArgumentException(("location cannot be empty or negative", 405));
 
 
 	//----------------------GET---------------------------------
 
-if($method === "GET") {
-	// set XSRF cookie
-	setXsrfCookie();
-	// get a Specific profile by Id
-	if(empty ($id) === false) {
-		$user = Flek\Profile::getProfileByProfileId($pdo, $id);
-		if($profile !== null) {
-			$reply->data = $profile;
-		}
-	}
-	//Get profile by Name then update it
-	elseif(empty($name) === false) {
-		$name = Flek\Profile::getProfileByProfileName($pdo, $name);
-		if($profile !== null) {
-			$reply->data = $profile;
-		}
-	}
-		//Get profile by Email and then update it
+	if($method === "GET") {
+		// set XSRF cookie
+		setXsrfCookie();
+		// get a Specific profile by Id
+		if(empty ($id) === false) {
+			$user = Flek\Profile::getProfileByProfileId($pdo, $id);
+			if($profile !== null) {
+				$reply->data = $profile;
+			}
+		} //Get profile by Name then update it
+		elseif(empty($name) === false) {
+			$name = Flek\Profile::getProfileByProfileName($pdo, $name);
+			if($profile !== null) {
+				$reply->data = $profile;
+			}
+		} //Get profile by Email and then update it
 		elseif(empty($email) === false) {
 			$email = Flek\Profile::getProfileByProfileEmail($pdo, $email);
 			if($profile !== null) {
 				$reply->data = $profile;
 			}
 		}
-			//Get All profiles then update it
-		} else {
-	$profiles = Flek\Profile::getAllProfiles($pdo);
-	if($profiles !== null) {
-		$reply->data = $profiles;
+		//Get All profiles then update it
+	} else {
+		$profiles = Flek\Profile::getAllProfiles($pdo);
+		if($profiles !== null) {
+			$reply->data = $profiles;
 
-		//need limit access
-		//store and change password
-	} //----------------------PUT---------------------------------
-	elseif($method === "PUT") ;
-	verifyXsrf();
-	$requestContent = file_get_contents("php://input");
-	$requestObject = json_decode($requestContent);
+			//need limit access
+			//store and change password
+		} //----------------------PUT---------------------------------
+		elseif($method === "PUT") ;
+		verifyXsrf();
+		$requestContent = file_get_contents("php://input");
+		$requestObject = json_decode($requestContent);
 
-	//make sure profile id is available
-	if(empty($requestObject->profileName) === true) {
-		throw(new \InvalidArgumentException("No profile id for Profile", 405));
+		//make sure profile id is available
+		if(empty($requestObject->profileName) === true) {
+			throw(new \InvalidArgumentException("No profile id for Profile", 405));
+		}
+
+		//make sure profile email is available
+		if(empty($requestObject->profileEmail) === true) {
+			throw(new \InvalidArgumentException("No profile email for Profile", 405));
+		}
+
+		//make sure profile location is available
+		if(empty($requestObject->profileLocation) === true) {
+			throw(new \InvalidArgumentException("No profile location for Profile", 405));
+		}
+
+		//make sure profile bio is available
+		if(empty($requestObject->profileBio) === true) {
+			throw(new \InvalidArgumentException("No profile biography for Profile", 405));
+		}
+		//prefrom the put
+		if($method === "PUT") ;
+
+		//restrict each user to their account
+		if(empty($_SESSION["profile"]) === false || $_SESSION["profile"]->getProfileId() !== $id) {
+			throw(new \InvalidArgumentException("You are not allowed to access this profile"));
+		}
+
+
+		//retrieve the profile and update it
+		$profile = Flek\Profile::getProfileByProfileId($pdo, $id);
+		if($profile === null) {
+			throw(new RuntimeException("Profile does not exist"));
+		}
+
+		//put new Profile attributes into the profile and up date
+		$profile->setProfileId($requestObject->profileId);
+		$profile->setProfileName($requestObject->profileName);
+		$profile->setProfileEmail($requestObject->profileEmail);
+		$profile->setProfileLocation($requestObject->profileLocation);
+		$profile->setProfileBio($requestObject->profileBio);
+
+		if($requestObject->profilePassword !== null) {
+			$hash = hash_pbkdf2("sha256", $requestObject->getProfileId, $profile->getProfileSalt(), 262144);
+			$profile->setProfileHash($hash);
+		}
+		$profile->update($pdo);
+
+		//update reply
+		$reply->message = "Profile updated ok";
 	}
 
-	//make sure profile email is available
-	if(empty($requestObject->profileEmail) === true) {
-		throw(new \InvalidArgumentException("No profile email for Profile", 405));
-	}
-
-	//make sure profile location is available
-	if(empty($requestObject->profileLocation) === true) {
-		throw(new \InvalidArgumentException("No profile location for Profile", 405));
-	}
-
-	//make sure profile bio is available
-	if(empty($requestObject->profileBio) === true) {
-		throw(new \InvalidArgumentException("No profile biography for Profile", 405));
-	}
-	//prefrom the put
-	if($method === "PUT") ;
-
-	//restrict each user to their account
-	if(empty($_SESSION["profile"]) === false || $_SESSION["profile"]->getProfileId() !== $id) {
-		throw(new \InvalidArgumentException("You are not allowed to access this profile"));
-	}
-
-
-	//retrieve the profile and update it
-	$profile = Flek\Profile::getProfileByProfileId($pdo, $id);
-	if($profile === null) {
-		throw(new RuntimeException("Profile does not exist"));
-	}
-
-	//put new Profile attributes into the profile and update
-	$profile->setProfileId($requestObject->profileId);
-	$profile->setProfileName($requestObject->profileName);
-	$profile->setProfileEmail($requestObject->profileEmail);
-	$profile->setProfileLocation($requestObject->profileLocation);
-	$profile->setProfileBio($requestObject->profileBio);
-
-	if($requstObject->profilePassword !== null) {
-		$hash = hash_pbkdf2("sha256", $requestObject->getProfileId, $profile->getProfileSalt(), 262144);
-		$profile->setProfileHash($hash);
-	}
-	$profile->update($pdo);
-
-
-	//update reply
-	$reply->message = "Profile updated ok";
-}	else {
+	else {
 	throw(new InvalidArgumentException("Invalid HTTP method request"));
 }
 	//update reply with exception information
 }	catch(Exception $exception) {
-		$reply->status = $exception-.getCode();
-		$reply->message = $exception
-
-
-
-	}
+	$reply->status = $exception->getCode();
+	$reply->message = $exception->getMessage();
+	$reply->trace = $exception->getTraceAsString();
+}	catch(TypeError $typeError) {
+	$reply->status = $typeError->getCode();
+	$reply->message = $typeError->getMessage();
 }
+
+header("Content-type: application/json");
+if($reply->data === null) {
+	unset($reply->data);
+}
+
+//encode and return reply to front end caller
+	echo json_encode($reply);
+
 
