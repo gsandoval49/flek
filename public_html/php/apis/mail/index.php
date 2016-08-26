@@ -14,7 +14,7 @@ $mailgun = json_decode($config["mailgun"]);
 // now $mailgun->domain and $mailgun->apiKey exist
 require_once(dirname(__DIR__, 3) . "/vendor/autoload.php");
 
-//don't call mail
+//don't call mail, renamed mailGunner
 function mailGunner ( $domain, $senderName, $senderMail, $receiverName, $receiverMail, $subject, $message) {
 
 

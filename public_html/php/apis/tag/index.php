@@ -1,9 +1,9 @@
 <?php
 
 /*require once here - double check if dirname(_DIR_) is needed*/
-require_once dirname(__DIR__, 2) . "autoload.php";
+require_once dirname(__DIR__, 2) . "/classes/autoload.php";
 require_once dirname(__DIR__, 2) . "/lib/xsrf.php";
-require_once ("/etc/apache2/flek-mysql/encrypted-config.php");
+require_once ("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 use Edu\Cnm\Flek\Tag;
 
@@ -25,7 +25,7 @@ $reply->data = null;
 
 // huge try block and grabbing mySQL connection to .ini files
 try {
-    $pdo = connectToEncryptedMySQL("/etc/apache2/flek-mysql/tag.ini");
+    $pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/flek.ini");
     $method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 
     // sanitize input
@@ -38,7 +38,7 @@ try {
     }
 
     // handle GET request - if id is present, that Tag is returned
-    if(method === "GET") {
+    if($method === "GET") {
         // set XSRF cookie
         setXsrfCookie();
 
