@@ -30,6 +30,12 @@ try {
 	//determine which HTTP method was used
 	$method = array_key_exists("HTTP_X_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 
+	//sanitize activation token
+	$activation = filter_input(INPUT_GET, "activate", FILTER_SANITIZE_STRING);
+	if($method === "GET" && (empty($activation) === true)) {
+		throw(new \InvalidArgumentException("Invalid Token"));
+	}
+
 	//handle GET request - if id is present, that activation is returned, otherwise all activations are returned
 	if($method === "GET") {
 
