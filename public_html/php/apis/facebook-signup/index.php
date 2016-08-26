@@ -64,7 +64,7 @@ try {
 
 	$oauth = json_decode($config["oauth"]);
 
-const REDIRECT_URI           = 'http://url/of/this.php';
+const REDIRECT_URI           = 'https://bootcamp-coders.cnm.edu/~csosa4/flek/public_html/php/apis/facebook-signup/';
 const AUTHORIZATION_ENDPOINT = 'https://graph.facebook.com/oauth/authorize';
 const TOKEN_ENDPOINT         = 'https://graph.facebook.com/oauth/access_token';
 
@@ -83,9 +83,17 @@ else
 	$client->setAccessToken($info['access_token']);
 	$response = $client->fetch('https://graph.facebook.com/me');
 	var_dump($response, $response['result']);
+	}
+} catch(Exception $exception) {
+	$reply->status = $exception->getCode();
+	$reply->message = $exception->getMessage();
+	$reply->trace = $exception->getTraceAsString();
+}catch(TypeError $typeError) {
+	$reply->status = $typeError->getCode();
+	$reply->message = $typeError->getMessage();
 }
 
-}
+
 
 
 
