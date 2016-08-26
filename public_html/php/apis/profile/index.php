@@ -43,8 +43,9 @@ try {
 		throw(new InvalidArgumentException(("id cannot be empty or negative", 405));
 }
 
+
 // restrict to just anyone logged in
-if((empty($_SESSION["profile"]) === false);	{
+	if((empty($_SESSION["profile"]) === false));	{
 }
 
 		if(empty($_SESSION["profile"]) === false &&
@@ -91,6 +92,9 @@ if($method === "GET") {
 	$profiles = Flek\Profile::getAllProfiles($pdo);
 	if($profiles !== null) {
 		$reply->data = $profiles;
+
+		//need limit access
+		//store and change password
 	} //----------------------PUT---------------------------------
 	elseif($method === "PUT") ;
 	verifyXsrf();
