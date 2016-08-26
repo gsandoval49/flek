@@ -19,5 +19,13 @@ try {
 	//grab the mySQL connection
 	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/flek.ini");
 	//determine which HTTP method was used
+	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
+	if($method === "GET") {
+		if(session_status() !== PHP_SESSION_ACTIVE) {
+			session_start();
+		}
+		$_SESSION = [];
+		$reply->message = "You are now signed out.";
+	}
 
 }
