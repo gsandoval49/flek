@@ -58,6 +58,11 @@ See the GNU Lesser General Public License for more details.
 How can I use it ?
 ==================**/
 
+try {
+
+	$config = readConfig("/etc/apache2/capstone-mysql/flek.ini");
+
+	$oauth = json_decode($config["oauth"]);
 
 const REDIRECT_URI           = 'http://url/of/this.php';
 const AUTHORIZATION_ENDPOINT = 'https://graph.facebook.com/oauth/authorize';
@@ -80,7 +85,7 @@ else
 	var_dump($response, $response['result']);
 }
 
-
+}
 
 
 
