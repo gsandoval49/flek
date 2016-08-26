@@ -27,5 +27,13 @@ try {
 		$_SESSION = [];
 		$reply->message = "You are now signed out.";
 	}
-
+	else {
+		throw (InvalidArgumentException("Invalid HTTP method request"));
+	}
+} catch(Exception $exception) {
+	$reply->status = $exception->getCode();
+	$reply->message = $exception->getMessage();
+} catch(TypeError $typeError) {
+	$reply->status = $exception->getCode();
+	$reply->message = $exception->getMessage();
 }
