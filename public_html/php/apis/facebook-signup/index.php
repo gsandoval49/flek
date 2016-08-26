@@ -1,8 +1,8 @@
 <?php
-require_once dirname(dirname(__DIR__)) . "/classes/autoload.php";
-require_once dirname(dirname(__DIR__)) . "/lib/xsrf.php";
+require_once (dirname(dirname(__DIR__)) . "/classes/autoload.php");
+require_once (dirname(dirname(__DIR__)) . "/lib/xsrf.php");
 require_once ("/etc/apache2/capstone-mysql/encrypted-config.php");
-use Edu\Cnm\Flek\Profile;
+use Edu\Cnm\Flek\;
 
 /**
  * api for facebook signup
@@ -10,13 +10,74 @@ use Edu\Cnm\Flek\Profile;
  * @author Christina Sosa <csosa4@cnm.edu>
  **/
 
-	//start session
-	if(session_status() !== PHP_SESSION_ACTIVE) {
-	session_start();
-	//prepare an empty reply
-	$reply = new stdClass();
-	$reply->status = 200;
-	$reply->data = null;
+/**___________________________________
+
+                    Light PHP wrapper for the OAuth 2.0
+___________________________________
+
+
+AUTHOR & CONTACT
+================
+
+Charron Pierrick
+- pierrick@webstart.fr
+
+Berejeb Anis
+- anis.berejeb@gmail.com
+
+
+DOCUMENTATION & DOWNLOAD
+========================
+
+Latest version is available on github at :
+    - https://github.com/adoy/PHP-OAuth2
+
+Documentation can be found on :
+    - https://github.com/adoy/PHP-OAuth2
+
+
+LICENSE
+=======
+
+This Code is released under the GNU LGPL
+
+Please do not change the header of the file(s).
+
+This library is free software; you can redistribute it and/or modify it
+under the terms of the GNU Lesser General Public License as published
+by the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This library is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+or FITNESS FOR A PARTICULAR PURPOSE.
+
+See the GNU Lesser General Public License for more details.
+
+
+How can I use it ?
+==================**/
+
+
+const REDIRECT_URI           = 'http://url/of/this.php';
+const AUTHORIZATION_ENDPOINT = 'https://graph.facebook.com/oauth/authorize';
+const TOKEN_ENDPOINT         = 'https://graph.facebook.com/oauth/access_token';
+
+$client = new OAuth2\Client(CLIENT_ID, CLIENT_SECRET);
+if (!isset($_GET['code']))
+{
+	$auth_url = $client->getAuthenticationUrl(AUTHORIZATION_ENDPOINT, REDIRECT_URI);
+	header('Location: ' . $auth_url);
+	die('Redirect');
+}
+else
+{
+	$params = array('code' => $_GET['code'], 'redirect_uri' => REDIRECT_URI);
+	$response = $client->getAccessToken(TOKEN_ENDPOINT, 'authorization_code', $params);
+	parse_str($response['result'], $info);
+	$client->setAccessToken($info['access_token']);
+	$response = $client->fetch('https://graph.facebook.com/me');
+	var_dump($response, $response['result']);
 }
 
 
@@ -24,35 +85,3 @@ use Edu\Cnm\Flek\Profile;
 
 
 
-
-
-
-
-
-
-/*
-//use this in the body tag of each page we want it
-<script>
-window.fbAsyncInit = function() {
-	FB.init({
-      appId      : '533126920205402',
-      xfbml      : true,
-      version    : 'v2.7'
-    });
-  };
-
-(function(d, s, id){
-	var js, fjs = d.getElementsByTagName(s)[0];
-     if (d.getElementById(id)) {return;}
-     js = d.createElement(s); js.id = id;
-     js.src = "//connect.facebook.net/en_US/sdk.js";
-     fjs.parentNode.insertBefore(js, fjs);
-   }(document, 'script', 'facebook-jssdk'));
-//like button
-<div
-  class="fb-like"
-  data-share="true"
-  data-width="450"
-  data-show-faces="true">
-</div>
-</script>*/
