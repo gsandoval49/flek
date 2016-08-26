@@ -2,7 +2,7 @@
 require_once (dirname(dirname(__DIR__)) . "/classes/autoload.php");
 require_once (dirname(dirname(__DIR__)) . "/lib/xsrf.php");
 require_once ("/etc/apache2/capstone-mysql/encrypted-config.php");
-use Edu\Cnm\Flek\;
+use Edu\Cnm\Flek;
 
 /**
  * api for facebook signup
@@ -64,9 +64,9 @@ try {
 
 	$oauth = json_decode($config["oauth"]);
 
-const REDIRECT_URI           = 'https://bootcamp-coders.cnm.edu/~csosa4/flek/public_html/php/apis/facebook-signup/';
+const REDIRECT_URI = 'https://bootcamp-coders.cnm.edu/~csosa4/flek/public_html/php/apis/facebook-signup/';
 const AUTHORIZATION_ENDPOINT = 'https://graph.facebook.com/oauth/authorize';
-const TOKEN_ENDPOINT         = 'https://graph.facebook.com/oauth/access_token';
+const TOKEN_ENDPOINT = 'https://graph.facebook.com/oauth/access_token';
 
 $client = new OAuth2\Client(CLIENT_ID, CLIENT_SECRET);
 if (!isset($_GET['code']))
