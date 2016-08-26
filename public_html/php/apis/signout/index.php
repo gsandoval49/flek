@@ -11,3 +11,13 @@ use Edu\Cnm\Flek\Profile;
  *
  * @author Christina Sosa <csosa4@cnm.edu>
  **/
+//prepare default error message
+$reply = new stdClass();
+$reply->status = 200;
+$reply->data = null;
+try {
+	//grab the mySQL connection
+	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/flek.ini");
+	//determine which HTTP method was used
+
+}
