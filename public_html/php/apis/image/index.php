@@ -1,16 +1,14 @@
 <?php
 
 /**
- * Created by PhpStorm.
- * User: robis_000
- * Date: 8/22/2016
- * Time: 9:14 PM
+ * Capstone project Image API utilizing Cloudinary
+ * based on code authored by Lo-Bak baca.loren@gmail.com *
  */
 require_once "autoloader.php";
 require_once "/lib/xsrf.php";
 require_once("/etc/apache2/flek-mysql/encrypted-config.php");
 
-use Edu\Cnm\Flek\(Image);
+use Edu\Cnm\Flek\Image;
 
 
 /**
@@ -25,46 +23,127 @@ use Edu\Cnm\Flek\(Image);
  **/
 
 
-// verify the session, start if not active
+//verify the session, start one if not active
+
 if(session_status() !== PHP_SESSION_ACTIVE) {
 	session_start();
 }
-// prepare an empty reply
+
+//prepare an empty reply
 $reply = new stdClass();
 $reply->status = 200;
-$reply->data = null;
 
+//begin try section
 
 try {
-	//grab the mySQL connection
+	//grab mySQL connection
 
 	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/flek.ini");
 
 	//determine which HTTP method was used
-	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
-	$reply->method = $method;
+	$method = array_key_exists("HTTP_X_HTTP-METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 
-	//sanitize the input
+	//sanitize input
 	$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
+	$imageProfileId = filter_input(INPUT_GET, "imageProfileId", FILTER_VALIDATE_INT);
+	$imageDescription = filter_input(INPUT_GET, "imageDescription", FILTER_VALIDATE_INT);
+//	$imageFileType = filter_input(INPUT_GET, "imageFileType", FILTER_VALIDATE_INT);
 
-	// make sure the id is valid for methods that require it
-	if(($method === "DELETE" || $method === "PUT") && (empty($id) === true || $id < 0)) {
-		throw (new InvalidArgumentException("id cannot be empty or negative", 405));
+
+	//make sure the id is valid for methods that require it, the id is the primary key
+	if(($method === "DELETE") && (empty($id) === true || $id < 0)) {
+		throw(new InvalidArgumentException("id cannot be empty or negative", 405));
 	}
 
-	if($method === "POST") {
-
-	}
-
+	//handle GET request. if a imageId is present, that image is returned, otherwise all images are returned
 	if($method === "GET") {
+		//set XSRF cookie
+		setXsrfCookie();
+
+		//get a specific image or all images and update reply
+		if(empty($id) === false) {
+			$image = Image::getImageByImageId($pdo, $id);
+			if($image !== null) {
+				$reply->data = $image;
+			}
+		} elseif(empty($id) === false) {
+			$image = Image::getImageByImageProfileId($pdo, $imageProfileId);
+			if($image !== null) {
+				$reply->data = $image;
+			}
+		} elseif(empty($id) === false) {
+			$image = Image::getImageByImageDescription($pdo, $imageDescription);
+			if($image !== null) {
+				$reply->data = $image;
+			}
+		} else {
+			$images = Image::getAllImages($pdo);
+			if($images !== null) {
+				$reply->data = $images;
+			}
+		}
+
+		//this is a check to make sure only a profile type of ADMIN or OWNER can make changes
+		//could also check for the reverse and throw an exception in that case
+	} elseif((empty($_SESSION["profile"]) === false) && (($_SESSION["profile"]->getProfileId()) === $id) && (($_SESSION["profile"]->getProfileType()) === "a") || (($_SESSION["profile"]->getProfileType())) === "o") {
+
+		if($method === "POST") {
+			verifyXsrf();
+			$requestContent = file_get_contents("php://input");
+			$requestObject = json_decode($requestContent); //request object will only contain the metadata
+
+			//make sure the image foreign key is available (required field)
+			if(empty($requestObject->imageProfileId) === true) {
+				throw(new \InvalidArgumentException("The foreign key does not exist", 405));
+			}
+
+			//perform actual post
+			if($method === "POST") {
+
+				//put new image into the database
+				//still unsure if this makes sure the image gets to the cloud
+				if($requestObject === true) {
+					$image = new Image(null, $requestObject->imageProfileId, imageDescription, imageSecureUrl, imagePublicId);
+					$image->insert($pdo);
+				}
+				$reply->message = "Image created";
+			}
+
+		} elseif($method === "DELETE") {
+			verifyXsrf();
+			//get image to be deleted by the ID
+			$image = Image::getImageByImageId($pdo, $id);
+
+			//check if image is empty
+			if($image === null) {
+				throw(new RuntimeException("Image does not exist!"));
+			}
+			//we don't need to delete from the server because Cloudinary is on the cloud
+			/*unlink($image->getImageFileName()); //this will delete from the server*/
+
+			$image->delete($pdo);
+
+			$reply->message = "Image deleted";
+
+
+		} else {
+			throw (new InvalidArgumentException("Invalid HTTP method request"));
+		}
 
 	}
-
-	if($method === "DELETE") {
-
-	}
-
-
+} catch(Exception $exception) {
+	$reply->status = $exception->getCode();
+	$reply->message = $exception->getMessage();
+} catch(TypeError $typeError) {
+	$reply->status = $typeError->getCode();
+	$reply->message = $typeError->getMessage();
 }
 
+header("Content-type: application/json");
+if($reply->data === null) {
+	unset($reply->data);
+}
+
+// encode and return reply to front end caller
+echo json_encode($reply);
 
