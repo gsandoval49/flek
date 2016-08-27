@@ -14,7 +14,7 @@ use Edu\Cnm\Flek\Tag;
  **/
 
 // verify the session, start if not active
-if(session_start() !== PHP_SESSION_ACTIVE) {
+if(session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
 

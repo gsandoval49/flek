@@ -11,7 +11,7 @@ require_once ("/etc/apache2/capstone-mysql/encrypted-config.php");
 $config = readConfig("/etc/apache2/capstone-mysql/flek.ini");
 $mailgun = json_decode($config["mailgun"]);
 
-// now $mailgun->domain and $mailgun->apiKey exist
+// now $mailgun->domain and $mailgun->apiKey exist - locates key.
 require_once(dirname(__DIR__, 3) . "/vendor/autoload.php");
 
 //don't call mail, renamed mailGunner
