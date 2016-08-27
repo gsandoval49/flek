@@ -3,7 +3,7 @@
 require_once dirname(__DIR__4) . "/vendor/autoload.php";
 require_once dirname(__DIR__2) . "/classes/autoload.php";
 require_once dirname(__DIR__2) . "/lib/xsrf.php";
-require_once("/etc/apache2/flek-mysql/encrypted-config.php");
+require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 use Edu\Cnm\Flek;
 
@@ -24,7 +24,7 @@ $reply->data = null;
 
 try {
 	//grab the mySQL connection
-	$pdo = connectToEncryptMySQL("/etc/apache2/flek-mysql/profile.ini");
+	$pdo = connectToEncryptMySQL("/etc/apache2/capstone-mysql/flek.ini");
 
 	// determine which HTTP method was used
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
@@ -34,9 +34,7 @@ try {
 	$name = filter_input(INPUT_GET, "name", FILTER_SANITIZE_STRING);
 	$email = filter_input(INPUT_GET, "email", FILTER_SANITIZE_STRING);
 	$location = filter_input(INPUT_GET, "location", FILTER_SANITIZE_STRING);
-	$profileActivationToken = filter_input(INPUT_GET, "profileActivationToken", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$bio = filter_input(INPUT_GET, "bio", FILTER_SANITIZE_STRING);
-	// DO WE ALSO GET PASSWORD ?
 	//ensure the information is valid
 	//make sure the primary key is valid for methods that require it
 	if($method === "GET" & (empty($id) === true || $id < 0)) {
@@ -51,16 +49,6 @@ try {
 	//if(empty($_SESSION["profile"]) === false &&
 	//$_SESSION["profile"]->getProfileId() === $id);
 
-
-	//make sure the profile name is valid for methods that require it
-	//if($method === "GET" || $method === "PUT") && (empty($profile) === true || $profile < 0) {
-	//throw(new InvalidArgumentException(("profile cannot be empty or negative", 405));
-
-	//make sure the email is valid for methods that require it
-	//if($method === "GET" || $method === "PUT") && (empty($email) === true || $email < 0) {
-	//throw(new InvalidArgumentException(("location cannot be empty or negative", 405));
-
-
 	//----------------------GET---------------------------------
 
 	if($method === "GET") {
@@ -73,13 +61,13 @@ try {
 				$reply->data = $profile;
 			}
 		} //Get profile by Name then update it
-		elseif(empty($name) === false) {
+		if(empty($name) === false) {
 			$name = Flek\Profile::getProfileByProfileName($pdo, $name);
 			if($profile !== null) {
 				$reply->data = $profile;
 			}
 		} //Get profile by Email and then update it
-		elseif(empty($email) === false) {
+		if(empty($email) === false) {
 			$email = Flek\Profile::getProfileByProfileEmail($pdo, $email);
 			if($profile !== null) {
 				$reply->data = $profile;
@@ -118,8 +106,6 @@ try {
 		if(empty($requestObject->profileBio) === true) {
 			throw(new \InvalidArgumentException("No profile biography for Profile", 405));
 		}
-		//prefrom the put
-		if($method === "PUT") ;
 
 		//restrict each user to their account
 		if(empty($_SESSION["profile"]) === false || $_SESSION["profile"]->getProfileId() !== $id) {
@@ -134,27 +120,24 @@ try {
 		}
 
 		//put new Profile attributes into the profile and up date
-		$profile->setProfileId($requestObject->profileId);
 		$profile->setProfileName($requestObject->profileName);
 		$profile->setProfileEmail($requestObject->profileEmail);
 		$profile->setProfileLocation($requestObject->profileLocation);
 		$profile->setProfileBio($requestObject->profileBio);
 
 		if($requestObject->profilePassword !== null) {
-			$hash = hash_pbkdf2("sha256", $requestObject->getProfileId, $profile->getProfileSalt(), 262144);
+			$hash = hash_pbkdf2("sha256", $requestObject->getProfilePassword, $profile->getProfileSalt(), 262144);
 			$profile->setProfileHash($hash);
 		}
 		$profile->update($pdo);
 
 		//update reply
 		$reply->message = "Profile updated ok";
-	}
-
-	else {
-	throw(new InvalidArgumentException("Invalid HTTP method request"));
-}
-	//update reply with exception information
-}	catch(Exception $exception) {
+		{
+		}throw(new InvalidArgumentException("Invalid HTTP method request"));
+		}
+		//update reply with exception information
+	}	catch(Exception $exception) {
 	$reply->status = $exception->getCode();
 	$reply->message = $exception->getMessage();
 	$reply->trace = $exception->getTraceAsString();

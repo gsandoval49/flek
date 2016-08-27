@@ -1,6 +1,6 @@
 <?php
 
-
+require_once dirname(__DIR__4) . "/vendor/autoload.php";
 require_once dirname(__DIR__, 2) . "/classes/autoload.php";
 require_once dirname(__DIR__, 2) . "/lib/xsrf.php";
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
@@ -32,73 +32,73 @@ try {
 
 
 	// sanitize input
-	$favoriteeId = filter_input(INPUT_GET, "favoriteeId" ,FILTER_VALIDATE_INT);
-	$favoriterId = filter_input(INPUT_GET, "favoriterId" ,FILTER_VALIDATE_INT);
+	$favoriteeId = filter_input(INPUT_GET, "favoriteeId", FILTER_VALIDATE_INT);
+	$favoriterId = filter_input(INPUT_GET, "favoriterId", FILTER_VALIDATE_INT);
 
-	if($method === "GET" || $method === "DELETE") && (empty($favoriteeid) === true || $favoriteeid < 0) {
-		throw(new InvalidArgumentException(("favoriteeid cannot be empty or negative", 405));
-}
-
+	if($method === "GET" & (empty($favoriterid) === true || $favoriterid < 0)) {
+		throw(new InvalidArgumentException("favoriterid cannot be empty or negative", 405));
+	} elseif($method = "POST") {
+		throw(new InvalidArgumentException ("This action is forbidden", 405));
+	} elseif($method = "DELETE") {
+		throw(new InvalidArgumentException("This action is forbidden", 405));
+	}
 //----------------------------------GET--------------------------------
 
-
-			// Handle all restful calls
+	// Handle all restful calls
 	if($method === "GET") {
 		// Set XSRF cookie
 		setXsrfCookie("/");
 	}
 // Get a specific favorite or all favorites and update reply
-		if(empty($favoriterid) === false) {
-			$favorite = Edu\Cnm\Flek\Favorite::getFavoriteByFavoriterId($pdo, $favoriteeid);
-			if($favoriterId !== null) {
-				$reply->data = $favoriterId;
-			} else {
-				$profiles = Flek\Profile::getAllProfiles($pdo);
-				if($profiles !== null) {
-					$reply->data = $profiles;
-				}
+	if(empty($favoriterid) === false) {
+		$favorite = Edu\Cnm\Flek\Favorite::getFavoriteByFavoriterId($pdo, $favoriterid);
+		if($favoriterId !== null) {
+			$reply->data = $favoriterId;
+		} else {
+			$profiles = Flek\Profile::getAllProfiles($pdo);
+			if($profiles !== null) {
+				$reply->data = $profiles;
 			}
-		}	elseif($method === "POST") {
+		}
+	} elseif($method === "POST") {
 
 // Set XSRF cookie
-			verifyXsrf();
-			$requestContent = file_get_contents("php://input");
-			$requestObject = json_decode($requestContent);
-		}
-		// Make sure profile is available
-		if(empty($requestObject->profileId) === true) {
-			throw(new InvalidArgumentException ("profile cannot be empty", 405));
-		}
+		verifyXsrf();
+		$requestContent = file_get_contents("php://input");
+		$requestObject = json_decode($requestContent);
+	}
+	// Make sure profile is available
+	if(empty($requestObject->favoriteeId) === true) {
+		throw(new InvalidArgumentException ("favoritee cannot be empty", 405));
+	}
+	if(empty($requestObject->favoriterId) === true) {
+		throw(new InvalidArgumentException("favoriter cannot be empty", 405));
+	}
+	// put the two favorites and update to create new one
+	$favoriteeId->setFavoriteeId($requestObject->favoriteeId);
+	$favoriterId->setFavoriterId($requestObject->favoriterId);
 
-	//Get All profiles then update it
-		 else {
-			 $profiles = Flek\Profile::getAllProfiles($pdo);
-			 if($profiles !== null) {
-				 $reply->data = $profiles;
-			 }
-		 }
+	//but am i creating a new profile or FAVORITE ?
+	//create new favorite Id and insert it into the database
+	$favorite = new Flek\Favorite(null, $requestObject->favoriterId, $_SESSION["profile"]->getFavoriterId());
+	$favorite->insert($pdo);
+	$reply->message = "favoriter has been created";
 
-			//create new favorite Id and insert it into the database
-			$favorite = new Flek\Favorite(null, $requestObject->profileId, $_SESSION["profile"]->getProfileId(), );
-			$favorite->insert($pdo);
-			$reply->message = "profile id has been created";
-
-
-} else if($method === "DELETE") {
+//-------------------------------DELETE--------------------------------
+}	else if($method === "DELETE") {
 	verifyXsrf();
 	// Retrieve the Favorite to be deleted
-	$favorite = Flek\Favorite::getFavoriteByProfileId($pdo, $id);
+	$favorite = Flek\Favorite::getFavoriteByFavorterId($pdo, $id);
 	if($favorite === null) {
-		throw(new RuntimeException("Favorite does not exist", 404));
+		throw(new RuntimeException("the favorite given does not exist", 404));
 	}
 	// Delete favorite
 	$favorite->delete($pdo);
 	$deletedObject = new stdClass();
 	// Update reply
 	$reply->message = "Favorite deleted OK";
-} else {
-	throw (new InvalidArgumentException("Invalid HTTP method request"));
 
+	}throw (new InvalidArgumentException("Invalid HTTP method request"));
 }
 	// Update reply with exception information
 } catch(Exception $exception) {
