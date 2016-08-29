@@ -31,6 +31,7 @@
     <script src="angular/meow-app.js"></script>
     <script src="angular/route-config.js"></script>
     <script src="angular/directives/bootstrap-breakpoint.js"></script>
+    <script src="angular/controllers/home-controller.js"></script>
     <!-- TODO add more angular controllers as we create the views -->
 
     <title>Flek</title>
