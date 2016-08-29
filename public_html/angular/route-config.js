@@ -8,6 +8,8 @@ app.config(function($routeProvider, $locationProvider) {
             templateUrl : 'angular/pages/home.php'
         })
 
+        /*TODO enter more route configs here as we build views and controllers*/
+
         // otherwise redirect to home
         .otherwise({
             redirectTo: '/'
