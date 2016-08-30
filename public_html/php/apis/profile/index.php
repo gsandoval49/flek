@@ -35,12 +35,12 @@ try {
 	$email = filter_input(INPUT_GET, "email", FILTER_SANITIZE_STRING);
 	$location = filter_input(INPUT_GET, "location", FILTER_SANITIZE_STRING);
 	$bio = filter_input(INPUT_GET, "bio", FILTER_SANITIZE_STRING);
+
 	//ensure the information is valid
+
 	//make sure the primary key is valid for methods that require it
-	if($method === "GET" & (empty($id) === true || $id < 0)) {
+	if($method === "GET") {
 		throw(new InvalidArgumentException("id cannot be empty or negative", 405));
-	} elseif($method = "PUT") {
-		throw(new Exception ("This action is forbidden", 405));
 	}
 
 	//Do i need to restrict in GET ????
