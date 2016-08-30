@@ -1,11 +1,10 @@
 <?php
 
-require_once dirname(__DIR__4) . "/vendor/autoload.php";
-require_once dirname(__DIR__2) . "/classes/autoload.php";
-require_once dirname(__DIR__2) . "/lib/xsrf.php";
+require_once (dirname(__DIR__2) . "/classes/autoload.php");
+require_once (dirname(__DIR__2) . "/lib/xsrf.php");
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
-use Edu\Cnm\Flek;
+use Edu\Cnm\Flek\Profile;
 
 /**
  * Api for Profile class
