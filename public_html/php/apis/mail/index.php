@@ -7,29 +7,29 @@
  **/
 
 require_once ("/etc/apache2/capstone-mysql/encrypted-config.php");
+use Cnm\Edu\Flek;
 
 $config = readConfig("/etc/apache2/capstone-mysql/flek.ini");
 $mailgun = json_decode($config["mailgun"]);
 
 // now $mailgun->domain and $mailgun->apiKey exist - locates key.
-require_once(dirname(__DIR__, 6) . "vendor/autoload.php");
-
-//don't call mail, renamed mailGunner
-function mailGunner ( $domain, $senderName, $senderMail, $receiverName, $receiverMail, $subject, $message) {
+require_once(dirname(__DIR__, 6) . "/vendor/autoload.php");
 
 
-    // start the mailgun client
-    $client = new \Http\Adapter\Guzzle6\Client();
-    $mailGunner = new \Mailgun\Mailgun($mailgun->apiKey, $client);
+/* old mailgunner code here replaced by documentation code - this code instantiates the client*/
+$mgClient = new Mailgun('mailgun');
+$domain = "YOUR_DOMAIN_NAME";
 
-    // send the message
-    $result = $mailGunner->sendMessage($mailgun->domain, [
-            "from" => "$senderName <$senderMail>",
-            "to" => "$receiverName <$receiverMail>",
-            "subject" => $subject,
-            "text" => $message
-        ]
-    );
+$mgClient = new Mailgun("mailgun");
+$domain = "FLEKS_DOMAIN_NAME";
+
+// Now, compose and send your message.
+$mgClient->sendMessage($domain,
+    array("from" => "Dwight Schrute <dwight@example.com>",
+        "to" => "Michael Scott <michael@example.com>",
+        "subject" => "The Printer Caught Fire",
+        "text" => 'We have a problem."));
+
 
     // # Iterate through the results and echo the message IDs.
     $logItems = $result->http_response_body->items;
