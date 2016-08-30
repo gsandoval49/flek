@@ -1,8 +1,10 @@
 <?php
 
-require_once(dirname(__DIR__, 6) . "/vendor/autoload.php");
-require_once(dirname(__DIR__) . "/lib/xsrf.php");
-require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
+require_once dirname(__DIR__, 2) . "/classes/autoload.php";
+require_once dirname(__DIR__, 2) . "/lib/xsrf.php";
+require_once ("/etc/apache2/capstone-mysql/encrypted-config.php");
+
+use Edu\Cnm\Flek\Mail;
 
 //verify the session, start if not active
 if(session_status() !== PHP_SESSION_ACTIVE) {
