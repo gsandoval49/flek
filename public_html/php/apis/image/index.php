@@ -8,6 +8,13 @@ require_once "autoloader.php";
 require_once "/lib/xsrf.php";
 require_once("/etc/apache2/flek-mysql/encrypted-config.php");
 
+/**
+ * these are required for cloudinary
+ * */
+require 'Cloudinary.php';
+require 'Uploader.php';
+require 'Api.php';
+
 use Edu\Cnm\Flek\Image;
 
 
@@ -28,6 +35,13 @@ use Edu\Cnm\Flek\Image;
 if(session_status() !== PHP_SESSION_ACTIVE) {
 	session_start();
 }
+
+// configure cloudinary globally remember
+\Cloudinary::config(array(
+	"cloud_name" => "shreddheddev",
+	"api_key" => "937784761297322",
+	"api_secret" => "PvPElt7pYD3Sy06rLA1DL1BTL0g"
+));
 
 //prepare an empty reply
 $reply = new stdClass();
