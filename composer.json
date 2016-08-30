@@ -1,6 +1,7 @@
 {
   "require": {
     "adoy/oauth2": "@stable",
-    "mailgun/mailgun-php": "@stable"
+    "mailgun/mailgun-php": "@stable",
+    "php-http/guzzle6-adapter": "@stable"
   }
 }
