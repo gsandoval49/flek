@@ -36,11 +36,16 @@ try {
 	$bio = filter_input(INPUT_GET, "bio", FILTER_SANITIZE_STRING);
 
 	//ensure the information is valid
+	if($method === "PUT" && (empty($id) === true || $id < 0)) {
+		throw(new \InvalidArgumentException("Id cannot be negative or empty", 405));
+	} elseif(($method === "POST" || $method === "DELETE")) {
+		throw(new \Exception("This action is forbidden", 405));
+	}
 
 	//make sure the primary key is valid for methods that require it
-	if($method === "GET") {
-		throw(new InvalidArgumentException("id cannot be empty or negative", 405));
-	}
+	//if($method === "GET") {
+		//throw(new InvalidArgumentException("id cannot be empty or negative", 405));
+
 
 	//Do i need to restrict in GET ????
 // restrict to just anyone logged in
@@ -55,26 +60,26 @@ try {
 		setXsrfCookie();
 		// get a Specific profile by Id
 		if(empty ($id) === false) {
-			$user = Flek\Profile::getProfileByProfileId($pdo, $id);
+			$profile = Profile::getProfileByProfileId($pdo, $id);
 			if($profile !== null) {
 				$reply->data = $profile;
 			}
 		} //Get profile by Name then update it
 		if(empty($name) === false) {
-			$name = Flek\Profile::getProfileByProfileName($pdo, $name);
+			$profile = Profile::getProfileByProfileName($pdo, $name);
 			if($profile !== null) {
 				$reply->data = $profile;
 			}
 		} //Get profile by Email and then update it
 		if(empty($email) === false) {
-			$email = Flek\Profile::getProfileByProfileEmail($pdo, $email);
+			$profile = Profile::getProfileByProfileEmail($pdo, $email);
 			if($profile !== null) {
 				$reply->data = $profile;
 			}
 		}
 		//Get All profiles then update it
 	} else {
-		$profiles = Flek\Profile::getAllProfiles($pdo);
+		$profiles = Profile::getAllProfiles($pdo);
 		if($profiles !== null) {
 			$reply->data = $profiles;
 
@@ -113,7 +118,7 @@ try {
 
 
 		//retrieve the profile and update it
-		$profile = Flek\Profile::getProfileByProfileId($pdo, $id);
+		$profile = Profile::getProfileByProfileId($pdo, $id);
 		if($profile === null) {
 			throw(new RuntimeException("Profile does not exist"));
 		}
