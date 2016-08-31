@@ -35,28 +35,29 @@ try {
 
 	//perform the post
 	if($method === "POST") {
+		verifyXsrf();
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
 
 		//ensure all required information is entered
 		if(empty($requestObject->profileName) === true) {
-			throw(new InvalidArgumentException("Must fill in first and last name."));
+			throw(new \InvalidArgumentException("Must fill in first and last name."));
 		} else {
 			$profileName = filter_var($requestObject->profileName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		}
 		if(empty($requestObject->profileEmail) === true) {
-			throw(new InvalidArgumentException("Must fill in email address."));
+			throw(new \InvalidArgumentException("Must fill in email address."));
 		} else {
 			$profileEmail = filter_var($requestObject->profileEmail, FILTER_SANITIZE_EMAIL);
 		}
 		if(empty($requestObject->profileLocation) === true) {
-			throw(new InvalidArgumentException("Must fill in location."));
+			throw(new \InvalidArgumentException("Must fill in location."));
 		} else {
 			$profileLocation = filter_var($requestObject->profileLocation, FILTER_SANITIZE_STRING,
 				FILTER_FLAG_NO_ENCODE_QUOTES);
 		}
 		if(empty($requestObject->password) === true) {
-			throw(new InvalidArgumentException("Must fill in password."));
+			throw(new \InvalidArgumentException("Must fill in password."));
 		} else {
 			$password = filter_var($requestObject->password, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		}
