@@ -63,9 +63,9 @@ try {
 	} elseif($method === "POST") ;
 
 // Set XSRF cookie
-		verifyXsrf();
-		$requestContent = file_get_contents("php://input");
-		$requestObject = json_decode($requestContent);
+	verifyXsrf();
+	$requestContent = file_get_contents("php://input");
+	$requestObject = json_decode($requestContent);
 
 	// Make sure profile is available
 	if(empty($requestObject->favoriteeId) === true) {
@@ -85,12 +85,11 @@ try {
 
 	$reply->message = "favoriter has been created";
 
-}
 //-------------------------------DELETE--------------------------------
-}	else if($method === "DELETE") {
+	else if($method === "DELETE") {
 	verifyXsrf();
 	// Retrieve the Favorite to be deleted
-	$favorite = Flek\Favorite::getFavoriteByFavoriterId($pdo, $id);
+	$favorite = Favorite::getFavoriteByFavoriterId($pdo, $id);
 	if($favorite === null) {
 		throw(new RuntimeException("the favorite given does not exist", 404));
 	}
