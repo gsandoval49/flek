@@ -5,11 +5,13 @@
  * Date: 8/22/2016
  * Time: 9:15 PM
  */
-require_once "autoloader.php";
-require_once "/lib/xsrf.php";
-require_once("/etc/apache2/flek-mysql/encrypted-config.php");
+/*require once here - double check if dirname(_DIR_) is needed*/
+require_once dirname(__DIR__, 2) . "/classes/autoload.php";
+require_once dirname(__DIR__, 2) . "/lib/xsrf.php";
+require_once ("/etc/apache2/capstone-mysql/encrypted-config.php");
 
-use Edu\Cnm\Flek\(Genre);
+
+use Edu\Cnm\Flek\Genre;
 
 
 /**
@@ -63,19 +65,16 @@ try {
 				$reply->data = $genres;
 			}
 
-			}
-		} else {
-			$genres = Genre::getAllGenres($pdo);
-			if($genres !== null) {
-				$reply->data = $genres;
-			}
 		}
+	} else {
+		$genres = Genre::getAllGenres($pdo);
+		if($genres !== null) {
+			$reply->data = $genres;
+		}
+	}  {
+		throw (new InvalidArgumentException("Invalid HTTP method request"));
 	}
-
-		else {
-			throw (new InvalidArgumentException("Invalid HTTP method request"));
-		}
-
+}
 		// update reply with exception information
 	 catch(Exception $exception) {
 		$reply->status = $exception->getCode();

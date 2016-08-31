@@ -4,9 +4,11 @@
  * Capstone project Image API utilizing Cloudinary
  * based on code authored by Lo-Bak baca.loren@gmail.com *
  */
-require_once "autoloader.php";
-require_once "/lib/xsrf.php";
-require_once("/etc/apache2/flek-mysql/encrypted-config.php");
+/*require once here - double check if dirname(_DIR_) is needed*/
+require_once dirname(__DIR__, 2) . "/classes/autoload.php";
+require_once dirname(__DIR__, 2) . "/lib/xsrf.php";
+require_once ("/etc/apache2/capstone-mysql/encrypted-config.php");
+
 
 /**
  * these are required for cloudinary
