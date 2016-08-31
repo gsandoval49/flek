@@ -63,12 +63,13 @@ try {
         $requestObject = json_decode($requestContent);
 
         // make sure the Tag name is available
+        // todo: check id
         if(empty($requestObject->tagName) === true) {
             throw(new \InvalidArgumentException("No tag name.", 405));
         }
 
         // perform the actual put or post
-        if($method = "PUT") {
+        if($method === "PUT") {
 
             // retrieve the tag to update
             $tag = Tag::getTagByTagId($pdo, $id);
@@ -88,6 +89,9 @@ try {
             // TODO double check to see if code should be new "Flek\Tag"
             $tag = new Edu\Cnm\Flek\Tag(null, $requestObject->tagName);
             $tag->insert($pdo);
+
+            // update reply
+            $reply->message = "Tag created OK";
         }
     } else if ($method === "DELETE") {
         verifyXsrf();
