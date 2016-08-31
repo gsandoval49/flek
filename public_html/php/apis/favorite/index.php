@@ -25,7 +25,7 @@ $reply->data = null;
 
 try {
 	//grab the mySQL connection
-	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/favorite.ini");
+	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/flek.ini");
 	//determine which HTTP method was used
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 
@@ -66,7 +66,7 @@ try {
 		verifyXsrf();
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
-	}
+
 	// Make sure profile is available
 	if(empty($requestObject->favoriteeId) === true) {
 		throw(new InvalidArgumentException ("favoritee cannot be empty", 405));
@@ -82,14 +82,15 @@ try {
 	//create new favorite Id and insert it into the database
 	$favorite = new Favorite(null, $requestObject->favoriterId, $_SESSION["profile"]->getFavoriterId());
 	$favorite->insert($pdo);
+
 	$reply->message = "favoriter has been created";
 
-
+}
 //-------------------------------DELETE--------------------------------
-	else if($method === "DELETE") {
+}	else if($method === "DELETE") {
 	verifyXsrf();
 	// Retrieve the Favorite to be deleted
-	$favorite = Favorite::getFavoriteByFavoriterId($pdo, $id);
+	$favorite = Flek\Favorite::getFavoriteByFavoriterId($pdo, $id);
 	if($favorite === null) {
 		throw(new RuntimeException("the favorite given does not exist", 404));
 	}
@@ -99,7 +100,8 @@ try {
 	// Update reply
 	$reply->message = "Favorite deleted OK";
 
-	}throw (new InvalidArgumentException("Invalid HTTP method request"));
+	} else{
+	throw (new InvalidArgumentException("Invalid HTTP method request"));
 }
 	// Update reply with exception information
 } catch(Exception $exception) {
