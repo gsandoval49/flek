@@ -34,12 +34,10 @@ try {
 	$favoriteeId = filter_input(INPUT_GET, "favoriteeId", FILTER_VALIDATE_INT);
 	$favoriterId = filter_input(INPUT_GET, "favoriterId", FILTER_VALIDATE_INT);
 
-	if($method === "GET" & (empty($favoriterid) === true || $favoriterid < 0)) {
+	if(($method === "DELETE" ||$method === "POST") && (empty($favoriterid) === true || $favoriterid < 0)) {
 		throw(new InvalidArgumentException("favoriterid cannot be empty or negative", 405));
-	} elseif($method = "POST") {
+	} elseif($method = "PUT") {
 		throw(new InvalidArgumentException ("This action is forbidden", 405));
-	} elseif($method = "DELETE") {
-		throw(new InvalidArgumentException("This action is forbidden", 405));
 	}
 //----------------------------------GET--------------------------------
 
@@ -52,11 +50,11 @@ try {
 	if(empty($favoriterid) === false) {
 		$favorite = Edu\Cnm\Flek\Favorite::getFavoriteByFavoriterId($pdo, $favoriterid);
 		if($favoriterId !== null) {
-			$reply->data = $favoriterId;
+			$reply->data = $favorite;
 		} else {
-			$profile = Favorite::getProfileByFavoriteeId($pdo);
-			if($profile !== null) {
-				$reply->data = $profile;
+			$favorite = Favorite::getFavoriteByFavoriterId($pdo);
+			if($favorite !== null) {
+				$reply->data = $favorite;
 			}
 		}
 		//-------------------------POST------------------------------
