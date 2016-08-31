@@ -1,10 +1,7 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: robis_000
- * Date: 8/22/2016
- * Time: 9:15 PM
- */
+
+/* need to write method to create and insert genre to mySQL database*/
+
 /*require once here - double check if dirname(_DIR_) is needed*/
 require_once dirname(__DIR__, 2) . "/classes/autoload.php";
 require_once dirname(__DIR__, 2) . "/lib/xsrf.php";

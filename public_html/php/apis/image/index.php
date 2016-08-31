@@ -2,11 +2,11 @@
 
 /**
  * Capstone project Image API utilizing Cloudinary
- * based on code authored by Lo-Bak baca.loren@gmail.com *
+ * based on code authored by lbaca152 from scrum meetings with DeepDiveDylan, dbeets, and raul-villarreal
  */
 /*require once here - double check if dirname(_DIR_) is needed*/
 require_once dirname(__DIR__, 2) . "/classes/autoload.php";
-require_once dirname(__DIR__, 2) . "/lib/xsrf.php";
+//require_once dirname(__DIR__, 2) . "/lib/xsrf.php";
 require_once ("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 
