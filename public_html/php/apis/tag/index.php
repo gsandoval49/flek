@@ -63,7 +63,6 @@ try {
         $requestObject = json_decode($requestContent);
 
         // make sure the Tag name is available
-        // todo: check id
         if(empty($requestObject->tagName) === true) {
             throw(new \InvalidArgumentException("No tag name.", 405));
         }
@@ -86,11 +85,10 @@ try {
         } else if ($method === "POST") {
 
             // create new tag and insert into database
-            // TODO double check to see if code should be new "Flek\Tag"
             $tag = new Edu\Cnm\Flek\Tag(null, $requestObject->tagName);
             $tag->insert($pdo);
 
-            // update reply
+            // sends message when tag is created
             $reply->message = "Tag created OK";
         }
     } else if ($method === "DELETE") {
