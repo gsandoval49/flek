@@ -1,18 +1,17 @@
 <?php
 
-require_once "autoloader.php";
-require_once "/lib/xsrf.php";
-require_once ("/etc/apache2/capstone-mysql/encrypted-config.php");
-
 /*grabs composers autoload file - this was done in mail scrum meeting*/
-require_once (dirname(__DIR__4) . "vendor/autoload.php");
+require_once (dirname(__DIR__2) . "/vendor/autoload.php");
+/*require_once dirname(__DIR__, 2) . "/classes/autoload.php";*/
+require_once dirname(__DIR__, 2) . "/lib/xsrf.php";
+require_once ("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 use Edu\Cnm\Flek\Profile;
 
 /**
  * api for signup
  *
- * @author Christina Sosa <csosa4@cnm.edu>; referenced Derek Mauldin <derek.e.mauldin@gmail.com>
+ * @author Christina Sosa <csosa4@cnm.edu>;
 **/
 
 //verify the session, start if not active
@@ -25,7 +24,7 @@ $reply = new stdClass();
 $reply->status = 200;
 $reply->data = null;
 
-try{
+try {
 	//grab the mySQL connection
 	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/flek.ini");
 
@@ -33,10 +32,13 @@ try{
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER
 	["REQUEST_METHOD"];
 	$reply->method = $method;
+
+	//perform the post
 	if($method === "POST") {
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
-		//check that the profile fields that are required have been sent
+
+		//ensure all required information is entered
 		if(empty($requestObject->profileName) === true) {
 			throw(new InvalidArgumentException("Must fill in first and last name."));
 		} else {
@@ -47,13 +49,13 @@ try{
 		} else {
 			$profileEmail = filter_var($requestObject->profileEmail, FILTER_SANITIZE_EMAIL);
 		}
-		if(empty($requestObject->profileLocation) ===true) {
+		if(empty($requestObject->profileLocation) === true) {
 			throw(new InvalidArgumentException("Must fill in location."));
 		} else {
 			$profileLocation = filter_var($requestObject->profileLocation, FILTER_SANITIZE_STRING,
 				FILTER_FLAG_NO_ENCODE_QUOTES);
 		}
-		if(empty($requestObject->password) ===true) {
+		if(empty($requestObject->password) === true) {
 			throw(new InvalidArgumentException("Must fill in password."));
 		} else {
 			$password = filter_var($requestObject->password, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
@@ -69,18 +71,20 @@ try{
 //building the activation link that can travel to another server and still work. This is the link that will be clicked to confirm the account.
 //FIXME: make sure URL is /public_html/activation/$activation
 		$basePath = dirname($_SERVER["SCRIPT_NAME"], 4);
-		$urlglue = $basePath . "/activation/" . $activation;
+		$urlglue = $basePath . "/activation/" . $profileActivationToken;
 		$confirmLink = "https://" . $_SERVER["SERVER_NAME"] . $urlglue;
 		$message = <<< EOF
 <h2>Welcome to Flek!</h2>
 <p>Please visit the following URL to set a new password and complete the sign-up process: </p>
 EOF;
-		$response = sendEmail ($profileEmail, $profileName, $messageSubject, $message);
+		$response = sendEmail($profileEmail, $profileName, $messageSubject, $message);
 		if($response === "Email sent.") {
 			$reply->message = "Sign up was successful! Please check your email for activation message.";
-		}
 	} else {
 		throw(new InvalidArgumentException("Error sending email."));
+	}
+}else {
+		throw(new \InvalidArgumentException("Invalid HTTP request."));
 	}
 } catch(\Exception $exception) {
 	$reply->status = $exception->getCode();
