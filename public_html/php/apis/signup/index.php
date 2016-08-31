@@ -1,8 +1,9 @@
 <?php
 
 /*grabs composers autoload file - this was done in mail scrum meeting*/
-require_once (dirname(__DIR__2) . "/vendor/autoload.php");
-/*require_once dirname(__DIR__, 2) . "/classes/autoload.php";*/
+/*require_once __DIR__ . "/vendor/autoload.php";*/
+
+require_once dirname(__DIR__, 2) . "/classes/autoload.php";
 require_once dirname(__DIR__, 2) . "/lib/xsrf.php";
 require_once ("/etc/apache2/capstone-mysql/encrypted-config.php");
 
@@ -31,7 +32,7 @@ try {
 	//determine which HTTP method was used
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER
 	["REQUEST_METHOD"];
-	$reply->method = $method;
+/*	$reply->method = $method;*/
 
 	//perform the post
 	if($method === "POST") {
@@ -61,11 +62,11 @@ try {
 		} else {
 			$password = filter_var($requestObject->password, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		}
-		$hash = hash_pbkdf2("sha512", "abc123", $this->$salt, 262144);
+		$hash = hash_pbkdf2("sha512", $requestObject->password, $salt, 262144);
 		$salt = bin2hex(random_bytes(32));
 		$profileAccessToken = bin2hex(random_bytes(16));
 		$profileActivationToken = bin2hex(random_bytes(16));
-		$profile = new Flek\Profile(null, null, $profileAccessToken, $profileActivationToken, $profileName, $profileEmail, $profileLocation);
+		$profile = new Flek\Profile($hash, $salt, $profileAccessToken, $profileActivationToken, $requestObject->profileName, $profileEmail, $profileLocation);
 		$profile->insert($pdo);
 		$messageSubject = "Flek Account Activation";
 
@@ -78,7 +79,8 @@ try {
 <h2>Welcome to Flek!</h2>
 <p>Please visit the following URL to set a new password and complete the sign-up process: </p>
 EOF;
-		$response = sendEmail($profileEmail, $profileName, $messageSubject, $message);
+		$response = $mailGunslinger("Flek", "gsandoval49@cnm.edu", $requestObject->profileName, $requestObject->profileEmail,
+			$messageSubject, $message);
 		if($response === "Email sent.") {
 			$reply->message = "Sign up was successful! Please check your email for activation message.";
 	} else {
