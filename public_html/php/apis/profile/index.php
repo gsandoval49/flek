@@ -74,10 +74,10 @@ try {
 		}
 
 
-			//need limit access
-			//store and change password
+		//need limit access
+		//store and change password
 
- //----------------------PUT---------------------------------
+		//----------------------PUT---------------------------------
 		elseif($method === "PUT") ;
 		verifyXsrf();
 		$requestContent = file_get_contents("php://input");
@@ -129,9 +129,9 @@ try {
 
 		//update reply
 		$reply->message = "Profile updated ok";
-		{
-		}throw(new InvalidArgumentException("Invalid HTTP method request"));
-		}
+	}
+
+
 		//update reply with exception information
 	}	catch(Exception $exception) {
 	$reply->status = $exception->getCode();

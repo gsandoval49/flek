@@ -1,7 +1,7 @@
 <?php
 
-require_once dirname(__DIR__, 2) . "/classes/autoload.php";
-require_once dirname(__DIR__, 2) . "/lib/xsrf.php";
+require_once (dirname(__DIR__, 2) . "/classes/autoload.php");
+require_once (dirname(__DIR__, 2) . "/lib/xsrf.php");
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 use Edu\Cnm\Flek\Favorite;
@@ -25,7 +25,7 @@ $reply->data = null;
 
 try {
 	//grab the mySQL connection
-	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/flek.ini");
+	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/favorite.ini");
 	//determine which HTTP method was used
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 
@@ -54,12 +54,13 @@ try {
 		if($favoriterId !== null) {
 			$reply->data = $favoriterId;
 		} else {
-			$profiles = Profile::getAllProfiles($pdo);
-			if($profiles !== null) {
-				$reply->data = $profiles;
+			$profile = Favorite::getProfileByFavoriteeId($pdo);
+			if($profile !== null) {
+				$reply->data = $profile;
 			}
 		}
-	} elseif($method === "POST") {
+		//-------------------------POST------------------------------
+	} elseif($method === "POST") ;
 
 // Set XSRF cookie
 		verifyXsrf();
@@ -82,6 +83,7 @@ try {
 	$favorite = new Favorite(null, $requestObject->favoriterId, $_SESSION["profile"]->getFavoriterId());
 	$favorite->insert($pdo);
 	$reply->message = "favoriter has been created";
+
 
 //-------------------------------DELETE--------------------------------
 	else if($method === "DELETE") {
