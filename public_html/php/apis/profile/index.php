@@ -1,7 +1,7 @@
 <?php
 
-require_once (dirname(__DIR__2) . "/classes/autoload.php");
-require_once (dirname(__DIR__2) . "/lib/xsrf.php");
+require_once(dirname(__DIR__,2) . "/classes/autoload.php");
+require_once(dirname(__DIR__,2) . "/lib/xsrf.php");
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 use Edu\Cnm\Flek\Profile;
@@ -23,7 +23,7 @@ $reply->data = null;
 
 try {
 	//grab the mySQL connection
-	$pdo = connectToEncryptMySQL("/etc/apache2/capstone-mysql/flek.ini");
+	$pdo = connectToEncryptMySQL("/etc/apache2/capstone-mysql/profile.ini");
 
 	// determine which HTTP method was used
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
@@ -36,30 +36,19 @@ try {
 	$bio = filter_input(INPUT_GET, "bio", FILTER_SANITIZE_STRING);
 
 	//ensure the information is valid
-	if($method === "PUT" && (empty($id) === true || $id < 0)) {
+	if(($method === "PUT") && (empty($id) === true || $id < 0)) {
 		throw(new \InvalidArgumentException("Id cannot be negative or empty", 405));
 	} elseif(($method === "POST" || $method === "DELETE")) {
 		throw(new \Exception("This action is forbidden", 405));
 	}
 
-	//make sure the primary key is valid for methods that require it
-	//if($method === "GET") {
-		//throw(new InvalidArgumentException("id cannot be empty or negative", 405));
-
-
-	//Do i need to restrict in GET ????
-// restrict to just anyone logged in
-
-	//if(empty($_SESSION["profile"]) === false &&
-	//$_SESSION["profile"]->getProfileId() === $id);
-
 	//----------------------GET---------------------------------
 
 	if($method === "GET") {
 		// set XSRF cookie
-		setXsrfCookie();
+		setXsrfCookie("/");
 		// get a Specific profile by Id
-		if(empty ($id) === false) {
+		if(empty($id) === false) {
 			$profile = Profile::getProfileByProfileId($pdo, $id);
 			if($profile !== null) {
 				$reply->data = $profile;
@@ -82,10 +71,13 @@ try {
 		$profiles = Profile::getAllProfiles($pdo);
 		if($profiles !== null) {
 			$reply->data = $profiles;
+		}
+
 
 			//need limit access
 			//store and change password
-		} //----------------------PUT---------------------------------
+
+ //----------------------PUT---------------------------------
 		elseif($method === "PUT") ;
 		verifyXsrf();
 		$requestContent = file_get_contents("php://input");

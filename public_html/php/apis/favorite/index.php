@@ -1,11 +1,10 @@
 <?php
 
-require_once dirname(__DIR__4) . "/vendor/autoload.php";
 require_once dirname(__DIR__, 2) . "/classes/autoload.php";
 require_once dirname(__DIR__, 2) . "/lib/xsrf.php";
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
-use Edu\Cnm\Flek;
+use Edu\Cnm\Flek\Favorite;
 
 /**
  * Api for Favorite class
@@ -55,7 +54,7 @@ try {
 		if($favoriterId !== null) {
 			$reply->data = $favoriterId;
 		} else {
-			$profiles = Flek\Profile::getAllProfiles($pdo);
+			$profiles = Profile::getAllProfiles($pdo);
 			if($profiles !== null) {
 				$reply->data = $profiles;
 			}
@@ -80,15 +79,15 @@ try {
 
 	//but am i creating a new profile or FAVORITE ?
 	//create new favorite Id and insert it into the database
-	$favorite = new Flek\Favorite(null, $requestObject->favoriterId, $_SESSION["profile"]->getFavoriterId());
+	$favorite = new Favorite(null, $requestObject->favoriterId, $_SESSION["profile"]->getFavoriterId());
 	$favorite->insert($pdo);
 	$reply->message = "favoriter has been created";
 
 //-------------------------------DELETE--------------------------------
-}	else if($method === "DELETE") {
+	else if($method === "DELETE") {
 	verifyXsrf();
 	// Retrieve the Favorite to be deleted
-	$favorite = Flek\Favorite::getFavoriteByFavorterId($pdo, $id);
+	$favorite = Favorite::getFavoriteByFavoriterId($pdo, $id);
 	if($favorite === null) {
 		throw(new RuntimeException("the favorite given does not exist", 404));
 	}
