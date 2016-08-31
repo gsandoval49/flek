@@ -32,7 +32,16 @@ try {
 	if($method === "GET") {
 		//set XSRF cookie
 		setXsrfCookie();
-		header("Location: ..", true, 301); // WHAT DO YOU DO?!
+
+		// TODO
+		// verfified signed in user and if signed in, can see messages you've sent/received. If not throw exception.
+		// get primary key or give them everything for messages.
+
+		// TODO
+		// CHECK IDs - angular will give PKs. from profile class, you can do a database call.
+		// grab 2 profiles angular will get for sender & receiver
+
+
 	} else if($method === "POST") {
 		verifyXsrf();
 		$requestContent = file_get_contents("php://input");
@@ -40,12 +49,6 @@ try {
 
 
 		// throw out blank fields
-		if(empty($requestObject->name) === true) {
-			throw(new \InvalidArgumentException("name is required", 400));
-		}
-		if(empty($requestObject->email) === true) {
-			throw(new \InvalidArgumentException("email is required", 400));
-		}
 		if(empty($requestObject->subject) === true) {
 			throw(new \InvalidArgumentException("subject is required", 400));
 		}
@@ -55,14 +58,15 @@ try {
 
 		// start the mailgun client
 		$client = new \Http\Adapter\Guzzle6\Client();
-		$mailgun = new \Mailgun\Mailgun($config["mailgun"], $client);
+		$mailGunslinger = new \Mailgun\Mailgun($mailgun->apiKey, $client);
 
 		// send the message
-		$result = $mailgun->sendMessage($domain, [
+		$result = $mailGunslinger->sendMessage($mailgun->domain, [
+				// TODO change after profiles
 				"from" => "$name <$email>",
 				"to" => "foo@example.com",
-				"subject" => $subject,
-				"text" => $message
+				"subject" => $requestObject->subject,
+				"text" => $requestObject->message
 			]
 		);
 
