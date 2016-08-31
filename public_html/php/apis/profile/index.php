@@ -34,12 +34,14 @@ try {
 	$email = filter_input(INPUT_GET, "email", FILTER_SANITIZE_STRING);
 	$location = filter_input(INPUT_GET, "location", FILTER_SANITIZE_STRING);
 	$bio = filter_input(INPUT_GET, "bio", FILTER_SANITIZE_STRING);
+	$profileActivationToken = filter_input(INPUT_GET, "activationtoken", FILTER_SANITIZE_STRING);
+	$profileAccessToken = filter_input(INPUT_GET, "accesstoken", FILTER_SANITIZE_STRING);
 
 	//ensure the information is valid
 	if(($method === "PUT") && (empty($id) === true || $id < 0)) {
 		throw(new \InvalidArgumentException("Id cannot be negative or empty", 405));
 	} elseif(($method === "POST" || $method === "DELETE")) {
-		throw(new \Exception("This action is forbidden", 405));
+		throw(new \InvalidArgumentException("This action is forbidden", 405));
 	}
 
 	//----------------------GET---------------------------------
@@ -67,11 +69,12 @@ try {
 			}
 		}
 		//Get All profiles then update it
-	} else {
-		$profiles = Profile::getAllProfiles($pdo);
-		if($profiles !== null) {
-			$reply->data = $profiles;
-		}
+		//DONT THINK I NEED THIS
+	//} else {
+		//$profiles = Profile::getAllProfiles($pdo);
+		//if($profiles !== null) {
+			//$reply->data = $profiles;
+
 
 
 		//need limit access
