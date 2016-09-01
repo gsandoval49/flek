@@ -36,23 +36,23 @@ try {
 		// TODO
 		// verfified signed in user and if signed in, can see messages you've sent/received. If not throw exception.
 		// get primary key or give them everything for messages.
-		if(empty($requestObject->profileEmail) === true) {
-			throw(new \InvalidArgumentException("Invalid email address to see messages."));
+		if(empty($id) === false) {
+			$reply->data = Mail::getMailByMailId($pdo, $id);
+		} else if(empty ($mailReceiverId) === false) {
+			$reply->data = Mail::getMailByMailReceiverId($pdo, $mailReceiverId)->toArray();
+		} else if(empty ($mailSenderId) === false) {
+			$reply->data = Mail::getMailByMailSenderId($pdo, $mailSenderId)->toArray();
 		} else {
-			$profileEmail = filter_var($requestObject->profileEmail, FILTER_SANITIZE_EMAIL);
+			$reply->data []; // do wel call data === "mails"
 		}
-		if(empty($requestObject->password) === true) {
-			throw(new \InvalidArgumentException("Must enter a password."));
-		} else {
-			$password = filter_var($requestObject->password, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-		}if()
+	} // moved closed bracket here as part of GET code
 
 		// TODO
 		// CHECK IDs - angular will give PKs. from profile class, you can do a database call.
 		// grab 2 profiles angular will get for sender & receiver
 
-
-	} else if($method === "POST") {
+	/* SHOULD THIS BE AN "ELSE IF" OR "IF" */
+	if($method === "POST") {
 		verifyXsrf();
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
