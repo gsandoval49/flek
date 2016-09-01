@@ -51,89 +51,89 @@ try {
 		setXsrfCookie("/");
 		// get a Specific profile by Id
 		if(empty($id) === false) {
-			$profile = Profile::getProfileByProfileId($pdo, $id);
+			$profile = Edu\Cnm\Flek\Profile::getProfileByProfileId($pdo, $id);
 			if($profile !== null) {
 				$reply->data = $profile;
 			}
-		} //Get profile by Name then update it
-		if(empty($name) === false) {
-			$profile = Profile::getProfileByProfileName($pdo, $name);
-			if($profile !== null) {
-				$reply->data = $profile;
-			}
+		//} //Get profile by Name then update it
+		//if(empty($name) === false) {
+			//$profile = Profile::getProfileByProfileName($pdo, $name);
+			//if($profile !== null) {
+				//$reply->data = $profile;
+			//}
 		} //Get profile by Email and then update it
 		if(empty($email) === false) {
-			$profile = Profile::getProfileByProfileEmail($pdo, $email);
+			$profile = Edu\Cnm\Flek\Profile::getProfileByProfileEmail($pdo, $email);
 			if($profile !== null) {
 				$reply->data = $profile;
 			}
 		}
 		//Get All profiles then update it
 		//DONT THINK I NEED THIS
-	//} else {
-		//$profiles = Profile::getAllProfiles($pdo);
-		//if($profiles !== null) {
-			//$reply->data = $profiles;
-
+	} else {
+		$profiles = Edu\Cnm\Flek\Profile::getsAllProfiles($pdo);
+		if($profiles !== null) {
+			$reply->data = $profiles;
+		}
 
 
 		//need limit access
 		//store and change password
 
 		//----------------------PUT---------------------------------
-		elseif($method === "PUT")
-		verifyXsrf();
-		$requestContent = file_get_contents("php://input");
-		$requestObject = json_decode($requestContent);
+		elseif($method === "PUT") {
+			verifyXsrf();
+			$requestContent = file_get_contents("php://input");
+			$requestObject = json_decode($requestContent);
 
-		//make sure profile id is available
-		if(empty($requestObject->profileName) === true) {
-			throw(new \InvalidArgumentException("No profile id for Profile", 405));
+			//make sure profile id is available
+			if(empty($requestObject->profileName) === true) {
+				throw(new \InvalidArgumentException("No profile id for Profile", 405));
+			}
+
+			//make sure profile email is available
+			if(empty($requestObject->profileEmail) === true) {
+				throw(new \InvalidArgumentException("No profile email for Profile", 405));
+			}
+
+			//make sure profile location is available
+			if(empty($requestObject->profileLocation) === true) {
+				throw(new \InvalidArgumentException("No profile location for Profile", 405));
+			}
+
+			//make sure profile bio is available
+			if(empty($requestObject->profileBio) === true) {
+				throw(new \InvalidArgumentException("No profile biography for Profile", 405));
+			}
+
+			//restrict each user to their account
+			if(empty($_SESSION["profile"]) === false || $_SESSION["profile"]->getProfileId() !== $id) {
+				throw(new \InvalidArgumentException("You are not allowed to access this profile"));
+			}
+
+
+			//retrieve the profile and update it
+			$profile = Profile::getProfileByProfileId($pdo, $id);
+			if($profile === null) {
+				throw(new RuntimeException("Profile does not exist"));
+			}
+
+			//put new Profile attributes into the profile and up date
+			$profile->setProfileName($requestObject->profileName);
+			$profile->setProfileEmail($requestObject->profileEmail);
+			$profile->setProfileLocation($requestObject->profileLocation);
+			$profile->setProfileBio($requestObject->profileBio);
+
+			if($requestObject->profilePassword !== null) {
+				$hash = hash_pbkdf2("sha256", $requestObject->getProfilePassword, $profile->getProfileSalt(), 262144);
+				$profile->setProfileHash($hash);
+			}
+			$profile->update($pdo);
+
+			//update reply
+			$reply->message = "Profile updated ok";
 		}
-
-		//make sure profile email is available
-		if(empty($requestObject->profileEmail) === true) {
-			throw(new \InvalidArgumentException("No profile email for Profile", 405));
-		}
-
-		//make sure profile location is available
-		if(empty($requestObject->profileLocation) === true) {
-			throw(new \InvalidArgumentException("No profile location for Profile", 405));
-		}
-
-		//make sure profile bio is available
-		if(empty($requestObject->profileBio) === true) {
-			throw(new \InvalidArgumentException("No profile biography for Profile", 405));
-		}
-
-		//restrict each user to their account
-		if(empty($_SESSION["profile"]) === false || $_SESSION["profile"]->getProfileId() !== $id) {
-			throw(new \InvalidArgumentException("You are not allowed to access this profile"));
-		}
-
-
-		//retrieve the profile and update it
-		$profile = Profile::getProfileByProfileId($pdo, $id);
-		if($profile === null) {
-			throw(new RuntimeException("Profile does not exist"));
-		}
-
-		//put new Profile attributes into the profile and up date
-		$profile->setProfileName($requestObject->profileName);
-		$profile->setProfileEmail($requestObject->profileEmail);
-		$profile->setProfileLocation($requestObject->profileLocation);
-		$profile->setProfileBio($requestObject->profileBio);
-
-		if($requestObject->profilePassword !== null) {
-			$hash = hash_pbkdf2("sha256", $requestObject->getProfilePassword, $profile->getProfileSalt(), 262144);
-			$profile->setProfileHash($hash);
-		}
-		$profile->update($pdo);
-
-		//update reply
-		$reply->message = "Profile updated ok";
 	}
-
 
 		//update reply with exception information
 	}	catch(Exception $exception) {

@@ -128,7 +128,7 @@ try {
 			}
 				// files array to send images
 			public static function upload($file, $options = \SplFixedArray::array() {
-				Array
+				//Array
 					{
 					[public_id] => c87hg9xfxrd4itiim3t0
 					[version] => 1371995958
