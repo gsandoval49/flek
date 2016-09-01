@@ -7,7 +7,7 @@ require_once dirname(__DIR__, 2) . "/classes/autoload.php";
 require_once dirname(__DIR__, 2) . "/lib/xsrf.php";
 require_once ("/etc/apache2/capstone-mysql/encrypted-config.php");
 
-use Edu\Cnm\Flek\Profile;
+use Edu\Cnm\Flek\{Profile, Mail};
 
 /**
  * api for signup
@@ -64,22 +64,24 @@ try {
 		}
 		$hash = hash_pbkdf2("sha512", $requestObject->password, $salt, 262144);
 		$salt = bin2hex(random_bytes(32));
-		$profileAccessToken = bin2hex(random_bytes(16));
+		/*$profileAccessToken = bin2hex(random_bytes(16));*/
 		$profileActivationToken = bin2hex(random_bytes(16));
-		$profile = new Flek\Profile($hash, $salt, $profileAccessToken, $profileActivationToken, $requestObject->profileName, $profileEmail, $profileLocation);
+
+		//create a new profile
+		$profile = new Flek\Profile($hash, $salt, $profileAccessToken, $profileActivationToken, $profileName, $requestObject->$profileEmail, $profileLocation);
 		$profile->insert($pdo);
-		$messageSubject = "Flek Account Activation";
 
 //building the activation link that can travel to another server and still work. This is the link that will be clicked to confirm the account.
 //FIXME: make sure URL is /public_html/activation/$activation
 		$basePath = dirname($_SERVER["SCRIPT_NAME"], 4);
 		$urlglue = $basePath . "/activation/" . $profileActivationToken;
 		$confirmLink = "https://" . $_SERVER["SERVER_NAME"] . $urlglue;
+		$messageSubject = "Flek Account Activation";
 		$message = <<< EOF
 <h2>Welcome to Flek!</h2>
 <p>Please visit the following URL to set a new password and complete the sign-up process: </p>
 EOF;
-		$response = mailGunslinger("Flek", "gsandoval49@cnm.edu", $requestObject->profileName, $requestObject->profileEmail,
+		$response = mailGunslinger("Flek", "csosa4@cnm.edu", $profileName, $requestObject->profileEmail,
 			$messageSubject, $message);
 		if($response === "Email sent.") {
 			$reply->message = "Sign up was successful! Please check your email for activation message.";
@@ -87,7 +89,7 @@ EOF;
 		throw(new InvalidArgumentException("Error sending email."));
 	}
 }else {
-		throw(new \InvalidArgumentException("Invalid HTTP request."));
+		throw(new \InvalidArgumentException("Invalid HTTP request.", 405));
 	}
 } catch(\Exception $exception) {
 	$reply->status = $exception->getCode();
