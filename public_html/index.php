@@ -19,6 +19,6 @@
 
 	<!--begin footer -->
 	<!-- require once -->
-	<?php require_once("php/partials/header.php") ?>
+	<?php require_once("php/partials/footer.php") ?>
 </body>
 </html>

@@ -14,7 +14,11 @@ app.config(function($routeProvider, $locationProvider) {
 			controller  : 'aboutController',
 			templateUrl : 'angular/views/about.php'
 		})
-
+		// route for the sign-up page
+		.when('/signup', {
+			controller  : 'signupController',
+			templateUrl : 'angular/views/signup.php'
+		})
 
 		// otherwise redirect to home
 		.otherwise({
