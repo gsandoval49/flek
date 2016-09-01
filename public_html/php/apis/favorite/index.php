@@ -58,34 +58,34 @@ try {
 			}
 		}
 		//-------------------------POST------------------------------
-	} elseif($method === "POST")
+	} elseif($method === "POST") {
 
 // Set XSRF cookie
-	verifyXsrf();
-	$requestContent = file_get_contents("php://input");
-	$requestObject = json_decode($requestContent);
+		verifyXsrf();
+		$requestContent = file_get_contents("php://input");
+		$requestObject = json_decode($requestContent);
 
-	// Make sure profile is available
-	if(empty($requestObject->favoriteeId) === true) {
-		throw(new InvalidArgumentException ("favoritee cannot be empty", 405));
+		// Make sure profile is available
+		if(empty($requestObject->favoriteeId) === true) {
+			throw(new InvalidArgumentException ("favoritee cannot be empty", 405));
+		}
+		if(empty($requestObject->favoriterId) === true) {
+			throw(new InvalidArgumentException("favoriter cannot be empty", 405));
+		}
+		// put the two favorites and update to create new one
+		//$favorite->setFavoriteeId($requestObject->favoriteeId);
+		//$favorite->setFavoriterId($requestObject->favoriterId);
+
+		//but am i creating a new profile or FAVORITE ?
+		//create new favorite Id and insert it into the database
+		$favorite = new Favorite(null, $requestObject->favoriterId, $_SESSION["favorite"]->getFavoriterId());
+		$favorite->insert($pdo);
+
+		$reply->message = "favoriter has been created";
 	}
-	if(empty($requestObject->favoriterId) === true) {
-		throw(new InvalidArgumentException("favoriter cannot be empty", 405));
-	}
-	// put the two favorites and update to create new one
-	//$favorite->setFavoriteeId($requestObject->favoriteeId);
-	//$favorite->setFavoriterId($requestObject->favoriterId);
-
-	//but am i creating a new profile or FAVORITE ?
-	//create new favorite Id and insert it into the database
-	$favorite = new Favorite(null, $requestObject->favoriterId, $_SESSION["profile"]->getFavoriterId());
-	$favorite->insert($pdo);
-
-	$reply->message = "favoriter has been created";
-
 
 //-------------------------------DELETE--------------------------------
-	elseif($method === "DELETE"){
+	elseif($method === "DELETE")	{
 	verifyXsrf();
 	// Retrieve the Favorite to be deleted
 	$favorite = Favorite::getFavoriteByFavoriterId($pdo, $favoriterId);
