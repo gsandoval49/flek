@@ -40,7 +40,7 @@ try {
 
 		//check that the necessary fields have been sent and filter
 		if(empty($requestObject->profileEmail) === true) {
-			throw(new \InvalidArgumentException("Invalid email address."));
+			throw(new \InvalidArgumentException("Wrong email address."));
 		} else {
 			$profileEmail = filter_var($requestObject->profileEmail, FILTER_SANITIZE_EMAIL);
 		}
