@@ -34,8 +34,8 @@ try {
 	$email = filter_input(INPUT_GET, "email", FILTER_SANITIZE_STRING);
 	$location = filter_input(INPUT_GET, "location", FILTER_SANITIZE_STRING);
 	$bio = filter_input(INPUT_GET, "bio", FILTER_SANITIZE_STRING);
-	$profileActivationToken = filter_input(INPUT_GET, "activationtoken", FILTER_SANITIZE_STRING);
-	$profileAccessToken = filter_input(INPUT_GET, "accesstoken", FILTER_SANITIZE_STRING);
+	$profileActivationToken = filter_input(INPUT_GET, "activationtoken", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	$profileAccessToken = filter_input(INPUT_GET, "accesstoken", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 
 	//ensure the information is valid
 	if(($method === "PUT") && (empty($id) === true || $id < 0)) {
@@ -81,7 +81,7 @@ try {
 		//store and change password
 
 		//----------------------PUT---------------------------------
-		elseif($method === "PUT") ;
+		elseif($method === "PUT")
 		verifyXsrf();
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
