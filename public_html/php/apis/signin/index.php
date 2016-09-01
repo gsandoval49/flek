@@ -29,7 +29,7 @@ try {
 
 	if($method === "GET"){
 		//set xsrf token
-		verifyXsrf();
+		setXsrfCookie();
 	}
 	//perform the post
 	else if($method === "POST") {
@@ -58,7 +58,7 @@ try {
 		}
 
 		//hash for $password
-		$hash = hash_pbkdf2("sha512", $password, $profile->$getProfileSalt, 262144);
+		$hash = hash_pbkdf2("sha512", $password, $profile->getProfileSalt(), 262144);
 
 		//verify hash is correct
 		if($hash !== $profile->getProfileHash()) {
@@ -73,10 +73,10 @@ try {
 	} else {
 		throw(new \InvalidArgumentException("Invalid HTTP method request."));
 	}
-} catch(\Exception $exception) {
+} catch(Exception $exception) {
 	$reply->status = $exception->getCode();
 	$reply->message = $exception->getMessage();
-} catch(\TypeError $typeError) {
+} catch(TypeError $typeError) {
 	$reply->status = $typeError->getCode();
 	$reply->message = $typeError->getMessage();
 }
