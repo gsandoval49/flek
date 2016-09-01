@@ -76,10 +76,6 @@ try {
 			$reply->data = $profiles;
 		}
 
-
-		//need limit access
-		//store and change password
-
 		//----------------------PUT---------------------------------
 		elseif($method === "PUT") {
 			verifyXsrf();
@@ -124,8 +120,8 @@ try {
 			$profile->setProfileLocation($requestObject->profileLocation);
 			$profile->setProfileBio($requestObject->profileBio);
 
-			if($requestObject->profilePassword !== null) {
-				$hash = hash_pbkdf2("sha256", $requestObject->getProfilePassword, $profile->getProfileSalt(), 262144);
+			if($requestObject->profilePassword !== null && ($requestObject->profileConfirmPassword !== null && $requestObject->profilePassword === $requestObject->profileConfirmPassword))   {
+				$hash = hash_pbkdf2("sha512", $requestObject->profilePassword, $profile->getProfileSalt(), 262144);
 				$profile->setProfileHash($hash);
 			}
 			$profile->update($pdo);
