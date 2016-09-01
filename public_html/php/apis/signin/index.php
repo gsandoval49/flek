@@ -6,7 +6,7 @@ use Edu\Cnm\Flek\Profile;
 
 /**
  * api for signin
- *n
+ *
  * @author Christina Sosa <csosa4@cnm.edu>
 **/
 

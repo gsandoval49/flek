@@ -6,12 +6,6 @@ require_once dirname(__DIR__, 2) . "/lib/xsrf.php";
 require_once ("/etc/apache2/capstone-mysql/encrypted-config.php");
 use Edu\Cnm\Flek;
 
-/**
- * api for facebook signup
- *
- * @author Christina Sosa <csosa4@cnm.edu>
- **/
-
 /**___________________________________
 
                     Light PHP wrapper for the OAuth 2.0
@@ -60,8 +54,16 @@ See the GNU Lesser General Public License for more details.
 How can I use it ?
 ==================**/
 
-try {
+if(session_status() !== PHP_SESSION_ACTIVE) {
+	session_start();
+}
 
+// prepare an empty reply
+$reply = new \stdClass();
+$reply->status = 200;
+$reply->data = null;
+try {
+$pdo = connectToEncryptedMySQL("etc/apache2/capstone-mysql/flek.ini");
 	$config = readConfig("/etc/apache2/capstone-mysql/flek.ini");
 
 	$oauth = json_decode($config["oauth"]);
@@ -70,7 +72,7 @@ const REDIRECT_URI = 'https://bootcamp-coders.cnm.edu/~csosa4/flek/public_html/p
 const AUTHORIZATION_ENDPOINT = 'https://graph.facebook.com/oauth/authorize';
 const TOKEN_ENDPOINT = 'https://graph.facebook.com/oauth/access_token';
 
-$client = new OAuth2\Client(CLIENT_ID, CLIENT_SECRET);
+$client = new \OAuth2\Client(CLIENT_ID, CLIENT_SECRET);
 if (!isset($_GET['code']))
 {
 	$auth_url = $client->getAuthenticationUrl(AUTHORIZATION_ENDPOINT, REDIRECT_URI);
