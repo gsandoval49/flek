@@ -5,8 +5,8 @@
 	<div class="col-md-7">
 		<div class="row">
 			<h3>Flek</h3>
-			<p>sign up to see art from your community</p>
-			<a href="signup.php" class="btn btn-warning btn-lg">Log in using Facebook!</a>
+			<p>Sign up to see art from your community! Create a new account or sign in with Facebook:</p>
+			<a href="signup.php" class="btn btn-warning btn-lg"> <i class="fa fa-facebook fa-lg"></i> </a>
 			<div class="row">
 				<!--room for sign up form here-->
 
