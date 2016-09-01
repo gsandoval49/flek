@@ -34,7 +34,7 @@ try {
 	$favoriteeId = filter_input(INPUT_GET, "favoriteeId", FILTER_VALIDATE_INT);
 	$favoriterId = filter_input(INPUT_GET, "favoriterId", FILTER_VALIDATE_INT);
 
-	if(($method === "DELETE" ||$method === "POST") && (empty($favoriterid) === true || $favoriterid < 0)) {
+	if(($method === "DELETE" || $method === "POST") && (empty($favoriterid) === true || $favoriterid < 0)) {
 		throw(new InvalidArgumentException("favoriterid cannot be empty or negative", 405));
 	} elseif($method = "PUT") {
 		throw(new InvalidArgumentException ("This action is forbidden", 405));
@@ -58,7 +58,7 @@ try {
 			}
 		}
 		//-------------------------POST------------------------------
-	} elseif($method === "POST") ;
+	} elseif($method === "POST")
 
 // Set XSRF cookie
 	verifyXsrf();
@@ -73,8 +73,8 @@ try {
 		throw(new InvalidArgumentException("favoriter cannot be empty", 405));
 	}
 	// put the two favorites and update to create new one
-	$favoriteeId->setFavoriteeId($requestObject->favoriteeId);
-	$favoriterId->setFavoriterId($requestObject->favoriterId);
+	//$favorite->setFavoriteeId($requestObject->favoriteeId);
+	//$favorite->setFavoriterId($requestObject->favoriterId);
 
 	//but am i creating a new profile or FAVORITE ?
 	//create new favorite Id and insert it into the database
@@ -83,23 +83,27 @@ try {
 
 	$reply->message = "favoriter has been created";
 
+
 //-------------------------------DELETE--------------------------------
-	else if($method === "DELETE") {
+	elseif($method === "DELETE"){
 	verifyXsrf();
 	// Retrieve the Favorite to be deleted
-	$favorite = Favorite::getFavoriteByFavoriterId($pdo, $id);
+	$favorite = Favorite::getFavoriteByFavoriterId($pdo, $favoriterId);
 	if($favorite === null) {
 		throw(new RuntimeException("the favorite given does not exist", 404));
 	}
+
 	// Delete favorite
 	$favorite->delete($pdo);
+
 	$deletedObject = new stdClass();
 	// Update reply
 	$reply->message = "Favorite deleted OK";
 
-	} else{
-	throw (new InvalidArgumentException("Invalid HTTP method request"));
-}
+} else{
+		throw (new InvalidArgumentException("Invalid HTTP method request"));
+	}
+
 	// Update reply with exception information
 } catch(Exception $exception) {
 	$reply->status = $exception->getCode();
