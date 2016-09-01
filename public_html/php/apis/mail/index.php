@@ -36,6 +36,16 @@ try {
 		// TODO
 		// verfified signed in user and if signed in, can see messages you've sent/received. If not throw exception.
 		// get primary key or give them everything for messages.
+		if(empty($requestObject->profileEmail) === true) {
+			throw(new \InvalidArgumentException("Invalid email address to see messages."));
+		} else {
+			$profileEmail = filter_var($requestObject->profileEmail, FILTER_SANITIZE_EMAIL);
+		}
+		if(empty($requestObject->password) === true) {
+			throw(new \InvalidArgumentException("Must enter a password."));
+		} else {
+			$password = filter_var($requestObject->password, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		}if()
 
 		// TODO
 		// CHECK IDs - angular will give PKs. from profile class, you can do a database call.
