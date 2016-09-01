@@ -531,22 +531,18 @@ class Profile implements \JsonSerializable {
 		$parameters = array("profileEmail" => $profileEmail);
 		$statement->execute($parameters);
 
-		//build an array of profiles
-		$profiles = new \SplFixedArray($statement->rowCount());
-		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while(($row = $statement->fetch()) !== false) {
-			try {
-				$profile = new Profile($row["profileId"], $row["profileName"], $row["profileEmail"], $row["profileLocation"], $row["profileBio"], $row["profileHash"], $row["profileSalt"], $row["profileAccessToken"], $row["profileActivationToken"]);
-				$profiles[$profiles->key()] = $profile;
-				$profiles->next();
-			} catch(\Exception $exception) {
-
-				//if the row couldn't be converted, rethrow it
-				throw(new \PDOException($exception->getMessage(), 0, $exception));
+		try {
+			$profile = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$profile = new Profile($row["profileId"], $row["profileName"], $row["profileEmail"], $row["profileLocation"], $row["profileBio"], $row["profileHash"], $row["profileSalt"],$row["profileAccessToken"], $row["profileActivationToken"]);
 			}
+		} catch(\Exception $exception) {
+			//if the row can't be converted, throw it
+			throw(new\PDOException($exception->getMessage(), 0, $exception));
 		}
-
-		return ($profiles);
+		return ($profile);
 	}
 
 	/**
