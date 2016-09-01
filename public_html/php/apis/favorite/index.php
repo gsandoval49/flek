@@ -1,7 +1,7 @@
 <?php
 
-require_once (dirname(__DIR__, 2) . "/classes/autoload.php");
-require_once (dirname(__DIR__, 2) . "/lib/xsrf.php");
+require_once(dirname(__DIR__, 2) . "/classes/autoload.php");
+require_once(dirname(__DIR__, 2) . "/lib/xsrf.php");
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 use Edu\Cnm\Flek\Favorite;
@@ -35,9 +35,9 @@ try {
 	$favoriterId = filter_input(INPUT_GET, "favoriterId", FILTER_VALIDATE_INT);
 
 	if(($method === "DELETE" || $method === "POST") && (empty($favoriterid) === true || $favoriterid < 0)) {
-		throw(new InvalidArgumentException("favoriterid cannot be empty or negative", 405));
+		throw(new \InvalidArgumentException("favoriterid cannot be empty or negative", 405));
 	} elseif($method = "PUT") {
-		throw(new InvalidArgumentException ("This action is forbidden", 405));
+		throw(new \InvalidArgumentException ("This action is forbidden", 405));
 	}
 //----------------------------------GET--------------------------------
 

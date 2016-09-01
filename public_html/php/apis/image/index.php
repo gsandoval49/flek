@@ -62,9 +62,9 @@ try {
 	//sanitize input
 	$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
 	$imageProfileId = filter_input(INPUT_GET, "imageProfileId", FILTER_VALIDATE_INT);
-	$imageDescription = filter_input(INPUT_GET, "imageDescription", FILTER_VALIDATE_INT);
-//	$imageFileType = filter_input(INPUT_GET, "imageFileType", FILTER_VALIDATE_INT);
-
+	$imageDescription = filter_input(INPUT_GET, "imageDescription", FILTER_SANITIZE_STRING);
+	$imageSecureUrl = filter_input(INPUT_GET, "imageSecureUrl", FILTER_SANITIZE_STRING);
+	$imagePublicId = filter_input(INPUT_GET, "imagePublicId", FILTER_SANITIZE_STRING);
 
 	//make sure the id is valid for methods that require it, the id is the primary key
 	if(($method === "DELETE") && (empty($id) === true || $id < 0)) {
