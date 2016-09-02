@@ -43,46 +43,49 @@ try {
 		//ensure all required information is entered
 		if(empty($requestObject->profileName) === true) {
 			throw(new \InvalidArgumentException("Must fill in first and last name."));
-		} else {
-			$profileName = filter_var($requestObject->profileName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		}
 		if(empty($requestObject->profileEmail) === true) {
 			throw(new \InvalidArgumentException("Must fill in email address."));
-		} else {
-			$profileEmail = filter_var($requestObject->profileEmail, FILTER_SANITIZE_EMAIL);
 		}
 		if(empty($requestObject->profileLocation) === true) {
 			throw(new \InvalidArgumentException("Must fill in location."));
-		} else {
-			$profileLocation = filter_var($requestObject->profileLocation, FILTER_SANITIZE_STRING,
-				FILTER_FLAG_NO_ENCODE_QUOTES);
 		}
-		if(empty($requestObject->password) === true) {
+		if(empty($requestObject->profilePassword) === true) {
 			throw(new \InvalidArgumentException("Must fill in password."));
-		} else {
-			$password = filter_var($requestObject->password, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		}
-		$hash = hash_pbkdf2("sha512", $requestObject->password, $salt, 262144);
+
+		// FIXME: require profileConfirmPassword and verify it like Diane did :)
+
+		$profileConfirmPassword = true;
+		if($requestObject->profilePassword !== null && ($requestObject->profileConfirmPassword !== null && $requestObject->profilePassword === $requestObject->profileConfirmPassword)) {
+			$hash = hash_pbkdf2("sha512", $requestObject->profilePassword, $profile->getProfileSalt(), 262144);
+			$profile->setProfileHash($hash);
+		}
+
+		$profile->update($pdo);
+
+
+		/*$hash = hash_pbkdf2("sha512", $requestObject->profilePassword, $salt, 262144);
 		$salt = bin2hex(random_bytes(32));
-		/*$profileAccessToken = bin2hex(random_bytes(16));*/
-		$profileActivationToken = bin2hex(random_bytes(16));
+		$profileAccessToken = bin2hex(random_bytes(16));
+		$profileActivationToken = bin2hex(random_bytes(16));*/
 
 		//create a new profile
-		$profile = new Flek\Profile($hash, $salt, $profileAccessToken, $profileActivationToken, $profileName, $requestObject->$profileEmail, $profileLocation);
+		$profile = new Profile($hash, $salt, $profileAccessToken, $profileActivationToken, $profileName, $requestObject->$profileEmail, $profileLocation);
 		$profile->insert($pdo);
 
 //building the activation link that can travel to another server and still work. This is the link that will be clicked to confirm the account.
 //FIXME: make sure URL is /public_html/activation/$activation
-		$basePath = dirname($_SERVER["SCRIPT_NAME"], 4);
-		$urlglue = $basePath . "/activation/" . $profileActivationToken;
+		$basePath = dirname($_SERVER["SCRIPT_NAME"], 2);
+		$urlglue = $basePath . "/activation/" . $activation;
 		$confirmLink = "https://" . $_SERVER["SERVER_NAME"] . $urlglue;
 		$messageSubject = "Flek Account Activation";
 		$message = <<< EOF
 <h2>Welcome to Flek!</h2>
-<p>Please visit the following URL to set a new password and complete the sign-up process: </p>
+<p>Please visit the following URL to set a new password and complete the sign-up process: </p><p><a href="$confirmLink">$confirmLink</a></p>
 EOF;
-		$response = mailGunslinger("Flek", "csosa4@cnm.edu", $profileName, $requestObject->profileEmail,
-			$messageSubject, $message);
+		$response = sendEmail($profileName, $profileEmail, $messageSubject, $message);
+		// FIXME: $response doesn't actually return "Email sent."
 		if($response === "Email sent.") {
 			$reply->message = "Sign up was successful! Please check your email for activation message.";
 	} else {
