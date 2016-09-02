@@ -1,8 +1,13 @@
 <div class="row">
-	<div class="col-md-5">
-		<!--room for large image, maybe scrolling(?)-->
+	<!-- <div class="col-md-5">
+	  room for large image, maybe scrolling(?)
+	  <img src="https://m1.behance.net/rendition/modules/30586517/disp/284234e07eb3d5bb7604f41243d7fd0c.jpg"/>
+	</div> -->
+	<div class="col-md-1">
+		<i class="fa fa-paint-brush fa-5x "></i>
+
 	</div>
-	<div class="col-md-7">
+	<div class="col-md-6">
 		<div class="row">
 			<h3>Flek</h3>
 			<p>Sign up to see art from your community! Create a new account or sign in with Facebook:</p>
