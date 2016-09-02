@@ -36,7 +36,7 @@ try {
 
 	//perform the post
 	if($method === "POST") {
-		verifyXsrf();
+		/*verifyXsrf();*/
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
 
@@ -53,22 +53,28 @@ try {
 		if(empty($requestObject->profilePassword) === true) {
 			throw(new \InvalidArgumentException("Must fill in password."));
 		}
+		if(empty($requestObject->profileConfirmPassword) === true){
+			throw(new \InvalidArgumentException("Please confirm the password"));
+		}
+		if($requestObject->password !== $requestObject->profileConfirmPassword){
+			throw(new \InvalidArgumentException("Password does not match"));
+		}
 
 		// FIXME: require profileConfirmPassword and verify it like Diane did :)
 
-		$profileConfirmPassword = true;
+/*		$profileConfirmPassword = true;
 		if($requestObject->profilePassword !== null && ($requestObject->profileConfirmPassword !== null && $requestObject->profilePassword === $requestObject->profileConfirmPassword)) {
 			$hash = hash_pbkdf2("sha512", $requestObject->profilePassword, $profile->getProfileSalt(), 262144);
 			$profile->setProfileHash($hash);
 		}
 
-		$profile->update($pdo);
+		$profile->update($pdo);*/
 
 
-		/*$hash = hash_pbkdf2("sha512", $requestObject->profilePassword, $salt, 262144);
+		$hash = hash_pbkdf2("sha512", $requestObject->profilePassword, $salt, 262144);
 		$salt = bin2hex(random_bytes(32));
-		$profileAccessToken = bin2hex(random_bytes(16));
-		$profileActivationToken = bin2hex(random_bytes(16));*/
+		/*$profileAccessToken = bin2hex(random_bytes(16));*/
+		$profileActivationToken = bin2hex(random_bytes(16));
 
 		//create a new profile
 		$profile = new Profile($hash, $salt, $profileAccessToken, $profileActivationToken, $profileName, $requestObject->$profileEmail, $profileLocation);
