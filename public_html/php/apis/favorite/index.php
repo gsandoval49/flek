@@ -52,7 +52,7 @@ try {
 		if($favoriterId !== null) {
 			$reply->data = $favorite;
 		} else {
-			$favorite = Favorite::getFavoriteByFavoriterId($pdo);
+			$favorite = Edu\Cnm\Flek\Favorite::getFavoriteByFavoriterId($pdo, $favoriterId);
 			if($favorite !== null) {
 				$reply->data = $favorite;
 			}
@@ -67,10 +67,10 @@ try {
 
 		// Make sure profile is available
 		if(empty($requestObject->favoriteeId) === true) {
-			throw(new InvalidArgumentException ("favoritee cannot be empty", 405));
+			throw(new \InvalidArgumentException("favoritee cannot be empty", 405));
 		}
 		if(empty($requestObject->favoriterId) === true) {
-			throw(new InvalidArgumentException("favoriter cannot be empty", 405));
+			throw(new \InvalidArgumentException("favoriter cannot be empty", 405));
 		}
 		// put the two favorites and update to create new one
 		//$favorite->setFavoriteeId($requestObject->favoriteeId);
@@ -88,9 +88,9 @@ try {
 	elseif($method === "DELETE")	{
 	verifyXsrf();
 	// Retrieve the Favorite to be deleted
-	$favorite = Favorite::getFavoriteByFavoriterId($pdo, $favoriterId);
+	$favorite = Edu\Cnm\Flek\Favorite::getFavoriteByFavoriterId($pdo, $favoriterId);
 	if($favorite === null) {
-		throw(new RuntimeException("the favorite given does not exist", 404));
+		throw(new \RuntimeException("the favorite given does not exist", 404));
 	}
 
 	// Delete favorite
@@ -101,7 +101,7 @@ try {
 	$reply->message = "Favorite deleted OK";
 
 } else{
-		throw (new InvalidArgumentException("Invalid HTTP method request"));
+		throw (new \InvalidArgumentException("Invalid HTTP method request"));
 	}
 
 	// Update reply with exception information
