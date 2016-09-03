@@ -32,7 +32,7 @@ try {
 	//determine which HTTP method was used
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER
 	["REQUEST_METHOD"];
-/*	$reply->method = $method;*/
+	$reply->method = $method;
 
 	//perform the post
 	if($method === "POST") {
@@ -42,7 +42,7 @@ try {
 
 		//ensure all required information is entered
 		if(empty($requestObject->profileName) === true) {
-			throw(new \InvalidArgumentException("Must fill in first and last name."));
+			throw(new \InvalidArgumentException("Must fill in first and last name.", 405));
 		}
 		if(empty($requestObject->profileEmail) === true) {
 			throw(new \InvalidArgumentException("Must fill in email address."));
@@ -50,34 +50,37 @@ try {
 		if(empty($requestObject->profileLocation) === true) {
 			throw(new \InvalidArgumentException("Must fill in location."));
 		}
+		if(empty($requestObject->profileBio) ===true) {
+			throw(new \InvalidArgumentException("Must fill in Bio."));
+		}
 		if(empty($requestObject->profilePassword) === true) {
 			throw(new \InvalidArgumentException("Must fill in password."));
+		} else {
+			$profilePassword = $requestObject->profilePassword;
 		}
 		if(empty($requestObject->profileConfirmPassword) === true){
 			throw(new \InvalidArgumentException("Please confirm the password"));
 		}
-		if($requestObject->password !== $requestObject->profileConfirmPassword){
+		if($requestObject->profilePassword !== $requestObject->profileConfirmPassword){
 			throw(new \InvalidArgumentException("Password does not match"));
 		}
 
 		// FIXME: require profileConfirmPassword and verify it like Diane did :)
-
-/*		$profileConfirmPassword = true;
+//code from profile api
+/*
 		if($requestObject->profilePassword !== null && ($requestObject->profileConfirmPassword !== null && $requestObject->profilePassword === $requestObject->profileConfirmPassword)) {
 			$hash = hash_pbkdf2("sha512", $requestObject->profilePassword, $profile->getProfileSalt(), 262144);
 			$profile->setProfileHash($hash);
 		}
-
 		$profile->update($pdo);*/
 
-
-		$hash = hash_pbkdf2("sha512", $requestObject->profilePassword, $salt, 262144);
 		$salt = bin2hex(random_bytes(32));
-		/*$profileAccessToken = bin2hex(random_bytes(16));*/
+		$hash = hash_pbkdf2("sha512", $profilePassword, $salt, 262144);
+		$profileAccessToken = bin2hex(random_bytes(16));
 		$profileActivationToken = bin2hex(random_bytes(16));
 
 		//create a new profile
-		$profile = new Profile($hash, $salt, $profileAccessToken, $profileActivationToken, $profileName, $requestObject->$profileEmail, $profileLocation);
+		$profile = new Profile(null, $requestObject->profileName, $requestObject->profileEmail, $requestObject->profileLocation, $profileAccessToken, $hash, $salt, $profileAccessToken, $profileActivationToken);
 		$profile->insert($pdo);
 
 //building the activation link that can travel to another server and still work. This is the link that will be clicked to confirm the account.
