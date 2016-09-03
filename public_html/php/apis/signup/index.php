@@ -83,6 +83,8 @@ try {
 		$profile = new Profile(null, $requestObject->profileName, $requestObject->profileEmail, $requestObject->profileLocation, $profileAccessToken, $hash, $salt, $profileAccessToken, $profileActivationToken);
 		$profile->insert($pdo);
 
+		echo "added new user";
+
 //building the activation link that can travel to another server and still work. This is the link that will be clicked to confirm the account.
 //FIXME: make sure URL is /public_html/activation/$activation
 		$basePath = dirname($_SERVER["SCRIPT_NAME"], 2);

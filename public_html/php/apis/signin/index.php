@@ -44,10 +44,10 @@ try {
 		} else {
 			$profileEmail = filter_var($requestObject->profileEmail, FILTER_SANITIZE_EMAIL);
 		}
-		if(empty($requestObject->password) === true) {
+		if(empty($requestObject->profilePassword) === true) {
 			throw(new \InvalidArgumentException("Must enter a password."));
 		} else {
-			$password = filter_var($requestObject->password, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+			$profilePassword = filter_var($requestObject->profilePassword, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		}
 
 		//create a profile
@@ -57,8 +57,8 @@ try {
 			throw(new \InvalidArgumentException("Invalid Email"));
 		}
 
-		//hash for $password
-		$hash = hash_pbkdf2("sha512", $password, $profile->getProfileSalt(), 262144);
+		//hash for $profilePassword
+		$hash = hash_pbkdf2("sha512", $profilePassword, $profile->getProfileSalt(), 262144);
 
 		//verify hash is correct
 		if($hash !== $profile->getProfileHash()) {
