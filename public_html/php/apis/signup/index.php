@@ -66,13 +66,6 @@ try {
 		}
 
 		// FIXME: require profileConfirmPassword and verify it like Diane did :)
-//code from profile api
-/*
-		if($requestObject->profilePassword !== null && ($requestObject->profileConfirmPassword !== null && $requestObject->profilePassword === $requestObject->profileConfirmPassword)) {
-			$hash = hash_pbkdf2("sha512", $requestObject->profilePassword, $profile->getProfileSalt(), 262144);
-			$profile->setProfileHash($hash);
-		}
-		$profile->update($pdo);*/
 
 		$salt = bin2hex(random_bytes(32));
 		$hash = hash_pbkdf2("sha512", $profilePassword, $salt, 262144);
