@@ -1,12 +1,17 @@
 <div class="row">
-	<div class="col-md-5">
-		<!--room for large image, maybe scrolling(?)-->
+	<!-- <div class="col-md-5">
+	  room for large image, maybe scrolling(?)
+	  <img src="https://m1.behance.net/rendition/modules/30586517/disp/284234e07eb3d5bb7604f41243d7fd0c.jpg"/>
+	</div> -->
+	<div class="col-md-1">
+		<i class="fa fa-paint-brush fa-5x "></i>
+
 	</div>
-	<div class="col-md-7">
+	<div class="col-md-6">
 		<div class="row">
 			<h3>Flek</h3>
-			<p>sign up to see art from your community</p>
-			<a href="signup.php" class="btn btn-warning btn-lg">Log in using Facebook!</a>
+			<p>Sign up to see art from your community! Create a new account or sign in with Facebook:</p>
+			<a href="signup.php" class="btn btn-warning btn-lg"> <i class="fa fa-facebook fa-lg"></i> </a>
 			<div class="row">
 				<!--room for sign up form here-->
 

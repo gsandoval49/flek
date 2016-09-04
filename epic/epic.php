@@ -175,7 +175,7 @@
 							She types in artcapstone.com
 						</li>
 						<li>
-							The website opens and Sarah finds a visually interesting home page with local artist spotlights
+							The website opens a nd Sarah finds a visually interesting home page with local artist spotlights
 							ranging from painters, sculptors, graffiti artists and more.
 						</li>
 						<li>

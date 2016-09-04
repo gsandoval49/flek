@@ -33,11 +33,9 @@ try {
 	// sanitize input
 	$favoriteeId = filter_input(INPUT_GET, "favoriteeId", FILTER_VALIDATE_INT);
 	$favoriterId = filter_input(INPUT_GET, "favoriterId", FILTER_VALIDATE_INT);
-
-	if(($method === "DELETE" || $method === "POST") && (empty($favoriterid) === true || $favoriterid < 0)) {
+	//can i involve POST but cant expose the composite key ?
+	if(($method === "DELETE") && (empty($favoriterid) === true || $favoriterid < 0)) {
 		throw(new \InvalidArgumentException("favoriterid cannot be empty or negative", 405));
-	} elseif($method = "PUT") {
-		throw(new \InvalidArgumentException ("This action is forbidden", 405));
 	}
 //----------------------------------GET--------------------------------
 
@@ -52,8 +50,8 @@ try {
 		if($favoriterId !== null) {
 			$reply->data = $favorite;
 		} else {
-			$favorite = Favorite::getFavoriteByFavoriterId($pdo);
-			if($favorite !== null) {
+			$favorite = Edu\Cnm\Flek\Favorite::getFavoriteByFavoriterId($pdo, $favoriterId);
+			if($favoriterId !== null) {
 				$reply->data = $favorite;
 			}
 		}
@@ -67,10 +65,10 @@ try {
 
 		// Make sure profile is available
 		if(empty($requestObject->favoriteeId) === true) {
-			throw(new InvalidArgumentException ("favoritee cannot be empty", 405));
+			throw(new \InvalidArgumentException("favoritee cannot be empty", 405));
 		}
 		if(empty($requestObject->favoriterId) === true) {
-			throw(new InvalidArgumentException("favoriter cannot be empty", 405));
+			throw(new \InvalidArgumentException("favoriter cannot be empty", 405));
 		}
 		// put the two favorites and update to create new one
 		//$favorite->setFavoriteeId($requestObject->favoriteeId);
@@ -88,7 +86,7 @@ try {
 	elseif($method === "DELETE")	{
 	verifyXsrf();
 	// Retrieve the Favorite to be deleted
-	$favorite = Favorite::getFavoriteByFavoriterId($pdo, $favoriterId);
+	$favorite = Edu\Cnm\Flek\Favorite::getFavoriteByFavoriterId($pdo, $favoriterId);
 	if($favorite === null) {
 		throw(new RuntimeException("the favorite given does not exist", 404));
 	}
@@ -101,13 +99,14 @@ try {
 	$reply->message = "Favorite deleted OK";
 
 } else{
-		throw (new InvalidArgumentException("Invalid HTTP method request"));
+		throw(new InvalidArgumentException("Invalid HTTP method request"));
 	}
 
 	// Update reply with exception information
 } catch(Exception $exception) {
 	$reply->status = $exception->getCode();
 	$reply->message = $exception->getMessage();
+	$reply->trace = $exception->getTraceAsString();
 } catch(TypeError $typeError) {
 	$reply->status = $typeError->getCode();
 	$reply->message = $typeError->getMessage();
