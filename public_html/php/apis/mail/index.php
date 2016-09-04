@@ -43,13 +43,14 @@ try {
 		} else if(empty ($mailSenderId) === false) {
 			$reply->data = Mail::getMailByMailSenderId($pdo, $mailSenderId)->toArray();
 		} else {
-			$reply->data []; // do wel call data === "mails"
+			$reply->data; // do wel call data === "mails"
 		}
 	} // moved closed bracket here as part of GET code
 
 		// TODO
 		// CHECK IDs - angular will give PKs. from profile class, you can do a database call.
 		// grab 2 profiles angular will get for sender & receiver
+
 
 	/* SHOULD THIS BE AN "ELSE IF" OR "IF" */
 	if($method === "POST") {
