@@ -46,8 +46,8 @@ try {
 		//set XSRF cookie
 		setXsrfCookie();
 
-		// verfified signed in user and if signed in, can see messages you've sent/received. If not throw exception.
-		// get primary key or give them everything for messages.
+		// verified signed in user and if signed in, can see messages you've sent/received. If not throw exception.
+		// get primary key or give them everything for messages. Courtesy of Skyler
 		if(empty($id) === false) {
 			$mail = Mail::getMailByMailId($pdo, $id);
 			if($_SESSION["profile"]->getProfileId() === $mail->getMailSenderId() || $_SESSION["profile"]->getProfileId() === $mail->getMailReceiverId()) {
