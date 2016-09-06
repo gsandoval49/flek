@@ -31,6 +31,7 @@ try {
 
 
 	// sanitize input
+	$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
 	$favoriteeId = filter_input(INPUT_GET, "favoriteeId", FILTER_VALIDATE_INT);
 	$favoriterId = filter_input(INPUT_GET, "favoriterId", FILTER_VALIDATE_INT);
 	//can i involve POST but cant expose the composite key ?
@@ -57,18 +58,22 @@ try {
 		}
 		//-------------------------POST------------------------------
 	} elseif($method === "POST") {
-
-// Set XSRF cookie
+			// Set XSRF cookie
 		verifyXsrf();
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
 
-		// Make sure profile is available
-		if(empty($requestObject->favoriteeId) === true) {
-			throw(new \InvalidArgumentException("favoritee cannot be empty", 405));
+		// make sure favoriteeId and favoriterId are available
+		if(empty($requestObject->favoriterId) === true && empty($requestObject->favoriterId) === true) {
+			throw(new InvalidArgumentException("no receive or write id", 405));
 		}
-		if(empty($requestObject->favoriterId) === true) {
-			throw(new \InvalidArgumentException("favoriter cannot be empty", 405));
+			// create new favorite and insert into the database
+			$favorite = new Edu\Cnm\Flek\Favorite($requestObject->favoriterId, $requestObject->favoriteeId);
+			$favorite->insert($pdo);
+			// update reply
+			$reply->message = "Favorite created OK";
+
+
 		}
 		// put the two favorites and update to create new one
 		//$favorite->setFavoriteeId($requestObject->favoriteeId);
@@ -76,14 +81,12 @@ try {
 
 		//but am i creating a new profile or FAVORITE ?
 		//create new favorite Id and insert it into the database
-		$favorite = new Favorite(null, $requestObject->favoriterId, $_SESSION["favorite"]->getFavoriterId());
-		$favorite->insert($pdo);
+		//$favorite = new Favorite(null, $requestObject->favoriterId, $_SESSION["favorite"]->getFavoriterId());
+		//$favorite->insert($pdo);
 
-		$reply->message = "favoriter has been created";
-	}
-
+		//$reply->message = "favoriter has been created";
 //-------------------------------DELETE--------------------------------
-	elseif($method === "DELETE")	{
+	else if($method === "DELETE")	{
 	verifyXsrf();
 	// Retrieve the Favorite to be deleted
 	$favorite = Edu\Cnm\Flek\Favorite::getFavoriteByFavoriterId($pdo, $favoriterId);
