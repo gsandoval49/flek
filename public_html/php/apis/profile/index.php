@@ -55,12 +55,6 @@ try {
 			if($profile !== null) {
 				$reply->data = $profile;
 			}
-		} //Get profile by Name then update it
-		else if(empty($name) === false) {
-			$profile = Profile::getProfileByProfileName($pdo, $name);
-			if($profile !== null) {
-				$reply->data = $profile;
-			}
 		} //Get profile by Email and then update it // TODO
 		else if(empty($email) === false) {
 			$profile = Edu\Cnm\Flek\Profile::getProfileByProfileEmail($pdo, $email);
