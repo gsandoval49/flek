@@ -112,7 +112,6 @@ try {
 
 		// send the message
 		$result = $mailGunslinger->sendMessage($mailgun->domain, [
-				// TODO change after profiles
 				"from" => $requestObject ->senderName . "<" .  $requestObject->senderEmail . ">",
 				"to" => $requestObject ->receiverName . "<" .  $requestObject->receiverEmail . ">",
 				"subject" => $requestObject->subject,
