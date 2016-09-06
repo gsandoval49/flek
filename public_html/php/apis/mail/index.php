@@ -32,6 +32,10 @@ try {
 	//determine which HTTP method was used
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 
+	$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
+	$mailSenderId = filter_input(INPUT_GET, "mailSenderId", FILTER_VALIDATE_INT);
+	$mailReceiverId = filter_input(INPUT_GET, "mailReceiverId", FILTER_VALIDATE_INT);
+
 	// must be logged in to get messages
 	if(empty($_SESSION["profile"]) === true) {
 		throw(new \InvalidArgumentException("you must be logged in"));
@@ -45,17 +49,19 @@ try {
 		// TODO
 		// verfified signed in user and if signed in, can see messages you've sent/received. If not throw exception.
 		// get primary key or give them everything for messages.
-		if(empty($id) === false) {
-			$reply->data = Mail::getMailByMailId($pdo, $id);
-		} else if(empty ($mailReceiverId) === false) {
-			$reply->data = Mail::getMailByMailReceiverId($pdo, $mailReceiverId)->toArray();
-		} else if(empty ($mailSenderId) === false) {
-			$reply->data = Mail::getMailByMailSenderId($pdo, $mailSenderId)->toArray();
+		if($_SESSION["profile"]->getProfileId() === $mailSenderId || $_SESSION["profile"]->getProfileId() === $mailReceiverId) {
+			if(empty($id) === false) {
+				$reply->data = Mail::getMailByMailId($pdo, $id);
+			} else if(empty ($mailReceiverId) === false) {
+				$reply->data = Mail::getMailByMailReceiverId($pdo, $mailReceiverId)->toArray();
+			} else if(empty ($mailSenderId) === false) {
+				$reply->data = Mail::getMailByMailSenderId($pdo, $mailSenderId)->toArray();
+			} else {
+				$reply->data; // do wel call data === "mails"
+			}
 		} else {
-			$reply->data; // do wel call data === "mails"
-		} /*else {
 			throw(new \InvalidArgumentException ("Invalid login to access your messages"));
-		}*/
+		}
 	} // moved closed bracket here as part of GET code
 
 		// TODO
