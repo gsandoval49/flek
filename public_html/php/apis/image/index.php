@@ -9,13 +9,13 @@ require_once dirname(__DIR__, 2) . "/classes/autoload.php";
 //require_once dirname(__DIR__, 2) . "/lib/xsrf.php";
 require_once ("/etc/apache2/capstone-mysql/encrypted-config.php");
 
-
-/**
- * these are required for cloudinary
- * */
-require 'Cloudinary.php';
-require 'Uploader.php';
-require 'Api.php';
+//
+///**
+// * these are required for cloudinary
+// * */
+//require 'Cloudinary.php';
+//require 'Uploader.php';
+//require 'Api.php';
 
 use Edu\Cnm\Flek\Image;
 
@@ -37,13 +37,13 @@ use Edu\Cnm\Flek\Image;
 if(session_status() !== PHP_SESSION_ACTIVE) {
 	session_start();
 }
-
-// configure cloudinary globally remember
-\Cloudinary::config(array(
-	"cloud_name" => "shreddheddev",
-	"api_key" => "937784761297322",
-	"api_secret" => "PvPElt7pYD3Sy06rLA1DL1BTL0g"
-));
+//
+//// configure cloudinary globally remember
+//Cloudinary::config(array(
+//	"cloud_name" => "shreddheddev",
+//	"api_key" => "937784761297322",
+//	"api_secret" => "PvPElt7pYD3Sy06rLA1DL1BTL0g"
+//));
 
 //prepare an empty reply
 $reply = new stdClass();
@@ -74,7 +74,7 @@ try {
 	//handle GET request. if a imageId is present, that image is returned, otherwise all images are returned
 	if($method === "GET") {
 		//set XSRF cookie
-		setXsrfCookie();
+//		setXsrfCookie();
 
 		//get a specific image or all images and update reply
 		if(empty($id) === false) {
@@ -88,7 +88,7 @@ try {
 				$reply->data = $image;
 			}
 		} elseif(empty($description) === false) {
-			$image = Image::getImageByImageDescription($pdo, $imageDescription);
+			$image = Image::getImagebyImageDescription($pdo, $imageDescription);
 			if($image !== null) {
 				$reply->data = $image;
 			}
@@ -127,7 +127,7 @@ try {
 				$reply->message = "Image created";
 			}
 				// files array to send images
-			public static function upload($file, $options = \SplFixedArray::array() {
+			/*public static function upload($file, $options = \SplFixedArray::array() {
 				//Array
 					{
 					[public_id] => c87hg9xfxrd4itiim3t0
@@ -145,7 +145,8 @@ try {
 
 			}
 
-		} elseif($method === "DELETE") {
+		}*/
+		}elseif($method === "DELETE") {
 			verifyXsrf();
 			//get image to be deleted by the ID
 			$image = Image::getImageByImageId($pdo, $id);
