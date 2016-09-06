@@ -46,28 +46,46 @@ try {
 		//set XSRF cookie
 		setXsrfCookie();
 
-		// TODO
 		// verfified signed in user and if signed in, can see messages you've sent/received. If not throw exception.
 		// get primary key or give them everything for messages.
-		if($_SESSION["profile"]->getProfileId() === $mailSenderId || $_SESSION["profile"]->getProfileId() === $mailReceiverId) {
-			if(empty($id) === false) {
-				$reply->data = Mail::getMailByMailId($pdo, $id);
-			} else if(empty ($mailReceiverId) === false) {
-				$reply->data = Mail::getMailByMailReceiverId($pdo, $mailReceiverId)->toArray();
-			} else if(empty ($mailSenderId) === false) {
-				$reply->data = Mail::getMailByMailSenderId($pdo, $mailSenderId)->toArray();
+		if(empty($id) === false) {
+			$mail = Mail::getMailByMailId($pdo, $id);
+			if($_SESSION["profile"]->getProfileId() === $mail->getMailSenderId() || $_SESSION["profile"]->getProfileId() === $mail->getMailReceiverId()) {
+				$reply->data = $mail;
 			} else {
-				$reply->data; // do wel call data === "mails"
+				throw(new \InvalidArgumentException("Invalid login to access messages"));
 			}
+		} else if(empty ($mailReceiverId) === false) {
+			$mails = Mail::getMailByMailReceiverId($pdo, $mailReceiverId)->toArray();
+			$toSend = [];
+			foreach($mails as $mail) {
+				if($_SESSION["profile"]->getProfileId() === $mail->getMailSenderId() || $_SESSION["profile"]->getProfileId() === $mail->getMailReceiverId()) {
+					$toSend[] = $mail;
+				} else {
+					throw(new \InvalidArgumentException("Invalid login to access messages"));
+				}
+			}
+			$reply->data = $toSend;
+		} else if(empty ($mailSenderId) === false) {
+			$mails = Mail::getMailByMailSenderId($pdo, $mailSenderId)->toArray();
+			$toSend = [];
+			foreach($mails as $mail) {
+				if($_SESSION["profile"]->getProfileId() === $mail->getMailSenderId() || $_SESSION["profile"]->getProfileId() === $mail->getMailReceiverId()) {
+					$toSend[] = $mail;
+				} else {
+					throw(new \InvalidArgumentException("Invalid login to access messages"));
+				}
+			}
+			$reply->data = $toSend;
 		} else {
-			throw(new \InvalidArgumentException ("Invalid login to access your messages"));
+			$reply->data; // do wel call data === "mails"
 		}
-	} // moved closed bracket here as part of GET code
+	}
+	// moved closed bracket here as part of GET code
 
-		// TODO
-		// CHECK IDs - angular will give PKs. from profile class, you can do a database call.
-		// grab 2 profiles angular will get for sender & receiver
-
+	// TODO
+	// CHECK IDs - angular will give PKs. from profile class, you can do a database call.
+	// grab 2 profiles angular will get for sender & receiver
 
 
 	/* SHOULD THIS BE AN "ELSE IF" OR "IF" */
@@ -112,12 +130,13 @@ try {
 
 		// send the message
 		$result = $mailGunslinger->sendMessage($mailgun->domain, [
-				"from" => $requestObject ->senderName . "<" .  $requestObject->senderEmail . ">",
-				"to" => $requestObject ->receiverName . "<" .  $requestObject->receiverEmail . ">",
+				"from" => $requestObject->senderName . "<" . $requestObject->senderEmail . ">",
+				"to" => $requestObject->receiverName . "<" . $requestObject->receiverEmail . ">",
 				"subject" => $requestObject->subject,
 				"text" => $requestObject->message
 			]
 		);
+
 
 		// inform the user of the result
 		/*if($result->http_response_code !== 200) {
