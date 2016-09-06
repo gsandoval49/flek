@@ -4,7 +4,7 @@
 
 /*require once here - double check if dirname(_DIR_) is needed*/
 require_once dirname(__DIR__, 2) . "/classes/autoload.php";
-//require_once dirname(__DIR__, 2) . "/lib/xsrf.php";
+require_once dirname(__DIR__, 2) . "/lib/xsrf.php";
 require_once ("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 
@@ -39,6 +39,7 @@ try {
 
 	//sanitize the input
 	$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
+	$genreName = filter_input(INPUT_GET, "genreName", FILTER_SANITIZE_STRING);
 
 	// make sure the id is valid for methods that require it
 	if(($method === "GET") && (empty($id) === true || $id < 0)) {
@@ -64,7 +65,7 @@ try {
 
 		}
 	} else {
-		$genres = Genre::getAllGenres($pdo);
+		$genres = Genre::getsAllGenres($pdo);
 		if($genres !== null) {
 			$reply->data = $genres;
 		}
@@ -72,6 +73,7 @@ try {
 		throw (new InvalidArgumentException("Invalid HTTP method request"));
 	}
 }
+
 		// update reply with exception information
 	 catch(Exception $exception) {
 		$reply->status = $exception->getCode();
@@ -80,6 +82,10 @@ try {
 		$reply->status = $typeError->getCode();
 		$reply->message = $typeError->getMessage();
 	}
+
+// create new genre and insert into database
+$tag = new Edu\Cnm\Flek\Genre(null, $requestObject -> genreName);
+$tag->insert($pdo);
 
 header("Content-type: application/json");
 if($reply->data === null) {
