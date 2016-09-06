@@ -463,7 +463,7 @@ class Profile implements \JsonSerializable {
 		$statement = $pdo->prepare($query);
 
 		//bind the member variables to the place holders in the template
-		$parameters = ["profileName" => $this->profileName, "profileEmail" => $this->profileEmail, "profileLocation" => $this->profileLocation, "profileBio" => $this->profileBio, "profileHash" => $this->profileHash, "profileSalt" => $this->profileSalt, "profileAccessToken" => $this->profileAccessToken, "profileActivationToken" => $this->profileActivationToken];
+		$parameters = ["profileId" => $this->profileId, "profileName" => $this->profileName, "profileEmail" => $this->profileEmail, "profileLocation" => $this->profileLocation, "profileBio" => $this->profileBio, "profileHash" => $this->profileHash, "profileSalt" => $this->profileSalt, "profileAccessToken" => $this->profileAccessToken, "profileActivationToken" => $this->profileActivationToken];
 		$statement->execute($parameters);
 	}
 

@@ -1,7 +1,7 @@
 <?php
 
-require_once(dirname(__DIR__,2) . "/classes/autoload.php");
-require_once(dirname(__DIR__,2) . "/lib/xsrf.php");
+require_once(dirname(__DIR__, 2) . "/classes/autoload.php");
+require_once(dirname(__DIR__, 2) . "/lib/xsrf.php");
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 use Edu\Cnm\Flek\Profile;
@@ -55,88 +55,85 @@ try {
 			if($profile !== null) {
 				$reply->data = $profile;
 			}
-		//} //Get profile by Name then update it
-		//if(empty($name) === false) {
-			//$profile = Profile::getProfileByProfileName($pdo, $name);
-			//if($profile !== null) {
-				//$reply->data = $profile;
-			//}
-		} //Get profile by Email and then update it
-		if(empty($email) === false) {
+		} //Get profile by Name then update it
+		else if(empty($name) === false) {
+			$profile = Profile::getProfileByProfileName($pdo, $name);
+			if($profile !== null) {
+				$reply->data = $profile;
+			}
+		} //Get profile by Email and then update it // TODO
+		else if(empty($email) === false) {
 			$profile = Edu\Cnm\Flek\Profile::getProfileByProfileEmail($pdo, $email);
 			if($profile !== null) {
 				$reply->data = $profile;
 			}
+		} else {
+			$profiles = Edu\Cnm\Flek\Profile::getsAllProfiles($pdo);
+			if($profiles !== null) {
+				$reply->data = $profiles;
+			}
 		}
 		//Get All profiles then update it
 		//DONT THINK I NEED THIS
-	} else {
-		$profiles = Edu\Cnm\Flek\Profile::getsAllProfiles($pdo);
-		if($profiles !== null) {
-			$reply->data = $profiles;
+	} //----------------------PUT---------------------------------
+	elseif($method === "PUT") {
+		verifyXsrf();
+		$requestContent = file_get_contents("php://input");
+		$requestObject = json_decode($requestContent);
+
+		//make sure profile id is available
+		if(empty($requestObject->profileName) === true) {
+			throw(new \InvalidArgumentException("No profile id for Profile", 405));
 		}
 
-		//----------------------PUT---------------------------------
-		elseif($method === "PUT") {
-			verifyXsrf();
-			$requestContent = file_get_contents("php://input");
-			$requestObject = json_decode($requestContent);
-
-			//make sure profile id is available
-			if(empty($requestObject->profileName) === true) {
-				throw(new \InvalidArgumentException("No profile id for Profile", 405));
-			}
-
-			//make sure profile email is available
-			if(empty($requestObject->profileEmail) === true) {
-				throw(new \InvalidArgumentException("No profile email for Profile", 405));
-			}
-
-			//make sure profile location is available
-			if(empty($requestObject->profileLocation) === true) {
-				throw(new \InvalidArgumentException("No profile location for Profile", 405));
-			}
-
-			//make sure profile bio is available
-			if(empty($requestObject->profileBio) === true) {
-				throw(new \InvalidArgumentException("No profile biography for Profile", 405));
-			}
-
-			//restrict each user to their account
-			if(empty($_SESSION["profile"]) === false || $_SESSION["profile"]->getProfileId() !== $id) {
-				throw(new \InvalidArgumentException("You are not allowed to access this profile"));
-			}
-
-
-			//retrieve the profile and update it
-			$profile = Profile::getProfileByProfileId($pdo, $id);
-			if($profile === null) {
-				throw(new RuntimeException("Profile does not exist"));
-			}
-
-			//put new Profile attributes into the profile and up date
-			$profile->setProfileName($requestObject->profileName);
-			$profile->setProfileEmail($requestObject->profileEmail);
-			$profile->setProfileLocation($requestObject->profileLocation);
-			$profile->setProfileBio($requestObject->profileBio);
-
-			if($requestObject->profilePassword !== null && ($requestObject->profileConfirmPassword !== null && $requestObject->profilePassword === $requestObject->profileConfirmPassword))   {
-				$hash = hash_pbkdf2("sha512", $requestObject->profilePassword, $profile->getProfileSalt(), 262144);
-				$profile->setProfileHash($hash);
-			}
-			$profile->update($pdo);
-
-			//update reply
-			$reply->message = "Profile updated ok";
+		//make sure profile email is available
+		if(empty($requestObject->profileEmail) === true) {
+			throw(new \InvalidArgumentException("No profile email for Profile", 405));
 		}
+
+		//make sure profile location is available
+		if(empty($requestObject->profileLocation) === true) {
+			throw(new \InvalidArgumentException("No profile location for Profile", 405));
+		}
+
+		//make sure profile bio is available
+		if(empty($requestObject->profileBio) === true) {
+			throw(new \InvalidArgumentException("No profile biography for Profile", 405));
+		}
+
+		//restrict each user to their account
+		if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId() !== $id) {
+			throw(new \InvalidArgumentException("You are not allowed to access this profile"));
+		}
+
+
+		//retrieve the profile and update it
+		$profile = Profile::getProfileByProfileId($pdo, $id);
+		if($profile === null) {
+			throw(new RuntimeException("Profile does not exist"));
+		}
+
+		//put new Profile attributes into the profile and up date
+		$profile->setProfileName($requestObject->profileName);
+		$profile->setProfileEmail($requestObject->profileEmail);
+		$profile->setProfileLocation($requestObject->profileLocation);
+		$profile->setProfileBio($requestObject->profileBio);
+
+		if($requestObject->profilePassword !== null && ($requestObject->profileConfirmPassword !== null && $requestObject->profilePassword === $requestObject->profileConfirmPassword)) {
+			$hash = hash_pbkdf2("sha512", $requestObject->profilePassword, $profile->getProfileSalt(), 262144);
+			$profile->setProfileHash($hash);
+		}
+		$profile->update($pdo);
+
+		//update reply
+		$reply->message = "Profile updated ok";
 	}
-
-		//update reply with exception information
-	}	catch(Exception $exception) {
+} //update reply with exception information
+catch(Exception $exception) {
 	$reply->status = $exception->getCode();
 	$reply->message = $exception->getMessage();
 	$reply->trace = $exception->getTraceAsString();
-}	catch(TypeError $typeError) {
+} catch(TypeError $typeError) {
 	$reply->status = $typeError->getCode();
 	$reply->message = $typeError->getMessage();
 }
@@ -147,6 +144,6 @@ if($reply->data === null) {
 }
 
 //encode and return reply to front end caller
-	echo json_encode($reply);
+echo json_encode($reply);
 
 
