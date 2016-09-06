@@ -1,4 +1,4 @@
-<div class="row">
+<div>
 	<!-- <div class="col-md-5">
 	  room for large image, maybe scrolling(?)
 	  <img src="https://m1.behance.net/rendition/modules/30586517/disp/284234e07eb3d5bb7604f41243d7fd0c.jpg"/>
