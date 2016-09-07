@@ -41,9 +41,12 @@ try {
 	$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
 	$genreName = filter_input(INPUT_GET, "genreName", FILTER_SANITIZE_STRING);
 
+/*
 	// create new genre and insert into database
-	$genre = new Edu\Cnm\Flek\Genre(null, /*$requestObject ->*/ "genreName");
-	$genre->insert($pdo);
+	// we probably don't even need this
+	$genre = new Edu\Cnm\Flek\Genre(null, $requestObject -> genreName);
+	$genre->insert($pdo);*/
+
 
 	// make sure the id is valid for methods that require it
 	if(($method === "GET") && (empty($id) === true || $id < 0)) {
