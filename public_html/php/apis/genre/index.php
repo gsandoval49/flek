@@ -41,6 +41,10 @@ try {
 	$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
 	$genreName = filter_input(INPUT_GET, "genreName", FILTER_SANITIZE_STRING);
 
+	// create new genre and insert into database
+	$genre = new Edu\Cnm\Flek\Genre(null, /*$requestObject ->*/ "genreName");
+	$genre->insert($pdo);
+
 	// make sure the id is valid for methods that require it
 	if(($method === "GET") && (empty($id) === true || $id < 0)) {
 		throw (new InvalidArgumentException("id cannot be empty or negative", 405));
@@ -83,9 +87,7 @@ try {
 		$reply->message = $typeError->getMessage();
 	}
 
-// create new genre and insert into database
-$tag = new Edu\Cnm\Flek\Genre(null, $requestObject -> genreName);
-$tag->insert($pdo);
+
 
 header("Content-type: application/json");
 if($reply->data === null) {
