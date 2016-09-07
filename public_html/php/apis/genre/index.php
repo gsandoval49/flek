@@ -61,7 +61,7 @@ try {
 			if($genre !== null) {
 				$reply->data = $genre;
 			}
-		} else if(empty($profileId) === false) {
+		} else if(empty($genreName) === false) {
 			$genres = Genre::getGenreByGenreName($pdo, $name);
 			if($genres !== null) {
 				$reply->data = $genres;
@@ -70,7 +70,7 @@ try {
 		}
 	} else {
 		$genres = Genre::getsAllGenres($pdo);
-		if($genres !== null) {
+		if($genres === null) {
 			$reply->data = $genres;
 		}
 	}  {
