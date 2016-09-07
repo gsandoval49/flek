@@ -1,9 +1,9 @@
 <?php
 
-/*
+/**
  * Capstone project Image API utilizing Cloudinary
  * based on code authored by lbaca152 from scrum meetings with DeepDiveDylan, dbeets, and raul-villarreal
- */
+ **/
 
 require_once (dirname(__DIR__, 2) . "/classes/autoload.php");
 //require_once (dirname(__DIR__, 2) . "/lib/xsrf.php");
