@@ -12,12 +12,12 @@ app.config(function($routeProvider, $locationProvider) {
 		// route for the about page
 		.when('/about', {
 			controller  : 'aboutController',
-			templateUrl : 'angular/views/about.php'
+			templateUrl : 'angular/pages/about.php'
 		})
 		// route for the sign-up page
 		.when('/signup', {
 			controller  : 'signupController',
-			templateUrl : 'angular/views/signup.php'
+			templateUrl : 'angular/pages/signup.php'
 		})
 
 		// otherwise redirect to home

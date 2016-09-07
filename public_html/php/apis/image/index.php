@@ -1,12 +1,12 @@
 <?php
 
-/**
+/*
  * Capstone project Image API utilizing Cloudinary
  * based on code authored by lbaca152 from scrum meetings with DeepDiveDylan, dbeets, and raul-villarreal
  */
-/*require once here - double check if dirname(_DIR_) is needed*/
-require_once dirname(__DIR__, 2) . "/classes/autoload.php";
-//require_once dirname(__DIR__, 2) . "/lib/xsrf.php";
+
+require_once (dirname(__DIR__, 2) . "/classes/autoload.php");
+//require_once (dirname(__DIR__, 2) . "/lib/xsrf.php");
 require_once ("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 //
@@ -17,7 +17,7 @@ require_once ("/etc/apache2/capstone-mysql/encrypted-config.php");
 //require 'Uploader.php';
 //require 'Api.php';
 
-use Edu\Cnm\Flek\Image;
+use Edu\Cnm\Flek\{Image, Profile};
 
 
 /**
@@ -48,6 +48,7 @@ if(session_status() !== PHP_SESSION_ACTIVE) {
 //prepare an empty reply
 $reply = new stdClass();
 $reply->status = 200;
+$reply->data = null;
 
 //begin try section
 
@@ -64,6 +65,7 @@ try {
 	$imageProfileId = filter_input(INPUT_GET, "imageProfileId", FILTER_VALIDATE_INT);
 	$imageDescription = filter_input(INPUT_GET, "imageDescription", FILTER_SANITIZE_STRING);
 	$imageSecureUrl = filter_input(INPUT_GET, "imageSecureUrl", FILTER_SANITIZE_STRING);
+	/*this is a string(?)*/
 	$imagePublicId = filter_input(INPUT_GET, "imagePublicId", FILTER_SANITIZE_STRING);
 
 	//make sure the id is valid for methods that require it, the id is the primary key
@@ -73,8 +75,8 @@ try {
 
 	//handle GET request. if a imageId is present, that image is returned, otherwise all images are returned
 	if($method === "GET") {
-		//set XSRF cookie
-//		setXsrfCookie();
+//		set XSRF cookie
+//		setXsrfCookie("/");
 
 		//get a specific image or all images and update reply
 		if(empty($id) === false) {
@@ -100,6 +102,7 @@ try {
 				$reply->data = $images;
 			}
 		}
+
 
 		//this is a check to make sure only a profile type of ADMIN or OWNER can make changes
 		//could also check for the reverse and throw an exception in that case
