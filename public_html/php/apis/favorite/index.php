@@ -58,52 +58,63 @@ try {
 		}
 		//-------------------------POST------------------------------
 	} elseif($method === "POST") {
-			// Set XSRF cookie
+		// Set XSRF cookie
 		verifyXsrf();
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
-
-		// make sure favoriteeId and favoriterId are available
-		if(empty($requestObject->favoriterId) === true && empty($requestObject->favoriterId) === true) {
+		// make sure favoriteeId are available
+		if(empty($requestObject->favoriterId) === true) {
 			throw(new InvalidArgumentException("no receive or write id", 405));
 		}
-			// create new favorite and insert into the database
-			$favorite = new Edu\Cnm\Flek\Favorite($requestObject->favoriterId, $requestObject->favoriteeId);
-			$favorite->insert($pdo);
-			// update reply
-			$reply->message = "Favorite created OK";
+		// create new favorite and insert into the database
+		$favorite = new Edu\Cnm\Flek\Favorite($requestObject->favoriterId, $requestObject->favoriteeId);
+		$favorite->insert($pdo);
+		// update re ply
+		$reply->message = "Favorite created OK";
+	}
 
 
-		}
-		// put the two favorites and update to create new one
-		//$favorite->setFavoriteeId($requestObject->favoriteeId);
-		//$favorite->setFavoriterId($requestObject->favoriterId);
+	// put the two favorites and update to create new one
+	//$favorite->setFavoriteeId($requestObject->favoriteeId);
+	//$favorite->setFavoriterId($requestObject->favoriterId);
 
-		//but am i creating a new profile or FAVORITE ?
-		//create new favorite Id and insert it into the database
-		//$favorite = new Favorite(null, $requestObject->favoriterId, $_SESSION["favorite"]->getFavoriterId());
-		//$favorite->insert($pdo);
+	//but am i creating a new profile or FAVORITE ?
+	//create new favorite Id and insert it into the database
+	//$favorite = new Favorite(null, $requestObject->favoriterId, $_SESSION["favorite"]->getFavoriterId());
+	//$favorite->insert($pdo);
 
-		//$reply->message = "favoriter has been created";
+	//$reply->message = "favoriter has been created";
 //-------------------------------DELETE--------------------------------
-	else if($method === "DELETE")	{
-	verifyXsrf();
-	// Retrieve the Favorite to be deleted
-	$favorite = Edu\Cnm\Flek\Favorite::getFavoriteByFavoriterId($pdo, $favoriterId);
-	if($favorite === null) {
-		throw(new RuntimeException("the favorite given does not exist", 404));
+	else if($method === "DELETE") {
+		verifyXsrf();
+		// Retrieve the Favorite to be deleted
+		$favorite = Edu\Cnm\Flek\Favorite::getFavoriteByFavoriterId($pdo, $favoriterId);
+		if($favorite === null) {
+			throw(new RuntimeException("the favorite given does not exist", 404));
+		} elseif($method === "DELETE") {
+			verifyXsrf();
+			// retrieve the favorite to be deleted
+			$favorite = Edu\Cnm\Flek\Favorite::getFavoriteeIdAndgetFavoriterId($pdo, $favoriteeId, $favoriterId);
+			if($favorite === null) {
+				throw(new RuntimeException("favorite does not exist", 404));
+			}
+			// delete favorite
+			$favorite->delete($pdo);
+			// update reply
+			$reply->message = "Favorite deleted OK";
+		} else {
+			throw(new InvalidArgumentException("Invalid HTTP method request"));
+		}
+
+
 	}
+		// Delete favorite
+	//$favorite->delete($pdo);
 
-	// Delete favorite
-	$favorite->delete($pdo);
-
-	$deletedObject = new stdClass();
+	//$deletedObject = new stdClass();
 	// Update reply
-	$reply->message = "Favorite deleted OK";
+	//$reply->message = "Favorite deleted OK";
 
-} else{
-		throw(new InvalidArgumentException("Invalid HTTP method request"));
-	}
 
 	// Update reply with exception information
 } catch(Exception $exception) {

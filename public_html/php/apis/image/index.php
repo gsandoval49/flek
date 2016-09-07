@@ -129,26 +129,7 @@ try {
 				}
 				$reply->message = "Image created";
 			}
-				// files array to send images
-			/*public static function upload($file, $options = \SplFixedArray::array() {
-				//Array
-					{
-					[public_id] => c87hg9xfxrd4itiim3t0
-					[version] => 1371995958
-  					[signature] => f8645b000be7d717599affc89a068157e4748276
-					[width] => 864
-  					[height] => 576
-  					[format] => jpg
-					[resource_type] => image
-					[created_at] => 2013-06-23T13:59:18Z
-					[bytes] => 120253
-  					[type] => upload
-					[url] => http://res.cloudinary.com/demo/image/upload/v1371995958/c87hg9xfxrd4itiim3t0.jpg
-					[secure_url] => https://res.cloudinary.com/demo/image/upload/v1371995958/c87hg9xfxrd4itiim3t0.jpg
 
-			}
-
-		}*/
 		}elseif($method === "DELETE") {
 			verifyXsrf();
 			//get image to be deleted by the ID
