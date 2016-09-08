@@ -31,16 +31,18 @@
 			<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/<?php echo $ANGULAR_VERSION; ?>/angular-animate.js"></script>
 			<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/1.3.3/ui-bootstrap-tpls.min.js"></script>
 			<!-- load OUR angular files. -->
-			<script src="angular/meow-app.js"></script>
+			<script src="angular/flek.js"></script>
 			<script src="angular/route-config.js"></script>
 			<script src="angular/directives/bootstrap-breakpoint.js"></script>
 			<!--services-->
 
-			<!-- TODO add more angular controllers as we create the views -->
+			<!-- more angular controllers as we create the views -->
 			<script src="angular/controllers/home-controller.js"></script>
 			<script src="angular/controllers/sign-up-controller.js"></script>
 			<script src="angular/controllers/about-controller.js"></script>
 			<script src="angular/controllers/nav-controller.js"></script>
+			<script src="angular/controllers/profile-controller.js"></script>
+			<script src="angular/controllers/feed-controller.js"></script>
 
 
 			<title>Flek</title>
