@@ -14,6 +14,16 @@ app.config(function($routeProvider, $locationProvider) {
 			controller  : 'aboutController',
 			templateUrl : 'angular/pages/about.php'
 		})
+		// route for home page
+		.when('/home', {
+			controller  : 'homeController',
+			templateUrl : 'angular/pages/home.php'
+		})
+		// route for profile page
+		.when('/profile', {
+			controller  : 'profileController',
+			templateUrl : 'angular/pages/profile.php'
+		})
 		// route for the sign-up page
 		.when('/signup', {
 			controller  : 'signupController',
