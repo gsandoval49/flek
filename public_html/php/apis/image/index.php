@@ -6,7 +6,7 @@
  **/
 
 require_once (dirname(__DIR__, 2) . "/classes/autoload.php");
-//require_once (dirname(__DIR__, 2) . "/lib/xsrf.php");
+require_once (dirname(__DIR__, 2) . "/lib/xsrf.php");
 require_once ("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 //
@@ -76,7 +76,7 @@ try {
 	//handle GET request. if a imageId is present, that image is returned, otherwise all images are returned
 	if($method === "GET") {
 //		set XSRF cookie
-//		setXsrfCookie("/");
+		setXsrfCookie("/");
 
 		//get a specific image or all images and update reply
 		if(empty($id) === false) {
