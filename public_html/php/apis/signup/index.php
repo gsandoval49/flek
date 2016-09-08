@@ -43,7 +43,7 @@ try {
 
 		//ensure all required information is entered
 		if(empty($requestObject->profileName) === true) {
-			throw(new \InvalidArgumentException("Must fill in first and last name.", 405));
+			throw(new \InvalidArgumentException("Must fill in name.", 405));
 		}
 		if(empty($requestObject->profileEmail) === true) {
 			throw(new \InvalidArgumentException("Must fill in email address."));
