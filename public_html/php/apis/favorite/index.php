@@ -50,9 +50,15 @@ try {
 		// Set XSRF cookie
 		setXsrfCookie("/");
 	}
-// Get a specific favorite or all favorites and update reply
-	if(empty($favoriterid) === false) {
-		$favorite = Edu\Cnm\Flek\Favorite::getFavoriteByFavoriterId($pdo, $favoriterid);
+	//get favorite or all favorites and update reply
+	if(empty($favoriteeId) === false && empty($favoriterId) === false) {
+		$favorite = Favorite::getFavoriteByFavoriteeIdAndFavoriterId($pdo, $favoriteeId, $favoriterId);
+		if($favorite !== null) {
+			$reply->data = $favorite;
+		}
+// Get a favorites from FavoriterId where favorites is the favoriteeId and update reply
+	if(empty($favoriteeid) === false) {
+		$favorite = Edu\Cnm\Flek\Favorite::getFavoriteByFavoriterId($pdo, $favoriteeid);
 		if($favorite !== null) {
 			$reply->data = $favorite;
 		}
