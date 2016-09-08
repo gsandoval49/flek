@@ -7,17 +7,15 @@ app.config(function($routeProvider, $locationProvider) {
 			controller: 'homeController',
 			templateUrl: 'angular/pages/home.php'
 		})
-
-		/*TODO enter more route configs here as we build views and controllers*/
 		// route for the about page
 		.when('/about', {
 			controller  : 'aboutController',
 			templateUrl : 'angular/pages/about.php'
 		})
-		// route for home page
-		.when('/home', {
-			controller  : 'homeController',
-			templateUrl : 'angular/pages/home.php'
+		// route for feed page
+		.when('/feed', {
+			controller  : 'feedController',
+			templateUrl : 'angular/pages/feed.php'
 		})
 		// route for profile page
 		.when('/profile', {
