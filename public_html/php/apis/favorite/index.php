@@ -4,7 +4,9 @@ require_once(dirname(__DIR__, 2) . "/classes/autoload.php");
 require_once(dirname(__DIR__, 2) . "/lib/xsrf.php");
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
-use Edu\Cnm\Flek\Favorite;
+use Edu\Cnm\Flek\ {
+	Favorite, Profile
+};
 
 /**
  * Api for Favorite class
@@ -29,14 +31,18 @@ try {
 	//determine which HTTP method was used
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 
-
+//session and object
 	// sanitize input
 	$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
+	$profile = filter_input(INPUT_GET, "profile", FILTER_VALIDATE_INT);
 	$favoriteeId = filter_input(INPUT_GET, "favoriteeId", FILTER_VALIDATE_INT);
 	$favoriterId = filter_input(INPUT_GET, "favoriterId", FILTER_VALIDATE_INT);
 	//can i involve POST but cant expose the composite key ?
 	if(($method === "DELETE") && (empty($favoriterid) === true || $favoriterid < 0)) {
 		throw(new \InvalidArgumentException("favoriterid cannot be empty or negative", 405));
+	}
+	elseif(($method === "PUT")) {
+		throw(new \InvalidArgumentException("This action is forbidden", 405));
 	}
 //----------------------------------GET--------------------------------
 
@@ -47,12 +53,12 @@ try {
 	}
 // Get a specific favorite or all favorites and update reply
 	if(empty($favoriterid) === false) {
-		$favorite = Edu\Cnm\Flek\Favorite::getFavoriteByFavoriterId($pdo, $favoriterid);
-		if($favoriterId !== null) {
+		$favorite = Edu\Cnm\Flek\Favorite::getFavoriteByFavoriterId($pdo, $favoriterid, $profile);
+		if($favorite !== null) {
 			$reply->data = $favorite;
-		} else {
-			$favorite = Edu\Cnm\Flek\Favorite::getFavoriteByFavoriterId($pdo, $favoriterId);
-			if($favoriterId !== null) {
+		} elseif((empty($profile)) === false) {
+			$favorite = Edu\Cnm\Flek\Favorite::getProfileByProfileId($pdo, $profile);
+			if($profile !== null) {
 				$reply->data = $favorite;
 			}
 		}
@@ -62,21 +68,27 @@ try {
 		verifyXsrf();
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
+		//make sure favorite profile is available
+		//request object...whatever is on the angular form....
+		if(empty($requestObject->profileEmail) === true) {
+			throw(new \InvalidArgumentException("need to input profile email.", 405));
+		}
+		if(empty($requestObject->profileBio) === true) {
+			throw(new \InvalidArgumentException("need to input profile biography.", 405));
+		}
+		if(empty($requestObject->profileLocation) === true) {
+			throw(new \InvalidArgumentException("Need to insert profile location.", 405));
+		}
 		// make sure favoriteeId are available
 		if(empty($requestObject->favoriterId) === true) {
 			throw(new InvalidArgumentException("no receive or write id", 405));
 		}
 		// create new favorite and insert into the database
-		$favorite = new Edu\Cnm\Flek\Favorite($requestObject->favoriterId, $requestObject->favoriteeId);
+		$favorite = new Edu\Cnm\Flek\Favorite($requestObject->favoriterId, $requestObject->getProfileId);
 		$favorite->insert($pdo);
 		// update re ply
 		$reply->message = "Favorite created OK";
 	}
-
-
-	// put the two favorites and update to create new one
-	//$favorite->setFavoriteeId($requestObject->favoriteeId);
-	//$favorite->setFavoriterId($requestObject->favoriterId);
 
 	//but am i creating a new profile or FAVORITE ?
 	//create new favorite Id and insert it into the database
