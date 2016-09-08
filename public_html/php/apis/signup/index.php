@@ -1,7 +1,7 @@
 <?php
 
 /*grabs composers autoload file - this was done in mail scrum meeting*/
-/*require_once __DIR__ . "/vendor/autoload.php";*/
+//require_once (dirname(__DIR__, 4) . "/vendor/autoload.php");
 
 require_once dirname(__DIR__, 2) . "/classes/autoload.php";
 require_once dirname(__DIR__, 2) . "/lib/xsrf.php";
@@ -60,10 +60,10 @@ try {
 			$profilePassword = $requestObject->profilePassword;
 		}
 		if(empty($requestObject->profileConfirmPassword) === true) {
-			throw(new \InvalidArgumentException("Please confirm the password"));
+			throw(new \InvalidArgumentException("Please confirm the password."));
 		}
 		if($requestObject->profilePassword !== $requestObject->profileConfirmPassword) {
-			throw(new \InvalidArgumentException("Password does not match"));
+			throw(new \InvalidArgumentException("Password does not match."));
 		}
 
 		// FIXME: require profileConfirmPassword and verify it like Diane did :)
