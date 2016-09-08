@@ -1,4 +1,6 @@
-<?php require_once("php/partials/head-utils.php"); ?>
+<?php
+// insert entire <head> tag
+require_once("php/partials/head-utils.php"); ?>
 
 <body class="sfooter">
 	<div class="sfooter-content">
