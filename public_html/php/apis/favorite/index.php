@@ -38,11 +38,12 @@ try {
 	$favoriteeId = filter_input(INPUT_GET, "favoriteeId", FILTER_VALIDATE_INT);
 	$favoriterId = filter_input(INPUT_GET, "favoriterId", FILTER_VALIDATE_INT);
 	//can i involve POST but cant expose the composite key ?
-	if(($method === "DELETE") && (empty($favoriterid) === true || $favoriterid < 0)) {
+	if(($method === "DELETE") && ($favoriterid === null || $favoriterid < 0 || $favoriteeId === null || $favoriteeId < 0)) {
 		throw(new \InvalidArgumentException("favoriterid cannot be empty or negative", 405));
-	} elseif(($method === "PUT")) {
+	} elseif($method === "PUT") {
 		throw(new \InvalidArgumentException("This action is forbidden", 405));
 	}
+
 //----------------------------------GET--------------------------------
 
 	// Handle all restful calls
@@ -50,34 +51,40 @@ try {
 		// Set XSRF cookie
 		setXsrfCookie("/");
 	}
-// Get a specific favorite or all favorites and update reply
-	if(empty($favoriterid) === false) {
-		$favorite = Edu\Cnm\Flek\Favorite::getFavoriteByFavoriterId($pdo, $favoriterid);
+	//get favorite or all favorites and update reply
+	if(empty($favoriteeId) === false && empty($favoriterId) === false) {
+		$favorite = Favorite::getFavoriteByFavoriteeIdAndFavoriterId($pdo, $favoriteeId, $favoriterId);
 		if($favorite !== null) {
 			$reply->data = $favorite;
 		}
-		//else{
+// Get a favorites from FavoriterId where favorites is the favoriteeId and update reply
+		if(empty($favoriteeid) === false) {
+			$favorite = Edu\Cnm\Flek\Favorite::getFavoriteByFavoriterId($pdo, $favoriteeid);
+			if($favorite !== null) {
+				$reply->data = $favorite;
+			}
+			//else{
 			//$favorites = Edu\Cnm\Flek\Favorite::getFavoriteByFavoriteeIdAndFavoriterId($pdo, $favoriterId, $favoriteeId);
 			//if($favoriterId !== null) {
-				//$reply->data = $favorite;
+			//$reply->data = $favorite;
 			//}
 
-		//-------------------------POST------------------------------
-	} elseif($method === "POST") {
-		// Set XSRF cookie
-		verifyXsrf();
-		$requestContent = file_get_contents("php://input");
-		$requestObject = json_decode($requestContent);
-		//make sure favorite profile is available
-		//request object...whatever is on the angular form....
+			//-------------------------POST------------------------------
+		} elseif($method === "POST") {
+			// Set XSRF cookie
+			verifyXsrf();
+			$requestContent = file_get_contents("php://input");
+			$requestObject = json_decode($requestContent);
+			//make sure favorite profile is available
+			//request object...whatever is on the angular form....
 
-		// make sure profileId are available
-		if(empty($requestObject->profileId) === true) {
-			throw(new InvalidArgumentException("no id", 405));
-		}
-		if(empty($requestObject->favoriterId) === true) {
-			throw(new InvalidArgumentException("no favorite", 405));
-		}
+			// make sure profileId are available
+			if(empty($requestObject->profileId) === true) {
+				throw(new InvalidArgumentException("no id", 405));
+			}
+			if(empty($requestObject->favoriterId) === true) {
+				throw(new InvalidArgumentException("no favorite", 405));
+			}
 			//created new profile and insert into database
 			//$profile = new Profile(null, $requestObject->profileEmail, $requestObject->profileLocation, $requestObject->profileBio, $hash, $salt, $profileAccessToken, $profileActivationToken);
 			//$profile->insert($pdo);
@@ -95,30 +102,30 @@ try {
 		//$favorite->insert($pdo);
 
 //-------------------------------DELETE--------------------------------
-	else if($method === "DELETE") {
-	verifyXsrf();
-	// Retrieve the Favorite to be deleted
-	$favorite = Edu\Cnm\Flek\Favorite::getFavoriteByFavoriteeId($pdo, $favoriteeId);
-	if($favorite === null) {
-		throw(new RuntimeException("the favorite given does not exist", 404));
-	}
-		// delete favorite
-		$favorite->delete($pdo);
-		// update reply
-		$reply->message = "Unfavorite OK";
-	} else {
-	throw(new InvalidArgumentException("Invalid HTTP method request"));
+		else if($method === "DELETE") {
+			verifyXsrf();
+			// Retrieve the Favorite to be deleted
+			$favorite = Edu\Cnm\Flek\Favorite::getFavoriteByFavoriteeId($pdo, $favoriteeId);
+			if($favorite === null) {
+				throw(new RuntimeException("the favorite given does not exist", 404));
+			}
+			// delete favorite
+			$favorite->delete($pdo);
+			// update reply
+			$reply->message = "Unfavorite OK";
+		} else {
+			throw(new InvalidArgumentException("Invalid HTTP method request"));
 
 
-}
+		}
 		// Delete favorite
-	//$favorite->delete($pdo);
+		//$favorite->delete($pdo);
 
-	//$deletedObject = new stdClass();
-	// Update reply
-	//$reply->message = "Favorite deleted OK";
+		//$deletedObject = new stdClass();
+		// Update reply
+		//$reply->message = "Favorite deleted OK";
 
-
+	}
 	// Update reply with exception information
 } catch(Exception $exception) {
 	$reply->status = $exception->getCode();
