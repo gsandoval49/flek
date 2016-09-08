@@ -2,7 +2,7 @@
 /**
  * function for the Mail class
  *
- * @author Christina Sosa <csosa4@cnm.edu>; Referenced Gerald Sandoval <gsandoval16@cnm>
+ * @author Christina Sosa <csosa4@cnm.edu>; Referenced Gerald Sandoval <gsandoval16@cnm> with DevConnect
  **/
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 require_once dirname(__DIR__, 4) . "/vendor/autoload.php";
