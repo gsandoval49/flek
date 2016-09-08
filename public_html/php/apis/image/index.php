@@ -84,12 +84,13 @@ try {
 			if($image !== null) {
 				$reply->data = $image;
 			}
+
 		} elseif(empty($profile) === false) {
 			$image = Image::getImageByImageProfileId($pdo, $imageProfileId);
 			if($image !== null) {
 				$reply->data = $image;
 			}
-		} elseif(empty($description) === false) {
+		} elseif(empty($imageDescription) === false) {
 			$image = Image::getImagebyImageDescription($pdo, $imageDescription);
 			if($image !== null) {
 				$reply->data = $image;
