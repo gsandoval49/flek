@@ -18,6 +18,7 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" uib-collapse="navCollapsed">
 
+                <!--TODO ENTER THE OTHER LABELS FOR NAV BAR-->
                 <ul class="nav navbar-nav navbar-right" >
                     <li><a href="index">Home</a></li>
                     <li><a href="about">About</a></li>
