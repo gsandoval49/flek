@@ -83,10 +83,14 @@ try {
 		if(empty($requestObject->favoriterId) === true) {
 			throw(new InvalidArgumentException("no receive or write id", 405));
 		}
+		//created new profile and insert into database
+		$profile = new Profile(null, $requestObject->profileEmail, $requestObject->profileLocation, $requestObject->profileBio, $hash, $salt, $profileAccessToken, $profileActivationToken);
+		$profile->insert($pdo);
+
 		// create new favorite and insert into the database
 		$favorite = new Edu\Cnm\Flek\Favorite($requestObject->favoriterId, $requestObject->getProfileId);
 		$favorite->insert($pdo);
-		// update re ply
+		// update reply
 		$reply->message = "Favorite created OK";
 	}
 
