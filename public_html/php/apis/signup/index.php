@@ -90,7 +90,7 @@ try {
 <h2>Welcome to Flek!</h2>
 <p>Please visit the following URL to set a new password and complete the sign-up process: </p><p><a href="$confirmLink">$confirmLink</a></p>
 EOF;
-		$response = mail($requestObject->profileName, $requestObject->profileEmail, $messageSubject, $message);
+		$response = mailGunslinger("Flek", "gsandoval49@cnm.edu", $requestObject->profileName, $requestObject->profileEmail, $messageSubject, $message);
 		// FIXME: $response doesn't actually return "Email sent."
 		if($response === true) {
 			$reply->message = "Your message has been sent.";
