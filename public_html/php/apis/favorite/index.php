@@ -34,11 +34,11 @@ try {
 //session and object
 	// sanitize input
 	$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
-	$profile = filter_input(INPUT_GET, "profile", FILTER_VALIDATE_INT);
+	$profileId = filter_input(INPUT_GET, "profileId", FILTER_VALIDATE_INT);
 	$favoriteeId = filter_input(INPUT_GET, "favoriteeId", FILTER_VALIDATE_INT);
 	$favoriterId = filter_input(INPUT_GET, "favoriterId", FILTER_VALIDATE_INT);
 	//can i involve POST but cant expose the composite key ?
-	if(($method === "DELETE") && ($favoriterid === null || $favoriterid < 0 || $favoriteeId === null || $favoriteeId < 0)) {
+	if(($method === "DELETE") && (empty($profileId === null || $profileId < 0 || $id === null || $id < 0))) {
 		throw(new \InvalidArgumentException("favoriterid cannot be empty or negative", 405));
 	} elseif($method === "PUT") {
 		throw(new \InvalidArgumentException("This action is forbidden", 405));
@@ -79,18 +79,18 @@ try {
 			//request object...whatever is on the angular form....
 
 			// make sure profileId are available
-			if(empty($requestObject->profileId) === true) {
-				throw(new InvalidArgumentException("no id", 405));
+			if(empty($requestObject->favoriteeId) === true) {
+				throw(new InvalidArgumentException("no favorite available", 405));
 			}
-			if(empty($requestObject->favoriterId) === true) {
-				throw(new InvalidArgumentException("no favorite", 405));
-			}
+			//if(empty($requestObject->id) === true) {
+				//throw(new InvalidArgumentException("no profile available", 405));
+			//}
 			//created new profile and insert into database
 			//$profile = new Profile(null, $requestObject->profileEmail, $requestObject->profileLocation, $requestObject->profileBio, $hash, $salt, $profileAccessToken, $profileActivationToken);
 			//$profile->insert($pdo);
 
 			// create new favorite and insert into the database
-			$favorite = new Edu\Cnm\Flek\Favorite(null, $requestObject->getProfileId, $requestObject->getFavoriterId);
+			$favorite = new Edu\Cnm\Flek\Favorite(null, $requestObject->getProfileId, $requestObject->getId);
 			$favorite->insert($pdo);
 			// update reply
 			$reply->message = "Favorite created OK";
@@ -105,7 +105,7 @@ try {
 		else if($method === "DELETE") {
 			verifyXsrf();
 			// Retrieve the Favorite to be deleted
-			$favorite = Edu\Cnm\Flek\Favorite::getFavoriteByFavoriteeId($pdo, $favoriteeId);
+			$favorite = Edu\Cnm\Flek\Favorite::getFavoriteByFavoriteeId($pdo, $profileId, $id);
 			if($favorite === null) {
 				throw(new RuntimeException("the favorite given does not exist", 404));
 			}
