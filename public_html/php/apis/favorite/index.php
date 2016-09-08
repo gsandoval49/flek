@@ -31,15 +31,23 @@ try {
 	//determine which HTTP method was used
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 
+	// check if user is logged in
+	if(empty($_SESSION["profile"] === true)) {
+		throw (new \InvalidArgumentException("You must be logged in to favorite a profile"));
+	}
+
 //session and object
 	// sanitize input
-	$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
-	$profileId = filter_input(INPUT_GET, "profileId", FILTER_VALIDATE_INT);
+	//$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
 	$favoriteeId = filter_input(INPUT_GET, "favoriteeId", FILTER_VALIDATE_INT);
-	$favoriterId = filter_input(INPUT_GET, "favoriterId", FILTER_VALIDATE_INT);
+	//$favoriterId = filter_input(INPUT_GET, "favoriterId", FILTER_VALIDATE_INT);
+	$favoriterId = $_SESSION["profile"]->getProfileId();
 	//can i involve POST but cant expose the composite key ?
-	if(($method === "DELETE") && (empty($profileId === null || $profileId < 0 || $id === null || $id < 0))) {
-		throw(new \InvalidArgumentException("favoriterid cannot be empty or negative", 405));
+
+	if(($method === "DELETE") && (empty($favoriterId) || $favoriterId < 0)) {
+		throw(new \InvalidArgumentException("favoriter id cannot be empty or negative", 405));
+	} elseif($method === "DELETE" && ($method === "DELETE") && (empty($favoriteeId) || $favoriteeId < 0)) {
+		throw(new \InvalidArgumentException("favoritee id cannot be null"));
 	} elseif($method === "PUT") {
 		throw(new \InvalidArgumentException("This action is forbidden", 405));
 	}
@@ -52,20 +60,20 @@ try {
 		setXsrfCookie("/");
 
 		//get favorite or all favorites and update reply
-		if(empty($favoriteeId) === false && empty($favoriterId) === false) {
+		if((!empty($favoriteeId)) && (!empty($favoriterId))) {
 			$favorite = Favorite::getFavoriteByFavoriteeIdAndFavoriterId($pdo, $favoriteeId, $favoriterId);
 			if($favorite !== null) {
 				$reply->data = $favorite;
 			}
 		} // Get a favorites from FavoriterId where favorites is the favoriteeId and update reply
-		elseif(empty($favoriteeid) === false) {
-			$favorite = Edu\Cnm\Flek\Favorite::getFavoriteByFavoriterId($pdo, $favoriteeid);
+		elseif(!empty($favoriterId)) {
+			$favorite = Edu\Cnm\Flek\Favorite::getFavoriteByFavoriterId($pdo, $favoriterId);
 			if($favorite !== null) {
 				$reply->data = $favorite;
 			}
 		}
 		//else{
-		//$favorites = Edu\Cnm\Flek\Favorite::getFavoriteByFavoriteeIdAndFavoriterId($pdo, $favoriterId, $favoriteeId);
+		//$favorites = Edu\Cnm\Flek\Favorite::getFavoriteByFavoriteeIdAndFavoriterId($pdo, $profileId, $favoriteeId);
 		//if($favoriterId !== null) {
 		//$reply->data = $favorite;
 		//}
@@ -75,15 +83,22 @@ try {
 	} elseif($method === "POST") {
 		// Set XSRF cookie
 		verifyXsrf();
+
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
+
 		//make sure favorite profile is available
 		//request object...whatever is on the angular form....
 
 		// make sure profileId are available
-		if(empty($requestObject->favoriteeId) === true) {
-			throw(new InvalidArgumentException("no favorite available", 405));
+		if(empty($requestObject->favoriteeId)) {
+			throw(new InvalidArgumentException("no favoritee available", 405));
 		}
+
+		if(empty($requestObject->favoriterId)) {
+			throw(new InvalidArgumentException("no favoriter available", 405));
+		}
+
 		//if(empty($requestObject->id) === true) {
 		//throw(new InvalidArgumentException("no profile available", 405));
 		//}
@@ -92,7 +107,7 @@ try {
 		//$profile->insert($pdo);
 
 		// create new favorite and insert into the database
-		$favorite = new Edu\Cnm\Flek\Favorite(null, $requestObject->getProfileId, $requestObject->getId);
+		$favorite = new Edu\Cnm\Flek\Favorite(null, $requestObject->favoriteeId, $requestObject->favoriterId);
 		$favorite->insert($pdo);
 		// update reply
 		$reply->message = "Favorite created OK";
