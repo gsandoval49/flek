@@ -5,15 +5,17 @@
 
 require_once dirname(__DIR__, 2) . "/classes/autoload.php";
 require_once dirname(__DIR__, 2) . "/lib/xsrf.php";
-require_once ("/etc/apache2/capstone-mysql/encrypted-config.php");
+require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
-use Edu\Cnm\Flek\{Profile, Mail};
+use Edu\Cnm\Flek\{
+	Profile, Mail
+};
 
 /**
  * api for signup
  *
  * @author Christina Sosa <csosa4@cnm.edu>;
-**/
+ **/
 
 //verify the session, start if not active
 if(session_status() !== PHP_SESSION_ACTIVE) {
@@ -50,7 +52,7 @@ try {
 		if(empty($requestObject->profileLocation) === true) {
 			throw(new \InvalidArgumentException("Must fill in location."));
 		}
-		if(empty($requestObject->profileBio) ===true) {
+		if(empty($requestObject->profileBio) === true) {
 			throw(new \InvalidArgumentException("Must fill in Bio."));
 		}
 		if(empty($requestObject->profilePassword) === true) {
@@ -58,10 +60,10 @@ try {
 		} else {
 			$profilePassword = $requestObject->profilePassword;
 		}
-		if(empty($requestObject->profileConfirmPassword) === true){
+		if(empty($requestObject->profileConfirmPassword) === true) {
 			throw(new \InvalidArgumentException("Please confirm the password"));
 		}
-		if($requestObject->profilePassword !== $requestObject->profileConfirmPassword){
+		if($requestObject->profilePassword !== $requestObject->profileConfirmPassword) {
 			throw(new \InvalidArgumentException("Password does not match"));
 		}
 
@@ -73,7 +75,7 @@ try {
 		$profileActivationToken = bin2hex(random_bytes(16));
 
 		//create a new profile
-		$profile = new Profile(null, $requestObject->profileName, $requestObject->profileEmail, $requestObject->profileLocation, $profileAccessToken, $hash, $salt, $profileAccessToken, $profileActivationToken);
+		$profile = new Profile(null, $requestObject->profileName, $requestObject->profileEmail, $requestObject->profileLocation, $requestObject->profileBio, $hash, $salt, $profileAccessToken, $profileActivationToken);
 		$profile->insert($pdo);
 
 		/*echo "added new user";*/
@@ -90,12 +92,12 @@ try {
 EOF;
 		$response = mail($requestObject->profileName, $requestObject->profileEmail, $messageSubject, $message);
 		// FIXME: $response doesn't actually return "Email sent."
-		if($response === "Email sent.") {
+		if($response === true) {
 			$reply->message = "Your message has been sent.";
+		} else {
+			throw(new \InvalidArgumentException("Error sending email."));
+		}
 	} else {
-		throw(new InvalidArgumentException("Error sending email."));
-	}
-}else {
 		throw(new \InvalidArgumentException("Invalid HTTP request.", 405));
 	}
 } catch(\Exception $exception) {

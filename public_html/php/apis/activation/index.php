@@ -2,7 +2,7 @@
 
 require_once dirname(__DIR__, 2) . "/classes/autoload.php";
 require_once dirname(__DIR__, 2) . "/lib/xsrf.php";
-require_once ("/etc/apache2/capstone-mysql/encrypted-config.php");
+require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 use Edu\Cnm\Flek\Profile;
 
@@ -10,7 +10,7 @@ use Edu\Cnm\Flek\Profile;
  * api for Activation Token
  *
  * @author Christina Sosa <csosa4@cnm.edu>
-**/
+ **/
 
 //verify the session, start if not active
 if(session_status() !== PHP_SESSION_ACTIVE) {
@@ -25,16 +25,16 @@ $reply->data = null;
 try {
 
 	//grab the mySQL connection
-	$pdo =  connectToEncryptedMySQL("/etc/apache2/capstone-mysql/flek.ini");
+	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/flek.ini");
 
 	//determine which HTTP method was used
 	$method = array_key_exists("HTTP_X_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 
-	//sanitize activation token
-	$activation = filter_input(INPUT_GET, "activate", FILTER_SANITIZE_STRING);
-	if($method === "GET" && (empty($activation) === true)) {
-		throw(new \InvalidArgumentException("Invalid Token"));
-	}
+//	//sanitize activation token
+//	$activation = filter_input(INPUT_GET, "activate", FILTER_SANITIZE_STRING);
+//	if($method === "GET" && (empty($activation) === true)) {
+//		throw(new \InvalidArgumentException("Invalid Token"));
+//	}
 
 	//handle GET request - if id is present, that activation is returned, otherwise all activations are returned
 	if($method === "GET") {
@@ -42,8 +42,8 @@ try {
 		//set XSRF cookie
 		setXsrfCookie();
 
-	//get the Sign up based on the given field
-	$emailActivationToken = filter_input(INPUT_GET, "emailActivationToken", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		//get the Sign up based on the given field
+		$emailActivationToken = filter_input(INPUT_GET, "emailActivationToken", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		if(empty($emailActivationToken)) {
 			throw(new \RangeException("No Activation Token"));
 		}
@@ -53,12 +53,13 @@ try {
 		}
 		$profile->setProfileActivationToken(null);
 		$profile->update($pdo);
+		$reply->message = "Profile Activated";
 	} else {
 		throw(new\Exception("Invalid HTTP method"));
 	}
 
 	//update reply with exception information
-} catch (Exception $exception) {
+} catch(Exception $exception) {
 	$reply->status = $exception->getCode();
 	$reply->message = $exception->getMessage();
 	$reply->trace = $exception->getTraceAsString();
@@ -68,11 +69,11 @@ try {
 	$reply->status = $typeError->getCode();
 	$reply->message = $typeError->getMessage();
 	$reply->trace = $typeError->getTraceAsString();
-
-	header("Content-type: application/json");
-	if($reply->data === null) {
-		unset($reply->data);
-	}
-	//encode and return reply to front end caller
-	echo json_encode($reply);
 }
+
+header("Content-type: application/json");
+if($reply->data === null) {
+	unset($reply->data);
+}
+//encode and return reply to front end caller
+echo json_encode($reply);

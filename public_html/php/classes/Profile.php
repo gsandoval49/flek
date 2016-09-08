@@ -381,7 +381,12 @@ class Profile implements \JsonSerializable {
 	 * @throws \RangeException if $newProfileActivationToken !== 32 characters
 	 * @throws \TypeError if $newProfileActivationToken is not a string
 	 **/
-	public function setProfileActivationToken(string $newProfileActivationToken) {
+	public function setProfileActivationToken(string $newProfileActivationToken = null) {
+		if ($newProfileActivationToken === null) {
+			$this->profileActivationToken = null;
+			return;
+		}
+
 		//verify the profile activation token is secure
 		$newProfileActivationToken = trim($newProfileActivationToken);
 		$newProfileActivationToken = filter_var($newProfileActivationToken, FILTER_SANITIZE_STRING);
@@ -583,6 +588,49 @@ class Profile implements \JsonSerializable {
 				//if the row couldn't be converted, rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
+
+		return ($profile);
+	}
+
+	/**
+	 * gets profile by profileAccessToken
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param string $profileActivationToken profile access token to search for
+	 * @return Profile|null Profile found or null if not found
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getProfileByProfileActivationToken(\PDO $pdo, string $profileActivationToken) {
+		//sanitize the access token before searching
+		$profileActivationToken = trim($profileActivationToken);
+		$profileActivationToken = filter_var($profileActivationToken, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($profileActivationToken) === true) {
+			throw(new \PDOException("profile activation token is invalid"));
+		}
+
+		//create query template
+		$query = "SELECT profileId, profileName, profileEmail, profileLocation, profileBio, profileHash, profileSalt, 
+profileAccessToken, profileActivationToken FROM profile WHERE profileActivationToken = :profileActivationToken";
+		$statement = $pdo->prepare($query);
+
+		//bind the profile access token to the place holder in the template
+		$parameters = array("profileActivationToken" => $profileActivationToken);
+		$statement->execute($parameters);
+
+		//throw the object
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		try {
+			$profile = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$profile = new Profile($row["profileId"], $row["profileName"], $row["profileEmail"], $row["profileLocation"], $row["profileBio"], $row["profileHash"], $row["profileSalt"], $row["profileAccessToken"], $row["profileActivationToken"]);
+			}
+		} catch(\Exception $exception) {
+
+			//if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
 
 		return ($profile);
 	}
