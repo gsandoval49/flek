@@ -1,4 +1,4 @@
-// WE'RE PRETTY SURE THIS IS SUPPOSE TO BE THE LIVE CODE AND COMMENTED OUT THE ORIGINAL BELOW
+
 <?php require_once("php/partials/head-utils.php");?>
 <body class="sfooter">
 	<div class="sfooter-content">
