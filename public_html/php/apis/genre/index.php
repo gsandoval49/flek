@@ -8,13 +8,13 @@ require_once dirname(__DIR__, 2) . "/lib/xsrf.php";
 require_once ("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 /*Genre will have to incorporate Image*/
-use Edu\Cnm\Flek\{Genre, Image};
+use Edu\Cnm\Flek\Image;
 
 
 /**
  * api for Genre class
  *
- * @author Rob Harding
+ * @author Rob Harding, Christina Sosa, and Giles Sandoval
  **/
 
 
@@ -38,8 +38,9 @@ try {
 	$reply->method = $method;
 
 	//sanitize the input
-	$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
-	$genreName = filter_input(INPUT_GET, "genreName", FILTER_SANITIZE_STRING);
+	// we're not inputting so does this need to be here?
+/*	$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
+	$genreName = filter_input(INPUT_GET, "genreName", FILTER_SANITIZE_STRING);*/
 
 /*
 	// create new genre and insert into database
