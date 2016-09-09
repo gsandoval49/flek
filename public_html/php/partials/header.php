@@ -22,6 +22,8 @@
                 <ul class="nav navbar-nav navbar-right" >
                     <li><a href="index">Home</a></li>
                     <li><a href="about">About</a></li>
+                    <li><a href="feed">Feed</a></li>
+                    <li><a href="profile">Profile</a></li>
                     <li><a href="signup">Sign Up</a></li>
                 </ul>
             </div><!-- /.navbar-collapse -->
