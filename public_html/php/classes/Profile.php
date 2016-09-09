@@ -75,14 +75,14 @@ class Profile implements \JsonSerializable {
 	 * @param string $newProfileBio string containing profile bio summary
 	 * @param string $newProfileHash string containing actual profile password hash
 	 * @param string $newProfileSalt string containing actual profile password salt
-	 * @param string $newProfileAccessToken string with profile permission
-	 * @param string $newProfileActivationToken string with profile token
+	 * @param string|null $newProfileAccessToken string with profile permission
+	 * @param string|null $newProfileActivationToken string with profile token
 	 * @throws \InvalidArgumentException if data types are not valid
 	 * @throws \RangeException if data values are out of bounds (e.g., strings too long, negative integers)
 	 * @throws \TypeError if data types violate type hints
 	 * @throws \Exception if some other exception occurs
 	 **/
-	public function __construct(int $newProfileId = null, string $newProfileName, string $newProfileEmail, string $newProfileLocation, string $newProfileBio, string $newProfileHash, string $newProfileSalt, string $newProfileAccessToken, string $newProfileActivationToken) {
+	public function __construct(int $newProfileId = null, string $newProfileName, string $newProfileEmail, string $newProfileLocation, string $newProfileBio, string $newProfileHash, string $newProfileSalt, $newProfileAccessToken, $newProfileActivationToken) {
 		try {
 			$this->setProfileId($newProfileId);
 			$this->setProfileName($newProfileName);

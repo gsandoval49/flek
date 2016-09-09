@@ -230,7 +230,7 @@ class Favorite implements \JsonSerializable {
 	 * @param \PDO $pdo PDO connection object
 	 * @param int $favoriteeId to search for
 	 * @param int $favoriterId to search for
-	 * @return  \SplFixedArray of favoriteeId and favoriterId
+	 * @return  \null if not found favoriteeId and favoriterId
 	 * @throws \PDOException when mySQL related errors occur
 	 **/
 	public static function getFavoriteByFavoriteeIdAndFavoriterId(\PDO $pdo, int $favoriteeId, int $favoriterId) {

@@ -124,7 +124,7 @@ try {
 	else if($method === "DELETE") {
 		verifyXsrf();
 		// Retrieve the Favorite to be deleted
-		$favorite = Edu\Cnm\Flek\Favorite::getFavoriteByFavoriteeId($pdo, $favoriteeId, $id);
+		$favorite = Edu\Cnm\Flek\Favorite::getFavoriteByFavoriteeId($pdo, $favoriteeId, $favoriterId);
 		if($favorite === null) {
 			throw(new RuntimeException("the favorite given does not exist", 404));
 		}
