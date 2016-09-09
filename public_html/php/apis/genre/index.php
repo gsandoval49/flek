@@ -69,11 +69,6 @@ try {
 			if($genre !== null) {
 				$reply->data = $genre;
 			}
-		} else if(empty($genreName) === false) {
-			$genre = Genre::getGenreByGenreName($pdo, $genreName);
-			if($genre !== null) {
-				$reply->data = $genre;
-			}
 
 			//for all other cases get all genres
 		} else {
