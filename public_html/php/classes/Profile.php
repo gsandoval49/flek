@@ -593,7 +593,7 @@ class Profile implements \JsonSerializable {
 	}
 
 	/**
-	 * gets profile by profileAccessToken
+	 * gets profile by profileActivationToken
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @param string $profileActivationToken profile access token to search for
@@ -601,7 +601,7 @@ class Profile implements \JsonSerializable {
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
 	public static function getProfileByProfileActivationToken(\PDO $pdo, string $profileActivationToken) {
-		//sanitize the access token before searching
+		//sanitize the activation token before searching
 		$profileActivationToken = trim($profileActivationToken);
 		$profileActivationToken = filter_var($profileActivationToken, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		if(empty($profileActivationToken) === true) {
