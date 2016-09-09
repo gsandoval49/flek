@@ -33,7 +33,7 @@ try {
 
 	// check if user is logged in
 	//if(empty($_SESSION["profile"] === true)) {
-		//throw (new \InvalidArgumentException("You must be logged in to favorite a profile"));
+	//throw (new \InvalidArgumentException("You must be logged in to favorite a profile"));
 
 
 //session and object
@@ -51,7 +51,8 @@ try {
 	} elseif($method === "PUT") {
 		throw(new \InvalidArgumentException("This action is forbidden", 405));
 	}
-
+	if((empty($_SESSION["profile"]) === false) && (($_SESSION["profile"]->getProfileId()) === $id)) {
+	}
 //----------------------------------GET--------------------------------
 
 	// Handle all restful calls
@@ -64,9 +65,7 @@ try {
 			if($favorite !== null) {
 				$reply->data = $favorite;
 			}
-		}
-
-		//get favorite or all favorites and update reply
+		} //get favorite or all favorites and update reply
 		elseif((!empty($favoriteeId)) && (!empty($favoriterId))) {
 			$favorite = Favorite::getFavoriteByFavoriteeIdAndFavoriterId($pdo, $favoriteeId, $favoriterId);
 			if($favorite !== null) {
@@ -85,33 +84,28 @@ try {
 		//$reply->data = $favorite;
 		//}
 
-
-		//-------------------------POST------------------------------
-	} elseif($method === "POST") {
+	} //-------------------------POST------------------------------
+	elseif($method === "POST") {
 		// Set XSRF cookie
-		verifyXsrf();
+		verifyXsrf("");
 
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
 
 		//make sure favorite profile is available
 		//request object...whatever is on the angular form....
+		if(empty($requestObject->profileId) === true) {
+			throw(new InvalidArgumentException("no profile id", 405));
+		}
 
 		// make sure profileId are available
-		if(empty($requestObject->favoriteeId) === true) {
-			throw(new InvalidArgumentException("no favoritee available", 405));
+		elseif(empty($requestObject->favoriteeId) === true) {
+			throw(new \InvalidArgumentException("no favoritee available", 405));
 		}
-
-		elseif(empty($requestObject->favoriterId) === true) {
-			throw(new InvalidArgumentException("no favoriter available", 405));
+		elseif
+		(empty($requestObject->favoriterId) === true){
+			throw(new \InvalidArgumentException("no favoriter available", 405));
 		}
-
-		elseif(empty($requestObject->id) === true) {
-		throw(new InvalidArgumentException("no profile available", 405));
-		}
-		//created new profile and insert into database
-		//$profile = new Profile(null, $requestObject->profileEmail, $requestObject->profileLocation, $requestObject->profileBio, $hash, $salt, $profileAccessToken, $profileActivationToken);
-		//$profile->insert($pdo);
 
 		// create new favorite and insert into the database
 		$favorite = new Edu\Cnm\Flek\Favorite(null, $requestObject->getProfileId, $requestObject->favoriteeId, $requestObject->favoriterId);
