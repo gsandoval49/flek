@@ -1,7 +1,3 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: Sosa
- * Date: 9/7/16
- * Time: 9:13 AM
- */
+<div>
+	<p>profile stuff</p>
+</div>
