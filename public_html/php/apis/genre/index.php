@@ -8,7 +8,8 @@ require_once dirname(__DIR__, 2) . "/lib/xsrf.php";
 require_once ("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 /*Genre will have to incorporate Image*/
-use Edu\Cnm\Flek\Image;
+//Do we need image inserted
+use Edu\Cnm\Flek\Genre;
 
 
 /**
@@ -34,14 +35,14 @@ try {
 	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/flek.ini");
 
 	//determine which HTTP method was used
-	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] :$_SERVER["REQUEST_METHOD"];
-	$reply->method = $method;
+	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
+/*	$reply->method = $method;*/
 
 	//sanitize the input
 	$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
 
 	//comment this out, use if needed, if not, delete.
-/*	$genreName = filter_input(INPUT_GET, "genreName", FILTER_SANITIZE_STRING);*/
+	$genreName = filter_input(INPUT_GET, "genreName", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 
 /*
 	// create new genre and insert into database
