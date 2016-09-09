@@ -52,11 +52,11 @@ try {
 
 
 	// make sure the id is valid for methods that require it
-	if(($method === "GET") && (empty($id) === true || $id < 0)) {
+/*	if(($method === "GET") && (empty($id) === true || $id < 0)) {
 		throw (new InvalidArgumentException("id cannot be empty or negative", 405));
 	} elseif(($method === "POST" || $method === "DELETE" || $method === "PUT")) {
 		throw(new \InvalidArgumentException("This action is forbidden", 405));
-	}
+	}*/
 
 // handle GET request - if id is present, that genre is returned, otherwise all genres are returned
 	if($method === "GET") {
@@ -70,9 +70,9 @@ try {
 				$reply->data = $genre;
 			}
 		} else if(empty($genreName) === false) {
-			$genres = Genre::getGenreByGenreName($pdo, $name);
-			if($genres !== null) {
-				$reply->data = $genres;
+			$genre = Genre::getGenreByGenreName($pdo, $genreName);
+			if($genre !== null) {
+				$reply->data = $genre;
 			}
 
 		}
