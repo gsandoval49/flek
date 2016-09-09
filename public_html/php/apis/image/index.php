@@ -40,9 +40,9 @@ if(session_status() !== PHP_SESSION_ACTIVE) {
 //
 //// configure cloudinary globally remember
 //Cloudinary::config(array(
-//	"cloud_name" => "shreddheddev",
-//	"api_key" => "937784761297322",
-//	"api_secret" => "PvPElt7pYD3Sy06rLA1DL1BTL0g"
+//	"cloud_name" => "dbxvrilrr",
+//	"api_key" => "438565684624547",
+//	"api_secret" => "F1aOynHtXJvbIipP0dYnxvpuSwk"
 //));
 
 //prepare an empty reply
