@@ -104,11 +104,11 @@ try {
 			}
 		}
 
-
+/*
 		//this is a check to make sure only a profile type of ADMIN or OWNER can make changes
 		//could also check for the reverse and throw an exception in that case
 		//DO we need this?
-	} elseif((empty($_SESSION["profile"]) === false) && (($_SESSION["profile"]->getProfileId()) === $id) && (($_SESSION["profile"]->getProfileType()) === "a") || (($_SESSION["profile"]->getProfileType())) === "o") {
+	} elseif((empty($_SESSION["profile"]) === false) && (($_SESSION["profile"]->getProfileId()) === $id) && (($_SESSION["profile"]->getProfileType()) === "a") || (($_SESSION["profile"]->getProfileType())) === "o") {*/
 
 		if($method === "POST") {
 			verifyXsrf();
@@ -134,7 +134,7 @@ try {
 
 		}elseif($method === "DELETE") {
 			verifyXsrf();
-			//get image to be deleted by the ID
+			//get image to be deleted by the IDimage
 			$image = Image::getImageByImageId($pdo, $id);
 
 			//check if image is empty
