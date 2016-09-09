@@ -14,7 +14,7 @@ function mailGunslinger ($senderName, $senderEmail, $receiverName, $receiverEmai
 // now $mailgun->domain and $mailgun->apiKey exist
 	// start the mailgun client
 	$client = new \Http\Adapter\Guzzle6\Client();
-	$mailGunner = new \Mailgun\Mailgun($mailgun->apiKey, $client);
+	$mailGunslinger = new \Mailgun\Mailgun($mailgun->apiKey, $client);
 	// send the message
 	$result = $mailGunslinger->sendMessage($mailgun->domain, [
 			"from" => "$senderName <$senderEmail>",
