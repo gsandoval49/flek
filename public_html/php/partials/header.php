@@ -22,7 +22,7 @@
                 <ul class="nav navbar-nav navbar-right" >
                     <li><a href="index">Home</a></li>
                     <li><a href="about">About</a></li>
-                    <li><a href="sign-up">Sign Up</a></li>
+                    <li><a href="signup">Sign Up</a></li>
                 </ul>
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
