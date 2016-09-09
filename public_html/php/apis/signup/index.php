@@ -8,7 +8,7 @@ require_once dirname(__DIR__, 2) . "/lib/xsrf.php";
 require_once dirname(__DIR__, 2) . "/lib/mail.php";
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
-use Edu\Cnm\Flek\{Profile, Mail};
+use Edu\Cnm\Flek\Profile;
 
 /**
  * api for signup
@@ -66,8 +66,7 @@ try {
 			throw(new \InvalidArgumentException("Password does not match."));
 		}
 
-		// FIXME: require profileConfirmPassword and verify it like Diane did :)
-
+		// access token might not be needed here
 		$salt = bin2hex(random_bytes(32));
 		$hash = hash_pbkdf2("sha512", $profilePassword, $salt, 262144);
 		$profileAccessToken = bin2hex(random_bytes(16));
@@ -77,12 +76,11 @@ try {
 		$profile = new Profile(null, $requestObject->profileName, $requestObject->profileEmail, $requestObject->profileLocation, $requestObject->profileBio, $hash, $salt, $profileAccessToken, $profileActivationToken);
 		$profile->insert($pdo);
 
-		/*echo "added new user";*/
 
 //building the activation link that can travel to another server and still work. This is the link that will be clicked to confirm the account.
 //FIXME: make sure URL is /public_html/activation/$activation
 		$basePath = dirname($_SERVER["SCRIPT_NAME"], 4);
-		$urlglue = $basePath . "/activation/" . $profileActivationToken;
+		$urlglue = $basePath . "/activation/$profileActivationToken";
 		$confirmLink = "https://" . $_SERVER["SERVER_NAME"] . $urlglue;
 		$messageSubject = "Flek Account Activation";
 		$message = <<< EOF
