@@ -38,24 +38,15 @@ try {
 
 //session and object
 	// sanitize input
-	$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
 	$favoriteeId = filter_input(INPUT_GET, "favoriteeId", FILTER_VALIDATE_INT);
-	//$favoriterId = filter_input(INPUT_GET, "favoriterId", FILTER_VALIDATE_INT);
-	$favoriterId = filter_input(INPUT_GET, "favoriterId", FILTER_VALIDATE_INT);
-	//can i involve POST but cant expose the composite key ?
 
-	if(($method === "DELETE") && (empty($favoriterId) || $favoriterId < 0)) {
-		throw(new \InvalidArgumentException("favoriter id cannot be empty or negative", 405));
-	}
-	elseif($method === "DELETE" && (empty($favoriteeId) || $favoriteeId < 0)) {
+	if($method === "DELETE" && (empty($favoriteeId) || $favoriteeId < 0)) {
 		throw(new \InvalidArgumentException("favoritee id cannot be null"));
-	} elseif(($method === "DELETE") && (empty($id) === true || $id < 0)) {
-		throw(new InvalidArgumentException("id cannot be empty or negative", 405));
 	}
 		elseif($method === "PUT") {
 		throw(new \InvalidArgumentException("This action is forbidden", 405));
 	}
-	if((empty($_SESSION["profile"]) === false) && (($_SESSION["profile"]->getProfileId()) === $id)) {
+	if((empty($_SESSION["profile"]) === true)) {
 		throw(new \InvalidArgumentException("You are not allowed to favorite without signing in"));
 	}
 //----------------------------------GET--------------------------------
@@ -102,14 +93,16 @@ try {
 				$requestObject = json_decode($requestContent);
 
 				//  make sure favoriteeId and favoriterId are available
-				if(empty($requestObject->favoriteeId) === true || empty($requestObject->favoriterId) === true) {
+				if(empty($requestObject->favoriteeId) === true || empty($_SESSION["profile"]) === true) {
 					throw(new \InvalidArgumentException ("Favorite doesn't exist.", 405));
 				}
 				if(empty($_SESSION["profile"]->getProfileId()) === true) {
 					throw(new \InvalidArgumentException("Favorite must be linked to profile", 405));
 				}
 				// create new favorite and insert into the database
-				$favorite = new Edu\Cnm\Flek\Favorite(null, $_SESSION["ProfileId"], $requestObject->getProfileId, $requestObject->favoriteeId, $requestObject->favoriterId);
+				$reply->favoriterId=$_SESSION["profile"]->getProfileId();
+
+				$favorite = new Edu\Cnm\Flek\Favorite($requestObject->favoriteeId, $_SESSION["profile"]->getProfileId());
 				$favorite->insert($pdo);
 				// update reply
 				$reply->message = "Favorite created OK";
@@ -124,7 +117,7 @@ try {
 	else if($method === "DELETE") {
 		verifyXsrf();
 		// Retrieve the Favorite to be deleted
-		$favorite = Edu\Cnm\Flek\Favorite::getFavoriteByFavoriteeId($pdo, $favoriteeId, $favoriterId);
+		$favorite = Edu\Cnm\Flek\Favorite::getFavoriteByFavoriteeIdAndFavoriterId($pdo, $favoriteeId, $_SESSION["profile"]->getProfileId());
 		if($favorite === null) {
 			throw(new RuntimeException("the favorite given does not exist", 404));
 		}
