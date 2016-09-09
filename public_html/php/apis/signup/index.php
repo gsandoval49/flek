@@ -79,13 +79,13 @@ try {
 
 //building the activation link that can travel to another server and still work. This is the link that will be clicked to confirm the account.
 //FIXME: make sure URL is /public_html/activation/$activation
-		$basePath = dirname($_SERVER["SCRIPT_NAME"], 4);
-		$urlglue = $basePath . "/activation/$profileActivationToken";
+		$basePath = dirname($_SERVER["SCRIPT_NAME"], 2);
+		$urlglue = $basePath . "/activation/?emailActivationToken=$profileActivationToken";
 		$confirmLink = "https://" . $_SERVER["SERVER_NAME"] . $urlglue;
 		$messageSubject = "Flek Account Activation";
 		$message = <<< EOF
 <h2>Welcome to Flek!</h2>
-<p>Please visit the following URL to set a new password and complete the sign-up process: </p><p><a href=\"$confirmLink\">$confirmLink<a></p>
+<p>Please visit the following URL to set a new password and complete the sign-up process: </p><p><a href="$confirmLink">$confirmLink<a></p>
 EOF;
 		$response = mailGunslinger("Flek", "gsandoval49@cnm.edu", $requestObject->profileName, $requestObject->profileEmail, $messageSubject, $message);
 		// FIXME: $response doesn't actually return "Email sent."
