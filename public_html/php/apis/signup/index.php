@@ -85,15 +85,13 @@ try {
 		$messageSubject = "Flek Account Activation";
 		$message = <<< EOF
 <h2>Welcome to Flek!</h2>
-<p>Please visit the following URL to set a new password and complete the sign-up process: </p><p><a href=\"$confirmLink\">$confirmLink</a></p>
+<p>Please visit the following URL to set a new password and complete the sign-up process: </p><p><a href=\"$confirmLink\">$confirmLink<a></p>
 EOF;
 		$response = mailGunslinger("Flek", "gsandoval49@cnm.edu", $requestObject->profileName, $requestObject->profileEmail, $messageSubject, $message);
 		// FIXME: $response doesn't actually return "Email sent."
-		if($response === true) {
+
 			$reply->message = "Almost done! Please check your email to activate your account.";
-		} else {
-			throw(new \InvalidArgumentException("Error sending email."));
-		}
+
 	} else {
 		throw(new \InvalidArgumentException("Invalid HTTP request.", 405));
 	}
