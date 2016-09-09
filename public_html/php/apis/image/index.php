@@ -37,13 +37,7 @@ use Edu\Cnm\Flek\{Image, Profile};
 if(session_status() !== PHP_SESSION_ACTIVE) {
 	session_start();
 }
-//
-//// configure cloudinary globally remember
-//Cloudinary::config(array(
-//	"cloud_name" => "dbxvrilrr",
-//	"api_key" => "438565684624547",
-//	"api_secret" => "F1aOynHtXJvbIipP0dYnxvpuSwk"
-//));
+
 
 //prepare an empty reply
 $reply = new stdClass();
