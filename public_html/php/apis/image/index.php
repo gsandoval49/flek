@@ -112,7 +112,7 @@ try {
 			$tags = filter_input(INPUT_POST, "tags", FILTER_SANITIZE_STRING);
 
 			//make sure the image foreign key is available (required field)
-			if((empty(filter_input(INPUT_POST, $imageId, FILTER_VALDATE_INT)) === true) || (empty(filter_input(INPUT_POST, $imageGenreId, FILTER_VALIDATE_INT)) === true)) {
+			if((empty(($imageId)) === true) || (empty($imageGenreId)) === true)) {
 				throw(new \InvalidArgumentException("The foreign key does not exist", 405));
 			}
 
@@ -125,7 +125,7 @@ try {
 				$userFileExtension = strtolower(strrchr($_FILES["userImage"]["name"], "."));
 
 
-				$tags = explode(filter_input(INPUT_POST, $tagId, FILTER_VALIDATE_INT));
+				$tags = explode("tags",FILTER_SANITIZE_STRING);
 				foreach($tags as $tag) {
 					if(empty($tag) === true) {
 						$tag->insert($pdo);
