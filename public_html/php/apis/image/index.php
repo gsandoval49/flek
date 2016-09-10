@@ -98,6 +98,7 @@ try {
 				$reply->data = $images;
 			}
 		}
+	}
 
 		/*
 				//this is a check to make sure only a profile type of ADMIN or OWNER can make changes
@@ -130,6 +131,7 @@ try {
 				}
 			}
 
+
 			$reply->message = "Image created";
 
 		} elseif($method === "DELETE") {
@@ -154,7 +156,7 @@ try {
 		}
 
 	}
-} catch(Exception $exception) {
+ catch(Exception $exception) {
 	$reply->status = $exception->getCode();
 	$reply->message = $exception->getMessage();
 } catch(TypeError $typeError) {
