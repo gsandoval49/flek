@@ -120,6 +120,14 @@ try {
 			if($method === "POST") {
 
 
+				$tags = explode(filter_input);
+				foreach($tags as $tag) {
+					if(empty($tag)===true){
+						$tag->insert($pdo);
+					}
+				}
+
+
 
 				$reply->message = "Image created";
 			}
