@@ -109,7 +109,7 @@ try {
 			verifyXsrf();
 			$imageDescription = filter_input(INPUT_POST, "imageDescription", FILTER_SANITIZE_STRING);
 			$imageGenreId = filter_input(INPUT_POST, $imageGenreId, FILTER_SANITIZE_INT);
-			$tags = filter_input(INPUT_POST, $tagId, FILTER_SANITIZE_INT);
+			$tags = filter_input(INPUT_POST, "tags", FILTER_SANITIZE_STRING);
 			filter_input(INPUT_POST, $imageId, FILTER_VALIDATE_INT); //request object will only contain the metadata
 
 			//make sure the image foreign key is available (required field)
