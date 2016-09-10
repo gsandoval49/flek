@@ -112,12 +112,13 @@ try {
 			filter_input(INPUT_POST, $imageId, FILTER_INT); //request object will only contain the metadata
 
 			//make sure the image foreign key is available (required field)
-			if(empty(filter_input(INPUT_POST, "imageId", FILTER_INT)) === true) {
+			if(empty(filter_input(INPUT_POST, $imageId, FILTER_INT)) === true) {
 				throw(new \InvalidArgumentException("The foreign key does not exist", 405));
 			}
 
 			//perform actual post
 			if($method === "POST") {
+
 
 
 				$reply->message = "Image created";
