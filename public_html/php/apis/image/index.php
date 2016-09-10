@@ -52,6 +52,9 @@ try {
 	//grab mySQL connection
 
 	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/flek.ini");
+	$config = readConfig("/etc/apache2/capstone-mysql/flek.ini");
+	$cloudinary = json_decode($config["cloudinary"]);
+	\Cloudinary::config(["cloud_name" => $cloudinary->cloudName, "api_key" => $cloudinary->apiKey, "api_secret" => $cloudinary->apiSecret]);
 
 	//determine which HTTP method was used
 	$method = array_key_exists("HTTP_X_HTTP-METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
