@@ -30,6 +30,10 @@
 			<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/<?php echo $ANGULAR_VERSION; ?>/angular-route.js"></script>
 			<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/<?php echo $ANGULAR_VERSION; ?>/angular-animate.js"></script>
 			<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/1.3.3/ui-bootstrap-tpls.min.js"></script>
+
+			<!--cloudinary angular file - courtesy of Dylan -->
+			<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/danialfarid-angular-file-upload/12.2.8/ng-file-upload.min.js"></script>
+
 			<!-- load OUR angular files. -->
 			<script src="angular/flek.js"></script>
 			<script src="angular/route-config.js"></script>
