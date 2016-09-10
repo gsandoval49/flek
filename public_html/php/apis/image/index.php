@@ -17,7 +17,7 @@ require_once ("/etc/apache2/capstone-mysql/encrypted-config.php");
 //require 'Uploader.php';
 //require 'Api.php';
 
-use Edu\Cnm\Flek\{Image, Profile};
+use Edu\Cnm\Flek\{Image, Profile, Tag, Genre};
 
 
 /**
@@ -107,22 +107,17 @@ try {
 		if($method === "POST") {
 			verifyXsrf();
 			$requestContent = file_get_contents("php://input");
-			$requestObject = json_decode($requestContent); //request object will only contain the metadata
+			filter_input(INPUT_POST, "whateverHere", FILTER_WHATEVER) = json_decode($requestContent); //request object will only contain the metadata
 
 			//make sure the image foreign key is available (required field)
-			if(empty($requestObject->imageProfileId) === true) {
+			if(empty(filter_input(INPUT_POST, "imageId", FILTER_INT)) === true) {
 				throw(new \InvalidArgumentException("The foreign key does not exist", 405));
 			}
 
 			//perform actual post
 			if($method === "POST") {
 
-				//put new image into the database
-				//still unsure if this makes sure the image gets to the cloud
-				if($requestObject === true) {
-					$image = new Image(null, $requestObject->imageProfileId, imageDescription, imageSecureUrl, imagePublicId);
-					$image->insert($pdo);
-				}
+
 				$reply->message = "Image created";
 			}
 
