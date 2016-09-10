@@ -8,7 +8,7 @@ app.service("ProfileService", function($http, PROFILE_ENDPOINT) {
 		return(PROFILE_ENDPOINT);
 	}
 
-	function getUrlId(profileId) {
+	function getUrlForId(profileId) {
 		return(getUrl() + profileId);
 	}
 
@@ -18,6 +18,7 @@ app.service("ProfileService", function($http, PROFILE_ENDPOINT) {
 	this.fetch = function(profileId) {
 		return(http.get(getUrl()));
 	};
+
 	this.updateProfile = function(profileId, profile) {
 		return($http.put(getUrlForId(profileId, profile)));
 	};
