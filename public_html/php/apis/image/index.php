@@ -120,10 +120,10 @@ try {
 			//perform actual post
 			if($method === "POST") {
 				//assigning variables to the user image name, MIME type, and image extension
-				$tempProfileName = $_FILES["profile"]; //tmp_name is the actual name on the server that is uploaded, has nothing to do with user file name
+				$tempUserFileName = $_FILES["userImage"]["tmp_name"]; //tmp_name is the actual name on the server that is uploaded, has nothing to do with user file name
 				//file that lives in tmp_name will auto delete when this is all over
-				$profileType = $_FILES["userImage"]["type"];
-				$profileExtension = strtolower(strrchr($_FILES["userImage"]["name"], "."));
+				$userFileType = $_FILES["userImage"]["type"];
+				$userFileExtension = strtolower(strrchr($_FILES["userImage"]["name"], "."));
 
 
 				$tags = explode(filter_input(INPUT_POST, $tagId, FILTER_VALIDATE_INT));
