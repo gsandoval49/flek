@@ -110,11 +110,11 @@ try {
 			$imageDescription = filter_input(INPUT_POST, "imageDescription", FILTER_SANITIZE_STRING);
 			$imageGenreId = filter_input(INPUT_POST, $imageGenreId, FILTER_SANITIZE_INT);
 			$tags = filter_input(INPUT_POST, "tags", FILTER_SANITIZE_STRING);
-/*
+
 			//make sure the image foreign key is available (required field)
 			if((empty(($imageId)) === true) || (empty($imageGenreId)) === true) {
 				throw(new \InvalidArgumentException("The foreign key does not exist", 405));
-			}*/
+			}
 
 
 
