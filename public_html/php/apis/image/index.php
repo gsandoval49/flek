@@ -106,7 +106,7 @@ try {
 
 		if($method === "POST") {
 			verifyXsrf();
-			$imageDescription = filter_input(INPUT_POST, "imageDescription", FILTER_SANITIZE_STRING);
+			$imageDescription = filter_input(INPUT_POST, $imageDescription, FILTER_SANITIZE_STRING);
 			$imageGenreId = filter_input(INPUT_POST, $imageGenreId, FILTER_SANITIZE_INT);
 			$tagId = filter_input(INPUT_POST, $tagId, FILTER_SANITIZE_INT);
 			filter_input(INPUT_POST, $imageId, FILTER_INT); //request object will only contain the metadata
