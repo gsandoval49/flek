@@ -52,6 +52,8 @@ try {
 	//grab mySQL connection
 
 	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/flek.ini");
+
+	// this is code from Dylan we got after we update our .ini file
 	$config = readConfig("/etc/apache2/capstone-mysql/flek.ini");
 	$cloudinary = json_decode($config["cloudinary"]);
 	\Cloudinary::config(["cloud_name" => $cloudinary->cloudName, "api_key" => $cloudinary->apiKey, "api_secret" => $cloudinary->apiSecret]);
