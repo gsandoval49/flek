@@ -116,24 +116,21 @@ try {
 				throw(new \InvalidArgumentException("The foreign key does not exist", 405));
 			}
 
+			//assigning variables to the user image name, MIME type, and image extension
+			$tempUserFileName = $_FILES["userImage"]["tmp_name"]; //tmp_name is the actual name on the server that is uploaded, has nothing to do with user file name
+			//file that lives in tmp_name will auto delete when this is all over
+			$userFileType = $_FILES["userImage"]["type"];
+			$userFileExtension = strtolower(strrchr($_FILES["userImage"]["name"], "."));
 
 
-				//assigning variables to the user image name, MIME type, and image extension
-				$tempUserFileName = $_FILES["userImage"]["tmp_name"]; //tmp_name is the actual name on the server that is uploaded, has nothing to do with user file name
-				//file that lives in tmp_name will auto delete when this is all over
-				$userFileType = $_FILES["userImage"]["type"];
-				$userFileExtension = strtolower(strrchr($_FILES["userImage"]["name"], "."));
-
-
-				$tags = explode("tags",FILTER_SANITIZE_STRING);
-				foreach($tags as $tag) {
-					if(empty($tag) === true) {
-						$tag->insert($pdo);
-					}
+			$tags = explode("tags", FILTER_SANITIZE_STRING);
+			foreach($tags as $tag) {
+				if(empty($tag) === true) {
+					$tag->insert($pdo);
 				}
+			}
 
-
-				$reply->message = "Image created";
+			$reply->message = "Image created";
 
 		} elseif($method === "DELETE") {
 			verifyXsrf();
