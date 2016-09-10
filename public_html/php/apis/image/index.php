@@ -123,7 +123,7 @@ try {
 			if($method === "POST") {
 
 
-				$tags = explode((filter_input(INPUT_POST, $tagId, FILTER_INT));
+				$tags = explode(filter_input(INPUT_POST, $tagId, FILTER_INT));
 				foreach($tags as $tag) {
 					if(empty($tag)===true){
 						$tag->insert($pdo);
