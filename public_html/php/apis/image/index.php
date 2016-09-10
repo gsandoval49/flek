@@ -106,9 +106,9 @@ try {
 
 		if($method === "POST") {
 			verifyXsrf();
-			$imageDescription = filter_input(INPUT_POST, $imageDescription, FILTER_SANITIZE_STRING);
+			$imageDescription = filter_input(INPUT_POST, "imageDescription", FILTER_SANITIZE_STRING);
 			$imageGenreId = filter_input(INPUT_POST, $imageGenreId, FILTER_SANITIZE_INT);
-			$tagId = filter_input(INPUT_POST, $tagId, FILTER_SANITIZE_INT);
+			$tags = filter_input(INPUT_POST, $tagId, FILTER_SANITIZE_INT);
 			filter_input(INPUT_POST, $imageId, FILTER_VALIDATE_INT); //request object will only contain the metadata
 
 			//make sure the image foreign key is available (required field)
@@ -121,6 +121,11 @@ try {
 
 			//perform actual post
 			if($method === "POST") {
+				//assigning variables to the user image name, MIME type, and image extension
+				$tempProfileName = $_FILES["profile"]; //tmp_name is the actual name on the server that is uploaded, has nothing to do with user file name
+				//file that lives in tmp_name will auto delete when this is all over
+				$profileType = $_FILES["userImage"]["type"];
+				$profileExtension = strtolower(strrchr($_FILES["userImage"]["name"], "."));
 
 
 				$tags = explode(filter_input(INPUT_POST, $tagId, FILTER_VALIDATE_INT));
