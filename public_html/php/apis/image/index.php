@@ -107,7 +107,7 @@ try {
 		if($method === "POST") {
 			verifyXsrf();
 			$requestContent = file_get_contents("php://input");
-			filter_input(INPUT_POST, "whateverHere", FILTER_WHATEVER) = json_decode($requestContent); //request object will only contain the metadata
+			filter_input(INPUT_POST, "imageId", FILTER_INT) = json_decode($requestContent); //request object will only contain the metadata
 
 			//make sure the image foreign key is available (required field)
 			if(empty(filter_input(INPUT_POST, "imageId", FILTER_INT)) === true) {
