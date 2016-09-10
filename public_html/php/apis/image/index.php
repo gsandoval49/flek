@@ -98,7 +98,7 @@ try {
 				$reply->data = $images;
 			}
 		}
-	}
+
 
 		/*
 				//this is a check to make sure only a profile type of ADMIN or OWNER can make changes
@@ -156,7 +156,7 @@ try {
 		}
 
 	}
- catch(Exception $exception) {
+} catch(Exception $exception) {
 	$reply->status = $exception->getCode();
 	$reply->message = $exception->getMessage();
 } catch(TypeError $typeError) {
