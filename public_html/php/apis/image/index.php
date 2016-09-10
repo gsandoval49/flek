@@ -110,7 +110,6 @@ try {
 			$imageDescription = filter_input(INPUT_POST, "imageDescription", FILTER_SANITIZE_STRING);
 			$imageGenreId = filter_input(INPUT_POST, $imageGenreId, FILTER_SANITIZE_INT);
 			$tags = filter_input(INPUT_POST, "tags", FILTER_SANITIZE_STRING);
-			filter_input(INPUT_POST, $imageId, FILTER_VALIDATE_INT); //request object will only contain the metadata
 
 			//make sure the image foreign key is available (required field)
 			if((empty(filter_input(INPUT_POST, $imageId, FILTER_VALDATE_INT)) === true) || (empty(filter_input(INPUT_POST, $imageGenreId, FILTER_VALIDATE_INT)) === true)) {
@@ -118,7 +117,7 @@ try {
 			}
 
 			//perform actual post
-			if($method === "POST") {
+
 				//assigning variables to the user image name, MIME type, and image extension
 				$tempUserFileName = $_FILES["userImage"]["tmp_name"]; //tmp_name is the actual name on the server that is uploaded, has nothing to do with user file name
 				//file that lives in tmp_name will auto delete when this is all over
@@ -135,7 +134,6 @@ try {
 
 
 				$reply->message = "Image created";
-			}
 
 		} elseif($method === "DELETE") {
 			verifyXsrf();
