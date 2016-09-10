@@ -112,7 +112,7 @@ try {
 			$tags = filter_input(INPUT_POST, "tags", FILTER_SANITIZE_STRING);
 
 			//make sure the image foreign key is available (required field)
-			if((empty(($imageId)) === true) || (empty($imageGenreId)) === true)) {
+			if((empty(($imageId)) === true) || (empty($imageGenreId)) === true) {
 				throw(new \InvalidArgumentException("The foreign key does not exist", 405));
 			}
 
