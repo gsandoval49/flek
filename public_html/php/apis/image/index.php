@@ -115,6 +115,9 @@ try {
 			if(empty(filter_input(INPUT_POST, $imageId, FILTER_INT)) === true) {
 				throw(new \InvalidArgumentException("The foreign key does not exist", 405));
 			}
+			if(empty(filter_input(INPUT_POST, $imageGenreId, FILTER_INT)) === true) {
+				throw(new \InvalidArgumentException("The foreign key does not exist", 405));
+			}
 
 			//perform actual post
 			if($method === "POST") {
