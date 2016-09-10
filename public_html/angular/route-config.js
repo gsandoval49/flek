@@ -27,6 +27,11 @@ app.config(function($routeProvider, $locationProvider) {
 			controller  : 'signupController',
 			templateUrl : 'angular/pages/signup.php'
 		})
+		// route for the sign-in page
+		.when('/signin', {
+			controller  : 'signinController',
+			templateUrl : 'angular/pages/signin.php'
+		})
 
 		// otherwise redirect to home
 		.otherwise({
