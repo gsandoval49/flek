@@ -120,7 +120,7 @@ try {
 			if($method === "POST") {
 
 
-				$tags = explode(filter_input);
+				$tags = explode((filter_input(INPUT_POST, $imageId, FILTER_INT));
 				foreach($tags as $tag) {
 					if(empty($tag)===true){
 						$tag->insert($pdo);
