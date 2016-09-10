@@ -5,9 +5,9 @@
  * based on code authored by lbaca152 from scrum meetings with DeepDiveDylan, dbeets, and raul-villarreal
  **/
 
-require_once (dirname(__DIR__, 2) . "/classes/autoload.php");
-require_once (dirname(__DIR__, 2) . "/lib/xsrf.php");
-require_once ("/etc/apache2/capstone-mysql/encrypted-config.php");
+require_once(dirname(__DIR__, 2) . "/classes/autoload.php");
+require_once(dirname(__DIR__, 2) . "/lib/xsrf.php");
+require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 //
 ///**
@@ -17,7 +17,9 @@ require_once ("/etc/apache2/capstone-mysql/encrypted-config.php");
 //require 'Uploader.php';
 //require 'Api.php';
 
-use Edu\Cnm\Flek\{Image, Profile, Tag, Genre};
+use Edu\Cnm\Flek\{
+	Image, Profile, Tag, Genre
+};
 
 
 /**
@@ -89,20 +91,19 @@ try {
 			if($image !== null) {
 				$reply->data = $image;
 			}
-		}
-		//DO we need to include secure url and public id
-			else {
+		} //DO we need to include secure url and public id
+		else {
 			$images = Image::getAllImages($pdo);
 			if($images !== null) {
 				$reply->data = $images;
 			}
 		}
 
-/*
-		//this is a check to make sure only a profile type of ADMIN or OWNER can make changes
-		//could also check for the reverse and throw an exception in that case
-		//DO we need this?
-	} elseif((empty($_SESSION["profile"]) === false) && (($_SESSION["profile"]->getProfileId()) === $id) && (($_SESSION["profile"]->getProfileType()) === "a") || (($_SESSION["profile"]->getProfileType())) === "o") {*/
+		/*
+				//this is a check to make sure only a profile type of ADMIN or OWNER can make changes
+				//could also check for the reverse and throw an exception in that case
+				//DO we need this?
+			} elseif((empty($_SESSION["profile"]) === false) && (($_SESSION["profile"]->getProfileId()) === $id) && (($_SESSION["profile"]->getProfileType()) === "a") || (($_SESSION["profile"]->getProfileType())) === "o") {*/
 
 		if($method === "POST") {
 			verifyXsrf();
@@ -112,10 +113,7 @@ try {
 			filter_input(INPUT_POST, $imageId, FILTER_VALIDATE_INT); //request object will only contain the metadata
 
 			//make sure the image foreign key is available (required field)
-			if(empty(filter_input(INPUT_POST, $imageId, FILTER_VALDATE_INT)) === true) {
-				throw(new \InvalidArgumentException("The foreign key does not exist", 405));
-			}
-			if(empty(filter_input(INPUT_POST, $imageGenreId, FILTER_VALIDATE_INT)) === true) {
+			if((empty(filter_input(INPUT_POST, $imageId, FILTER_VALDATE_INT)) === true) || (empty(filter_input(INPUT_POST, $imageGenreId, FILTER_VALIDATE_INT)) === true)) {
 				throw(new \InvalidArgumentException("The foreign key does not exist", 405));
 			}
 
@@ -130,17 +128,16 @@ try {
 
 				$tags = explode(filter_input(INPUT_POST, $tagId, FILTER_VALIDATE_INT));
 				foreach($tags as $tag) {
-					if(empty($tag)===true){
+					if(empty($tag) === true) {
 						$tag->insert($pdo);
 					}
 				}
 
 
-
 				$reply->message = "Image created";
 			}
 
-		}elseif($method === "DELETE") {
+		} elseif($method === "DELETE") {
 			verifyXsrf();
 			//get image to be deleted by the IDimage
 			$image = Image::getImageByImageId($pdo, $id);
