@@ -1,7 +1,7 @@
-app.constant("SIGNIN_ENPOINT", "php/apis/signin/");
-app.service("SigninService", function($http, SIGNIN_ENPOINT) {
+app.constant("SIGNIN_ENDPOINT", "php/apis/signin/");
+app.service("SigninService", function($http, SIGNIN_ENDPOINT) {
 	function getUrl() {
-		return(SIGNIN_ENPOINT);
+		return(SIGNIN_ENDPOINT);
 	}
 	this.signin = function(signin) {
 		console.log("inside signin service");
