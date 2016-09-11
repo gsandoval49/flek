@@ -1,4 +1,4 @@
-<div id="signup" class="row main-content">
+<div id="signup" class="row signup-content ">
 	<div class="col-md-6">
 			<h3>Flek</h3>
 			<p>Sign up to see art from your community!</p>
@@ -53,6 +53,19 @@
 													 placeholder="password"></textarea>
 									</div>
 								</div>
+
+								<div class="form-group">
+									<label for="passwordConfirm">Password <span class="text-danger">*</span></label>
+									<div class="input-group">
+										<div class="input-group-addon">
+											<i class="fa fa-comment" aria-hidden="true"></i>
+										</div>
+										<textarea class="form-control" id="passwordConfirm" name="passwordConfirm"
+													 placeholder="confirm password"></textarea>
+									</div>
+								</div>
+
+
 
 
 
