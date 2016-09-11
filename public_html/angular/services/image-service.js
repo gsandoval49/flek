@@ -17,7 +17,7 @@ app.service("ImageService", function($http, IMAGE_ENDPOINT) {
 	};
 
 	this.create = function() {
-		return($http($http.post(getUrl(), image)));
+		return($http($http.post(getUrl(), image, imageDescription)));
 	};
 
 	this.destroy = function() {

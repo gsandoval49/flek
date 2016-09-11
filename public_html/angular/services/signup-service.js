@@ -1,4 +1,4 @@
-app. constant("SIGNUP_ENDPOINT", "php/apis/signup");
+app. constant("SIGNUP_ENDPOINT", "php/apis/signup/");
 app.constant("SignupService", function($http, SIGNUP_ENDPOINT) {
 	function getUrl() {
 		return(SIGNUP_ENDPOINT);
