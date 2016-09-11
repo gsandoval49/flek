@@ -1,10 +1,11 @@
 app.constant("IMAGE_ENDPOINT", "php/apis/image");
 app.service("ImageService", function($http, IMAGE_ENDPOINT) {
-	function getUrl(imageId) {
+
+	function getUrl() {
 		return(IMAGE_ENDPOINT);
 	}
 
-	function getUrlForId(imageId) {
+	function getUrlForImageId(imageId) {
 		return(getUrl() + imageId);
 	}
 
@@ -12,15 +13,19 @@ app.service("ImageService", function($http, IMAGE_ENDPOINT) {
 		return($http.get(getUrl()));
 	};
 
-	this.fetch = function() {
-		return($http.get(getUrlForId(imageId)));
+	this.fetch = function(imageId) {
+		return($http.get(getUrlForImageId(imageId)));
 	};
 
-	this.create = function() {
-		return($http($http.post(getUrl(), image, imageDescription)));
+	this.fetchAllImages = function() {
+		return($http.get(getUrl()));
 	};
 
-	this.destroy = function() {
-		return($http.delete(getUrlForId(imageId)));
+	this.create = function(image) {
+		return($http.post(getUrl(), image));
+	};
+
+	this.destroy = function(imageId) {
+		return($http.delete(getUrlForImageId(imageId)));
 	};
 });
