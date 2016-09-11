@@ -1,4 +1,4 @@
-<div class="row">
+<div class="jumbotron row">
 	<div class="col-md-6">
 			<h3>Flek</h3>
 			<p>Sign up to see art from your community!</p>
