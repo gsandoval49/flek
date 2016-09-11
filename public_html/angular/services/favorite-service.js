@@ -22,7 +22,7 @@ app.service("FavoriteService", function($http, FAVORITE_ENDPOINT) {
 		return($http.get(getUrl() + "?favoriteeId=" + favoriteeId));
 	};
 
-	this.fetchFavoriteByFavoriterId() = function(favoriterId) {
+	this.fetchFavoriteByFavoriterId = function(favoriterId) {
 		return($http.get(getUrl() + "?favoriterId=" + favoriterId));
 	};
 
