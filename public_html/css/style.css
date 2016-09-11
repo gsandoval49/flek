@@ -4,5 +4,7 @@ div [class*="main-content"] {
 	background-image: url(../images/paintbrush.jpeg);
 	background-size: 100% 300px;
 	height: 300px;
+	color: black;
 
 }
+
