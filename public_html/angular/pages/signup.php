@@ -1,8 +1,8 @@
 <div class="row">
 	<div class="col-md-6">
 			<h3>Flek</h3>
-			<p>Sign up to see art from your community! Create a new account or sign in with Facebook:</p>
-			<a href="signup.php" class="btn btn-warning btn-lg"> <i class="fa fa-facebook fa-lg"></i> </a>
+			<p>Sign up to see art from your community!</p>
+
 			<div class="row">
 				<!--room for sign up form here-->
 
@@ -54,8 +54,7 @@
 									</div>
 								</div>
 
-								<!-- reCAPTCHA -->
-								<div class="g-recaptcha" data-sitekey="--YOUR RECAPTCHA SITE KEY--"></div>
+
 
 								<button class="btn btn-success" type="submit"><i class="fa fa-pencil"></i> Create</button>
 								<button class="btn btn-warning" type="reset"><i class="fa fa-ban"></i> Reset</button>
