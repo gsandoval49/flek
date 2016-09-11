@@ -55,7 +55,7 @@
 								</div>
 
 								<div class="form-group">
-									<label for="passwordConfirm">Password <span class="text-danger">*</span></label>
+									<label for="passwordConfirm">Confirm Password <span class="text-danger">*</span></label>
 									<div class="input-group">
 										<div class="input-group-addon">
 											<i class="fa fa-comment" aria-hidden="true"></i>
