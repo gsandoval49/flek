@@ -5,11 +5,11 @@ app.service("FavoriteService", function($http, FAVORITE_ENDPOINT) {
 		return(FAVORITE_ENDPOINT);
 	}
 
-	function getUrlForId(favoriteeId) {
+	function getUrlForFavoriterId(favoriteeId) {
 		return(getUrl() + favoriteeId);
 	}
 
-	function getUrlForId(favoriterId) {
+	function getUrlForFavoriteeId(favoriterId) {
 		return(getUrl() + favoriterId);
 	}
 
