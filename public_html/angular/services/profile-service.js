@@ -4,6 +4,7 @@
 
 app.constant("PROFILE_ENDPOINT", "php/apis/profile/");
 app.service("ProfileService", function($http, PROFILE_ENDPOINT) {
+
 	function getUrl() {
 		return(PROFILE_ENDPOINT);
 	}
@@ -15,11 +16,13 @@ app.service("ProfileService", function($http, PROFILE_ENDPOINT) {
 	this.all = function() {
 		return($http.get(getUrl()));
 	};
+
 	this.fetch = function(profileId) {
-		return(http.get(getUrl()));
+		return($http.get(getUrlForId(profileId)));
 	};
 
-	this.updateProfile = function(profileId, profile) {
+/* I think we need an update function because we want users to be able to update their profiles as needed. */
+	this.update = function(profileId, profile) {
 		return($http.put(getUrlForId(profileId, profile)));
 	};
 });
