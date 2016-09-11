@@ -1,4 +1,3 @@
-
 <div class="row">
 	<div class="col-xs-12">
 		<div id="about-jumbo" class="jumbotron main-content text-right">
@@ -17,3 +16,4 @@
 		<p>Connect artists with the art loving community. Bring skills & crafts to your home & business; beautify your space.</p>
 	</div>
 </div>
+
