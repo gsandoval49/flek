@@ -3,6 +3,8 @@ app.constant("PROFILEACTIVATION_ENDPOINT", "php/apis/activation/");
 /**
  * Initialize the activation service
  */
+
+//not sure if I should use profileActivationToken or ActivationToken
 app.service("ProfileActivationService", function($http, PROFILEACTIVATION_ENDPOINT) {
 	function getUrl() {
 		return (PROFILEACTIVATION_ENDPOINT);
