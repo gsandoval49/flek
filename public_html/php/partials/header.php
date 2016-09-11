@@ -26,6 +26,7 @@
                     <li><a href="profile">Profile</a></li>
                     <li><a href="signup">Sign Up</a></li>
                     <li><a href="signin">Sign In</a></li>
+                    <li><a href="index">Sign Out</a></li>
 
                 </ul>
             </div><!-- /.navbar-collapse -->
