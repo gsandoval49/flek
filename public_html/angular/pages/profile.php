@@ -1,9 +1,9 @@
-<div class="container" style="margin-top: 20px; margin-bottom: 20px;">
-	<div class="row panel">
-		<div class="col-md-4 bg_blur ">
+<div class="container">
+	<div class="row">
+		<div class="col-md-4">
 		</div>
 		<div class="col-md-8  col-xs-12">
-			<div class="header">
+			<div>
 				<h1>Jane Smith</h1>
 				<h4>Artist</h4>
 				<h4>Location:</h4>
@@ -12,7 +12,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="row nav">
+	<div class="row">
 		<div class="col-md-4"></div>
 		<div class="col-md-8 col-xs-12">
 			<div class="col-md-6 col-xs-6 ">
@@ -33,7 +33,7 @@
 
 		<div class="row text-center">
 			<h3>Flek Feed</h3>
-			<p>click on the images to check out the profile of the artist!</p>
+			<p>click on the images to view a description of the piece!</p>
 		</div>
 		<div class="row">
 			<div class="col-xs-6">
