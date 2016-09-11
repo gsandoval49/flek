@@ -32,7 +32,7 @@ try {
 	if($method === "GET") {
 
 		if(session_status() !== PHP_SESSION_ACTIVE) {
-			session_start();
+			$reply->message = "You are already signed out";
 		}
 		$_SESSION = [];
 		$reply->message = "You are now signed out.";
