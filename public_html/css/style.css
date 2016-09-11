@@ -1,0 +1,5 @@
+
+
+div [class*="main-content"] {
+	background-image: url(../images/paintbrush.jpeg);
+}
