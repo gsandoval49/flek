@@ -13,7 +13,7 @@ app.service("FavoriteService", function($http, FAVORITE_ENDPOINT) {
 	};
 
 	this.fetch = function() {
-		return($http.get(getUrlForId(favoriteId)));
+		return($http.get(getUrlForId(favoriteeId, favoriterId)));
 	};
 
 	this.create = function() {
