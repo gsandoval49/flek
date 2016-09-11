@@ -8,9 +8,10 @@
 require_once(dirname(__DIR__, 2) . "/classes/autoload.php");
 require_once(dirname(__DIR__, 2) . "/lib/xsrf.php");
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
+require_once dirname(__DIR__, 4) . "/vendor/autoload.php";
 
-//
-///**
+
+/**
 // * these are required for cloudinary
 // * */
 //require 'Cloudinary.php';
@@ -127,6 +128,7 @@ try {
 			//file that lives in tmp_name will auto delete when this is all over
 			$userFileType = $_FILES["userImage"]["type"];
 			$userFileExtension = strtolower(strrchr($_FILES["userImage"]["name"], "."));
+			var_dump($_FILES);
 
 
 			$tags = explode("tags", FILTER_SANITIZE_STRING);
