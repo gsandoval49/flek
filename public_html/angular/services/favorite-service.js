@@ -18,11 +18,11 @@ app.service("FavoriteService", function($http, FAVORITE_ENDPOINT) {
 		return($http.get(getUrl()));
 	};*/
 
-	this.fetchFavoriteByFavoriteeId = function(favoriteeId) {
+	this.fetchFavoriteById = function(favoriteeId) {
 		return($http.get(getUrl() + "?favoriteeId=" + favoriteeId));
 	};
 
-	this.fetchFavoriteByFavoriterId = function(favoriterId) {
+	this.fetchFavoriteById = function(favoriterId) {
 		return($http.get(getUrl() + "?favoriterId=" + favoriterId));
 	};
 
@@ -30,16 +30,19 @@ app.service("FavoriteService", function($http, FAVORITE_ENDPOINT) {
 		return($http.get(getUrl()));
 	};
 
-	this.create = function(favorite) {
-		return($http.post(getUrl(), favorite));
+	/*we're attempting to target the destroy between the favoritee and the favoriter*/
+	this.create = function(favoriteeId, favoriterId) {
+		return($http.post(getUrlforId(favoriteeId, favoriterId)));
 	};
 
-	/*TODO do we need destroy if we only unpost a favorite and not destroy? for both favoriter and favoritee*/
-	this.destroy = function(favoriteeId) {
-		return($http.delete(getUrlForFavoriteeId(favoriteeId)));
+	/*we're attempting to target the destroy between the favoritee and the favoriter*/
+	this.destroy = function(favoriteeId, favoriterId) {
+		return($http.delete(getUrlforId(favoriteeId, favoriterId)));
 	};
 
-	this.destroy = function(favoriterId) {
+
+	/*comment this out*/
+	/*this.destroy = function(favoriterId) {
 		return($http.delete(getUrlForFavoriterId(favoriterId)));
-	};
+	};*/
 });
