@@ -1,4 +1,5 @@
 <form>
+<div class="col-sm-7">
 	<div class="form-group">
 		<label for="email">Email <span class="text-danger">*</span></label>
 		<div class="input-group">
@@ -21,5 +22,8 @@
 	</div>
 
 	<button class="btn btn-success" type="submit"><i class="fa fa-pencil"></i> Sign In</button>
-	<button class="btn btn-warning" type="reset"><i class="fa fa-ban"></i> Reset</button>
+</div>
 </form>
+<div clas="col-sm-5">
+	<img class="feedPic" src="http://placehold.it/350x250"/>
+</div>
