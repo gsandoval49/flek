@@ -1,3 +1,1 @@
-/**
- * Created by robis_000 on 9/9/2016.
- */
+app.constant("IMAGE_ENDPOINT", "php/apis/image")
