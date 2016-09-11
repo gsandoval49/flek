@@ -1,7 +1,7 @@
 
 <div class="row">
 	<div class="col-xs-12">
-		<div class="jumbotron text-right">
+		<div id="aboutJumbo" class="jumbotron mainContent text-right">
 			<h1><i class="pick-icon"></i> Beautify your space</h1>
 			<p class="lead">Be on the front line of something cool</p>
 		</div>

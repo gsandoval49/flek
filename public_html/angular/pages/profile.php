@@ -14,7 +14,7 @@
 	</div>
 	<div class="row nav">
 		<div class="col-md-4"></div>
-		<div class="col-md-8 col-xs-12" style="margin: 0px;padding: 0px;">
+		<div class="col-md-8 col-xs-12">
 			<div class="col-md-6 col-xs-6 well">
 				<i class="fa fa-heart-o fa-lg"></i>
 			</div>
@@ -42,8 +42,6 @@
 				<div class="jumbotron text-center">
 					<!-- <img src="http://placehold.it/350x250"> -->
 					<a href="profile.php" class="btn btn-warning btn-lg"><img class="feedPic" src="http://placehold.it/350x250"/></a>
-					<!--do we want a string under the image or a modul popup-->
-					<p>image description(?)</p>
 				</div>
 			</div>
 			<div class="col-xs-6">
