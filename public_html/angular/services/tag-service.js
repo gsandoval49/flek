@@ -1,30 +1,31 @@
-app.constant("TAG_ENDPOINT", "php/apis/tag");
+app.constant("TAG_ENDPOINT", "php/apis/tag/");
 app.service("TagService", function($http, TAG_ENDPOINT) {
-	function getUrl(tagId) {
+
+	function getUrl() {
 		return(TAG_ENDPOINT);
 	}
 
-	function getUrlForId(tagId) {
+	function getUrlForTagId(tagId) {
 		return(getUrl() + tagId);
 	}
 
-	this.all = function() {
+	this.fetchTagByTagId = function(tagId) {
+		return($http.get(getUrlForTagId(tagId)));
+	};
+
+	this.fetchAllTags = function() {
 		return($http.get(getUrl()));
 	};
 
-	this.fetch = function() {
-		return($http.get(getUrlForId(tagId)));
+	this.create = function(tag) {
+		return($http.post(getUrl(), tag));
 	};
 
-	this.create = function() {
-		return($http($http.post(getUrl(), tag)));
+	this.update = function(tagId, tag) {
+		return($http.put(getUrlForTagId(tagId, tag)));
 	};
 
-	this.update = function() {
-		return(http.put(getUrlForId(), tag));
-	};
-
-	this.destroy = function() {
-		return($http.delete(getUrlForId(tagId)));
+	this.destroy = function(tagId) {
+		return($http.delete(getUrlForTagId(tagId)));
 	};
 });
