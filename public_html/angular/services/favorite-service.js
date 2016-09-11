@@ -21,6 +21,6 @@ app.service("FavoriteService", function($http, FAVORITE_ENDPOINT) {
 	};
 
 	this.destroy = function() {
-		return($http.delete(getUrlForId(favoriteId)));
+		return($http.delete(getUrlForId(favoriteeId, favoriterId)));
 	};
 });
