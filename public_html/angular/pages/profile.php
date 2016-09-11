@@ -31,9 +31,6 @@
 
 	<div class="row">
 
-		<div class="col-lg-12">
-			<h1 class="page-header">Gallery</h1>
-		</div>
 		<div class="row text-center">
 			<h3>Flek Feed</h3>
 			<p>click on the images to check out the profile of the artist!</p>
