@@ -5,41 +5,36 @@ app.service("MailService", function($http, MAIL_ENDPOINT) {
 		return(MAIL_ENDPOINT);
 	}
 
-	function getUrlForId(favoriteeId) {
-		return(getUrl() + favoriteeId);
+	function getUrlForMailSenderId(mailSenderId) {
+		return(getUrl() + mailSenderId);
 	}
 
-	function getUrlForId(favoriterId) {
-		return(getUrl() + favoriterId);
+	function getUrlForMailReceiverId(mailReceiverId) {
+		return(getUrl() + MailReceiverId);
 	}
 
-	/*I don't think we need this here. We're not calling an array of stuff*/
-	/*this.all = function() {
+	this.all = function() {
 	 return($http.get(getUrl()));
-	 };*/
+	 };
 
-	this.fetchFavoriteByFavoriteeId = function(favoriteeId) {
-		return($http.get(getUrl() + "?favoriteeId=" + favoriteeId));
+	this.fetchMailByMailSenderId = function(mailSenderId) {
+		return($http.get(getUrl() + "?mailSenderId=" + mailSenderId));
 	};
 
-	this.fetchFavoriteByFavoriterId = function(favoriterId) {
-		return($http.get(getUrl() + "?favoriterId=" + favoriterId));
+	this.fetchMailByMailReceiverId = function(mailReceiverId) {
+		return($http.get(getUrl() + "?mailReceiverId=" + mailReceiverId));
 	};
 
-	this.fetchAllFavorites = function() {
+	this.fetchAllMails = function() {
 		return($http.get(getUrl()));
 	};
 
-	this.create = function(favorite) {
-		return($http.post(getUrl(), favorite));
+	this.create = function(mailSenderId, mailReceiverId) {
+		return($http.post(getUrlforId(mailSenderId, mailReceiverId)));
 	};
 
-	/*TODO do we need destroy if we only unpost a favorite and not destroy? for both favoriter and favoritee*/
-	this.destroy = function(favoriteeId) {
-		return($http.delete(getUrlForFavoriteeId(favoriteeId)));
+	this.destroy = function(mailSenderId, mailReceiverId) {
+		return($http.delete(getUrlforId(mailSenderId, mailReceiverId)));
 	};
 
-	this.destroy = function(favoriterId) {
-		return($http.delete(getUrlForFavoriterId(favoriterId)));
-	};
 });
