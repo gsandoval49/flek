@@ -1,3 +1,4 @@
+app.constant("SIGNOUT_ENDPOINT", "php/apis/singout/");
 app.service("SignoutService", function($http) {
 	this.SIGNOUT_ENDPOINT = "../../angular/controllers/signout-controller.php";
 
