@@ -14,3 +14,10 @@ div [class*="home-content"] {
 	height: 400px;
 	color: white;
 }
+
+div.col-sm-5 {
+	background-image: url(../images/art-shelf.jpeg);
+	width: 400px;
+	height: 200px;
+	background-size: 350px;
+}

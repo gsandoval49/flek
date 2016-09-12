@@ -24,6 +24,5 @@
 	<button class="btn btn-success" type="submit"><i class="fa fa-pencil"></i> Sign In</button>
 </div>
 </form>
-<div clas="col-sm-5">
-	<img class="feedPic" src="http://placehold.it/350x250"/>
+<div class="col-sm-5">
 </div>
