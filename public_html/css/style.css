@@ -11,11 +11,12 @@
 
 /*this is how to inject pictures into those funny jumbotrons*/
 /*ABOUT PAGE*/
-div [class*="main-content"] {
-	background-image: url(../images/paintbrush.jpeg);
-	background-size: 100% 300px;
-	height: 300px;
+#about-jumbo {
+	background: url("../images/paintbrush.jpeg") no-repeat center;
+	min-height: 650px;
+	padding: 200px 0 100px;
 	color: black;
+	background-size: cover;
 }
 
 div.col-sm-5 {
