@@ -1,5 +1,5 @@
 <form>
-<div class="col-sm-7">
+<div class="col-sm-4">
 	<div class="form-group">
 		<label for="email">Email <span class="text-danger">*</span></label>
 		<div class="input-group">
@@ -24,7 +24,7 @@
 	<button class="btn btn-success" type="submit"><i class="fa fa-pencil"></i> Sign In</button>
 </div>
 </form>
-<div class="col-sm-5">
+<div class="col-sm-7">
 </div>
 
 
