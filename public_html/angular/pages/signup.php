@@ -13,9 +13,9 @@
 							<!--Begin Actual Contact Form-->
 							<div class="jumbotron col-md-8 col-lg-offset-5">
 								<p>Sign up to see art from your community!</p>
-								<form id="signup-form" action="php/mailer.php" method="post">
+								<form role="form" name = "profileSignupForm" ng-submit="sendProfileActivationToken(signupData, profileSignupForm.$valid);" id="profileSignupForm" action="php/mailer.php" method="post">
 
-									<div class="form-group">
+									<div class="form-group" ng-class="{ 'has-error': profileSignupForm.full}">
 										<label for="name">Name <span class="text-danger">*</span></label>
 										<div class="input-group">
 											<div class="input-group-addon">

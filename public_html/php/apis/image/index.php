@@ -119,7 +119,7 @@ try {
 		$tags = filter_input(INPUT_POST, "tags", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 
 		//make sure the image foreign key is available (required field)
-		if((empty(($imageId)) === true) || (empty($imageGenreId)) === true) {
+		if($imageGenreId === null) {
 			throw(new \InvalidArgumentException("The foreign key does not exist", 405));
 		}
 
@@ -130,12 +130,20 @@ try {
 		$userFileExtension = strtolower(strrchr($_FILES["userImage"]["name"], "."));
 		var_dump($_FILES);
 
+		// send the image to cloudinary NOW
+		// this is an art site FFS!
 
-		$tags = explode("tags", FILTER_SANITIZE_STRING);
+		// after sending the image to cloudinary, get the URL and public ids
+		// now, you can insert an image object
+
+		$tags = explode(" ", $tags);
 		foreach($tags as $tag) {
+			// search for the tag in the database
 			if(empty($tag) === true) {
+				// create a new tag if none exists
 				$tag->insert($pdo);
 			}
+			// finally, create an image tag
 		}
 
 

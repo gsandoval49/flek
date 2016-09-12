@@ -103,7 +103,7 @@ app.controller('ProfileController', ["$routeParams", "$scope", "ProfileService",
 			})
 	};
 
-	$scope.fetchAllMails(= function() {
+	$scope.fetchAllMails = function() {
 		MailService.fetchAllMails($routeParams.fetchAllMails()) //how do I select all mail?
 			.then(function(result) {
 				if(result.data.status === 200) {
@@ -338,21 +338,6 @@ app.controller('ProfileController', ["$routeParams", "$scope", "ProfileService",
 					}
 				});
 
-			/**
-			 * Delete Methods
-			 */
-			$scope.delete = function(profile, valited) {
-				if(validated === true) {
-					ProfileService.delete(profile)
-						.then(function(result) {
-							if(result.data.status === 200) {
-								$scope.alerts[0] = {type:"success", msg: result.data.message};
-							} else {
-								$scope.alerts[0] = {type: "danger", msg: result.data.message};
-							}
-						});
-				}
-			};
 			if($scope.profileData === null){
 				$scope.loadProfile();
 			}
