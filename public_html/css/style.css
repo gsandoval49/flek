@@ -12,4 +12,5 @@ div [class*="home-content"] {
 	background-image: url(../images/desk-pic.jpeg);
 	background-size: 100% 500px;
 	height: 400px;
+	color: white;
 }
