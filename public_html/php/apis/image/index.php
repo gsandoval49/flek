@@ -114,9 +114,9 @@ try {
 
 	if($method === "POST") {
 		verifyXsrf();
-		$imageDescription = filter_input(INPUT_POST, "imageDescription", FILTER_SANITIZE_STRING);
-		$imageGenreId = filter_input(INPUT_POST, $imageGenreId, FILTER_VALIDATE_INT);
-		$tags = filter_input(INPUT_POST, "tags", FILTER_SANITIZE_STRING);
+		$imageDescription = filter_input(INPUT_POST, "imageDescription", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		$imageGenreId = filter_input(INPUT_POST, "imageGenreId", FILTER_VALIDATE_INT);
+		$tags = filter_input(INPUT_POST, "tags", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 
 		//make sure the image foreign key is available (required field)
 		if((empty(($imageId)) === true) || (empty($imageGenreId)) === true) {
