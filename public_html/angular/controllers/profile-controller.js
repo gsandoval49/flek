@@ -7,7 +7,6 @@
  * favorite service
  * genre service
  * tag service
- * signout service
  **/
 
 app.controller('ProfileController', ["$routeParams", "$scope", "ProfileService", "ImageService", "MailService", "FavoritieService", "GenreService", "TagService", function($routeParams, $scope, ProfileService, ImageService, MailService, FavoriteService, GenreService, TagService) {
@@ -276,7 +275,7 @@ app.controller('ProfileController', ["$routeParams", "$scope", "ProfileService",
 				});
 		}
 	};
-	/*I didn't create any genre or signout- not needed (I think)*/
+	/*I didn't create any genre- not needed (I think)*/
 
 
 	/**
@@ -284,6 +283,62 @@ app.controller('ProfileController', ["$routeParams", "$scope", "ProfileService",
 	 */
 
 	$scope.profileUpdate = function(profile, validated) {
-		if(validated ===)
+		if(validated === true){
+			ProfileService.update(profile)
+				.then(function(result) {
+					if(result.data.status === 200) {
+						$scope.alerts[0] = {type: "success", msg: result.data.message};
+					}else{
+						$scope.alerts[0] = {type:"success", msg: result.data.message};
+					}
+				});
+
+			ImageService.update(profile)
+				.then(function(result) {
+					if(result.data.status === 200) {
+						$scope.alerts[0] = {type: "success", msg: result.data.message};
+					}else {
+						$scope.alerts[0] = {type: "success", msg: result.data.message};
+					}
+				});
+
+			MailService.update(profile)
+				.then(function(result) {
+					if(result.data.status === 200) {
+						$scope.alerts[0] = {type: "success", msg: result.data.message};
+					}else {
+						$scope.alerts[0] = {type: "success", msg: result.data.message};
+					}
+				});
+
+			FavoriteService.update(profile)
+				.then(function(result) {
+					if(result.data.status === 200) {
+						$scope.alerts[0] = {type: "success", msg: result.data.message};
+					}else {
+						$scope.alerts[0] = {type: "success", msg: result.data.message};
+					}
+				});
+
+			GenreService.update(profile)
+				.then(function(result) {
+					if(result.data.status === 200) {
+						$scope.alerts[0] = {type: "success", msg: result.data.message};
+					}else {
+						$scope.alerts[0] = {type: "success", msg: result.data.message};
+					}
+				});
+
+			TagService.update(profile)
+				.then(function(result) {
+					if(result.data.status === 200) {
+						$scope.alerts[0] = {type: "success", msg: result.data.message};
+					}else {
+						$scope.alerts[0] = {type: "success", msg: result.data.message};
+					}
+				});
+
+
+		}
 	}
 }]
