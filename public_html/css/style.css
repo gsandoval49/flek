@@ -1,18 +1,21 @@
 
+/*HOME PAGE*/
+#home-jumbo {
+	background: url("../images/desk-pic.jpeg") no-repeat center;
+	min-height: 650px;
+	padding: 200px 0 100px;
+	text-align: center;
+	color: white;
+	background-size: cover;
+}
+
 /*this is how to inject pictures into those funny jumbotrons*/
+/*ABOUT PAGE*/
 div [class*="main-content"] {
 	background-image: url(../images/paintbrush.jpeg);
 	background-size: 100% 300px;
 	height: 300px;
 	color: black;
-
-}
-
-div [class*="home-content"] {
-	background-image: url(../images/desk-pic.jpeg);
-	background-size: 100% 500px;
-	height: 400px;
-	color: white;
 }
 
 div.col-sm-5 {
