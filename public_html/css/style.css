@@ -2,7 +2,7 @@
 /*HOME PAGE*/
 #home-jumbo {
 	background: url("../images/desk-pic.jpeg") no-repeat center;
-	min-height: 650px;
+	min-height: 100vh;
 	padding: 200px 0 100px;
 	text-align: center;
 	color: white;
@@ -13,7 +13,7 @@
 /*ABOUT PAGE*/
 #about-jumbo {
 	background: url("../images/paintbrush.jpeg") no-repeat center;
-	min-height: 650px;
+	min-height: 100vh;
 	padding: 200px 0 100px;
 	color: black;
 	background-size: cover;
