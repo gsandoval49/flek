@@ -1,7 +1,6 @@
 <div id="signup" class="row signup-content ">
 	<div class="col-md-8">
-			<h3>Flek</h3>
-			<p>Sign up to see art from your community!</p>
+
 
 
 		<section id="signup">
@@ -10,10 +9,10 @@
 				<!--room for sign up form here-->
 
 				<div class="col-md-8">
-					<h2>Create Free Account</h2>
 					<div class="row">
 						<!--Begin Actual Contact Form-->
 						<div class="jumbotron col-md-8 col-lg-offset-5">
+							<p>Sign up to see art from your community!</p>
 							<form id="signup-form" action="php/mailer.php" method="post">
 
 								<div class="form-group">
