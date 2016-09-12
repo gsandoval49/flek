@@ -3,7 +3,7 @@
 /**
  * Capstone project Image API utilizing Cloudinary
  * based on code authored by lbaca152 from scrum meetings with DeepDiveDylan, dbeets, and raul-villarreal
- **/
+ ***/
 
 require_once(dirname(__DIR__, 2) . "/classes/autoload.php");
 require_once(dirname(__DIR__, 2) . "/lib/xsrf.php");
@@ -12,8 +12,8 @@ require_once dirname(__DIR__, 4) . "/vendor/autoload.php";
 
 
 /**
-// * these are required for cloudinary
-// * */
+ * // * these are required for cloudinary
+ * // * */
 //require 'Cloudinary.php';
 //require 'Uploader.php';
 //require 'Api.php';
@@ -106,64 +106,63 @@ try {
 		}
 	}
 
-		/*
-				//this is a check to make sure only a profile type of ADMIN or OWNER can make changes
-				//could also check for the reverse and throw an exception in that case
-				//DO we need this?
-			} elseif((empty($_SESSION["profile"]) === false) && (($_SESSION["profile"]->getProfileId()) === $id) && (($_SESSION["profile"]->getProfileType()) === "a") || (($_SESSION["profile"]->getProfileType())) === "o") {*/
+	/*
+			//this is a check to make sure only a profile type of ADMIN or OWNER can make changes
+			//could also check for the reverse and throw an exception in that case
+			//DO we need this?
+		} elseif((empty($_SESSION["profile"]) === false) && (($_SESSION["profile"]->getProfileId()) === $id) && (($_SESSION["profile"]->getProfileType()) === "a") || (($_SESSION["profile"]->getProfileType())) === "o") {*/
 
-		if($method === "POST") {
-			verifyXsrf();
-			$imageDescription = filter_input(INPUT_POST, "imageDescription", FILTER_SANITIZE_STRING);
-			$imageGenreId = filter_input(INPUT_POST, $imageGenreId, FILTER_VALIDATE_INT);
-			$tags = filter_input(INPUT_POST, "tags", FILTER_SANITIZE_STRING);
+	if($method === "POST") {
+		verifyXsrf();
+		$imageDescription = filter_input(INPUT_POST, "imageDescription", FILTER_SANITIZE_STRING);
+		$imageGenreId = filter_input(INPUT_POST, $imageGenreId, FILTER_VALIDATE_INT);
+		$tags = filter_input(INPUT_POST, "tags", FILTER_SANITIZE_STRING);
 
-			//make sure the image foreign key is available (required field)
-			if((empty(($imageId)) === true) || (empty($imageGenreId)) === true) {
-				throw(new \InvalidArgumentException("The foreign key does not exist", 405));
-			}
-
-			//assigning variables to the user image name, MIME type, and image extension
-			$tempUserFileName = $_FILES["userImage"]["tmp_name"]; //tmp_name is the actual name on the server that is uploaded, has nothing to do with user file name
-			//file that lives in tmp_name will auto delete when this is all over
-			$userFileType = $_FILES["userImage"]["type"];
-			$userFileExtension = strtolower(strrchr($_FILES["userImage"]["name"], "."));
-			var_dump($_FILES);
-
-
-			$tags = explode("tags", FILTER_SANITIZE_STRING);
-			foreach($tags as $tag) {
-				if(empty($tag) === true) {
-					$tag->insert($pdo);
-				}
-			}
-
-
-			$reply->message = "Image uploaded";
-
-		} elseif($method === "DELETE") {
-			verifyXsrf();
-			//get image to be deleted by the IDimage
-			$image = Image::getImageByImageId($pdo, $id);
-
-			//check if image is empty
-			if($image === null) {
-				throw(new RuntimeException("Image does not exist!"));
-			}
-			//we don't need to delete from the server because Cloudinary is on the cloud
-			/*unlink($image->getImageFileName()); //this will delete from the server*/
-
-			$image->delete($pdo);
-
-			$reply->message = "Image deleted";
-
-
-		} else {
-			throw (new InvalidArgumentException("Invalid HTTP method request"));
+		//make sure the image foreign key is available (required field)
+		if((empty(($imageId)) === true) || (empty($imageGenreId)) === true) {
+			throw(new \InvalidArgumentException("The foreign key does not exist", 405));
 		}
 
+		//assigning variables to the user image name, MIME type, and image extension
+		$tempUserFileName = $_FILES["userImage"]["tmp_name"]; //tmp_name is the actual name on the server that is uploaded, has nothing to do with user file name
+		//file that lives in tmp_name will auto delete when this is all over
+		$userFileType = $_FILES["userImage"]["type"];
+		$userFileExtension = strtolower(strrchr($_FILES["userImage"]["name"], "."));
+		var_dump($_FILES);
+
+
+		$tags = explode("tags", FILTER_SANITIZE_STRING);
+		foreach($tags as $tag) {
+			if(empty($tag) === true) {
+				$tag->insert($pdo);
+			}
+		}
+
+
+		$reply->message = "Image uploaded";
+
+	} elseif($method === "DELETE") {
+		verifyXsrf();
+		//get image to be deleted by the IDimage
+		$image = Image::getImageByImageId($pdo, $id);
+
+		//check if image is empty
+		if($image === null) {
+			throw(new RuntimeException("Image does not exist!"));
+		}
+		//we don't need to delete from the server because Cloudinary is on the cloud
+		/*unlink($image->getImageFileName()); //this will delete from the server*/
+
+		$image->delete($pdo);
+
+		$reply->message = "Image deleted";
+
+
+	} else {
+		throw (new InvalidArgumentException("Invalid HTTP method request"));
 	}
- catch(Exception $exception) {
+
+} catch(Exception $exception) {
 	$reply->status = $exception->getCode();
 	$reply->message = $exception->getMessage();
 } catch(TypeError $typeError) {
