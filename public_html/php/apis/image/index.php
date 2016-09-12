@@ -78,7 +78,7 @@ try {
 	//handle GET request. if a imageId is present, that image is returned, otherwise all images are returned
 	if($method === "GET") {
 //		set XSRF cookie
-		setXsrfCookie("/");
+		setXsrfCookie();
 
 		//get a specific image or all images and update reply
 		if(empty($id) === false) {
@@ -115,7 +115,7 @@ try {
 		if($method === "POST") {
 			verifyXsrf();
 			$imageDescription = filter_input(INPUT_POST, "imageDescription", FILTER_SANITIZE_STRING);
-			$imageGenreId = filter_input(INPUT_POST, $imageGenreId, FILTER_SANITIZE_INT);
+			$imageGenreId = filter_input(INPUT_POST, $imageGenreId, FILTER_VALIDATE_INT);
 			$tags = filter_input(INPUT_POST, "tags", FILTER_SANITIZE_STRING);
 
 			//make sure the image foreign key is available (required field)
