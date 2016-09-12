@@ -49,7 +49,7 @@
 									<label for="city">Bio <span class="text-danger">*</span></label>
 									<div class="input-group">
 										<div class="input-group-addon">
-											<i class="fa fa-pencil" aria-hidden="true"></i>
+											<i class="fa fa-comment" aria-hidden="true"></i>
 										</div>
 										<input type="text" class="form-control" id="bio" name="bio" placeholder="Biography">
 									</div>
@@ -61,8 +61,8 @@
 										<div class="input-group-addon">
 											<i class="fa fa-comment" aria-hidden="true"></i>
 										</div>
-										<textarea class="form-control" id="password" name="password"
-													 placeholder="Password"></textarea>
+										<input class="form-control" type="password" name="password"
+													 placeholder="Password">
 									</div>
 								</div>
 
@@ -72,8 +72,8 @@
 										<div class="input-group-addon">
 											<i class="fa fa-comment" aria-hidden="true"></i>
 										</div>
-										<textarea class="form-control" id="passwordConfirm" name="passwordConfirm"
-													 placeholder="Confirm password"></textarea>
+										<input class="form-control" type="password" name="passwordConfirm"
+													 placeholder="Confirm password">
 									</div>
 								</div>
 
