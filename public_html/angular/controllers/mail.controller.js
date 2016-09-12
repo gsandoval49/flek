@@ -9,7 +9,7 @@ app.controller('mailController', ["$scope", function($scope) {
 	 * state variable to keep track of the data entered into the form fields
 	 *@type {Object}
 	 **/
-	$scope.formData = {"name": [], "subject": [], "message": []};
+	$scope.formData = {"subject": [], "message": []};
 
 	/**
 	 * method to reset form data when the submit and cancel buttons are pressed
