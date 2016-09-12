@@ -4,8 +4,8 @@
 		</div>
 		</div>
 	</div>
-	<div class="profile-content">
-		<div class="col-md-6 col-md-9">
+<div class="profile-content">
+		<div class="col-md-6">
 			<div class="row">
 			<div class="header">
 				<h1>Jane Smith</h1>

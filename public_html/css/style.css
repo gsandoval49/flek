@@ -25,3 +25,12 @@ div.col-sm-5 {
 	height: 200px;
 	background-size: 350px;
 }
+
+/*this pic is from profile page*/
+div.profile-container {
+	background-image: url(../images/jane-smith.jpeg);
+	width: 300px;
+	height: 250px;
+	background-size: 250px;
+
+}
