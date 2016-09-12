@@ -52,17 +52,17 @@ app.controller('ProfileController', ["$routeParams", "$scope", "ProfileService",
 	 * Image Method
 	 **/
 
-		$scope.fetchImageByImageId = function() {
-			ImageService.fetchImageByImageId($routeParams.imageId)
-				.then(function(result) {
+	$scope.fetchImageByImageId = function() {
+		ImageService.fetchImageByImageId($routeParams.imageId)
+			.then(function(result) {
 				if(result.data.status === 200) {
 					$scope.imageData = result.data.data;
 					console.log($scope.imageData);
-				}else{
-					$scope.alerts[0] = {type:"danger", msg:result.data.message};
+				} else {
+					$scope.alerts[0] = {type: "danger", msg: result.data.message};
 				}
-		})
-		};
+			})
+	};
 
 	$scope.fetchImageByImageProfileId = function() {
 		ImageService.fetchImageByImageProfileId($routeParams.imageProfileId)
@@ -70,27 +70,27 @@ app.controller('ProfileController', ["$routeParams", "$scope", "ProfileService",
 				if(result.data.status === 200) {
 					$scope.imageData = result.data.data;
 					console.log($scope.imageData);
-				}else{
-					$scope.alerts[0] = {type:"danger", msg:result.data.message};
+				} else {
+					$scope.alerts[0] = {type: "danger", msg: result.data.message};
 				}
 			})
 	};
 
-		/**
-		 * Mail Methods
-		 **/
+	/**
+	 * Mail Methods
+	 **/
 
-		 $scope.fetchMailByMailReceiverId = function() {
-			 MailService.fetchMailByMailReceiverId($routeParams.mailReceiverId)
-				 .then(function(result) {
-					 if(result.data.status === 200) {
-					 	$scope.mailData = result.data.data;
-						 console.log($scope.mailData);
-					 }else{
-					 	$scope.alerts[0] = {type:"danger", msg:result.data.message};
-					 }
-				 })
-		 };
+	$scope.fetchMailByMailReceiverId = function() {
+		MailService.fetchMailByMailReceiverId($routeParams.mailReceiverId)
+			.then(function(result) {
+				if(result.data.status === 200) {
+					$scope.mailData = result.data.data;
+					console.log($scope.mailData);
+				} else {
+					$scope.alerts[0] = {type: "danger", msg: result.data.message};
+				}
+			})
+	};
 
 	$scope.fetchMailByMailSenderId = function() {
 		MailService.fetchMailByMailSenderId($routeParams.mailSenderId)
@@ -98,20 +98,20 @@ app.controller('ProfileController', ["$routeParams", "$scope", "ProfileService",
 				if(result.data.status === 200) {
 					$scope.mailData = result.data.data;
 					console.log($scope.mailData);
-				}else{
-					$scope.alerts[0] = {type:"danger", msg:result.data.message};
+				} else {
+					$scope.alerts[0] = {type: "danger", msg: result.data.message};
 				}
 			})
 	};
 
-	$scope.fetchAllMails( = function() {
+	$scope.fetchAllMails(= function() {
 		MailService.fetchAllMails($routeParams.fetchAllMails()) //how do I select all mail?
 			.then(function(result) {
 				if(result.data.status === 200) {
 					$scope.mailData = result.data.data;
 					console.log($scope.mailData);
-				}else{
-					$scope.alerts[0] = {type:"danger", msg:result.data.message};
+				} else {
+					$scope.alerts[0] = {type: "danger", msg: result.data.message};
 				}
 			})
 	};
@@ -126,8 +126,8 @@ app.controller('ProfileController', ["$routeParams", "$scope", "ProfileService",
 				if(result.data.status === 200) {
 					$scope.favoriteData = result.data.data;
 					console.log($scope.favoriteData);
-				}else{
-					$scope.alerts[0] = {type:"danger", msg:result.data.message};
+				} else {
+					$scope.alerts[0] = {type: "danger", msg: result.data.message};
 				}
 			})
 	};
@@ -138,8 +138,8 @@ app.controller('ProfileController', ["$routeParams", "$scope", "ProfileService",
 				if(result.data.status === 200) {
 					$scope.favoriteData = result.data.data;
 					console.log($scope.favoriteData);
-				}else{
-					$scope.alerts[0] = {type:"danger", msg:result.data.message};
+				} else {
+					$scope.alerts[0] = {type: "danger", msg: result.data.message};
 				}
 			})
 	};
@@ -154,8 +154,8 @@ app.controller('ProfileController', ["$routeParams", "$scope", "ProfileService",
 				if(result.data.status === 200) {
 					$scope.genreData = result.data.data;
 					console.log($scope.genreData);
-				}else{
-					$scope.alerts[0] = {type:"danger", msg:result.data.message};
+				} else {
+					$scope.alerts[0] = {type: "danger", msg: result.data.message};
 				}
 			})
 	};
@@ -166,8 +166,8 @@ app.controller('ProfileController', ["$routeParams", "$scope", "ProfileService",
 				if(result.data.status === 200) {
 					$scope.genreData = result.data.data;
 					console.log($scope.genreData);
-				}else{
-					$scope.alerts[0] = {type:"danger", msg:result.data.message};
+				} else {
+					$scope.alerts[0] = {type: "danger", msg: result.data.message};
 				}
 			})
 	};
@@ -178,8 +178,8 @@ app.controller('ProfileController', ["$routeParams", "$scope", "ProfileService",
 				if(result.data.status === 200) {
 					$scope.genreData = result.data.data;
 					console.log($scope.genreData);
-				}else{
-					$scope.alerts[0] = {type:"danger", msg:result.data.message};
+				} else {
+					$scope.alerts[0] = {type: "danger", msg: result.data.message};
 				}
 			})
 	};
@@ -194,8 +194,8 @@ app.controller('ProfileController', ["$routeParams", "$scope", "ProfileService",
 				if(result.data.status === 200) {
 					$scope.tagData = result.data.data;
 					console.log($scope.tagData);
-				}else{
-					$scope.alerts[0] = {type:"danger", msg:result.data.message};
+				} else {
+					$scope.alerts[0] = {type: "danger", msg: result.data.message};
 				}
 			})
 	};
@@ -206,8 +206,8 @@ app.controller('ProfileController', ["$routeParams", "$scope", "ProfileService",
 				if(result.data.status === 200) {
 					$scope.tagData = result.data.data;
 					console.log($scope.tagData);
-				}else{
-					$scope.alerts[0] = {type:"danger", msg:result.data.message};
+				} else {
+					$scope.alerts[0] = {type: "danger", msg: result.data.message};
 				}
 			})
 	};
@@ -218,14 +218,14 @@ app.controller('ProfileController', ["$routeParams", "$scope", "ProfileService",
 				if(result.data.status === 200) {
 					$scope.tagData = result.data.data;
 					console.log($scope.tagData);
-				}else{
-					$scope.alerts[0] = {type:"danger", msg:result.data.message};
+				} else {
+					$scope.alerts[0] = {type: "danger", msg: result.data.message};
 				}
 			})
 	};
 
 	/**
-	 * create, update and delete within profile
+	 * Create Methods
 	 */
 
 	$scope.profileCreate = function(profile, validated) {
@@ -234,10 +234,56 @@ app.controller('ProfileController', ["$routeParams", "$scope", "ProfileService",
 				.then(function(results) {
 					if(result.data.status === 200) {
 						$scope.alerts[0] = {type: "success", msg: result.data.message};
-					}else{
+					} else {
+						$scope.alerts[0] = {type: "danger", msg: result.data.message};
+					}
+				});
+
+			ImageService.create(image)
+				.then(function(result) {
+					if(result.data.staus === 200) {
+						$scope.alerts[0] = {type: "success", msg: result.data.message};
+					} else {
+						$scope.alerts[0] = {type: "danger", msg: result.data.message};
+					}
+				});
+
+			MailService.create(mail)
+				.then(function(result) {
+					if(result.data.staus === 200) {
+						$scope.alerts[0] = {type: "success", msg: result.data.message};
+					} else {
+						$scope.alerts[0] = {type: "danger", msg: result.data.message};
+					}
+				});
+
+			FavoriteService.create(favorite)
+				.then(function(result) {
+					if(result.data.staus === 200) {
+						$scope.alerts[0] = {type: "success", msg: result.data.message};
+					} else {
+						$scope.alerts[0] = {type: "danger", msg: result.data.message};
+					}
+				});
+
+			TagService.create(tag)
+				.then(function(result) {
+					if(result.data.staus === 200) {
+						$scope.alerts[0] = {type: "success", msg: result.data.message};
+					} else {
 						$scope.alerts[0] = {type: "danger", msg: result.data.message};
 					}
 				});
 		}
+	};
+	/*I didn't create any genre or signout- not needed (I think)*/
+
+
+	/**
+	 * Update Methods
+	 */
+
+	$scope.profileUpdate = function(profile, validated) {
+		if(validated ===)
 	}
 }]
