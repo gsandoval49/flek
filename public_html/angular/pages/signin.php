@@ -16,8 +16,8 @@
 			<div class="input-group-addon">
 				<i class="fa fa-comment" aria-hidden="true"></i>
 			</div>
-			<textarea class="form-control" id="password" name="password"
-						 placeholder="password"></textarea>
+			<input class="form-control" type="password" name="password"
+						 placeholder="password">
 		</div>
 	</div>
 
@@ -26,3 +26,5 @@
 </form>
 <div class="col-sm-5">
 </div>
+
+
