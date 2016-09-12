@@ -3,6 +3,7 @@
 #home-jumbo {
 	background: url("../images/desk-pic.jpeg") no-repeat center;
 	min-height: 100vh;
+	margin: 0;
 	padding: 200px 0 100px;
 	text-align: center;
 	color: white;
@@ -26,6 +27,22 @@ div.col-sm-5 {
 	background-size: 350px;
 }
 
+/*FOOTER CSS*/
+.sfooter {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+}
+
+.sfooter-content {
+	flex: 1 0 auto;
+}
+
+footer {
+	right: 90%;
+	background-color: black;
+	color: A5003D;
+}
 /*this pic is from profile page*/
 div.profile-container {
 	background-image: url(../images/jane-smith.jpeg);
