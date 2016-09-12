@@ -139,7 +139,7 @@ try {
 			}
 
 
-			$reply->message = "Image created";
+			$reply->message = "Image uploaded";
 
 		} elseif($method === "DELETE") {
 			verifyXsrf();

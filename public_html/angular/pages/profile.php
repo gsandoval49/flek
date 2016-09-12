@@ -16,7 +16,7 @@
 		<div class="col-md-4"></div>
 		<div class="col-md-8 col-xs-12">
 			<div class="col-md-6 col-xs-6 ">
-				<button class="btn btn-default" type="submit"><i class="fa fa-heart-o fa-lg"></i>Favorite</button>
+				<button href="" class="btn btn-default" type="submit"><i class="fa fa-heart-o fa-lg"></i>Favorite</button>
 			</div>
 			<div class="col-md-6 col-xs-6 ">
 				<button class="btn btn-default" type="submit"><i class="fa fa-envelope-o fa-lg"></i>Message</button>
@@ -65,3 +65,4 @@
 			</div>
 		</div>
 	</div>
+
