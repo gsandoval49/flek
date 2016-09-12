@@ -11,8 +11,13 @@
 				<div class="col-md-8">
 					<div class="row">
 						<!--Begin Actual Contact Form-->
+<<<<<<< Updated upstream
 						<div class="jumbotron col-md-8 col-lg-offset-5">
 							<p>Sign up to see art from your community!</p>
+=======
+						<div class="jumbotron col-md-6">
+
+>>>>>>> Stashed changes
 							<form id="signup-form" action="php/mailer.php" method="post">
 
 								<div class="form-group">
