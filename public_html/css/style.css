@@ -133,13 +133,17 @@ html, body {
 .img-responsive {
 	height: 300px;
 	width: 300px;
+	margin-left: 30px;
 }
 
 .sidebar{
 	position: fixed;
+	font-size: x-large;
 }
 a:link {color: #000000;
 }
+
+
 
 
 
