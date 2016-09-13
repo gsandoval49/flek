@@ -134,6 +134,8 @@ try {
 
 		// send the image to cloudinary NOW
 		// this is an art site FFS!
+
+		// getting code from cloudinary's documentation(?)
 		\Cloudinary\Uploader::upload($_FILES["file"]["tmp_name"]);
 		/*echo cl_image_upload_tag("image_id",
 			array(
