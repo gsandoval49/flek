@@ -116,6 +116,8 @@ try {
 		verifyXsrf();
 		$imageDescription = filter_input(INPUT_POST, "imageDescription", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		$imageGenreId = filter_input(INPUT_POST, "imageGenreId", FILTER_VALIDATE_INT);
+		$imageSecureUrl = filter_input(INPUT_POST, "imageSecureUrl", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		$imagePublicId = filter_input(INPUT_POST, "imagePublicId", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		$tags = filter_input(INPUT_POST, "tags", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 
 		//make sure the image foreign key is available (required field)
@@ -133,9 +135,14 @@ try {
 		// send the image to cloudinary NOW
 		// this is an art site FFS!
 
+
 		// after sending the image to cloudinary, get the URL and public ids
 		// now, you can insert an image object
-		$image -> insert($pdo);
+
+		//creates a new image and insert to into mySQL---unsure how to retrieve IMAGESECUREURL or IMAGEPUBLICID
+		$image = new Image(null, $this->genre->getGenreId(), $this->profile->getProfileId(), $this->VALID_IMAGEDESCRIPTION, $this->VALID_IMAGESECUREURL, $this->VALID_IMAGEPUBLICID);
+		$image->insert($this->getPDO);
+//		$image -> insert($pdo);
 
 		$tags = explode(" ", $tags);
 		foreach($tags as $tag) {
