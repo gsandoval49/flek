@@ -1,23 +1,23 @@
 <!--container for profile picture & profile content-->
 <div class="container">
 	<div class="row">
-		<div class="col-md-4 profile-picture"></div>
-		<div class="col-md-4">
-			<h1>Jane Smith</h1>
+		<div class="col-md-3 profile-picture"></div>
+		<div class="col-md-3">
+			<h1>Staci Parker</h1>
 			<h4>Artist</h4>
-			<h4>Location:</h4>
+			<h4>Location: Albuquerque, NM</h4>
 			<p>Bio: Artist, blogger, writer, consultant. Paints poetic landscapes, nature, birds, and still like paintings.
-				http://janesmith.com</p>
+				http://staciparker.com</p>
 			<p>"There is no one who loves pain itself, who seeks after it and wants to have it, simply because it is
 				pain..."</p>
 		</div>
-		<div>
-			<div class="col-md-4">
-				<button href="" class="btn btn-default" type="submit"><i class="fa fa-heart-o fa-lg"></i>Favorite</button>
-			</div>
-			<div class="col-md-4">
-				<button class="btn btn-default" type="submit"><i class="fa fa-envelope-o fa-lg"></i>message</button>
-			</div>
+		<div class="col-md-3">
+			<h4>something</h4>
+			<button href="" class="btn btn-default" type="submit"><i class="fa fa-heart-o fa-lg"></i>Favorite</button>
+		</div>
+		<div class="col-md-3">
+			<h4>something</h4>
+			<button class="btn btn-default" type="submit"><i class="fa fa-envelope-o fa-lg"></i>message</button>
 		</div>
 	</div>
 </div>
