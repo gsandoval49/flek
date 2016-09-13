@@ -128,3 +128,7 @@ html, body {
 	height: 300px;
 	width: 200px;
 }
+
+.sidebar{
+	position: fixed;
+}

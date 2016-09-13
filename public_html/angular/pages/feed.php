@@ -231,7 +231,7 @@
 	</div>
 
 	<div class="col-md-3">
-		<ul>
+		<ul class="sidebar">
 			<li><a href="#drawing">drawing</a></li>
 			<li><a href="#sculpture">sculpture</a></li>
 			<li><a href="#painting">painting</a></li>
