@@ -69,6 +69,7 @@ div.signup-content {
 div.signin-content {
 	background-image: url(../images/full-wallart.jpg);
 	background-size: 100%;
+	min-height: 100vh;
 }
 
 
