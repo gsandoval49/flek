@@ -17,7 +17,19 @@
 		</div>
 		<div class="col-md-3">
 			<h4>Send Me A Message</h4>
-			<button class="btn btn-default" type="button" ng-show="form"><i class="fa fa-envelope-o fa-lg"></i>message</button>
+			<button class="btn btn-default" type="button" ng-show="touched"><i class="fa fa-envelope-o fa-lg"></i>message
+			</button>
+			<h4>example</h4>
+			<button class="btn btn-info collapsed" type="button" data-toggle="collapse" data-target="#tweetService"
+					  aria-expanded="false" aria-controls="collapseExample">Message Me
+			</button>
+			<div class="collapse in" id="tweetService" aria-expanded="true">
+				<br>
+				<pre class="hljs php"><span class="message-info">
+					** message info
+
+					</pre>
+			</div>
 		</div>
 	</div>
 </div>
