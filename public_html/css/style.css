@@ -107,16 +107,13 @@ footer {
 	color: white;
 }
 /*this pic is from profile page*/
-.profile-container {
+.profile-picture {
 	background-image: url(../images/profile-photo.png);
 	width: 300px;
 	height: 250px;
 	background-size: 250px;
+}
 
-}
-div.profile-content {
-	position: center;
-}
 
 /*Flek Feed*/
 
