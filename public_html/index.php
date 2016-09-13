@@ -8,7 +8,7 @@
 
 		<!--begin main content -->
 		<main>
-			<div class="container-fluid">
+			<div class="container-fluid index-div">
 
 				<div ng-view></div>
 
