@@ -108,8 +108,8 @@ footer {
 	color: white;
 }
 /*this pic is from profile page*/
-div.profile-container {
-	background-image: url(../images/jane-smith.jpeg);
+.profile-container {
+	background-image: url(../images/profile-photo.png);
 	width: 300px;
 	height: 250px;
 	background-size: 250px;
