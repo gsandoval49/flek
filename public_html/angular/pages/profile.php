@@ -13,8 +13,8 @@
 				<h1>Jane Smith</h1>
 				<h4>Artist</h4>
 				<h4>Location:</h4>
-				<span>Bio: Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit..."
-"There is no one who loves pain itself, who seeks after it and wants to have it, simply because it is pain..."</span>
+				<p>Bio: Artist, blogger, writer, consultant. Paints poetic landscapes, nature, birds, and still like paintings. http://janesmith.com</p>
+				<p>"There is no one who loves pain itself, who seeks after it and wants to have it, simply because it is pain..."</p>
 				</div>
 			</div>
 	</div>
