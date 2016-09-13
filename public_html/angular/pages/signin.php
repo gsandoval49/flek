@@ -36,6 +36,16 @@
 	</div>
 	</div>
 </form>
+		<!--Row for Sign In Message-->
+		<section id="welcome" class="message bg primary text-center">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-8 col-md-offset-2">
+						<h2>Welcome </h2>
+					</div>
+				</div>
+			</div>
+		</section>
 		</div>
 </div>
 
