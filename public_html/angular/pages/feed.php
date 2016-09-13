@@ -86,8 +86,8 @@
 		</div>
 		<div class="row">
 			<div class="col-md-6 portfolio-item">
-				<a href="#">
-					<img id="painting" class="img-responsive" src="http://placehold.it/700x400" alt=""/>
+				<a href="https://bootcamp-coders.cnm.edu/~rharding6/flek/public_html/profile">
+					<img id="painting" class="img-responsive" src="images/feed-painting-1.png" alt=""/>
 				</a>
 				<h3>
 					<a href="#">Profile</a>
