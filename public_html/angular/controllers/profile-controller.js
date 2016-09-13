@@ -35,7 +35,7 @@ app.controller('ProfileController', ["$routeParams", "$scope", "ProfileService",
 			})
 	};
 
-	$scope.fetchProfileByProfileId() = function() {
+	$scope.fetchProfileByProfileId = function() {
 		ProfileService.fetchProfileByProfileName($routeParams.profileName)
 			.then(function(result) {
 				if(result.data.status === 200) {
@@ -230,7 +230,7 @@ app.controller('ProfileController', ["$routeParams", "$scope", "ProfileService",
 	$scope.profileCreate = function(profile, validated) {
 		if(validated === true) {
 			ProfileService.create(profile)
-				.then(function(results) {
+				.then(function(result) {
 					if(result.data.status === 200) {
 						$scope.alerts[0] = {type: "success", msg: result.data.message};
 					} else {
@@ -283,13 +283,13 @@ app.controller('ProfileController', ["$routeParams", "$scope", "ProfileService",
 	 */
 
 	$scope.profileUpdate = function(profile, validated) {
-		if(validated === true){
+		if(validated === true) {
 			ProfileService.update(profile)
 				.then(function(result) {
 					if(result.data.status === 200) {
 						$scope.alerts[0] = {type: "success", msg: result.data.message};
-					}else{
-						$scope.alerts[0] = {type:"success", msg: result.data.message};
+					} else {
+						$scope.alerts[0] = {type: "danger", msg: result.data.message};
 					}
 				});
 
@@ -297,8 +297,8 @@ app.controller('ProfileController', ["$routeParams", "$scope", "ProfileService",
 				.then(function(result) {
 					if(result.data.status === 200) {
 						$scope.alerts[0] = {type: "success", msg: result.data.message};
-					}else {
-						$scope.alerts[0] = {type: "success", msg: result.data.message};
+					} else {
+						$scope.alerts[0] = {type: "danger", msg: result.data.message};
 					}
 				});
 
@@ -306,8 +306,8 @@ app.controller('ProfileController', ["$routeParams", "$scope", "ProfileService",
 				.then(function(result) {
 					if(result.data.status === 200) {
 						$scope.alerts[0] = {type: "success", msg: result.data.message};
-					}else {
-						$scope.alerts[0] = {type: "success", msg: result.data.message};
+					} else {
+						$scope.alerts[0] = {type: "danger", msg: result.data.message};
 					}
 				});
 
@@ -315,8 +315,8 @@ app.controller('ProfileController', ["$routeParams", "$scope", "ProfileService",
 				.then(function(result) {
 					if(result.data.status === 200) {
 						$scope.alerts[0] = {type: "success", msg: result.data.message};
-					}else {
-						$scope.alerts[0] = {type: "success", msg: result.data.message};
+					} else {
+						$scope.alerts[0] = {type: "danger", msg: result.data.message};
 					}
 				});
 
@@ -324,8 +324,8 @@ app.controller('ProfileController', ["$routeParams", "$scope", "ProfileService",
 				.then(function(result) {
 					if(result.data.status === 200) {
 						$scope.alerts[0] = {type: "success", msg: result.data.message};
-					}else {
-						$scope.alerts[0] = {type: "success", msg: result.data.message};
+					} else {
+						$scope.alerts[0] = {type: "danger", msg: result.data.message};
 					}
 				});
 
@@ -333,10 +333,12 @@ app.controller('ProfileController', ["$routeParams", "$scope", "ProfileService",
 				.then(function(result) {
 					if(result.data.status === 200) {
 						$scope.alerts[0] = {type: "success", msg: result.data.message};
-					}else {
-						$scope.alerts[0] = {type: "success", msg: result.data.message};
+					} else {
+						$scope.alerts[0] = {type: "danger", msg: result.data.message};
 					}
 				});
+		}
+	};
 
 			if($scope.profileData === null){
 				$scope.loadProfile();
