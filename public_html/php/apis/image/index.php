@@ -19,7 +19,7 @@ require_once dirname(__DIR__, 4) . "/vendor/autoload.php";
 //require 'Api.php';
 
 use Edu\Cnm\Flek\{
-	Image, Profile, Tag, Genre
+	Image, Profile, Tag, Genre, ImageTag
 };
 
 
@@ -133,7 +133,7 @@ try {
 		// this is an art site FFS!
 
 		// getting code from cloudinary's documentation(?)
-		$cloudinaryResult = \Cloudinary\Uploader::upload($_FILES["user"]["tmp_name"]);
+		$cloudinaryResult = \Cloudinary\Uploader::upload($_FILES["userImage"]["tmp_name"]);
 
 
 // after sending the image to cloudinary, get the URL and public ids
@@ -149,7 +149,7 @@ try {
 			if(empty($mySqlTag) === true) {
 				// create a new tag if none exists
 				$mySqlTag = new Tag(null, $tag);
-				$tag->insert($pdo);
+				$mySqlTag->insert($pdo);
 			}
 			// finally, create an image tag
 			$imageTag = new ImageTag($image->getImageId(), $mySqlTag->getTagId());
