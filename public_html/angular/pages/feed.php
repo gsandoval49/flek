@@ -3,7 +3,7 @@
 	<!-- Page Header -->
 	<div class="row">
 		<div class="col-lg-12">
-			<h1 class="page-header">Flek Feed
+			<h1 class="page-header center">Flek Feed
 			</h1>
 		</div>
 	</div>

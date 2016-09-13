@@ -1,11 +1,13 @@
 <div class="profile-container">
 	<div class="row">
-		<div class="col-sm-6 col-md-3">
-		</div>
+		<div class="col-md-6 col-lg-offset-8">
 		</div>
 	</div>
+</div>
+
+<!--Profile Content-->
 <div class="profile-content">
-		<div class="col-md-6">
+		<div class="col-md-6 text-center">
 			<div class="row">
 			<div class="header">
 				<h1>Jane Smith</h1>

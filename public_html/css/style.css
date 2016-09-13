@@ -106,3 +106,14 @@ div.profile-container {
 	background-size: 250px;
 
 }
+div.profile-content {
+	position: center;
+}
+
+/*Flek Feed*/
+
+.col-lg-12 .page-header {
+	text-align: center;
+	font-family: "Droid Serif", serif;
+	font-style: italic;
+}
