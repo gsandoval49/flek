@@ -2,7 +2,7 @@
 	<div class="signin-container">
 
 		<!--form starts here-->
-		<form name="signinForm" id="signinForm" ng-submit="signin();">
+		<form name="signinForm" id="signinForm" ng-submit="signin(signinData, signinForm.$valid);" novalidate>
 <div class="jumbotron col-sm-4 col-lg-offset-4">
 	<div class="row">
 	<div class="form-group">
@@ -13,7 +13,7 @@
 				<i class="fa fa-envelope" aria-hidden="true"></i>
 			</div>
 
-			<input type="email" class="form-control" id="profileEmail" name="profileEmail" placeholder="Email" ng-required="true"/>
+			<input type="email" class="form-control" id="profileEmail" name="profileEmail" placeholder="Email" ng-required="true" ng-model="signinData.profileEmail"/>
 		</div>
 
 		<div class="alert alert-danger" role="alert" ng-messages="signinForm.profileEmail.$error" ng-if="signinForm.$touched" ng-hide="signinForm.profileEmail.$valid">
@@ -29,7 +29,7 @@
 				<i class="fa fa-comment" aria-hidden="true"></i>
 			</div>
 
-			<input class="form-control" type="password" id="profilePassword" name="password" placeholder="password" ng-required="true"/>
+			<input class="form-control" type="password" id="profilePassword" name="profilePassword" placeholder="password" ng-required="true" ng-model="signinData.profilePassword"/>
 			<p ng-message="required">Password Required</p>
 		</div>
 	</div>
