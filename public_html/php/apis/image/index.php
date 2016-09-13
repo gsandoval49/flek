@@ -149,9 +149,9 @@ try {
 			// search for the tag in the database
 			if(empty($tag) === true) {
 				// create a new tag if none exists
-			/////-	$tag->insert($pdo);
+				$tag->insert($pdo);
 			}
-			// finally, create an image /////////////////////////////////////////////////////////////
+			// finally, create an image tag
 			if(empty === true) {
 				$tag->insert($pdo);
 			}
