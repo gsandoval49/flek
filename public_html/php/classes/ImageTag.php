@@ -8,7 +8,6 @@ require_once("autoload.php");
  * @author Rob Harding
  * @ver 1.0.0
  **/
-
 class ImageTag implements \JsonSerializable {
 	/**
 	 * image id for the image being linked with tags; this is a foreign key
@@ -78,8 +77,8 @@ class ImageTag implements \JsonSerializable {
 	 * accessor method for imageTag Tagid
 	 *
 	 * @return int value of imageTag tag id
-	**/
-	public function getImageTagTagId(){
+	 **/
+	public function getImageTagTagId() {
 		return ($this->imageTagTagId);
 	}
 
@@ -89,7 +88,7 @@ class ImageTag implements \JsonSerializable {
 	 * @param int $newImageTagTagId
 	 * @throws \RangeException if  $newImageTagTagId is not positive
 	 * @throws \TypeError if $newImageTagTagId is not an integer
-	**/
+	 **/
 	public function setImageTagTagId(int $newImageTagTagId) {
 		//verify id is positive
 		if($newImageTagTagId < 0) {
@@ -159,13 +158,13 @@ class ImageTag implements \JsonSerializable {
 		$statement = $pdo->prepare($query);
 
 		//bind the variables to the place holder in teh template
-		$parameters = ["imageTagImageId"=> $imageTagImageId];
+		$parameters = ["imageTagImageId" => $imageTagImageId];
 		$statement->execute($parameters);
 
 		//build an array of image tags
 		$imageTags = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while(($row = $statement ->fetch()) !==false) {
+		while(($row = $statement->fetch()) !== false) {
 			try {
 				$imageTag = new imageTag($row["imageTagImageId"], $row["imageTagTagId"]);
 				$imageTags[$imageTags->key()] = $imageTag;
