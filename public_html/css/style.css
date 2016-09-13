@@ -66,22 +66,27 @@ div.signup-content {
 }
 
 /*SIGN IN PAGE*/
-div.signin-content {
+div.signin-content{
 	background-image: url(../images/full-wallart.jpg);
 	background-size: 100%;
 	min-height: 100vh;
+	border-radius: 0;
 }
 .index-div {
 	padding-right:0;
 	padding-left: 0;
 }
 
+
 /*SIGN IN FORM*/
 #welcome {
-	color: #FFF80E;
-	font-size: 30px;
+	border-radius: 0;
+	background-attachment: fixed;
 }
 
+.navbar {
+	margin-bottom: 0;
+}
 
 
 

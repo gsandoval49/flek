@@ -1,9 +1,12 @@
-<div class="signin-content">
+<section id="sign-in">
+<div class="signin-content jumbotron">
 	<div class="signin-container">
+		<div class="row">
+			<div class="col-md-12">
 
 		<!--form starts here-->
 		<form name="signinForm" id="signinForm" ng-submit="signin(signinData, signinForm.$valid);" novalidate>
-			<div class="jumbotron col-sm-4 col-lg-offset-4 text-center">
+			<div class="col-sm-4 col-lg-offset-4 jumbotron text-center">
 				<h2>Welcome Back!</h2>
 				<p>Please Sign In</p>
 				<div class="row">
@@ -49,6 +52,8 @@
 				</div>
 			</div>
 		</form>
+			</div>
+			</div>
 
 		<!--Row for Sign In Message
 		<section id="welcome" class="message bg primary text-center">
@@ -64,6 +69,7 @@
 
 	</div>
 </div>
+	</section>
 
 
 
