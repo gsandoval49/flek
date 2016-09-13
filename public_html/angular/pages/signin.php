@@ -2,7 +2,7 @@
 	<div class="signin-container">
 
 		<!--form starts here-->
-		<form>
+		<form name="signinForm" id="signinForm" ng-submit="signin();">
 <div class="jumbotron col-sm-4 col-lg-offset-4">
 	<div class="row">
 	<div class="form-group">

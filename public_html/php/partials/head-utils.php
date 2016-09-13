@@ -44,6 +44,8 @@
 			<!-- more angular controllers as we create the views -->
 			<script src="angular/controllers/home-controller.js"></script>
 			<script src="angular/controllers/signup-controller.js"></script>
+			<script src="angular/controllers/signin-controller.js"></script>
+			<script src="angular/controllers/signout-controller.js"></script>
 			<script src="angular/controllers/about-controller.js"></script>
 			<script src="angular/controllers/nav-controller.js"></script>
 			<script src="angular/controllers/profile-controller.js"></script>
