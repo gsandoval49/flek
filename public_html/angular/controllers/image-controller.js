@@ -1,10 +1,7 @@
 /**
- * Profile Controller will use:
+ * image Controller will use:
  *
- * profile service
  * image service
- * genre service
- * tag service
  **/
 
 app.controller('FeedController', ["$routeParams", "$scope", "ProfileService", "ImageService", "GenreService", "TagService", function($routeParams, $scope, ProfileService, ImageService, MailService, FavoriteService, GenreService, TagService) {
