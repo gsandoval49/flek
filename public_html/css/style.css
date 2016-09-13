@@ -59,7 +59,10 @@ div.col-sm-5 {
 }
 
 /*SIGN UP PAGE*/
-
+div.signup-content {
+	background-image: url(../images/signup-paint.jpg);
+	background-size: 100%;
+}
 
 
 
