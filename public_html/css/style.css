@@ -77,6 +77,10 @@ div.signin-content{
 	padding-right:0;
 	padding-left: 0;
 }
+/*to cancel out the margin of sign in*/
+.jumbotron {
+	margin-bottom: 0px;
+}
 
 
 /*SIGN IN FORM*/
@@ -134,6 +138,8 @@ html, body {
 .sidebar{
 	position: fixed;
 }
+
+
 
 /*NAV BAR COLOR CHANGE when hover over text*/
 .navbar-inverse .navbar-nav > li > a:hover,
