@@ -116,8 +116,6 @@ try {
 		verifyXsrf();
 		$imageDescription = filter_input(INPUT_POST, "imageDescription", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		$imageGenreId = filter_input(INPUT_POST, "imageGenreId", FILTER_VALIDATE_INT);
-		$imageSecureUrl = filter_input(INPUT_POST, "imageSecureUrl", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-		$imagePublicId = filter_input(INPUT_POST, "imagePublicId", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		$tags = filter_input(INPUT_POST, "tags", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 
 		//make sure the image foreign key is available (required field)
@@ -130,22 +128,19 @@ try {
 		//file that lives in tmp_name will auto delete when this is all over
 		$userFileType = $_FILES["userImage"]["type"];
 		$userFileExtension = strtolower(strrchr($_FILES["userImage"]["name"], "."));
-		var_dump($_FILES);
 
 		// send the image to cloudinary NOW
 		// this is an art site FFS!
 
 		// getting code from cloudinary's documentation(?)
-		\Cloudinary\Uploader::upload($_FILES["user"]["tmp_name"]);
+		$cloudinaryResult = \Cloudinary\Uploader::upload($_FILES["user"]["tmp_name"]);
 
 
 // after sending the image to cloudinary, get the URL and public ids
+		$image = new Image(null, $imageGenreId, $_SESSION["profile"]->getProfileId(), $imageDescription, $cloudinaryResult["secure_url"], $cloudinaryResult["public_id"]);
 		// now, you can insert an image object
+		$image->insert($pdo);
 
-		//--unsure how to retrieve IMAGESECUREURL or IMAGEPUBLICID from cloudinary, checking to see if null(?)
-		if(($imagePublicId !== null) && ($imageSecureUrl !== null)) {
-			$image->insert($pdo);
-		}
 
 		$tags = explode(" ", $tags);
 		foreach($tags as $tag) {
