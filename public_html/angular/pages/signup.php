@@ -12,15 +12,15 @@
 							<!--Begin Actual Contact Form-->
 							<div class="jumbotron col-md-8 col-lg-offset-5 text-center">
 								<p>Sign up to see art from your community!</p>
-								<form role="form" name = "profileSignupForm" ng-submit="sendProfileActivationToken(signupData, profileSignupForm.$valid);" id="profileSignupForm" action="php/mailer.php" method="post">
+								<form role="form" name = "profileSignupForm" ng-controller="SignupController" ng-submit="signup(signupData, profileSignupForm.$valid);" id="profileSignupForm" action="php/mailer.php" method="post" novalidate>
 
-									<div class="form-group" ng-class="{ 'has-error': profileSignupForm.full}">
-										<label for="name">Name <span class="text-danger">*</span></label>
+									<div class="form-group" ng-class="{'has-error': profileSignupForm.$invalid}">
+										<label for="profileName">Name <span class="text-danger">*</span></label>
 										<div class="input-group">
 											<div class="input-group-addon">
 												<i class="fa fa-user" aria-hidden="true"></i>
 											</div>
-											<input type="text" class="form-control" id="name" name="name" placeholder="Name">
+											<input type="text" class="form-control" id="profileName" name="profileName" placeholder="Name" ng-model="signupData.profileName" ng-required="true">
 										</div>
 									</div>
 
@@ -30,7 +30,7 @@
 											<div class="input-group-addon">
 												<i class="fa fa-envelope" aria-hidden="true"></i>
 											</div>
-											<input type="email" class="form-control" id="email" name="email" placeholder="Email">
+											<input type="email" class="form-control" id="profileEmail" name="profileEmail" placeholder="Email" ng-model="signupData.profileEmail" ng-required="true>
 										</div>
 									</div>
 
@@ -40,7 +40,7 @@
 											<div class="input-group-addon">
 												<i class="fa fa-pencil" aria-hidden="true"></i>
 											</div>
-											<input type="text" class="form-control" id="city" name="city" placeholder="City">
+											<input type="text" class="form-control" id="profileLocation" name="profileLocation" placeholder="location" ng-model="signupData.profileLocation" ng-required="true>
 										</div>
 									</div>
 
@@ -50,7 +50,7 @@
 											<div class="input-group-addon">
 												<i class="fa fa-comment" aria-hidden="true"></i>
 											</div>
-											<textarea class="form-control" id="bio" name="bio" placeholder="Biography">
+											<textarea class="form-control" id="profileBio" name="profileBio" placeholder="Biography" ng-model="signupData.profileBio" ng-required="true>
 											</textarea>
 										</div>
 									</div>
@@ -61,8 +61,7 @@
 											<div class="input-group-addon">
 												<i class="fa fa-comment" aria-hidden="true"></i>
 											</div>
-											<input class="form-control" type="password" name="password"
-													 placeholder="Password">
+											<input class="form-control" type="password" id="profilePassword" name="profilePassword" placeholder="Password" ng-model="signupData.profilePassword" ng-required="true>
 										</div>
 									</div>
 
@@ -72,8 +71,8 @@
 											<div class="input-group-addon">
 												<i class="fa fa-comment" aria-hidden="true"></i>
 											</div>
-											<input class="form-control" type="password" name="passwordConfirm"
-													 placeholder="Confirm password">
+											<input class="form-control" type="password" id="profileConfirmPassword" name="passwordConfirmPassword"
+													 placeholder="Confirm password" ng-model="signupData.profileConfirmPassword" ng-required="true>
 										</div>
 									</div>
 

@@ -13,11 +13,11 @@ app.controller('ProfileController', ["$routeParams", "$scope", "ProfileService",
 
 	$scope.profileData = null;
 	$scope.alerts = [];
-	$scope.imageData = [];
-	$scope.mailData = [];
-	$scope.favoriteData = [];
-	$scope.genreData = [];
-	$scope.tagService = [];
+	$scope.imageData = null;
+	$scope.mailData = null;
+	$scope.favoriteData = null;
+	$scope.genreData = null;
+	$scope.tagService = null;
 
 	/**
 	 * Profile method
