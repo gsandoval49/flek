@@ -3,13 +3,16 @@
 		<div id="about-jumbo" class="jumbotron about-content text-center">
 			<h1><i class="icon-about"></i> Beautify your space</h1>
 			<p class="leader">Be on the front line of something cool</p>
-			<h4>Flek is a free-to-use website built for the purpose of facilitating the continual growth of a vibrant artistic community. Anyone is welcome to join the network; artists and art lovers alike. After profile creation, it is time to start connecting! Upload pictures of your best pieces or space you have available to display others' work. Message other users or favorite other profiles for easy access.</h4>
+			<!--this section may need rewriting-->
+			<h4>Flek is a free-to-use website built for the purpose of facilitating the continual growth of a vibrant
+				artistic community. Anyone is welcome to join the network; artists and art lovers alike. After profile
+				creation, it is time to start connecting! Upload pictures of your best pieces or space you have available to
+				display others' work. Message other users or favorite other profiles for easy access.</h4>
 			<div>
-				<div>
-					<h3>Flek will....</h3>
-				</div>
+
 				<div>
 					<!-- this section may need some TLC-->
+					<h2>Flek will....</h2>
 					<p>Connect artists with the art loving community.</p>
 					<p>Bring skills & crafts to your home & business; beautify your space.</p>
 					<p>Discover something unexpected.</p>
