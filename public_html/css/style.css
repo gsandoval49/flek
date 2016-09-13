@@ -36,6 +36,20 @@
 	background-size: 150%;
 }
 
+/*ABOUT TEXT*/
+.col-xs-12 #about-jumbo {
+	font-family: 'Droid Serif', serif;
+	font-style: italic;
+
+}
+.col-xs-12 .leader {
+	font-family: 'Montserrat', sans-serif;
+	font-size: 40px;
+	font-style: normal;
+	padding: 20px;
+}
+
+
 div.col-sm-5 {
 	background-image: url(../images/art-shelf.jpeg);
 	width: 400px;
