@@ -3,7 +3,9 @@
 
 		<!--form starts here-->
 		<form name="signinForm" id="signinForm" ng-submit="signin(signinData, signinForm.$valid);" novalidate>
-			<div class="jumbotron col-sm-4 col-lg-offset-4">
+			<div class="jumbotron col-sm-4 col-lg-offset-4 text-center">
+				<h2>Welcome Back!</h2>
+				<p>Please Sign In</p>
 				<div class="row">
 					<div class="form-group">
 						<label for="email">Email <span class="text-danger">*</span></label>
@@ -48,7 +50,7 @@
 			</div>
 		</form>
 
-		<!--Row for Sign In Message-->
+		<!--Row for Sign In Message
 		<section id="welcome" class="message bg primary text-center">
 			<div class="container">
 				<div class="row">
@@ -58,7 +60,7 @@
 					</div>
 				</div>
 			</div>
-		</section>
+		</section>-->
 
 	</div>
 </div>
