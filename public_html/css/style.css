@@ -132,3 +132,9 @@ html, body {
 .sidebar{
 	position: fixed;
 }
+
+/*NAV BAR COLOR CHANGE*/
+.navbar-inverse .navbar-nav > li > a:hover,
+.navbar-inverse .navbar-brand:hover {
+	color: orange;
+}
