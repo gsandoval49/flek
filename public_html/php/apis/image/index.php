@@ -112,6 +112,8 @@ try {
 			//DO we need this?
 		} elseif((empty($_SESSION["profile"]) === false) && (($_SESSION["profile"]->getProfileId()) === $id) && (($_SESSION["profile"]->getProfileType()) === "a") || (($_SESSION["profile"]->getProfileType())) === "o") {*/
 
+//	this should check to see if the user is logged in
+	if(empty($_SESSION["profile"]) !== true){
 	if($method === "POST") {
 		verifyXsrf();
 		$imageDescription = filter_input(INPUT_POST, "imageDescription", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
@@ -145,7 +147,7 @@ try {
 			}
 			// finally, create an image tag
 		}
-
+	}
 
 		$reply->message = "Image uploaded";
 
