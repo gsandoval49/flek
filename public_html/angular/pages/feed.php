@@ -12,7 +12,7 @@
 		<div class="row">
 			<div class="col-md-6 portfolio-item">
 				<a href="#">
-					<img id="drawing" class="img-responsive" src="http://placehold.it/700x400" alt=""/>
+					<img id="drawing" class="img-responsive" src="images/feed-drawing-1" alt=""/>
 				</a>
 				<h3>
 					<a href="#">Profile</a>
@@ -22,7 +22,7 @@
 			</div>
 			<div class="col-md-6 portfolio-item">
 				<a href="#">
-					<img class="img-responsive" src="http://placehold.it/700x400" alt=""/>
+					<img class="img-responsive" src="images/feed-drawing-2" alt=""/>
 				</a>
 				<h3>
 					<a href="#">Profile</a>
@@ -33,7 +33,7 @@
 		<div class="row">
 			<div class="col-md-6 portfolio-item">
 				<a href="#">
-					<img class="img-responsive" src="http://placehold.it/700x400" alt=""/>
+					<img class="img-responsive" src="images/feed-drawing-3" alt=""/>
 				</a>
 				<h3>
 					<a href="#">Profile</a>
@@ -41,25 +41,7 @@
 			</div>
 			<div class="col-md-6 portfolio-item">
 				<a href="#">
-					<img class="img-responsive" src="http://placehold.it/700x400" alt=""/>
-				</a>
-				<h3>
-					<a href="#">Profile</a>
-				</h3>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-6 portfolio-item">
-				<a href="#">
-					<img id="sculpture" class="img-responsive" src="http://placehold.it/700x400" alt=""/>
-				</a>
-				<h3>
-					<a href="#">Profile</a>
-				</h3>
-			</div>
-			<div class="col-md-6 portfolio-item">
-				<a href="#">
-					<img class="img-responsive" src="http://placehold.it/700x400" alt=""/>
+					<img class="img-responsive" src="images/feed-drawing-4" alt=""/>
 				</a>
 				<h3>
 					<a href="#">Profile</a>
@@ -69,7 +51,7 @@
 		<div class="row">
 			<div class="col-md-6 portfolio-item">
 				<a href="#">
-					<img class="img-responsive" src="http://placehold.it/700x400" alt=""/>
+					<img id="sculpture" class="img-responsive" src="images/feed-sculpture-1" alt=""/>
 				</a>
 				<h3>
 					<a href="#">Profile</a>
@@ -77,7 +59,25 @@
 			</div>
 			<div class="col-md-6 portfolio-item">
 				<a href="#">
-					<img class="img-responsive" src="http://placehold.it/700x400" alt=""/>
+					<img class="img-responsive" src="images/feed-sculpture-2" alt=""/>
+				</a>
+				<h3>
+					<a href="#">Profile</a>
+				</h3>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-6 portfolio-item">
+				<a href="#">
+					<img class="img-responsive" src="images/feed-sculpture-3" alt=""/>
+				</a>
+				<h3>
+					<a href="#">Profile</a>
+				</h3>
+			</div>
+			<div class="col-md-6 portfolio-item">
+				<a href="#">
+					<img class="img-responsive" src="images/feed-sculpture-4" alt=""/>
 				</a>
 				<h3>
 					<a href="#">Profile</a>
@@ -95,7 +95,7 @@
 			</div>
 			<div class="col-md-6 portfolio-item">
 				<a href="#">
-					<img class="img-responsive" src="http://placehold.it/700x400" alt=""/>
+					<img class="img-responsive" src="images/feed-painting-2" alt=""/>
 				</a>
 				<h3>
 					<a href="#">Profile</a>
@@ -105,7 +105,7 @@
 		<div class="row">
 			<div class="col-md-6 portfolio-item">
 				<a href="#">
-					<img class="img-responsive" src="http://placehold.it/700x400" alt=""/>
+					<img class="img-responsive" src="images/feed-painting-3" alt=""/>
 				</a>
 				<h3>
 					<a href="#">Profile</a>
@@ -113,25 +113,7 @@
 			</div>
 			<div class="col-md-6 portfolio-item">
 				<a href="#">
-					<img class="img-responsive" src="http://placehold.it/700x400" alt=""/>
-				</a>
-				<h3>
-					<a href="#">Profile</a>
-				</h3>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-6 portfolio-item">
-				<a href="#">
-					<img id="graffiti" class="img-responsive" src="http://placehold.it/700x400" alt=""/>
-				</a>
-				<h3>
-					<a href="#">Profile</a>
-				</h3>
-			</div>
-			<div class="col-md-6 portfolio-item">
-				<a href="#">
-					<img class="img-responsive" src="http://placehold.it/700x400" alt=""/>
+					<img class="img-responsive" src="images/feed-painting-4" alt=""/>
 				</a>
 				<h3>
 					<a href="#">Profile</a>
@@ -141,7 +123,7 @@
 		<div class="row">
 			<div class="col-md-6 portfolio-item">
 				<a href="#">
-					<img class="img-responsive" src="http://placehold.it/700x400" alt=""/>
+					<img id="graffiti" class="img-responsive" src="images/feed-graffiti-1" alt=""/>
 				</a>
 				<h3>
 					<a href="#">Profile</a>
@@ -149,25 +131,7 @@
 			</div>
 			<div class="col-md-6 portfolio-item">
 				<a href="#">
-					<img class="img-responsive" src="http://placehold.it/700x400" alt=""/>
-				</a>
-				<h3>
-					<a href="#">Profile</a>
-				</h3>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-6 portfolio-item">
-				<a href="#">
-					<img id="graphic-design" class="img-responsive" src="http://placehold.it/700x400" alt=""/>
-				</a>
-				<h3>
-					<a href="#">Profile</a>
-				</h3>
-			</div>
-			<div class="col-md-6 portfolio-item">
-				<a href="#">
-					<img class="img-responsive" src="http://placehold.it/700x400" alt=""/>
+					<img class="img-responsive" src="images/feed-graffiti-2" alt=""/>
 				</a>
 				<h3>
 					<a href="#">Profile</a>
@@ -177,7 +141,7 @@
 		<div class="row">
 			<div class="col-md-6 portfolio-item">
 				<a href="#">
-					<img class="img-responsive" src="http://placehold.it/700x400" alt=""/>
+					<img class="img-responsive" src="images/feed-graffiti-3" alt=""/>
 				</a>
 				<h3>
 					<a href="#">Profile</a>
@@ -185,25 +149,7 @@
 			</div>
 			<div class="col-md-6 portfolio-item">
 				<a href="#">
-					<img class="img-responsive" src="http://placehold.it/700x400" alt=""/>
-				</a>
-				<h3>
-					<a href="#">Profile</a>
-				</h3>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-6 portfolio-item">
-				<a href="#">
-					<img id="fashion" class="img-responsive" src="http://placehold.it/700x400" alt=""/>
-				</a>
-				<h3>
-					<a href="#">Profile</a>
-				</h3>
-			</div>
-			<div class="col-md-6 portfolio-item">
-				<a href="#">
-					<img class="img-responsive" src="http://placehold.it/700x400" alt=""/>
+					<img class="img-responsive" src="images/feed-graffiti-4" alt=""/>
 				</a>
 				<h3>
 					<a href="#">Profile</a>
@@ -213,7 +159,7 @@
 		<div class="row">
 			<div class="col-md-6 portfolio-item">
 				<a href="#">
-					<img class="img-responsive" src="http://placehold.it/700x400" alt=""/>
+					<img id="graphic-design" class="img-responsive" src="images/feed-graphicdesign-1" alt=""/>
 				</a>
 				<h3>
 					<a href="#">Profile</a>
@@ -221,7 +167,61 @@
 			</div>
 			<div class="col-md-6 portfolio-item">
 				<a href="#">
-					<img class="img-responsive" src="http://placehold.it/700x400" alt=""/>
+					<img class="img-responsive" src="images/feed-graphicdesign-2" alt=""/>
+				</a>
+				<h3>
+					<a href="#">Profile</a>
+				</h3>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-6 portfolio-item">
+				<a href="#">
+					<img class="img-responsive" src="images/feed-graphicdesign-3" alt=""/>
+				</a>
+				<h3>
+					<a href="#">Profile</a>
+				</h3>
+			</div>
+			<div class="col-md-6 portfolio-item">
+				<a href="#">
+					<img class="img-responsive" src="images/feed-graphicdesign-4" alt=""/>
+				</a>
+				<h3>
+					<a href="#">Profile</a>
+				</h3>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-6 portfolio-item">
+				<a href="#">
+					<img id="fashion" class="img-responsive" src="images/feed-fashion-1" alt=""/>
+				</a>
+				<h3>
+					<a href="#">Profile</a>
+				</h3>
+			</div>
+			<div class="col-md-6 portfolio-item">
+				<a href="#">
+					<img class="img-responsive" src="images/feed-fashion-2" alt=""/>
+				</a>
+				<h3>
+					<a href="#">Profile</a>
+				</h3>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-6 portfolio-item">
+				<a href="#">
+					<img class="img-responsive" src="images/feed-fashion-3" alt=""/>
+				</a>
+				<h3>
+					<a href="#">Profile</a>
+				</h3>
+			</div>
+			<div class="col-md-6 portfolio-item">
+				<a href="#">
+					<img class="img-responsive" src="images/feed-fashion-4" alt=""/>
 				</a>
 				<h3>
 					<a href="#">Profile</a>
