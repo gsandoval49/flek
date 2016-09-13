@@ -161,9 +161,9 @@ try {
 				$tag->insert($pdo);
 			}
 			// finally, create an image tag
-			if((($imageId !== null) && ($tagId !== null)){
+
 			$imageTag->insert($pdo);
-		}
+
 		}
 
 
