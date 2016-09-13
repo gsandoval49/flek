@@ -2,7 +2,6 @@
 	<div class="col-md-8">
 
 
-
 		<section id="signup">
 			<div class="container">
 				<div class="row">
