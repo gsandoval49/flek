@@ -61,15 +61,17 @@ div.col-sm-5 {
 div.signup-content {
 	background-image: url(../images/full-wallart.jpg);
 	background-size: 100%;
+	min-height: 100vh;
 
 }
 
 /*SIGN IN PAGE*/
 div.signin-content{
 	background-image: url(../images/full-wallart.jpg);
-	background-size: 100%;
+	background-size: cover;
 	min-height: 100vh;
 	border-radius: 0;
+	padding-top: 15%; /*might need to be taken out or adjusted depending on the view of demo day screen*/
 }
 .index-div {
 	padding-right:0;
