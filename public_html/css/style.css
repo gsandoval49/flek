@@ -123,3 +123,8 @@ footer {
 html, body {
 	font-family: 'Montserrat', sans-serif;
 }
+
+.img-responsive {
+	height: 300px;
+	width: 200px;
+}
