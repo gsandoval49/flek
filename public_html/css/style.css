@@ -72,6 +72,10 @@ div.signin-content {
 	min-height: 100vh;
 }
 /*SIGN IN FORM*/
+#welcome {
+	color: #FFF80E;
+	font-size: 30px;
+}
 
 
 

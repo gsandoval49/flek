@@ -41,7 +41,8 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-md-8 col-md-offset-2">
-						<h2>Welcome </h2>
+						<h1 class="section-heading">Welcome Back!</h1>
+						<p class="signin-icon">Please Sign In</p>
 					</div>
 				</div>
 			</div>
