@@ -59,7 +59,7 @@
 			</div>
 			<div class="col-md-6 portfolio-item">
 				<a href="#">
-					<img class="img-responsive" src="images/feed-sculpture-2" alt="" height="400", width=700"/>
+					<img class="img-responsive" src="images/feed-scuplture-2" alt="" height="400", width=700"/>
 				</a>
 				<h3>
 					<a href="#">Profile</a>
