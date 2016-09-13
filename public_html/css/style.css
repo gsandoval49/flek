@@ -122,5 +122,7 @@ div.profile-content {
 
 .col-lg-12 .page-header {
 	text-align: center;
-	font-family: "Droid Serif", serif;
+}
+html, body {
+	font-family: 'Montserrat', sans-serif;
 }
