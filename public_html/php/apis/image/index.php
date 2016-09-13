@@ -141,19 +141,21 @@ try {
 
 		//--unsure how to retrieve IMAGESECUREURL or IMAGEPUBLICID from cloudinary, checking to see if null(?)
 		if(($imagePublicId !== null) && ($imageSecureUrl !== null)) {
-			$image->insert($this->getPDO);
-//		$image -> insert($pdo);
+			$image->insert($pdo);
 		}
 
-			$tags = explode(" ", $tags);
-			foreach($tags as $tag) {
-				// search for the tag in the database
-				if(empty($tag) === true) {
-					// create a new tag if none exists
-					$tag->insert($pdo);
-				}
-				// finally, create an image tag
+		$tags = explode(" ", $tags);
+		foreach($tags as $tag) {
+			// search for the tag in the database
+			if(empty($tag) === true) {
+				// create a new tag if none exists
+			/////-	$tag->insert($pdo);
 			}
+			// finally, create an image /////////////////////////////////////////////////////////////
+			if(empty === true) {
+				$tag->insert($pdo);
+			}
+		}
 
 
 		$reply->message = "Image uploaded";
