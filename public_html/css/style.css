@@ -41,12 +41,13 @@
 	font-family: 'Droid Serif', serif;
 	font-style: italic;
 
+
 }
 .col-xs-12 .leader {
 	font-family: 'Montserrat', sans-serif;
 	font-size: 40px;
 	font-style: normal;
-	padding: 20px;
+	padding: 20px 40px;
 }
 
 
