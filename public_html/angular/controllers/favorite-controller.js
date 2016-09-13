@@ -25,7 +25,7 @@ app.controller('FavoriteController', ["$scope", "FavoriteService","$location", f
 				}
 			})
 	};
-
+//comment
 	$scope.getFavoriteProfileId = function(favoriteProfileId) {
 		FavoriteService.fetchFavoriteProfileId(FavoriteProfileId)
 			.then(function(result) {
