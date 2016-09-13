@@ -134,12 +134,18 @@ try {
 
 		// send the image to cloudinary NOW
 		// this is an art site FFS!
-		\Cloudinary\Uploader::upload($_FILES["file"]["tmp_name"]);
+//		\Cloudinary\Uploader::upload($_FILES["file"]["tmp_name"]);
+		echo cl_image_upload_tag("image_id",
+			array(
+				"callback" => $cors_location,
+				"tags" => "directly_uploaded",
+				"crop" => "limit", "width" => 1000, "height" => 1000,
+				"eager" => array("crop" => "fill", "width" => 150, "height" => 100),
+				"html" => array("style" => "margin-top: 30px")
+			));
 
 
-
-
-		// after sending the image to cloudinary, get the URL and public ids
+// after sending the image to cloudinary, get the URL and public ids
 		// now, you can insert an image object
 
 		//--unsure how to retrieve IMAGESECUREURL or IMAGEPUBLICID from cloudinary, checking to see if null(?)
