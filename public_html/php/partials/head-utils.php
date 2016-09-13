@@ -41,9 +41,16 @@
 			<script src="angular/directives/bootstrap-breakpoint.js"></script>
 
 			<!--services-->
+			<script src="angular/services/activation-service.js"></script>
+			<script src="angular/services/home-service.js"></script>
+			<script src="angular/services/signup-service.js"></script>
+			<script src="angular/services/signin-service.js"></script>
+			<script src="angular/services/signout-service.js"></script>
+			<script src="angular/services/about-service.js"></script>
 			<script src="angular/services/signin-service.js"></script>
 
 			<!-- more angular controllers as we create the views -->
+			<script src="angular/controllers/activation-controller.js"></script>
 			<script src="angular/controllers/home-controller.js"></script>
 			<script src="angular/controllers/signup-controller.js"></script>
 			<script src="angular/controllers/signin-controller.js"></script>
@@ -52,6 +59,11 @@
 			<script src="angular/controllers/nav-controller.js"></script>
 			<script src="angular/controllers/profile-controller.js"></script>
 			<script src="angular/controllers/feed-controller.js"></script>
+			<script src="angular/controllers/favorite-controller.js"></script>
+			<script src="angular/controllers/image-controller.js"></script>
+			<script src="angular/controllers/mail-controller.js"></script>
+			<script src="angular/controllers/tag-controller.js"></script>
+
 
 
 			<title>Flek</title>
