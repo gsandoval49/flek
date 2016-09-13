@@ -51,7 +51,8 @@
 											<div class="input-group-addon">
 												<i class="fa fa-comment" aria-hidden="true"></i>
 											</div>
-											<input type="text" class="form-control" id="bio" name="bio" placeholder="Biography">
+											<textarea class="form-control" id="bio" name="bio" placeholder="Biography">
+											</textarea>
 										</div>
 									</div>
 
