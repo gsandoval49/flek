@@ -39,7 +39,9 @@
 			<script src="angular/flek.js"></script>
 			<script src="angular/route-config.js"></script>
 			<script src="angular/directives/bootstrap-breakpoint.js"></script>
+
 			<!--services-->
+			<script src="angular/services/signin-service.js"></script>
 
 			<!-- more angular controllers as we create the views -->
 			<script src="angular/controllers/home-controller.js"></script>
