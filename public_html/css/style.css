@@ -19,6 +19,9 @@
 	font-family: 'Montserrat', sans-serif;
 	font-size: 40px;
 	font-style: normal;
+}
+.col-xs-12 .btn-default.btn-lg {
+	font-style: normal;
 
 }
 
