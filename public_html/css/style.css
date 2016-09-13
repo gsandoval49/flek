@@ -12,8 +12,8 @@
 
 /*HOME TEXT*/
 .col-xs-12 #home-jumbo {
-	font-family: 'Droid Serif', serif;
-	font-style: italic;
+	/*font-family: 'Droid Serif', serif;
+	font-style: italic;*/
 }
 .col-xs-12 .lead {
 	font-family: 'Montserrat', sans-serif;
@@ -38,8 +38,7 @@
 
 /*ABOUT TEXT*/
 .col-xs-12 .icon-about {
-	font-family: 'Droid Serif', serif;
-	font-style: italic;
+	font-family: 'Montserrat', sans-serif;
 	padding-right: 60px;
 
 
@@ -124,5 +123,4 @@ div.profile-content {
 .col-lg-12 .page-header {
 	text-align: center;
 	font-family: "Droid Serif", serif;
-	font-style: italic;
 }
