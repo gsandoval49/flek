@@ -133,7 +133,7 @@ html, body {
 	position: fixed;
 }
 
-/*NAV BAR COLOR CHANGE*/
+/*NAV BAR COLOR CHANGE when hover over text*/
 .navbar-inverse .navbar-nav > li > a:hover,
 .navbar-inverse .navbar-brand:hover {
 	color: orange;
