@@ -10,7 +10,7 @@
 					<div class="col-md-8">
 						<div class="row">
 							<!--Begin Actual Contact Form-->
-							<div class="jumbotron col-md-8 col-lg-offset-5">
+							<div class="jumbotron col-md-8 col-lg-offset-5 text-center">
 								<p>Sign up to see art from your community!</p>
 								<form role="form" name = "profileSignupForm" ng-submit="sendProfileActivationToken(signupData, profileSignupForm.$valid);" id="profileSignupForm" action="php/mailer.php" method="post">
 

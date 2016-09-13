@@ -33,7 +33,7 @@
 		<div class="row">
 			<div class="col-md-6 portfolio-item">
 				<a href="#">
-					<img class="img-responsive" src="images/feed-drawing-3" alt=""/>
+					<img class="img-responsive" src="images/feed-drawing-3" alt="" height="400", width=700"/>
 				</a>
 				<h3>
 					<a href="#">Profile</a>
@@ -41,25 +41,7 @@
 			</div>
 			<div class="col-md-6 portfolio-item">
 				<a href="#">
-					<img class="img-responsive" src="images/feed-drawing-4" alt=""/>
-				</a>
-				<h3>
-					<a href="#">Profile</a>
-				</h3>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-6 portfolio-item">
-				<a href="#">
-					<img id="sculpture" class="img-responsive" src="images/feed-sculpture-1" alt=""/>
-				</a>
-				<h3>
-					<a href="#">Profile</a>
-				</h3>
-			</div>
-			<div class="col-md-6 portfolio-item">
-				<a href="#">
-					<img class="img-responsive" src="images/feed-sculpture-2" alt=""/>
+					<img class="img-responsive" src="images/feed-drawing-4" alt="" height="400", width=700"/>
 				</a>
 				<h3>
 					<a href="#">Profile</a>
@@ -69,7 +51,7 @@
 		<div class="row">
 			<div class="col-md-6 portfolio-item">
 				<a href="#">
-					<img class="img-responsive" src="images/feed-sculpture-3" alt=""/>
+					<img id="sculpture" class="img-responsive" src="images/feed-sculpture-1" alt="" height="400", width=700"/>
 				</a>
 				<h3>
 					<a href="#">Profile</a>
@@ -77,7 +59,25 @@
 			</div>
 			<div class="col-md-6 portfolio-item">
 				<a href="#">
-					<img class="img-responsive" src="images/feed-sculpture-4" alt=""/>
+					<img class="img-responsive" src="images/feed-sculpture-2" alt="" height="400", width=700"/>
+				</a>
+				<h3>
+					<a href="#">Profile</a>
+				</h3>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-6 portfolio-item">
+				<a href="#">
+					<img class="img-responsive" src="images/feed-sculpture-3" alt="" height="400", width=700"/>
+				</a>
+				<h3>
+					<a href="#">Profile</a>
+				</h3>
+			</div>
+			<div class="col-md-6 portfolio-item">
+				<a href="#">
+					<img class="img-responsive" src="images/feed-sculpture-4" alt="" height="400", width=700"/>
 				</a>
 				<h3>
 					<a href="#">Profile</a>
