@@ -4,7 +4,7 @@
  * image service
  **/
 
-app.controller('FeedController', ["$routeParams", "$scope", "ProfileService", "ImageService", "GenreService", "TagService", function($routeParams, $scope, ProfileService, ImageService, MailService, FavoriteService, GenreService, TagService) {
+app.controller('ImageController', ["$routeParams", "$scope", "ProfileService", "ImageService", "GenreService", "TagService", function($routeParams, $scope, ProfileService, ImageService, MailService, FavoriteService, GenreService, TagService) {
 
 	$scope.profileData = null;
 	$scope.alerts = [];
