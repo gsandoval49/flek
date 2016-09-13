@@ -10,6 +10,13 @@
 	background-size: cover;
 }
 
+/*HOME TEXT*/
+.col-xs-12 #home-jumbo {
+	font-family: 'Droid Serif', serif;
+	font-style: italic;
+
+}
+
 /*this is how to inject pictures into those funny jumbotrons*/
 /*ABOUT PAGE*/
 #about-jumbo {

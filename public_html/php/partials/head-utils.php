@@ -19,7 +19,7 @@
 
 			<!-- Google Fonts -->
 			<link href="https://fonts.googleapis.com/css?family=Abril+Fatface" rel="stylesheet">
-
+			<link href="https://fonts.googleapis.com/css?family=Droid+Serif" rel="stylesheet">
 			<!-- Our Custom CSS -->
 			<link rel="stylesheet" href="css/style.css" type="text/css">
 
