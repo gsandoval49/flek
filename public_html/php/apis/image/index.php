@@ -139,20 +139,21 @@ try {
 		// after sending the image to cloudinary, get the URL and public ids
 		// now, you can insert an image object
 
-		//creates a new image and insert to into mySQL---unsure how to retrieve IMAGESECUREURL or IMAGEPUBLICID
-		$image = new Image(null, $this->genre->getGenreId(), $this->profile->getProfileId(), $this->VALID_IMAGEDESCRIPTION, $this->VALID_IMAGESECUREURL, $this->VALID_IMAGEPUBLICID);
-		$image->insert($this->getPDO);
+		//--unsure how to retrieve IMAGESECUREURL or IMAGEPUBLICID from cloudinary, checking to see if null(?)
+		if(($imagePublicId !== null) && ($imageSecureUrl !== null)) {
+			$image->insert($this->getPDO);
 //		$image -> insert($pdo);
-
-		$tags = explode(" ", $tags);
-		foreach($tags as $tag) {
-			// search for the tag in the database
-			if(empty($tag) === true) {
-				// create a new tag if none exists
-				$tag->insert($pdo);
-			}
-			// finally, create an image tag
 		}
+
+			$tags = explode(" ", $tags);
+			foreach($tags as $tag) {
+				// search for the tag in the database
+				if(empty($tag) === true) {
+					// create a new tag if none exists
+					$tag->insert($pdo);
+				}
+				// finally, create an image tag
+			}
 
 
 		$reply->message = "Image uploaded";
