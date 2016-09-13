@@ -1,7 +1,7 @@
 <div class="signin-content">
 	<div class="signin-container">
 <form>
-<div class="col-sm-4">
+<div class="jumbotron col-sm-4 col-lg-offset-4">
 	<div class="row">
 	<div class="form-group">
 		<label for="email">Email <span class="text-danger">*</span></label>
