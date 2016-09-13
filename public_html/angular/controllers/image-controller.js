@@ -4,151 +4,82 @@
  * image service
  **/
 
-app.controller('ImageController', ["$routeParams", "$scope", "ProfileService", "ImageService", "GenreService", "TagService", function($routeParams, $scope, ProfileService, ImageService, MailService, FavoriteService, GenreService, TagService) {
-
-	$scope.profileData = null;
+app.controller('ImageController', ["$scope", "ImageService","$location", function($scope, ImageService, $location) {
 	$scope.alerts = [];
-	$scope.imageData = [];
-	$scope.genreData = [];
-	$scope.tagService = [];
+	$scope.userData = [];
+	$scope.imageData = {};
+	$scope.imageProfile = null; /*is this needed?*/
+	$scope.imageFeed = null; /*is this needed?*/
 
-	/**
-	 * Profile method
-	 **/
-
-	$scope.loadProfile = function() {
-		ProfileService.fetchProfileByProfileId($routeParams.profileId)
+	$scope.getImageById = function(imageId) {
+		ImageService.fetchImageByImageId(ImageId)
 			.then(function(result) {
-				if(result.data.status === 200) {
-					$scope.profileData = result.data.data;
-					console.log($scope.profileData);
-				} else {
-					$scope.alerts[0] = {type: "danger", msg: result.data.message};
-				}
-			})
-	};
-
-	$scope.fetchProfileByProfileId = function() {
-		ProfileService.fetchProfileByProfileName($routeParams.profileName)
-			.then(function(result) {
-				if(result.data.status === 200) {
-					$scope.profileData = result.data.data;
-					console.log($scope.profileData);
-				} else {
-					$scope.alerts[0] = {type: "danger", msg: result.data.message};
-				}
-			})
-	};
-
-	/**
-	 * Image Method
-	 **/
-
-	$scope.fetchImageByImageId = function() {
-		ImageService.fetchImageByImageId($routeParams.imageId)
-			.then(function(result) {
-				if(result.data.status === 200) {
+				if(result.status.data === 200) {
 					$scope.imageData = result.data.data;
-					console.log($scope.imageData);
 				} else {
 					$scope.alerts[0] = {type: "danger", msg: result.data.message};
 				}
 			})
 	};
 
-	$scope.fetchImageByImageProfileId = function() {
-		ImageService.fetchImageByImageProfileId($routeParams.imageProfileId)
+	$scope.getImageProfileId = function(imageProfileId) {
+		ImageService.fetchImageProfileId(imageProfileId)
 			.then(function(result) {
-				if(result.data.status === 200) {
+				if(result.status.data === 200) {
 					$scope.imageData = result.data.data;
-					console.log($scope.imageData);
 				} else {
 					$scope.alerts[0] = {type: "danger", msg: result.data.message};
 				}
 			})
+	};
+
+	$scope.getAllImages = function(allImages) {
+		ImagesService.fetchAllImagess(allImages)
+			.then(function(result) {
+				if(result.status.data === 200) {
+					$scope.imagesData = result.data.data;
+				} else {
+					$scope.alerts[0] = {type: "danger", msg: result.data.message};
+				}
+			})
+	};
+	/**
+	 * creates an image and sends it to the image API
+	 *
+	 * @param image
+	 * @param validated true if Angular validated the form, false if not
+	 **/
+	$scope.createImage = function(image, validated) {
+		if(validated === true) {
+			ImageService.create(image)
+				.then(function(result) {
+					if(result.data.status === 200) {
+						$scope.alerts[0] = {type: "success", msg: result.data.message};
+						$scope.newImage = {imageId: null, imageText:"", imageProfileId: null};
+					} else {
+						$scope.alerts[0] = {type: "danger", msg: result.data.message};
+					}
+				});
+		}
 	};
 
 	/**
-	 * Genre Methods
+	 * updates an image and sends it to the image API
+	 *
+	 * @param image
+	 * @param validated true if Angular validated the form, false if not
 	 **/
-
-	$scope.fetchGenreByGenreId = function() {
-		GenreService.fetchGenreByGenreId($routeParams.genreId)
-			.then(function(result) {
-				if(result.data.status === 200) {
-					$scope.genreData = result.data.data;
-					console.log($scope.genreData);
-				} else {
-					$scope.alerts[0] = {type: "danger", msg: result.data.message};
-				}
-			})
+	$scope.updateImage = function(image, validated) {
+		if(validated === true) {
+			ImageService.update(image.imageId, image)
+				.then(function(result) {
+					if(result.data.status === 200) {
+						$scope.alerts[0] = {type: "success", msg: result.data.message};
+					} else {
+						$scope.alerts[0] = {type: "danger", msg: result.data.message};
+					}
+				});
+		}
 	};
 
-	$scope.fetchGenreByGenreName = function() {
-		GenreService.fetchGenreByGenreName($routeParams.genreName)
-			.then(function(result) {
-				if(result.data.status === 200) {
-					$scope.genreData = result.data.data;
-					console.log($scope.genreData);
-				} else {
-					$scope.alerts[0] = {type: "danger", msg: result.data.message};
-				}
-			})
-	};
-
-	$scope.fetchAllGenres = function() {
-		GenreService.fetchAllGenres($routeParams.genreId)
-			.then(function(result) {
-				if(result.data.status === 200) {
-					$scope.genreData = result.data.data;
-					console.log($scope.genreData);
-				} else {
-					$scope.alerts[0] = {type: "danger", msg: result.data.message};
-				}
-			})
-	};
-
-	/**
-	 * Tag Methods
-	 **/
-
-	$scope.fetchTagByTagId = function() {
-		TagService.fetchTagByTagId($routeParams.tagId)
-			.then(function(result) {
-				if(result.data.status === 200) {
-					$scope.tagData = result.data.data;
-					console.log($scope.tagData);
-				} else {
-					$scope.alerts[0] = {type: "danger", msg: result.data.message};
-				}
-			})
-	};
-
-	$scope.fetchTagByTagName = function() {
-		TagService.fetchTagByTagName($routeParams.tagName)
-			.then(function(result) {
-				if(result.data.status === 200) {
-					$scope.tagData = result.data.data;
-					console.log($scope.tagData);
-				} else {
-					$scope.alerts[0] = {type: "danger", msg: result.data.message};
-				}
-			})
-	};
-
-	$scope.fetchAllTags = function() {
-		TagService.fetchAllTags($routeParams.tagId)
-			.then(function(result) {
-				if(result.data.status === 200) {
-					$scope.tagData = result.data.data;
-					console.log($scope.tagData);
-				} else {
-					$scope.alerts[0] = {type: "danger", msg: result.data.message};
-				}
-			})
-	};
-
-	if($scope.profileData === null){
-		$scope.loadProfile();
-	}
 }]);
