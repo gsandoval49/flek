@@ -18,15 +18,19 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" uib-collapse="navCollapsed">
 
-                <!--TODO ENTER THE OTHER LABELS FOR NAV BAR-->
+                <!--Nav bar links - also added if signed in show feed and profile, if not signed in they see sign up or sign in-->
+                <!--Courtesy of Skyler R.-->
                 <ul class="nav navbar-nav navbar-right" >
                     <li><a href="index">Home</a></li>
                     <li><a href="about">About</a></li>
-                    <li><a href="feed">Feed</a></li>
-                    <li><a href="profile">Profile</a></li>
+                    <?php if(empty($_SESSION["profile"]) === true) { ?>
                     <li><a href="signup">Sign Up</a></li>
                     <li><a href="signin">Sign In</a></li>
+                    <?php } else { ?>
+                    <li><a href="feed">Feed</a></li>
+                    <li><a href="profile">Profile</a></li>
                     <li><a href="index">Sign Out</a></li>
+                    <?php } ?>
 
                 </ul>
             </div><!-- /.navbar-collapse -->
