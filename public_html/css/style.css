@@ -28,7 +28,7 @@
 /*this is how to inject pictures into those funny jumbotrons*/
 /*ABOUT PAGE*/
 #about-jumbo {
-	background: url("../images/paintbrush.jpeg") no-repeat center;
+	background: url("../images/about-paintpic.jpg");
 	min-height: 100vh;
 	padding: 200px 0 100px;
 	color: black;
