@@ -12,12 +12,12 @@
 				pain..."</p>
 		</div>
 		<div class="col-md-3">
-			<h4>something</h4>
+			<h4>Favorite My Profile</h4>
 			<button href="" class="btn btn-default" type="submit"><i class="fa fa-heart-o fa-lg"></i>Favorite</button>
 		</div>
 		<div class="col-md-3">
-			<h4>something</h4>
-			<button class="btn btn-default" type="submit"><i class="fa fa-envelope-o fa-lg"></i>message</button>
+			<h4>Send Me A Message</h4>
+			<button class="btn btn-default" type="button" ng-show="form"><i class="fa fa-envelope-o fa-lg"></i>message</button>
 		</div>
 	</div>
 </div>
