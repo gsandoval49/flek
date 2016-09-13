@@ -65,7 +65,11 @@ div.signup-content {
 
 }
 
-
+/*SIGN IN PAGE*/
+div.signin-content {
+	background-image: url(../images/full-wallart.jpg);
+	background-size: 100%;
+}
 
 
 

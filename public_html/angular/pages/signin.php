@@ -1,5 +1,8 @@
+<div class="signin-content">
+	<div class="signin-container">
 <form>
 <div class="col-sm-4">
+	<div class="row">
 	<div class="form-group">
 		<label for="email">Email <span class="text-danger">*</span></label>
 		<div class="input-group" ng-class="{ 'has-error': signinForm.profileEmail.$touched && signinForm.profileEmail.$invalid}">
@@ -30,9 +33,13 @@
 	</div>
 
 	<button class="btn btn-success" type="submit"><i class="fa fa-pencil"></i> Sign In</button>
-</div>
+	</div>
+	</div>
 </form>
-<div class="col-sm-7">
+		</div>
 </div>
+
+
+
 
 
