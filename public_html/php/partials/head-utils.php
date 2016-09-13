@@ -42,12 +42,16 @@
 
 			<!--services-->
 			<script src="angular/services/activation-service.js"></script>
-			<script src="angular/services/home-service.js"></script>
 			<script src="angular/services/signup-service.js"></script>
 			<script src="angular/services/signin-service.js"></script>
 			<script src="angular/services/signout-service.js"></script>
-			<script src="angular/services/about-service.js"></script>
-			<script src="angular/services/signin-service.js"></script>
+			<script src="angular/services/genre-service.js"></script>
+			<script src="angular/services/favorite-service.js"></script>
+			<script src="angular/services/image-service.js"></script>
+			<script src="angular/services/mail-service.js"></script>
+			<script src="angular/services/profile-service.js"></script>
+			<script src="angular/services/tag-service.js"></script>
+
 
 			<!-- more angular controllers as we create the views -->
 			<script src="angular/controllers/activation-controller.js"></script>
