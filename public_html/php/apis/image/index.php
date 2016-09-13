@@ -157,7 +157,7 @@ try {
 				$tag->insert($pdo);
 			}
 			// finally, create an image tag
-
+			$imageTag = new ImageTag($image->getImageId(), $mySqlTag->getTagId());
 			$imageTag->insert($pdo);
 
 		}
