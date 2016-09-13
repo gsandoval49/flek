@@ -134,6 +134,9 @@ try {
 
 		// send the image to cloudinary NOW
 		// this is an art site FFS!
+		\Cloudinary\Uploader::upload($_FILES["file"]["tmp_name"]);
+
+
 
 
 		// after sending the image to cloudinary, get the URL and public ids
@@ -154,7 +157,7 @@ try {
 			// finally, create an image tag
 			if($tag !== null) {
 				$imageTag = new imageTag($row["imageTagImageId"], $row["imageTagTagId"]);
-				$imageTag -> insert($pdo);
+				$imageTag->insert($pdo);
 			}
 		}
 
