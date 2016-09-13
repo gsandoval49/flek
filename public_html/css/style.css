@@ -138,6 +138,8 @@ html, body {
 .sidebar{
 	position: fixed;
 }
+a:link {color: #000000;
+}
 
 
 
