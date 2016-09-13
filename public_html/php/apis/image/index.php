@@ -136,15 +136,7 @@ try {
 		// this is an art site FFS!
 
 		// getting code from cloudinary's documentation(?)
-		\Cloudinary\Uploader::upload($_FILES["file"]["tmp_name"]);
-		/*echo cl_image_upload_tag("image_id",
-			array(
-				"callback" => $cors_location,
-				"tags" => "directly_uploaded",
-				"crop" => "limit", "width" => 1000, "height" => 1000,
-				"eager" => array("crop" => "fill", "width" => 150, "height" => 100),
-				"html" => array("style" => "margin-top: 30px")
-			));*/
+		\Cloudinary\Uploader::upload($_FILES["user"]["tmp_name"]);
 
 
 // after sending the image to cloudinary, get the URL and public ids
@@ -158,8 +150,10 @@ try {
 		$tags = explode(" ", $tags);
 		foreach($tags as $tag) {
 			// search for the tag in the database
-			if(empty($tag) === true) {
+			$mySqlTag = Tag::getTagByTagName($pdo, $tag);
+			if(empty($mySqlTag) === true) {
 				// create a new tag if none exists
+				$mySqlTag = new Tag(null, $tag);
 				$tag->insert($pdo);
 			}
 			// finally, create an image tag
