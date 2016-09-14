@@ -66,9 +66,9 @@
 
 	</div>
 </div>-->
-<div class="row">
-	<div class="container">
-		<div class="col-md-4">
+<div class="profile-formcontainer">
+	<div class="row">
+		<div class="col-md-4 col-md-offset-6">
 			<form name="contactForm" id="contactForm" class="form-horizontal well" ng-controller="ContactFormController" ng-submit="submit(formData, contactForm.$valid);" novalidate>
 				<div class="container-fluid">
 

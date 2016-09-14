@@ -152,7 +152,11 @@ html, body {
 a:link {color: #000000;
 }
 
-
+/*PROFILE FORM CSS*/
+.profile-formcontainer {
+	margin: 0 auto;
+	width:80%
+}
 
 
 
