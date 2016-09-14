@@ -37,9 +37,10 @@ app.controller('mailController', ["$scope", "profileService", "mailService", fun
 				.then(function(result) {
 					if(result.data.status === 200) {
 						$scope.alerts[0] = {type: "success", msg: result.data.message};
-						$scope.newMessage = {};
-						$scope.addMessageForm.$setPristine();
-						$scope.addMessageForm.$setUntouched();
+						$scope.formData = {subject: "", message: "", receiver: null, receiverProfileId: null};
+						$scope.messageForm.$setPristine();
+						$scope.messageForm.$setUntouched();
+						$scope.fetchMail();
 					} else {
 						$scope.alerts[0] = {type: "danger", msg: result.data.message};
 					}
