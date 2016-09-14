@@ -4,7 +4,7 @@
  * image service
  **/
 
-app.controller('ImageController', ["$scope", "ImageService","$location", function($scope, ImageService, $location) {
+app.controller('imageController', ["$scope", "imageService","$location", function($scope, imageService, $location) {
 	$scope.alerts = [];
 	$scope.userData = [];
 	$scope.imageData = {}; /*are these suppose to be curly braces?*/
@@ -18,7 +18,7 @@ app.controller('ImageController', ["$scope", "ImageService","$location", functio
 
 
 	$scope.getImageById = function(imageId) {
-		ImageService.fetchImageByImageId(ImageId)
+		imageService.fetchImageByImageId(imageId)
 			.then(function(result) {
 				if(result.status.data === 200) {
 					$scope.imageData = result.data.data;
@@ -29,7 +29,7 @@ app.controller('ImageController', ["$scope", "ImageService","$location", functio
 	};
 
 	$scope.getImageProfileId = function(imageProfileId) {
-		ImageService.fetchImageProfileId(imageProfileId)
+		imageService.fetchImageProfileId(imageProfileId)
 			.then(function(result) {
 				if(result.status.data === 200) {
 					$scope.imageData = result.data.data;
@@ -40,7 +40,7 @@ app.controller('ImageController', ["$scope", "ImageService","$location", functio
 	};
 
 	$scope.getAllImages = function(allImages) {
-		ImagesService.fetchAllImagess(allImages)
+		imageService.fetchAllImages(allImages)
 			.then(function(result) {
 				if(result.status.data === 200) {
 					$scope.imagesData = result.data.data;
@@ -57,11 +57,11 @@ app.controller('ImageController', ["$scope", "ImageService","$location", functio
 	 **/
 	$scope.createImage = function(image, validated) {
 		if(validated === true) {
-			ImageService.create(image)
+			imageService.create(image)
 				.then(function(result) {
 					if(result.data.status === 200) {
 						$scope.alerts[0] = {type: "success", msg: result.data.message};
-						$scope.newImage = {imageId: null, imageText:"", imageProfileId: null};
+						$scope.newImage = {imageId: null, imageDescription:"", imageProfileId: null};
 					} else {
 						$scope.alerts[0] = {type: "danger", msg: result.data.message};
 					}
@@ -77,7 +77,7 @@ app.controller('ImageController', ["$scope", "ImageService","$location", functio
 	 **/
 	$scope.updateImage = function(image, validated) {
 		if(validated === true) {
-			ImageService.update(image.imageId, image)
+			imageService.update(image.imageId, image)
 				.then(function(result) {
 					if(result.data.status === 200) {
 						$scope.alerts[0] = {type: "success", msg: result.data.message};
