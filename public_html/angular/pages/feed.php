@@ -9,22 +9,14 @@
 	<!-- /.row -->
 	<!-- Projects Row -->
 	<div class="col-md-9">
-		<div class="row">
-			<div class="col-md-6 portfolio-item">
+		<div class="row" ng-repeat="rows in imageDataRow">
+			<div class="col-md-6 portfolio-item" ng-repeat="item in rows">
 				<a href="#">
-					<img id="drawing" class="img-responsive" src="images/feed-drawing-1" alt="" height="400", width=700"/>
+					<img id="{{ item.imageGenreId }}" class="img-responsive" src="{{ image.imageSecureUrl }}" alt="image description" height="400", width=700"/>
 				</a>
 				<h3>
 					<a href="#">Profile</a>
 
-				</h3>
-			</div>
-			<div class="col-md-6 portfolio-item">
-				<a href="#">
-					<img class="img-responsive" src="images/feed-drawing-2" alt="" height="400", width=700"/>
-				</a>
-				<h3>
-					<a href="#">Profile</a>
 				</h3>
 			</div>
 		</div>
