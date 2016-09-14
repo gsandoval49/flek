@@ -166,9 +166,10 @@ a:link {color: #000000;
 	margin: 0 auto;
 	width: 80%;
 }
-.profile-picture {
+#profileFeed {
 	height: 400px;
 	width: 400px;
+
 }
 
 
