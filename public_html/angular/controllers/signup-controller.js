@@ -11,7 +11,7 @@ app.controller("SignupController", ["$scope", "$window", "SignupService", functi
 	 * @param signupData will contain activation token and password
 	 *
 	 **/
-	$scope.signupData = {"bid": 1.0, "name": [], "email": null, "city": [], "bio": [], "password": [], "confirmPassword": []};
+	$scope.signupData = {"name": [], "email": null, "city": [], "bio": [], "password": [], "confirmPassword": []};
 
 
 	$scope.signupData = function(signupData, validated) {
