@@ -20,7 +20,7 @@
 			<h4>Send Me A Message</h4>
 			<button class="btn btn-default" type="button" ng-click="touched = !touched" ><i class="fa fa-envelope-o fa-lg"></i>message
 			</button>
-			<div class="col-xs-12 col-md-6  col-md-offset-2">
+			<!--<div class="col-xs-12 col-md-6  col-md-offset-2">--> <!--took this away. it's got gray i don't need.-->
 
 
 				<!--Begin Contact Form-->
@@ -28,20 +28,7 @@
 						ng-submit="submit(formData, messageForm.$valid);" id="messageForm" action="../php/mailer.php"
 						method="post" novalidate>
 
-
-					<h2>Contact Staci:</h2>
-
-
-					<!--<div class="form-group">
-						<label for="name">Name <span class="text-danger">*</span></label>
-						<div class="input-group">
-							<div class="input-group-addon">
-								<i class="fa fa-user" aria-hidden="true"></i>
-							</div>
-							<input type="text" class="form-control" id="name" name="name" placeholder="Name"
-									 ng-model="formData.name" ng-minlength="2" ng-maxlength="64" ng-required="true">
-						</div> <!-- input group -->
-
+					<!--<h4>Contact Staci:</h4>-->
 
 						<div class="alert alert-danger" role="alert" ng-messages="messageForm.name.$error"
 							  ng-if="messageForm.name.$touched" ng-hide="messageForm.name.$valid">
@@ -50,7 +37,7 @@
 							<p ng-message="required">Please enter your name.</p>
 						</div>
 
-					</div> <!-- form group -->-->
+					</div> <!-- form group -->
 
 
 					<div class="form-group">
