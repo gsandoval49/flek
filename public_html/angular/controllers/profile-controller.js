@@ -9,7 +9,7 @@
  * tag service
  **/
 
-app.controller('ProfileController', ["$routeParams", "$scope", "ProfileService", "ImageService", "MailService", "FavoritieService", "GenreService", "TagService", function($routeParams, $scope, ProfileService, ImageService, MailService, FavoriteService, GenreService, TagService) {
+app.controller('profileController', ["$routeParams", "$scope", "ProfileService", "ImageService", "MailService", "FavoritieService", "GenreService", "TagService", function($routeParams, $scope, ProfileService, ImageService, MailService, FavoriteService, GenreService, TagService) {
 
 	$scope.profileData = null;
 	$scope.alerts = [];
@@ -85,7 +85,8 @@ app.controller('ProfileController', ["$routeParams", "$scope", "ProfileService",
 					if(result.data.status === 200) {
 						$scope.alerts[0] = {type: "success", msg: result.data.message};
 						var response = result.data.data;
-						$scope.newImage = {imageId: null, imageGenreId:"", imageProfileId:"", imageDescription:"", imageSecureUrl: response[secure_url], imagePublicId: response[public_id]};
+						console.log("are we running correctly?");
+						/*$scope.newImage = {imageId: null, imageGenreId:"", imageProfileId:"", imageDescription:"", imageSecureUrl: response[secure_url], imagePublicId: response[public_id]};*/
 					} else {
 						$scope.alerts[0] = {type: "danger", msg: result.data.message};
 					}
