@@ -58,6 +58,12 @@ div.col-sm-5 {
 	background-size: 350px;
 }
 
+.statement-container {
+	background-color: lightskyblue;
+}
+
+
+
 /*SIGN UP PAGE*/
 div.signup-content {
 	background-image: url(../images/full-wallart.jpg);

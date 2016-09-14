@@ -6,22 +6,26 @@
 			<!--this section may need rewriting-->
 			</div>
 		</div>
-	<div class="container">
-			<h4>Flek is a free-to-use website built for the purpose of facilitating the continual growth of a vibrant
-				artistic community. Anyone is welcome to join the network; artists and art lovers alike. After profile
-				creation, it is time to start connecting! Upload pictures of your best pieces or space you have available to
-				display others' work. Message other users or favorite other profiles for easy access.</h4>
-						<!-- this section may need some TLC-->
-						<h2>Flek will....</h2>
-						<p>Connect artists with the art loving community.</p>
-						<p>Bring skills & crafts to your home & business; beautify your space.</p>
-						<p>Discover something unexpected.</p>
-						<p>Foster meaningful relationships.</p>
-						<p>Create new connections.</p>
+	<div class="statement-container">
+		<div class="row">
+			<div class="col-lg-6 text-center">
+				<h2>Flek will....</h2>
+				<p>Connect artists with the art loving community.</p>
+				<p>Bring skills & crafts to your home & business; beautify your space.</p>
+				<p>Discover something unexpected.</p>
+				<p>Foster meaningful relationships.</p>
+				<p>Create new connections.</p>
+			</div>			<!-- this section may need some TLC-->
 
-
+			<div class="col-lg-5">
+				<h5>Flek is a free-to-use website built for the purpose of facilitating the continual growth of a vibrant
+					artistic community. Anyone is welcome to join the network; artists and art lovers alike. After profile
+					creation, it is time to start connecting! Upload pictures of your best pieces or space you have available to
+					display others' work. Message other users or favorite other profiles for easy access.</h5>
 			</div>
+		</div>
 	</div>
+</div>
 
 
 
