@@ -101,17 +101,11 @@ try {
 		$requestObject = json_decode($requestContent);
 
 		// throw out blank fields
-		if(empty($requestObject->getProfileId) === true) {
+		if(empty($requestObject->senderProfileId) === true) {
 			throw(new \InvalidArgumentException("your name is required", 400));
 		}
-		if(empty($requestObject->getProfileId) === true) {
+		if(empty($requestObject->receiverProfileId) === true) {
 			throw(new \InvalidArgumentException("email is required", 400));
-		}
-		if(empty($requestObject->getProfileId) === true) {
-			throw(new \InvalidArgumentException("receiver name is required", 400));
-		}
-		if(empty($requestObject->getProfileId) === true) {
-			throw(new \InvalidArgumentException("receiver email is required", 400));
 		}
 		if(empty($requestObject->subject) === true) {
 			throw(new \InvalidArgumentException("subject is required", 400));
