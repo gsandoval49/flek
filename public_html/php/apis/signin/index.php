@@ -68,6 +68,7 @@ try {
 		//grab profile from database and put into a session
 		$profile = Profile::getProfileByProfileId($pdo, $profile->getProfileId());
 		$_SESSION["profile"] = $profile;
+		var_dump($_SESSION);
 
 		$reply->message = "Sign in was successful.";
 	} else {
