@@ -28,7 +28,25 @@
 	<div class="col-md-2"></div>
 	<div class="col-md-8">
 		<div class="form-group">
-			<label for="subject">Subject <span class="text-danger">*</span></label>
+			<label for="To:">To: <span class="text-danger">*</span></label>
+
+			<div class="input-group">
+				<div class="input-group-addon">
+					<i class="fa fa-pencil" aria-hidden="true"></i>
+				</div>
+				<input type="text" class="form-control" id="subject" name="subject" placeholder="Subject"
+						 ng-model="formData.subject" ng-minlength="2" ng-maxlength="128" ng-required="true">
+			</div>
+			<label for="from">From: <span class="text-danger">*</span></label>
+
+			<div class="input-group">
+				<div class="input-group-addon">
+					<i class="fa fa-pencil" aria-hidden="true"></i>
+				</div>
+				<input type="text" class="form-control" id="subject" name="subject" placeholder="Subject"
+						 ng-model="formData.subject" ng-minlength="2" ng-maxlength="128" ng-required="true">
+			</div>
+			<label for="subject">Subject: <span class="text-danger">*</span></label>
 
 			<div class="input-group">
 				<div class="input-group-addon">
@@ -49,7 +67,7 @@
 
 
 			<div class="form-group">
-				<label for="message">Message <span class="text-danger">*</span></label>
+				<label for="message">Message: <span class="text-danger">*</span></label>
 				<div class="input-group">
 					<div class="input-group-addon">
 						<i class="fa fa-comment" aria-hidden="true"></i>
