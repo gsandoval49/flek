@@ -1,5 +1,5 @@
 app.constant("TAG_ENDPOINT", "php/apis/tag/");
-app.service("TagService", function($http, TAG_ENDPOINT) {
+app.service("tagService", function($http, TAG_ENDPOINT) {
 
 	function getUrl() {
 		return(TAG_ENDPOINT);

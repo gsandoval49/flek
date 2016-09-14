@@ -1,5 +1,5 @@
 app.constant("FAVORITE_ENDPOINT", "php/apis/favorite/");
-app.service("FavoriteService", function($http, FAVORITE_ENDPOINT) {
+app.service("favoriteService", function($http, FAVORITE_ENDPOINT) {
 
 	function getUrl() {
 		return(FAVORITE_ENDPOINT);

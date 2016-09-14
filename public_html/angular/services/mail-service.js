@@ -1,5 +1,5 @@
 app.constant("MAIL_ENDPOINT", "php/apis/mail/");
-app.service("MailService", function($http, MAIL_ENDPOINT) {
+app.service("mailService", function($http, MAIL_ENDPOINT) {
 
 	function getUrl() {
 		return(MAIL_ENDPOINT);
