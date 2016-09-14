@@ -10,7 +10,7 @@ app.service("mailService", function($http, MAIL_ENDPOINT) {
 	}
 
 	function getUrlForMailReceiverId(mailReceiverId) {
-		return(getUrl() + MailReceiverId);
+		return(getUrl() + mailReceiverId);
 	}
 
 	this.fetchMail = function() {
