@@ -117,10 +117,10 @@ try {
 		// for both sender AND receiver:
 		// grab the profile by Email
 		// if either are null, throw an exception
-		if(($sender = Profile::getProfileByProfileEmail($pdo, $requestObject->senderEmail)) === null) {
+		if(($sender = Profile::getProfileByProfileId($pdo, $requestObject->senderProfileId)) === null) {
 			throw(new \InvalidArgumentException("sender email is invalid"));
 		}
-		if(($receiver = Profile::getProfileByProfileEmail($pdo, $requestObject->receiverEmail)) === null) {
+		if(($receiver = Profile::getProfileByProfileId($pdo, $requestObject->receiverProfileId)) === null) {
 			throw(new \InvalidArgumentException("receiver email is invalid"));
 		}
 
