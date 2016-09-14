@@ -10,6 +10,7 @@ app.controller('mailController', ["$scope", function($scope) {
 	 *@type {Object}
 	 **/
 	$scope.formData = {"subject": [], "message": []};
+	$scope.touched = false;
 
 	/**
 	 * method to reset form data when the submit and cancel buttons are pressed
