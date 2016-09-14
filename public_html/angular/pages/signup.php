@@ -13,7 +13,8 @@
 							<div class="jumbotron col-md-8 col-lg-offset-5 text-center">
 								<p>Sign up to see art from your community!</p>
 								<form role="form" id="profileSignupForm" action="php/mailer.php" method="post" name = "profileSignupForm"
-										ng-controller="SignupController" novalidate>
+										ng-controller="SignupController" ng-submit="submit(signupData)";
+										novalidate>
 
 									<div class="form-group">
 										<label for="profileName">Name <span class="text-danger">*</span></label>
