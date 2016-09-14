@@ -7,7 +7,7 @@
  * tag service
  **/
 
-app.controller('feedController', ["$routeParams", "$scope", /*"ProfileService",*/ "ImageService", /*"GenreService",*/ /*"TagService",*/ function($routeParams, $scope, /*ProfileService,*/ ImageService) {
+app.controller('feedController', ["$routeParams", "$scope", /*"ProfileService",*/ "imageService", /*"GenreService",*/ /*"TagService",*/ function($routeParams, $scope, /*ProfileService,*/ imageService) {
 
 	/*$scope.profileData = null;*/
 	$scope.alerts = [];
@@ -23,7 +23,7 @@ app.controller('feedController', ["$routeParams", "$scope", /*"ProfileService",*
 	 **/
 
 	$scope.fetchImageByImageId = function() {
-		ImageService.fetchImageByImageId($routeParams.imageId)
+		imageService.fetchImageByImageId($routeParams.imageId)
 			.then(function(result) {
 				if(result.data.status === 200) {
 					$scope.imageData = result.data.data;
@@ -35,7 +35,7 @@ app.controller('feedController', ["$routeParams", "$scope", /*"ProfileService",*
 	};
 
 	$scope.fetchAllImages = function() {
-		ImageService.fetchAllImages()
+		imageService.fetchAllImages()
 			.then(function(result) {
 				if(result.status === 200) {
 					$scope.imageData = result.data.data;
@@ -47,7 +47,7 @@ app.controller('feedController', ["$routeParams", "$scope", /*"ProfileService",*
 
 
 	$scope.fetchImageByGenreId = function() {
-		ImageService.fetchImageByGenreId($routeParams.imageId)
+		imageService.fetchImageByGenreId($routeParams.imageId)
 			.then(function(result) {
 				if(result.data.status === 200) {
 					$scope.imageData = result.data.data;
