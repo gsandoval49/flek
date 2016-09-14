@@ -1,11 +1,11 @@
-app.controller('TagController', ["$scope", "TagService","$location", function($scope, TagService, $location) {
+app.controller('tagController', ["$scope", "tagService","$location", function($scope, tagService, $location) {
 	$scope.alerts = [];
 	$scope.userData = [];
 	$scope.tagData = {};
 	$scope.tagProfile = null;
 
 	$scope.getTagById = function(tagId) {
-		TagService.fetchTagByTagId(TagId)
+		tagService.fetchTagByTagId(tagId)
 			.then(function(result) {
 				if(result.status.data === 200) {
 					$scope.tagData = result.data.data;
@@ -16,7 +16,7 @@ app.controller('TagController', ["$scope", "TagService","$location", function($s
 	};
 
 	$scope.getTagImageId = function(tagImageId) {
-		TagService.fetchTagImageId(tagImageId)
+		tagService.fetchTagImageId(tagImageId)
 			.then(function(result) {
 				if(result.status.data === 200) {
 					$scope.tagData = result.data.data;
@@ -27,7 +27,7 @@ app.controller('TagController', ["$scope", "TagService","$location", function($s
 	};
 
 	$scope.getTagProfileId = function(tagProfileId) {
-		TagService.fetchTagProfileId(tagProfileId)
+		tagService.fetchTagProfileId(tagProfileId)
 			.then(function(result) {
 				if(result.status.data === 200) {
 					$scope.tagData = result.data.data;
@@ -38,7 +38,7 @@ app.controller('TagController', ["$scope", "TagService","$location", function($s
 	};
 
 	$scope.getAllTags = function(allTags) {
-		TagService.fetchAllTags(allTags)
+		tagService.fetchAllTags(allTags)
 			.then(function(result) {
 				if(result.status.data === 200) {
 					$scope.tagData = result.data.data;
@@ -53,9 +53,9 @@ app.controller('TagController', ["$scope", "TagService","$location", function($s
 	 * @param tag
 	 * @param validated true if Angular validated the form, false if not
 	 **/
-	$scope.createTag = function(tag, validated) {
+	$scope.createtag = function(tag, validated) {
 		if(validated === true) {
-			TagService.create(tag)
+			tagService.create(tag)
 				.then(function(result) {
 					if(result.data.status === 200) {
 						$scope.alerts[0] = {type: "success", msg: result.data.message};
@@ -75,7 +75,7 @@ app.controller('TagController', ["$scope", "TagService","$location", function($s
 	 **/
 	$scope.updateTag = function(tag, validated) {
 		if(validated === true) {
-			TagService.update(tag.tagId, tag)
+			tagService.update(tag.tagId, tag)
 				.then(function(result) {
 					if(result.data.status === 200) {
 						$scope.alerts[0] = {type: "success", msg: result.data.message};
