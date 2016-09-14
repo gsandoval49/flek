@@ -125,7 +125,7 @@
 				<img class="img-responsive" src="http://placehold.it/700x400" alt=""/>
 			</a>
 			<h3>
-				<a href="#">Profile</a>
+				<a href="#"></a>
 
 
 			</h3>
@@ -135,7 +135,7 @@
 				<img class="img-responsive" src="http://placehold.it/700x400" alt=""/>
 			</a>
 			<h3>
-				<a href="#">Profile</a>
+				<a href="#"></a>
 			</h3>
 		</div>
 	</div>
@@ -147,7 +147,7 @@
 				<img class="img-responsive" src="http://placehold.it/700x400" alt=""/>
 			</a>
 			<h3>
-				<a href="#">Profile</a>
+				<a href="#"></a>
 			</h3>
 		</div>
 		<div class="col-md-6 portfolio-item">
@@ -155,7 +155,7 @@
 				<img class="img-responsive" src="http://placehold.it/700x400" alt=""/>
 			</a>
 			<h3>
-				<a href="#">Profile</a>
+				<a href="#"></a>
 			</h3>
 		</div>
 	</div>
