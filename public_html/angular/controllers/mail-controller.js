@@ -1,4 +1,4 @@
-app.controller('mailController', ["$scope", "profileService", "mailService", function($scope, profileService, mailService) {
+app.controller('mailController', ["$scope", "ProfileService", "MailService", function($scope, ProfileService, MailService) {
 	/**
 	 * state variable to store the alerts generated from the submit event
 	 * @type {Array}
@@ -13,7 +13,7 @@ app.controller('mailController', ["$scope", "profileService", "mailService", fun
 	$scope.touched = false;
 
 	$scope.mailbox = [];
-	$scope.mailers = {};
+	$scope.profiles = [];
 
 	/**
 	 * method to reset form data when the submit and cancel buttons are pressed
@@ -32,7 +32,7 @@ app.controller('mailController', ["$scope", "profileService", "mailService", fun
 	 **/
 	$scope.createMessage = function(message, validated) {
 		if(validated === true) {
-			mailService.create(message)
+			MailService.create(message)
 				.then(function(result) {
 					if(result.data.status === 200) {
 						$scope.alerts[0] = {type: "success", msg: result.data.message};
@@ -47,7 +47,7 @@ app.controller('mailController', ["$scope", "profileService", "mailService", fun
 	};
 
 	$scope.fetchMail = function() {
-		mailService.fetchMail()
+		MailService.fetchMail()
 			.then(function(result) {
 				if(result.data.status === 200) {
 					$scope.mailbox = result.data.data;
@@ -58,23 +58,29 @@ app.controller('mailController', ["$scope", "profileService", "mailService", fun
 	};
 
 	$scope.getProfile = function(profileId) {
-		if($scope.mailers[profileId] !== undefined) {
-			return($scope.mailers[profileId]);
-		} else {
-			profileService.fetch(profileId)
-				.then(function(result) {
-					if(result.data.status === 200) {
-						$scope.mailers[profileId] = result.data.data;
-						return($scope.mailers[profileId]);
-					} else {
-						return(null);
-					}
-				});
+		for(profile in $scope.profiles) {
+			if($scope.profiles[profile].profileId === profileId) {
+				return($scope.profiles[profile]);
+			}
 		}
+	};
+
+	$scope.getProfiles = function() {
+		ProfileService.all()
+			.then(function(result) {
+				if(result.data.status === 200) {
+					$scope.profiles = result.data.data;
+				} else {
+					$scope.alerts[0] = {type: "danger", msg: result.data.message};
+				}
+			});
 	};
 
 	if($scope.mailbox.length === 0) {
 		$scope.fetchMail();
+	}
+	if($scope.profiles.length === 0) {
+		$scope.getProfiles();
 	}
 
 }]);

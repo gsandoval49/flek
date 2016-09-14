@@ -12,8 +12,8 @@
 					<th>Message</th>
 				</tr>
 				<tr ng-repeat="spam in mailbox">
-					<td>{{ getProfile(spam.mailSenderId).profileName }}</td>
-					<td>{{ getProfile(spam.mailReceiverId).profileName }}</td>
+					<td><span ng-if="profiles.length != 0">{{ getProfile(spam.mailSenderId).profileName }}</span></td>
+					<td><span ng-if="profiles.length != 0">{{ getProfile(spam.mailReceiverId).profileName }}</span></td>
 					<td>{{ spam.mailSubject }}</td>
 					<td>{{ spam.mailContent }}</td>
 				</tr>
