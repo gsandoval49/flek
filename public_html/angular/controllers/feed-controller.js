@@ -11,9 +11,18 @@ app.controller('FeedController', ["$routeParams", "$scope", "ProfileService", "I
 
 	$scope.profileData = null;
 	$scope.alerts = [];
-	$scope.imageData = [];
 	$scope.genreData = [];
 	$scope.tagService = [];
+	$scope.imageData = [];
+
+	function feedRow(arr, size) {
+		var imageRow  = [];
+		for (var i=0; i<imageRow.length; i+=size) {
+			imageRow.push(arr.slice(i, i+size));
+		}
+		return imageRow;
+	}
+	$scope.imageDataRow = feedRow(imageData, 2);
 
 	/**
 	 * Profile method
