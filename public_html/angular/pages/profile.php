@@ -19,7 +19,7 @@
 				<div class="col-md-4">
 					<form name="uploadForm" id="uploadForm" class="form-horizontal well"
 							ng-submit="submit(formData, uploadForm.$valid);" novalidate>
-						<h3>upload an image</h3>
+						<h4>upload an image</h4>
 						<div class="container-fluid">
 
 							<label class="control-label">Select File</label>
