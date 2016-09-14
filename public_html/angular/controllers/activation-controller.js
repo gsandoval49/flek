@@ -1,5 +1,5 @@
 
-app.controller("ActivationController", ["$routeParams", "$scope", "activationService", function($routeParams, $scope, activationService) {
+app.controller("activationController", ["$routeParams", "$scope", "activationService", function($routeParams, $scope, activationService) {
 	$scope.alerts = [];
 	$scope.activationData = {emailActivation: $routeParams.emailActivation};
 
