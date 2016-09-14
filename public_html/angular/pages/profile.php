@@ -79,10 +79,12 @@
 						<label for="genre">genre</label>
 						<div class="input-group">
 							<select>
-								<option value="volvo">Volvo</option>
-								<option value="saab">Saab</option>
-								<option value="mercedes">Mercedes</option>
-								<option value="audi">Audi</option>
+								<option value="painting">Painting</option>
+								<option value="sculpture">Sculpture</option>
+								<option value="drawing">Drawing</option>
+								<option value="graffiti">Graffiti</option>
+								<option value="graphic-design">Graphic Design</option>
+								<option value="fashion">Fashion</option>
 							</select>
 
 							<!--<input class="form-control ng-untouched ng-pristine ng-invalid" id="genre" name="genre" ng-reflect-name="genre"
