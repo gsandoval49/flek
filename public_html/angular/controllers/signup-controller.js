@@ -13,7 +13,7 @@ app.controller("signupController", ["$scope", "$window", "signupService", functi
 	 **/
 
 	$scope.submit = function(signupData, validated) {
-		$scope.signupData = [];{
+		//$scope.signupData = [];{ dead code?
 		if(validated === true) {
 			SignupService.signupData(SignupData)
 				.then(function(result) {
@@ -26,7 +26,6 @@ app.controller("signupController", ["$scope", "$window", "signupService", functi
 						$scope.alerts[0] = {type: "danger", msg: result.data.message};
 					}
 				});
-		}
 		}
 	};
 }]);
