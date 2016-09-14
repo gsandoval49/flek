@@ -150,6 +150,8 @@ html, body {
 	/*outline: black solid thin;
 	margin-left: 7px;*/
 	text-align: center;
+	height: 400px;
+	width: 400px;
 }
 
 .sidebar{

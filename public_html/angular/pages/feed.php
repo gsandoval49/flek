@@ -10,11 +10,9 @@
 	<!-- Projects Row -->
 	<div class="col-md-9">
 		<div class="row">
-			<div class="col-md-6 portfolio-item" ng-repeat="item in imageData">
-				<a href="#">
-					<img id="{{ item.imageGenreId }}" class="img-responsive feed-image" src="{{ item.imageSecureUrl }}"
-						  alt="image description" height="400"/>
-				</a>
+			<div class="col-md-6 portfolio-item" ng-repeat="item in imageData" style="background:url({{ item
+			.imageSecureUrl }}) center center; background-size:cover;">
+
 				<h3>
 					<a href="#">Profile</a>
 				</h3>
@@ -38,3 +36,7 @@
 </div>
 
 
+<a href="#">
+	<img id="{{ item.imageGenreId }}" class="img-responsive feed-image" src="{{ item.imageSecureUrl }}"
+		  alt="image description" height="400"/>
+</a>

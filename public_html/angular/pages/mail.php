@@ -1,3 +1,28 @@
+
+<!--Mail Inbox-->
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<h1>Your Messages</h1>
+			<table class="table table-hover table-responsive table-striped">
+				<tr>
+					<th>From</th>
+					<th>To</th>
+					<th>Subject</th>
+					<th>Message</th>
+				</tr>
+				<tr ng-repeat="spam in mailbox">
+					<td>{{ getProfile(spam.mailSenderId).profileName }}</td>
+					<td>{{ getProfile(spam.mailReceiverId).profileName }}</td>
+					<td>{{ spam.mailSubject }}</td>
+					<td>{{ spam.mailContent }}</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>
+<br>
+
 <!--form taken out from profile-->
 <div class="row">
 	<div class="col-md-2"></div>
@@ -11,7 +36,8 @@
 				</div>
 				<input type="text" class="form-control" id="subject" name="subject" placeholder="Subject"
 						 ng-model="formData.subject" ng-minlength="2" ng-maxlength="128" ng-required="true">
-			</div> <!-- input group -->
+			</div>
+			<!-- input group -->
 
 
 			<div class="alert alert-danger" role="alert" ng-messages="messageForm.subject.$error"
@@ -50,28 +76,5 @@
 
 		</div>
 		<div class="col-md-2"></div>
-	</div>
-</div>
-
-<!--Mail Inbox-->
-<div class="container">
-	<div class="row">
-		<div class="col-md-12">
-			<h1>Your Messages</h1>
-			<table class="table table-hover table-responsive table-striped">
-				<tr>
-					<th>From</th>
-					<th>To</th>
-					<th>Subject</th>
-					<th>Message</th>
-				</tr>
-				<tr ng-repeat="spam in mailbox">
-					<td>{{ getProfile(spam.mailSenderId).profileName }}</td>
-					<td>{{ getProfile(spam.mailReceiverId).profileName }}</td>
-					<td>{{ spam.mailSubject }}</td>
-					<td>{{ spam.mailContent }}</td>
-				</tr>
-			</table>
-		</div>
 	</div>
 </div>
