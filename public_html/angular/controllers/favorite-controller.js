@@ -1,11 +1,11 @@
-app.controller('FavoriteController', ["$scope", "FavoriteService","$location", function($scope, FavoriteService, $location) {
+app.controller('favoriteController', ["$scope", "favoriteService","$location", function($scope, favoriteService, $location) {
 	$scope.alerts = [];
 	$scope.userData = [];
-	$scope.FavoriteData = {};
+	$scope.favoriteData = {};
 	$scope.favoriteProfile = null;
 
 	$scope.getFavoriteById = function(favoriteId) {
-		FavoriteService.fetchFavoriteByFavoriteId(FavoriteId)
+		favoriteService.fetchFavoriteByFavoriteId(favoriteId)
 			.then(function(result) {
 				if(result.status.data === 200) {
 					$scope.favoriteData = result.data.data;
@@ -16,7 +16,7 @@ app.controller('FavoriteController', ["$scope", "FavoriteService","$location", f
 	};
 
 	$scope.getFavoriteImageId = function(favoriteImageId) {
-		FavoriteService.fetchFavoriteProfileId(favoriteProfileId)
+		favoriteService.fetchFavoriteProfileId(favoriteProfileId)
 			.then(function(result) {
 				if(result.status.data === 200) {
 					$scope.favoriteData = result.data.data;
@@ -27,7 +27,7 @@ app.controller('FavoriteController', ["$scope", "FavoriteService","$location", f
 	};
 
 	$scope.getFavoriteProfileId = function(favoriteProfileId) {
-		FavoriteService.fetchFavoriteProfileId(FavoriteProfileId)
+		favoriteService.fetchFavoriteProfileId(favoriteProfileId)
 			.then(function(result) {
 				if(result.status.data === 200) {
 					$scope.favoriteData = result.data.data;
@@ -44,7 +44,7 @@ app.controller('FavoriteController', ["$scope", "FavoriteService","$location", f
 	 **/
 	$scope.createFavorite = function(favorite, validated) {
 		if(validated === true) {
-			FavoriteService.create(favorite)
+			favoriteService.create(favorite)
 				.then(function(result) {
 					if(result.data.status === 200) {
 						$scope.alerts[0] = {type: "success", msg: result.data.message};
@@ -64,7 +64,7 @@ app.controller('FavoriteController', ["$scope", "FavoriteService","$location", f
 	 **/
 	$scope.updateFavorite = function(favorite, validated) {
 		if(validated === true) {
-			FavoriteService.update(favorite.favoriteId, favorite)
+			favoriteService.update(favorite.favoriteId, favorite)
 				.then(function(result) {
 					if(result.data.status === 200) {
 						$scope.alerts[0] = {type: "success", msg: result.data.message};
