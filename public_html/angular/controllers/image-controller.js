@@ -7,7 +7,7 @@
 app.controller('ImageController', ["$scope", "ImageService","$location", function($scope, ImageService, $location) {
 	$scope.alerts = [];
 	$scope.userData = [];
-	$scope.imageData = {};
+	$scope.imageData = {}; /*are these suppose to be curly braces?*/
 	$scope.imageProfile = null; /*is this needed?*/
 	$scope.imageFeed = null; /*is this needed?*/
 
