@@ -12,7 +12,7 @@ app.controller("signupController", ["$scope", "$window", "signupService", functi
 	 *
 	 **/
 
-	$scope.signupData = function(signupData, validated) {
+	$scope.submit = function(signupData, validated) {
 		$scope.signupData = [];{
 		if(validated === true) {
 			SignupService.signupData(SignupData)
