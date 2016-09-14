@@ -15,6 +15,7 @@ app.controller("SignupController", ["$scope", "$window", "SignupService", functi
 
 
 	$scope.signupData = function(signupData, validated) {
+		$scope.signupData = [];{
 		if(validated === true) {
 			SignupService.signupData(SignupData)
 				.then(function(result) {
@@ -27,6 +28,7 @@ app.controller("SignupController", ["$scope", "$window", "SignupService", functi
 						$scope.alerts[0] = {type: "danger", msg: result.data.message};
 					}
 				});
+		}
 		}
 	};
 }]);
