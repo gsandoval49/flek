@@ -1,5 +1,5 @@
 app.controller("signupController", ["$scope", "$window", "signupService", function($scope, $window, SignupService) {
-	$scope.signupData = {"name": [], "email": [], "city": [], "bio": [], "password": null, "confirmPassword": null};;
+	$scope.signupData = {"name": [], "email": [], "city": [], "bio": [], "location": [], "password": null, "confirmPassword": null};
 	$scope.alerts = [];
 /*
 	$scope.activationData = {};
