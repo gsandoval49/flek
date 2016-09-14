@@ -64,7 +64,16 @@ try {
 		} else {
 			$profiles = Edu\Cnm\Flek\Profile::getsAllProfiles($pdo);
 			if($profiles !== null) {
-				$reply->data = $profiles;
+				$censoredProfiles = [];
+				foreach($profiles as $profile) {
+					$censored = new stdClass();
+					$censored->profileId = $profile->getProfileId();
+					$censored->profileBio = $profile->getProfileBio();
+					$censored->profileLocation = $profile->getProfileLocation();
+					$censored->profileName = $profile->getProfileName();
+					$censoredProfiles[] = $censored;
+				}
+				$reply->data = $censoredProfiles;
 			}
 		}
 		//Get All profiles then update it
