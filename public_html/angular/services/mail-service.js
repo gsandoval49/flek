@@ -25,12 +25,8 @@ app.service("mailService", function($http, MAIL_ENDPOINT) {
 		return($http.get(getUrl() + "?mailReceiverId=" + mailReceiverId));
 	};
 
-	this.create = function(mailSenderId, mailReceiverId) {
-		return($http.post(getUrlforId(mailSenderId, mailReceiverId)));
-	};
-
-	this.destroy = function(mailSenderId, mailReceiverId) {
-		return($http.delete(getUrlforId(mailSenderId, mailReceiverId)));
+	this.create = function(message) {
+		return($http.post(getUrl(), message));
 	};
 
 });

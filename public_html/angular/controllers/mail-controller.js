@@ -1,4 +1,4 @@
-app.controller('mailController', ["$scope", "ProfileService", "MailService", function($scope, ProfileService, MailService) {
+app.controller('mailController', ["$scope", "profileService", "mailService", function($scope, profileService, mailService) {
 	/**
 	 * state variable to store the alerts generated from the submit event
 	 * @type {Array}
@@ -9,7 +9,7 @@ app.controller('mailController', ["$scope", "ProfileService", "MailService", fun
 	 * state variable to keep track of the data entered into the form fields
 	 *@type {Object}
 	 **/
-	$scope.formData = {"subject": [], "message": []};
+	$scope.formData = {subject: "", message: "", receiver: null, receiverProfileId: null};
 	$scope.touched = false;
 
 	$scope.mailbox = [];
@@ -31,12 +31,13 @@ app.controller('mailController', ["$scope", "ProfileService", "MailService", fun
 	 * @param validated true if Angular validated the form, false if not
 	 **/
 	$scope.createMessage = function(message, validated) {
+		message.receiverProfileId = message.receiver.profileId;
 		if(validated === true) {
-			MailService.create(message)
+			mailService.create(message)
 				.then(function(result) {
 					if(result.data.status === 200) {
 						$scope.alerts[0] = {type: "success", msg: result.data.message};
-						$scope.newMessage = {messageId: null, attribution: "", message: "", submitter: ""};
+						$scope.newMessage = {};
 						$scope.addMessageForm.$setPristine();
 						$scope.addMessageForm.$setUntouched();
 					} else {
@@ -47,7 +48,7 @@ app.controller('mailController', ["$scope", "ProfileService", "MailService", fun
 	};
 
 	$scope.fetchMail = function() {
-		MailService.fetchMail()
+		mailService.fetchMail()
 			.then(function(result) {
 				if(result.data.status === 200) {
 					$scope.mailbox = result.data.data;
@@ -66,7 +67,7 @@ app.controller('mailController', ["$scope", "ProfileService", "MailService", fun
 	};
 
 	$scope.getProfiles = function() {
-		ProfileService.all()
+		profileService.all()
 			.then(function(result) {
 				if(result.data.status === 200) {
 					$scope.profiles = result.data.data;

@@ -101,9 +101,6 @@ try {
 		$requestObject = json_decode($requestContent);
 
 		// throw out blank fields
-		if(empty($requestObject->senderProfileId) === true) {
-			throw(new \InvalidArgumentException("your name is required", 400));
-		}
 		if(empty($requestObject->receiverProfileId) === true) {
 			throw(new \InvalidArgumentException("email is required", 400));
 		}
@@ -117,9 +114,6 @@ try {
 		// for both sender AND receiver:
 		// grab the profile by Email
 		// if either are null, throw an exception
-		if(($sender = Profile::getProfileByProfileId($pdo, $requestObject->senderProfileId)) === null) {
-			throw(new \InvalidArgumentException("sender email is invalid"));
-		}
 		if(($receiver = Profile::getProfileByProfileId($pdo, $requestObject->receiverProfileId)) === null) {
 			throw(new \InvalidArgumentException("receiver email is invalid"));
 		}
@@ -131,7 +125,7 @@ try {
 		// send the message
 		$result = $mailGunslinger->sendMessage($mailgun->domain, [
 			//dont know if i need the additional info on the right here v
-				"from" => $sender->getProfileName() . "<" . $sender->getProfileEmail() . ">",
+				"from" => $_SESSION["profile"]->getProfileName() . "<" . $_SESSION["profile"]->getProfileEmail() . ">",
 				"to" => $receiver->getProfileName() . "<" . $receiver->getProfileEmail() . ">",
 				"subject" => $requestObject->subject,
 				"text" => $requestObject->message
@@ -144,7 +138,7 @@ try {
 			throw (new RangeException("unable to send email", 503));
 		}
 		$mailgunMessageId = substr($result->http_response_body->id, 1, $atIndex - 1);
-		$mail = new Mail(null, $requestObject->subject, $sender->getProfileId(), $receiver->getProfileId(),
+		$mail = new Mail(null, $requestObject->subject, $_SESSION["profile"]->getProfileId(), $receiver->getProfileId(),
 			$mailgunMessageId, $requestObject->message);
 		$mail->insert($pdo);
 		$reply->message = "Your message has been sent.";
