@@ -29,7 +29,7 @@ app.config(function($routeProvider, $locationProvider) {
 		})
 		// route for the sign-in page
 		.when('/signin', {
-			controller  : 'SigninController',
+			controller  : 'signinController',
 			templateUrl : 'angular/pages/signin.php'
 		})
 
