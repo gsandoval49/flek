@@ -14,7 +14,7 @@
 			.imageSecureUrl }}) center center; background-size:cover;">
 
 				<h3>
-					<a href="#">Profile</a>
+					<a href="#"></a>
 				</h3>
 			</div>
 		</div>
