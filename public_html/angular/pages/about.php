@@ -9,12 +9,6 @@
 				creation, it is time to start connecting! Upload pictures of your best pieces or space you have available to
 				display others' work. Message other users or favorite other profiles for easy access.</h4>
 			<div>
-				<div class="about-container">
-				<div class="row">
-					<div class="col-md-4">
-						<i class="fa fa-paint-brush" aria-hidden="true"></i>
-					</div>
-					<div class="col-md-4">
 						<!-- this section may need some TLC-->
 						<h2>Flek will....</h2>
 						<p>Connect artists with the art loving community.</p>
@@ -23,16 +17,13 @@
 						<p>Foster meaningful relationships.</p>
 						<p>Create new connections.</p>
 					</div>
-					<div class="col-md-4">.col-md-4
-					</div>
 						</div>
 					<div>
 				</div>
 			</div>
 		</div>
 
-	</div>
-</div>
+
 
 
 
