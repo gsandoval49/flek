@@ -18,7 +18,6 @@
 			<div class="row">
 				<div class="col-md-4">
 					<form name="uploadForm" id="uploadForm" class="form-horizontal well"
-							ng-controller=""
 							ng-submit="submit(formData, uploadForm.$valid);" novalidate>
 						<p>upload an image</p>
 						<div class="container-fluid">
