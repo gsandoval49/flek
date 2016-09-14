@@ -22,6 +22,11 @@ app.config(function($routeProvider, $locationProvider) {
 			controller  : 'profileController',
 			templateUrl : 'angular/pages/profile.php'
 		})
+		// route for mail page
+		.when('/mail', {
+			controller  : 'mailController',
+			templateUrl : 'angular/pages/mail.php'
+		})
 		// route for the sign-up page
 		.when('/signup', {
 			controller  : 'signupController',

@@ -31,6 +31,7 @@
                     <!--place feed and profile back in here once we get it to work-->
                         <li><a href="feed">Feed</a></li>
                         <li><a href="profile">Profile</a></li>
+							  <li><a href="mail">Mail</a></li>
                     <li><a href="index">Sign Out</a></li>
                     <?php } ?>
 
