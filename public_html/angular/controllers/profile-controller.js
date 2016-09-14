@@ -9,7 +9,7 @@
  * tag service
  **/
 
-app.controller('profileController', ["$routeParams", "$scope", "ProfileService", "ImageService", "MailService", "FavoritieService", "GenreService", "TagService", function($routeParams, $scope, ProfileService, ImageService, MailService, FavoriteService, GenreService, TagService) {
+app.controller('profileController', ["$routeParams", "$scope", "profileService", "imageService", "mailService", "favoriteService", "genreService", "tagService", function($routeParams, $scope, profileService, imageService, mailService, favoriteService, genreService, tagService) {
 
 	$scope.profileData = null;
 	$scope.alerts = [];
@@ -24,7 +24,7 @@ app.controller('profileController', ["$routeParams", "$scope", "ProfileService",
 	 **/
 
 	$scope.loadProfile = function() {
-		ProfileService.fetchProfileByProfileId($routeParams.profileId)
+		profileService.fetchProfileByProfileId($routeParams.profileId)
 			.then(function(result) {
 				if(result.data.status === 200) {
 					$scope.profileData = result.data.data;
@@ -36,7 +36,7 @@ app.controller('profileController', ["$routeParams", "$scope", "ProfileService",
 	};
 
 	$scope.fetchProfileByProfileId = function() {
-		ProfileService.fetchProfileByProfileName($routeParams.profileName)
+		profileService.fetchProfileByProfileName($routeParams.profileName)
 			.then(function(result) {
 				if(result.data.status === 200) {
 					$scope.profileData = result.data.data;
@@ -52,7 +52,7 @@ app.controller('profileController', ["$routeParams", "$scope", "ProfileService",
 	 **/
 
 	$scope.fetchImageByImageId = function() {
-		ImageService.fetchImageByImageId($routeParams.imageId)
+		imageService.fetchImageByImageId($routeParams.imageId)
 			.then(function(result) {
 				if(result.data.status === 200) {
 					$scope.imageData = result.data.data;
@@ -64,7 +64,7 @@ app.controller('profileController', ["$routeParams", "$scope", "ProfileService",
 	};
 
 	$scope.fetchImageByImageProfileId = function() {
-		ImageService.fetchImageByImageProfileId($routeParams.imageProfileId)
+		imageService.fetchImageByImageProfileId($routeParams.imageProfileId)
 			.then(function(result) {
 				if(result.data.status === 200) {
 					$scope.imageData = result.data.data;
@@ -80,7 +80,7 @@ app.controller('profileController', ["$routeParams", "$scope", "ProfileService",
 	 **/
 	$scope.createImage = function(formData, validated) {
 		if(validated === true) {
-			ImageService.create(formData)
+			imageService.create(formData)
 				.then(function(result) {
 					if(result.data.status === 200) {
 						$scope.alerts[0] = {type: "success", msg: result.data.message};
@@ -99,7 +99,7 @@ app.controller('profileController', ["$routeParams", "$scope", "ProfileService",
 	 **/
 
 	$scope.fetchMailByMailReceiverId = function() {
-		MailService.fetchMailByMailReceiverId($routeParams.mailReceiverId)
+		mailService.fetchMailByMailReceiverId($routeParams.mailReceiverId)
 			.then(function(result) {
 				if(result.data.status === 200) {
 					$scope.mailData = result.data.data;
@@ -111,7 +111,7 @@ app.controller('profileController', ["$routeParams", "$scope", "ProfileService",
 	};
 
 	$scope.fetchMailByMailSenderId = function() {
-		MailService.fetchMailByMailSenderId($routeParams.mailSenderId)
+		mailService.fetchMailByMailSenderId($routeParams.mailSenderId)
 			.then(function(result) {
 				if(result.data.status === 200) {
 					$scope.mailData = result.data.data;
@@ -123,7 +123,7 @@ app.controller('profileController', ["$routeParams", "$scope", "ProfileService",
 	};
 
 	$scope.fetchAllMails = function() {
-		MailService.fetchAllMails($routeParams.fetchAllMails()) //how do I select all mail?
+		mailService.fetchAllMails($routeParams.fetchAllMails()) //how do I select all mail?
 			.then(function(result) {
 				if(result.data.status === 200) {
 					$scope.mailData = result.data.data;
@@ -139,7 +139,7 @@ app.controller('profileController', ["$routeParams", "$scope", "ProfileService",
 	 **/
 
 	$scope.fetchFavoriteByFavoriteeId = function() {
-		FavoriteService.fetchFavoriteByFavoriteeId($routeParams.favoriteeId)
+		favoriteService.fetchFavoriteByFavoriteeId($routeParams.favoriteeId)
 			.then(function(result) {
 				if(result.data.status === 200) {
 					$scope.favoriteData = result.data.data;
@@ -151,7 +151,7 @@ app.controller('profileController', ["$routeParams", "$scope", "ProfileService",
 	};
 
 	$scope.fetchFavoriteByFavoriterId = function() {
-		FavoriteService.fetchFavoriteByFavoriterId($routeParams.favoriterId)
+		favoriteService.fetchFavoriteByFavoriterId($routeParams.favoriterId)
 			.then(function(result) {
 				if(result.data.status === 200) {
 					$scope.favoriteData = result.data.data;
@@ -167,7 +167,7 @@ app.controller('profileController', ["$routeParams", "$scope", "ProfileService",
 	 **/
 
 	$scope.fetchGenreByGenreId = function() {
-		GenreService.fetchGenreByGenreId($routeParams.genreId)
+		genreService.fetchGenreByGenreId($routeParams.genreId)
 			.then(function(result) {
 				if(result.data.status === 200) {
 					$scope.genreData = result.data.data;
@@ -179,7 +179,7 @@ app.controller('profileController', ["$routeParams", "$scope", "ProfileService",
 	};
 
 	$scope.fetchGenreByGenreName = function() {
-		GenreService.fetchGenreByGenreName($routeParams.genreName)
+		genreService.fetchGenreByGenreName($routeParams.genreName)
 			.then(function(result) {
 				if(result.data.status === 200) {
 					$scope.genreData = result.data.data;
@@ -191,7 +191,7 @@ app.controller('profileController', ["$routeParams", "$scope", "ProfileService",
 	};
 
 	$scope.fetchAllGenres = function() {
-		GenreService.fetchAllGenres($routeParams.genreId)
+		genreService.fetchAllGenres($routeParams.genreId)
 			.then(function(result) {
 				if(result.data.status === 200) {
 					$scope.genreData = result.data.data;
@@ -207,7 +207,7 @@ app.controller('profileController', ["$routeParams", "$scope", "ProfileService",
 	 **/
 
 	$scope.fetchTagByTagId = function() {
-		TagService.fetchTagByTagId($routeParams.tagId)
+		tagService.fetchTagByTagId($routeParams.tagId)
 			.then(function(result) {
 				if(result.data.status === 200) {
 					$scope.tagData = result.data.data;
@@ -219,7 +219,7 @@ app.controller('profileController', ["$routeParams", "$scope", "ProfileService",
 	};
 
 	$scope.fetchTagByTagName = function() {
-		TagService.fetchTagByTagName($routeParams.tagName)
+		tagService.fetchTagByTagName($routeParams.tagName)
 			.then(function(result) {
 				if(result.data.status === 200) {
 					$scope.tagData = result.data.data;
@@ -231,7 +231,7 @@ app.controller('profileController', ["$routeParams", "$scope", "ProfileService",
 	};
 
 	$scope.fetchAllTags = function() {
-		TagService.fetchAllTags($routeParams.tagId)
+		tagService.fetchAllTags($routeParams.tagId)
 			.then(function(result) {
 				if(result.data.status === 200) {
 					$scope.tagData = result.data.data;
@@ -248,7 +248,7 @@ app.controller('profileController', ["$routeParams", "$scope", "ProfileService",
 
 	$scope.profileCreate = function(profile, validated) {
 		if(validated === true) {
-			ProfileService.create(profile)
+			profileService.create(profile)
 				.then(function(result) {
 					if(result.data.status === 200) {
 						$scope.alerts[0] = {type: "success", msg: result.data.message};
@@ -257,7 +257,7 @@ app.controller('profileController', ["$routeParams", "$scope", "ProfileService",
 					}
 				});
 
-			ImageService.create(image)
+			imageService.create(image)
 				.then(function(result) {
 					if(result.data.staus === 200) {
 						$scope.alerts[0] = {type: "success", msg: result.data.message};
@@ -266,7 +266,7 @@ app.controller('profileController', ["$routeParams", "$scope", "ProfileService",
 					}
 				});
 
-			MailService.create(mail)
+			mailService.create(mail)
 				.then(function(result) {
 					if(result.data.staus === 200) {
 						$scope.alerts[0] = {type: "success", msg: result.data.message};
@@ -275,7 +275,7 @@ app.controller('profileController', ["$routeParams", "$scope", "ProfileService",
 					}
 				});
 
-			FavoriteService.create(favorite)
+			favoriteService.create(favorite)
 				.then(function(result) {
 					if(result.data.staus === 200) {
 						$scope.alerts[0] = {type: "success", msg: result.data.message};
@@ -284,7 +284,7 @@ app.controller('profileController', ["$routeParams", "$scope", "ProfileService",
 					}
 				});
 
-			TagService.create(tag)
+			tagService.create(tag)
 				.then(function(result) {
 					if(result.data.staus === 200) {
 						$scope.alerts[0] = {type: "success", msg: result.data.message};
@@ -303,7 +303,7 @@ app.controller('profileController', ["$routeParams", "$scope", "ProfileService",
 
 	$scope.profileUpdate = function(profile, validated) {
 		if(validated === true) {
-			ProfileService.update(profile)
+			profileService.update(profile)
 				.then(function(result) {
 					if(result.data.status === 200) {
 						$scope.alerts[0] = {type: "success", msg: result.data.message};
@@ -312,7 +312,7 @@ app.controller('profileController', ["$routeParams", "$scope", "ProfileService",
 					}
 				});
 
-			ImageService.update(profile)
+			imageService.update(profile)
 				.then(function(result) {
 					if(result.data.status === 200) {
 						$scope.alerts[0] = {type: "success", msg: result.data.message};
@@ -321,7 +321,7 @@ app.controller('profileController', ["$routeParams", "$scope", "ProfileService",
 					}
 				});
 
-			MailService.update(profile)
+			mailService.update(profile)
 				.then(function(result) {
 					if(result.data.status === 200) {
 						$scope.alerts[0] = {type: "success", msg: result.data.message};
@@ -330,7 +330,7 @@ app.controller('profileController', ["$routeParams", "$scope", "ProfileService",
 					}
 				});
 
-			FavoriteService.update(profile)
+			favoriteService.update(profile)
 				.then(function(result) {
 					if(result.data.status === 200) {
 						$scope.alerts[0] = {type: "success", msg: result.data.message};
@@ -339,7 +339,7 @@ app.controller('profileController', ["$routeParams", "$scope", "ProfileService",
 					}
 				});
 
-			GenreService.update(profile)
+			genreService.update(profile)
 				.then(function(result) {
 					if(result.data.status === 200) {
 						$scope.alerts[0] = {type: "success", msg: result.data.message};
@@ -348,7 +348,7 @@ app.controller('profileController', ["$routeParams", "$scope", "ProfileService",
 					}
 				});
 
-			TagService.update(profile)
+			tagService.update(profile)
 				.then(function(result) {
 					if(result.data.status === 200) {
 						$scope.alerts[0] = {type: "success", msg: result.data.message};
