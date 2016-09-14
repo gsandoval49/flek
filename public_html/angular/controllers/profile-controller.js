@@ -78,9 +78,9 @@ app.controller('ProfileController', ["$routeParams", "$scope", "ProfileService",
 	/**
 	 * Image upload from profile
 	 **/
-	$scope.createImage = function(image, validated) {
+	$scope.createImage = function(formData, validated) {
 		if(validated === true) {
-			ImageService.create(image)
+			ImageService.create(formData)
 				.then(function(result) {
 					if(result.data.status === 200) {
 						$scope.alerts[0] = {type: "success", msg: result.data.message};
