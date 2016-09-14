@@ -57,7 +57,21 @@
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
-
+			<h1>Your Messages</h1>
+			<table class="table table-hover table-responsive table-striped">
+				<tr>
+					<th>From</th>
+					<th>To</th>
+					<th>Subject</th>
+					<th>Message</th>
+				</tr>
+				<tr ng-repeat="spam in mailbox">
+					<td>{{ getProfile(spam.mailSenderId).profileName }}</td>
+					<td>{{ getProfile(spam.mailReceiverId).profileName }}</td>
+					<td>{{ spam.mailSubject }}</td>
+					<td>{{ spam.mailContent }}</td>
+				</tr>
+			</table>
 		</div>
 	</div>
 </div>

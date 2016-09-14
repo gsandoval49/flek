@@ -1,4 +1,4 @@
-app.controller('mailController', ["$scope", function($scope) {
+app.controller('mailController', ["$scope", "ProfileService", "MailService", function($scope, ProfileService, MailService) {
 	/**
 	 * state variable to store the alerts generated from the submit event
 	 * @type {Array}
@@ -11,6 +11,9 @@ app.controller('mailController', ["$scope", function($scope) {
 	 **/
 	$scope.formData = {"subject": [], "message": []};
 	$scope.touched = false;
+
+	$scope.mailbox = [];
+	$scope.mailers = {};
 
 	/**
 	 * method to reset form data when the submit and cancel buttons are pressed
@@ -29,7 +32,7 @@ app.controller('mailController', ["$scope", function($scope) {
 	 **/
 	$scope.createMessage = function(message, validated) {
 		if(validated === true) {
-			MessageService.create(message)
+			MailService.create(message)
 				.then(function(result) {
 					if(result.data.status === 200) {
 						$scope.alerts[0] = {type: "success", msg: result.data.message};
@@ -42,5 +45,36 @@ app.controller('mailController', ["$scope", function($scope) {
 				});
 		}
 	};
+
+	$scope.fetchMail = function() {
+		MailService.fetchMail()
+			.then(function(result) {
+				if(result.data.status === 200) {
+					$scope.mailbox = result.data.data;
+				} else {
+					$scope.alerts[0] = {type: "danger", msg: result.data.message};
+				}
+			});
+	};
+
+	$scope.getProfile = function(profileId) {
+		if($scope.mailers[profileId] !== undefined) {
+			return($scope.mailers[profileId]);
+		} else {
+			ProfileService.fetch(profileId)
+				.then(function(result) {
+					if(result.data.status === 200) {
+						$scope.mailers[profileId] = result.data.data;
+						return($scope.mailers[profileId]);
+					} else {
+						return(null);
+					}
+				});
+		}
+	};
+
+	if($scope.mailbox.length === 0) {
+		$scope.fetchMail();
+	}
 
 }]);

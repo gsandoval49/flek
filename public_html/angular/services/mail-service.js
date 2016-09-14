@@ -13,7 +13,7 @@ app.service("MailService", function($http, MAIL_ENDPOINT) {
 		return(getUrl() + MailReceiverId);
 	}
 
-	this.all = function() {
+	this.fetchMail = function() {
 	 return($http.get(getUrl()));
 	 };
 
@@ -23,10 +23,6 @@ app.service("MailService", function($http, MAIL_ENDPOINT) {
 
 	this.fetchMailByMailReceiverId = function(mailReceiverId) {
 		return($http.get(getUrl() + "?mailReceiverId=" + mailReceiverId));
-	};
-
-	this.fetchAllMails = function() {
-		return($http.get(getUrl()));
 	};
 
 	this.create = function(mailSenderId, mailReceiverId) {
