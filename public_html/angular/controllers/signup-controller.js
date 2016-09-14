@@ -16,7 +16,7 @@ app.controller("SignupController", ["$scope", "$window", "SignupService", functi
 
 	$scope.signupData = function(signupData, validated) {
 		if(validated === true) {
-			SignupService.signup(SignupData)
+			SignupService.signupData(SignupData)
 				.then(function(result) {
 					if(result.data.status === 200) {
 						$scope.alerts[0] = {type: "success", msg: result.data.message};
