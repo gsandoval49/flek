@@ -23,13 +23,14 @@
                 <ul class="nav navbar-nav navbar-right" >
                     <li><a href="index">Home</a></li>
                     <li><a href="about">About</a></li>
-                    <li><a href="feed">Feed</a></li>
-                    <li><a href="profile">Profile</a></li>
+
                     <?php if(empty($_SESSION["profile"]) === true) { ?>
                     <li><a href="signup">Sign Up</a></li>
                     <li><a href="signin">Sign In</a></li>
                     <?php } else { ?>
                     <!--place feed and profile back in here once we get it to work-->
+                        <li><a href="feed">Feed</a></li>
+                        <li><a href="profile">Profile</a></li>
                     <li><a href="index">Sign Out</a></li>
                     <?php } ?>
 
