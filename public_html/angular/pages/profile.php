@@ -90,22 +90,22 @@
 						<label for="imageDescription">Image Description</label>
 						<div class="input-group">
 
-							<input class="form-control ng-untouched ng-pristine ng-invalid" id="email" name="email" required=""
-									 ng-reflect-model="" ng-reflect-name="email" type="email">
+							<input class="form-control ng-untouched ng-pristine ng-invalid" id="imageDescription" name="imageDescription" required=""
+									 ng-reflect-model="" ng-reflect-name="imageDescription" type="imageDescription">
 						</div>
 						<div class="alert alert-danger" ng-reflect-hidden="true" hidden="">
-							Email is required
+							Image Description is required
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="tags">Tags</label>
 						<div class="input-group">
 
-							<input class="form-control ng-untouched ng-pristine ng-invalid" id="subject" name="subject" required=""
-									 ng-reflect-model="" ng-reflect-name="subject" type="text">
+							<input class="form-control ng-untouched ng-pristine ng-invalid" id="tags" name="tags" required=""
+									 ng-reflect-model="" ng-reflect-name="tags" type="text">
 						</div>
 						<div class="alert alert-danger" ng-reflect-hidden="true" hidden="">
-							Subject is required
+							Tag is required
 						</div>
 					</div>
 
