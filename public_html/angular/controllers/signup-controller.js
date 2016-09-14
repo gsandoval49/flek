@@ -1,4 +1,4 @@
-app.controller("signupController", ["$scope", "$window", "signupService", function($scope, $window, SignupService) {
+app.controller("signupController", ["$scope", "$window", "signupService", function($scope, $window, signupService) {
 	$scope.signupData = {"name": [], "email": [], "city": [], "bio": [], "location": [], "password": null, "confirmPassword": null};
 	$scope.alerts = [];
 /*
@@ -15,7 +15,7 @@ app.controller("signupController", ["$scope", "$window", "signupService", functi
 	$scope.submit = function(signupData, validated) {
 		//$scope.signupData = [];{ dead code?
 		if(validated === true) {
-			SignupService.signupData(SignupData)
+			signupService.signupData(signupData)
 				.then(function(result) {
 					if(result.data.status === 200) {
 						$scope.alerts[0] = {type: "success", msg: result.data.message};
