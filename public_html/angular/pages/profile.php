@@ -2,7 +2,7 @@
 <div class="container">
 	<div class="row">
 		<div class="col-md-3 profile-picture"></div>
-		<div class="col-md-4">
+		<div class="col-md-3">
 			<h1>Staci Parker</h1>
 			<h4>Artist</h4>
 			<h4>Location: Albuquerque, NM</h4>
@@ -10,6 +10,8 @@
 				http://staciparker.com</p>
 			<p>"There is no one who loves pain itself, who seeks after it and wants to have it, simply because it is
 				pain..."</p>
+			<h4>Favorite My Profile</h4>
+			<button href="" class="btn btn-default" type="submit"><i class="fa fa-heart-o fa-lg"></i>Favorite</button>
 		</div>
 		<!-- form group -->
 		<div class="profile-formcontainer">
@@ -18,6 +20,7 @@
 					<form name="uploadForm" id="uploadForm" class="form-horizontal well"
 							ng-controller=""
 							ng-submit="submit(formData, uploadForm.$valid);" novalidate>
+						<p>upload an image</p>
 						<div class="container-fluid">
 
 							<label class="control-label">Select File</label>
@@ -100,8 +103,7 @@
 </div>-->
 <div>
 	<!-- favorite button section -->
-	<h4>Favorite My Profile</h4>
-	<button href="" class="btn btn-default" type="submit"><i class="fa fa-heart-o fa-lg"></i>Favorite</button>
+
 
 
 </div>
