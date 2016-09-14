@@ -17,6 +17,10 @@ app.service("ImageService", function($http, IMAGE_ENDPOINT) {
 		return($http.get(getUrlForImageId(imageId)));
 	};
 
+	this.fetchImageByGenreId = function() {
+		return($http.get(getUrl() + "?genreId=" + genreId));
+	};
+
 	this.fetchAllImages = function() {
 		return($http.get(getUrl()));
 	};

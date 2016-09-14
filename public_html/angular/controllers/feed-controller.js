@@ -71,6 +71,31 @@ app.controller('FeedController', ["$routeParams", "$scope", "ProfileService", "I
 			})
 	};
 
+	$scope.fetchAllImages = function() {
+		ImageService.fetchAllImages($routeParams.imageId)
+			.then(function(result) {
+				if(result.data.status === 200) {
+					$scope.imageData = result.data.data;
+					console.log($scope.imageData);
+				} else {
+					$scope.alerts[0] = {type: "danger", msg: result.data.message};
+				}
+			})
+	};
+
+
+	$scope.fetchImageByGenreId = function() {
+		ImageService.fetchImageByGenreId($routeParams.imageId)
+			.then(function(result) {
+				if(result.data.status === 200) {
+					$scope.imageData = result.data.data;
+					console.log($scope.imageData);
+				} else {
+					$scope.alerts[0] = {type: "danger", msg: result.data.message};
+				}
+			})
+	};
+
 	/**
 	 * Genre Methods
 	 **/
