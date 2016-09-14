@@ -1,4 +1,4 @@
-app.controller('signinController', ["$scope", "$window","SigninService", function($scope, $window, SigninService) {
+app.controller('signinController', ["$scope", "$window","signinService", function($scope, $window, signinService) {
 	$scope.alerts = [];
 	$scope.signinData = {};
 
@@ -13,12 +13,12 @@ app.controller('signinController', ["$scope", "$window","SigninService", functio
 		console.log("inside signinController signin");
 		console.log(signinData);
 		if(validated === true) {
-			SigninService.signin(signinData)
+			signinService.signin(signinData)
 				.then(function(result) {
 					if(result.data.status === 200) {
 						$scope.alerts[0] = {type: "success", msg: result.data.message};
 						console.log("good status");
-						$window.location.href = "/feed"
+						$window.location.href = "feed/"
 					} else {
 						console.log("bad status");
 						console.log(result.data);
