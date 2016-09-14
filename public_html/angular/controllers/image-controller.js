@@ -50,27 +50,11 @@ app.controller('ImageController', ["$scope", "ImageService","$location", functio
 			})
 	};
 	/**
-	 * add method to upload image file
-	 * also - embedded within the add or upload image file
 	 * we create an image and sends it to the image API
 	 *
 	 * @param image
 	 * @param validated true if Angular validated the form, false if not
 	 **/
-	$scope.add = function(image, validated) {
-		if(validated === true) {
-			ImageService.add.(image)
-				.then(function(){
-					var image = document.getElementById("image").images[0],
-						run = new FileReader();
-					run.onloadend = function(execute){
-						var data = execute.target.result;
-						// add our API key call to cloudinary
-					};
-					run.readAsArrayBuffer(image);
-				});
-		}
-	};
 	$scope.createImage = function(image, validated) {
 		if(validated === true) {
 			ImageService.create(image)
