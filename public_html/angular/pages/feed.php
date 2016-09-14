@@ -9,28 +9,31 @@
 	<!-- /.row -->
 	<!-- Projects Row -->
 	<div class="col-md-9">
-		<div class="row" ng-repeat="rows in imageData">
-			<div class="col-md-6 portfolio-item" <!--ng-repeat="item in rows"-->>
+		<div class="row">
+			<div class="col-md-6 portfolio-item" ng-repeat="item in imageData">
 				<a href="#">
-					<img id="{{ rows.imageGenreId }}" class="img-responsive" src="{{ rows.imageSecureUrl }}" alt="image description" height="400", width=700"/>
+					<img id="{{ item.imageGenreId }}" class="img-responsive feed-image" src="{{ item.imageSecureUrl }}"
+						  alt="image description" height="400"/>
 				</a>
 				<h3>
 					<a href="#">Profile</a>
-
 				</h3>
 			</div>
 		</div>
 
-	<div class="col-md-3">
-		<ul class="sidebar">
-			<li><a href="#drawing">drawing</a></li>
-			<li><a href="#sculpture">sculpture</a></li>
-			<li><a href="#painting">painting</a></li>
-			<li><a href="#graffiti">graffiti</a></li>
-			<li><a href="#graphic-design">graphic-design</a></li>
-			<li><a href="#fashion">fashion</a></li>
-		</ul>
 	</div>
+</div>
+
+<div class="col-md-3">
+	<ul class="sidebar">
+		<li><a href="#drawing">drawing</a></li>
+		<li><a href="#sculpture">sculpture</a></li>
+		<li><a href="#painting">painting</a></li>
+		<li><a href="#graffiti">graffiti</a></li>
+		<li><a href="#graphic-design">graphic-design</a></li>
+		<li><a href="#fashion">fashion</a></li>
+	</ul>
+</div>
 
 </div>
 

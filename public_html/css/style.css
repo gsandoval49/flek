@@ -130,14 +130,19 @@ html, body {
 	font-family: 'Montserrat', sans-serif;
 }
 
-.img-responsive {
+/*.img-responsive {
 	height: 300px;
 	width: 300px;
+}*/
+
+.feed-image {
+	height: 400px;
 }
 
 .portfolio-item {
-	outline: black solid thin;
-	margin-left: 7px;
+	/*outline: black solid thin;
+	margin-left: 7px;*/
+	text-align: center;
 }
 
 .sidebar{
