@@ -1,4 +1,4 @@
-app.controller('mailController', ["$scope", "ProfileService", "MailService", function($scope, ProfileService, MailService) {
+app.controller('mailController', ["$scope", "profileService", "mailService", function($scope, profileService, mailService) {
 	/**
 	 * state variable to store the alerts generated from the submit event
 	 * @type {Array}
@@ -32,7 +32,7 @@ app.controller('mailController', ["$scope", "ProfileService", "MailService", fun
 	 **/
 	$scope.createMessage = function(message, validated) {
 		if(validated === true) {
-			MailService.create(message)
+			mailService.create(message)
 				.then(function(result) {
 					if(result.data.status === 200) {
 						$scope.alerts[0] = {type: "success", msg: result.data.message};
@@ -47,7 +47,7 @@ app.controller('mailController', ["$scope", "ProfileService", "MailService", fun
 	};
 
 	$scope.fetchMail = function() {
-		MailService.fetchMail()
+		mailService.fetchMail()
 			.then(function(result) {
 				if(result.data.status === 200) {
 					$scope.mailbox = result.data.data;
@@ -61,7 +61,7 @@ app.controller('mailController', ["$scope", "ProfileService", "MailService", fun
 		if($scope.mailers[profileId] !== undefined) {
 			return($scope.mailers[profileId]);
 		} else {
-			ProfileService.fetch(profileId)
+			profileService.fetch(profileId)
 				.then(function(result) {
 					if(result.data.status === 200) {
 						$scope.mailers[profileId] = result.data.data;
