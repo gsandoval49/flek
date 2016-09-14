@@ -1,5 +1,5 @@
-app.controller("signupController", ["$scope", "$window", "SignupService", function($scope, $window, SignupService) {
-	$scope.signupData = null;
+app.controller("signupController", ["$scope", "$window", "signupService", function($scope, $window, SignupService) {
+	$scope.signupData = {"name": [], "email": [], "city": [], "bio": [], "password": null, "confirmPassword": null};;
 	$scope.alerts = [];
 /*
 	$scope.activationData = {};
@@ -11,8 +11,6 @@ app.controller("signupController", ["$scope", "$window", "SignupService", functi
 	 * @param signupData will contain activation token and password
 	 *
 	 **/
-	$scope.signupData = {"name": [], "email": [], "city": [], "bio": [], "password": [], "confirmPassword": []};
-
 
 	$scope.signupData = function(signupData, validated) {
 		$scope.signupData = [];{
