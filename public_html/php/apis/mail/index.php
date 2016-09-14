@@ -78,7 +78,12 @@ try {
 			}
 			$reply->data = $toSend;
 		} else {
-			$reply->data; // do wel call data === "mails"
+			if(empty($_SESSION["profile"]) === true) {
+				throw(new RuntimeException("You are not logged in"));
+			}
+			$receivedMessages = Mail::getMailByMailReceiverId($pdo, $_SESSION["profile"]->getProfileId());
+			$sentMessages = Mail::getMailByMailSenderId($pdo, $_SESSION["profile"]->getProfileId());
+			$reply->data = array_merge($receivedMessages->toArray(), $sentMessages->toArray());
 		}
 	}
 	// moved closed bracket here as part of GET code
@@ -118,11 +123,11 @@ try {
 		// for both sender AND receiver:
 		// grab the profile by Email
 		// if either are null, throw an exception
-		if(Profile::getProfileByProfileEmail($pdo, $requestObject->senderEmail) === null) {
-			throw(new \InvalidArgumentException("email is invalid"));
+		if(($sender = Profile::getProfileByProfileEmail($pdo, $requestObject->senderEmail)) === null) {
+			throw(new \InvalidArgumentException("sender email is invalid"));
 		}
-		if(Profile::getProfileByProfileEmail($pdo, $requestObject->receiverEmail) === null) {
-			throw(new \InvalidArgumentException("email is invalid"));
+		if(($receiver = Profile::getProfileByProfileEmail($pdo, $requestObject->receiverEmail)) === null) {
+			throw(new \InvalidArgumentException("receiver email is invalid"));
 		}
 
 		// start the mailgun client
@@ -138,14 +143,16 @@ try {
 			]
 		);
 
-
-		// inform the user of the result
-		/*if($result->http_response_code !== 200) {
-			throw(new RuntimeException("unable to send email", $result->http_response_code));
+		//split the result before the at symbol
+		$atIndex = strpos($result->http_response_body->id, "@");
+		if($atIndex === false) {
+			throw (new RangeException("unable to send email", 503));
 		}
+		$mailgunMessageId = substr($result->http_response_body->id, 1, $atIndex - 1);
+		$mail = new Mail(null, $requestObject->subject, $sender->getProfileId(), $receiver->getProfileId(),
+			$mailgunMessageId, $requestObject->message);
+		$mail->insert($pdo);
 		$reply->message = "Your message has been sent.";
-	} else {
-		throw(new \InvalidArgumentException("Invalid HTTP method request", 405));*/
 	}
 
 	// update reply with exception information

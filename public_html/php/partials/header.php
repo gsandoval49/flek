@@ -43,3 +43,7 @@
 <?php if(empty($_SESSION["profile"]) === false) {
 	echo "<p><em>Welcome back, " . $_SESSION["profile"]->getProfileName() . "</em></p>";
 }
+
+ if(empty($_SESSION = []) === false) {
+	echo "<p><em>You are signed out, " . $_SESSION["profile"]->getProfileName() . "</em></p>";
+}
