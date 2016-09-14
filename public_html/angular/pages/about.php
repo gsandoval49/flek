@@ -1,4 +1,4 @@
-<div class="row">
+<div>
 	<div class="col-xs-12">
 		<div id="about-jumbo" class="jumbotron about-content text-center">
 			<h1><i class="icon-about"></i> Beautify your space</h1>
