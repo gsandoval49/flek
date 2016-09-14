@@ -66,55 +66,59 @@
 
 	</div>
 </div>-->
-<div class="col-md-4">
-	<form name="contactForm" id="contactForm" class="form-horizontal well" ng-controller="ContactFormController" ng-submit="submit(formData, contactForm.$valid);" novalidate>
-		<div class="container-fluid">
+<div class="row">
+	<div class="container">
+		<div class="col-md-4">
+			<form name="contactForm" id="contactForm" class="form-horizontal well" ng-controller="ContactFormController" ng-submit="submit(formData, contactForm.$valid);" novalidate>
+				<div class="container-fluid">
 
-			<label class="control-label">Select File</label>
-			<input id="input-1" type="file" class="file">
+					<label class="control-label">Select File</label>
+					<input id="input-1" type="file" class="file">
 
-			<div class="form-group">
-				<label for="genre">genre</label>
-				<div class="input-group">
+					<div class="form-group">
+						<label for="genre">genre</label>
+						<div class="input-group">
 
-					<input class="form-control ng-untouched ng-pristine ng-invalid" id="name" name="name" ng-reflect-name="name"
-							 type="text">
+							<input class="form-control ng-untouched ng-pristine ng-invalid" id="genre" name="genre" ng-reflect-name="genre"
+									 type="text">
+						</div>
+						<div class="alert alert-danger" ng-reflect-hidden="true" hidden="">
+							genre is required
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="imageDescription">Image Description</label>
+						<div class="input-group">
+
+							<input class="form-control ng-untouched ng-pristine ng-invalid" id="email" name="email" required=""
+									 ng-reflect-model="" ng-reflect-name="email" type="email">
+						</div>
+						<div class="alert alert-danger" ng-reflect-hidden="true" hidden="">
+							Email is required
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="tags">Tags</label>
+						<div class="input-group">
+
+							<input class="form-control ng-untouched ng-pristine ng-invalid" id="subject" name="subject" required=""
+									 ng-reflect-model="" ng-reflect-name="subject" type="text">
+						</div>
+						<div class="alert alert-danger" ng-reflect-hidden="true" hidden="">
+							Subject is required
+						</div>
+					</div>
+
+					<div class="form-group">
+						<button class="btn btn-lg btn-warning" type="upload"   > Upload</button>
+						<button class="btn btn-lg btn-default" type="reset">Clear</button>
+					</div>
+
+
 				</div>
-				<div class="alert alert-danger" ng-reflect-hidden="true" hidden="">
-					Name is required
-				</div>
-			</div>
-			<div class="form-group">
-				<label for="imageDescription">Image Description</label>
-				<div class="input-group">
-
-					<input class="form-control ng-untouched ng-pristine ng-invalid" id="email" name="email" required=""
-							 ng-reflect-model="" ng-reflect-name="email" type="email">
-				</div>
-				<div class="alert alert-danger" ng-reflect-hidden="true" hidden="">
-					Email is required
-				</div>
-			</div>
-			<div class="form-group">
-				<label for="tags">Tags</label>
-				<div class="input-group">
-
-					<input class="form-control ng-untouched ng-pristine ng-invalid" id="subject" name="subject" required=""
-							 ng-reflect-model="" ng-reflect-name="subject" type="text">
-				</div>
-				<div class="alert alert-danger" ng-reflect-hidden="true" hidden="">
-					Subject is required
-				</div>
-			</div>
-
-			<div class="form-group">
-				<button class="btn btn-lg btn-warning" type="upload"   > Upload</button>
-				<button class="btn btn-lg btn-default" type="reset">Clear</button>
-			</div>
-
-
+			</form>
 		</div>
-	</form>
+	</div>
 </div>
 
 <!-- begin gallery -->
