@@ -24,7 +24,7 @@ app.controller('profileController', ["$routeParams", "$scope", "profileService",
 	 **/
 
 	$scope.loadProfile = function() {
-		profileService.fetchProfileByProfileId($routeParams.profileId)
+		profileService.fetch($routeParams.profileId)
 			.then(function(result) {
 				if(result.data.status === 200) {
 					$scope.profileData = result.data.data;
