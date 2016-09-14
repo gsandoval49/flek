@@ -1,9 +1,11 @@
 <?php
 require_once(dirname(__DIR__) . "/classes/autoload.php");
+require_once(dirname(__DIR__) . "/lib/xsrf.php");
 
 if(session_status() !== PHP_SESSION_ACTIVE){
 	session_start();
 }
+setXsrfCookie();
 ?>
 <!DOCTYPE html>
 	<html lang="" ng-app="FlekApp">

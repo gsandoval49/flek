@@ -1,5 +1,5 @@
 <!--form taken out from profile-->
-<!--<div class="row">
+<div class="row">
 	<div class="col-md-2"></div>
 	<div class="col-md-8">
 		<div class="form-group">
@@ -51,7 +51,7 @@
 		</div>
 		<div class="col-md-2"></div>
 	</div>
-</div>-->
+</div>
 
 <!--Mail Inbox-->
 <div class="container">
