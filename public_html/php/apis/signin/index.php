@@ -34,7 +34,7 @@ try {
 	//perform the post
 	else if($method === "POST") {
 
-		/*verifyXsrf();*/
+		verifyXsrf();
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
 
@@ -47,7 +47,7 @@ try {
 		if(empty($requestObject->profilePassword) === true) {
 			throw(new \InvalidArgumentException("Must enter a password."));
 		} else {
-			$profilePassword = filter_var($requestObject->profilePassword, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+			$profilePassword = $requestObject->profilePassword;
 		}
 
 		//create a profile
@@ -68,7 +68,6 @@ try {
 		//grab profile from database and put into a session
 		$profile = Profile::getProfileByProfileId($pdo, $profile->getProfileId());
 		$_SESSION["profile"] = $profile;
-		var_dump($_SESSION);
 
 		$reply->message = "Sign in was successful.";
 	} else {

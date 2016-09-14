@@ -1,4 +1,4 @@
-app.constant("SIGNIN_ENDPOINT", "php/apis/signin");
+app.constant("SIGNIN_ENDPOINT", "php/apis/signin/");
 app.service("signinService", function($http, SIGNIN_ENDPOINT) {
 	function getUrl() {
 		return(SIGNIN_ENDPOINT);

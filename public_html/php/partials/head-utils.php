@@ -1,3 +1,10 @@
+<?php
+require_once(dirname(__DIR__) . "/classes/autoload.php");
+
+if(session_status() !== PHP_SESSION_ACTIVE){
+	session_start();
+}
+?>
 <!DOCTYPE html>
 	<html lang="" ng-app="FlekApp">
 		<head>

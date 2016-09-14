@@ -39,3 +39,6 @@
         </div><!-- /.container-fluid -->
     </nav>
 </header>
+<?php if(empty($_SESSION["profile"]) === false) {
+	echo "<p><em>Welcome back, " . $_SESSION["profile"]->getProfileName() . "</em></p>";
+}
