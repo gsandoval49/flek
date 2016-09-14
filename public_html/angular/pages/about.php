@@ -1,9 +1,11 @@
 <div>
 	<div class="col-xs-12">
 		<div id="about-jumbo" class="jumbotron about-content text-center">
+			<div class="header-conter-inner">
 			<h1><i class="icon-about"></i> Beautify your space</h1>
 			<p class="leader">Be on the front line of something cool</p>
 			<!--this section may need rewriting-->
+			</div>
 			</div>
 		</div>
 	<div class="statement-container">
