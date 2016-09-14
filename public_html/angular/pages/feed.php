@@ -38,5 +38,5 @@
 
 <a href="#">
 	<img id="{{ item.imageGenreId }}" class="img-responsive feed-image" src="{{ item.imageSecureUrl }}"
-		  alt="image description" height="400"/>
+		  alt="" height="400"/>
 </a>
