@@ -1,4 +1,4 @@
-app.constant("GENRE_ENDPOINT", "php/apis/genres/");
+app.constant("GENRE_ENDPOINT", "php/apis/genre/");
 app.service("GenreService", function($http, GENRE_ENDPOINT) {
 
 	function getUrl() {
