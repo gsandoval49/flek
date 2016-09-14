@@ -78,9 +78,15 @@
 					<div class="form-group">
 						<label for="genre">genre</label>
 						<div class="input-group">
+							<select>
+								<option value="volvo">Volvo</option>
+								<option value="saab">Saab</option>
+								<option value="mercedes">Mercedes</option>
+								<option value="audi">Audi</option>
+							</select>
 
-							<input class="form-control ng-untouched ng-pristine ng-invalid" id="genre" name="genre" ng-reflect-name="genre"
-									 type="text">
+							<!--<input class="form-control ng-untouched ng-pristine ng-invalid" id="genre" name="genre" ng-reflect-name="genre"
+									 type="text">-->
 						</div>
 						<div class="alert alert-danger" ng-reflect-hidden="true" hidden="">
 							genre is required
