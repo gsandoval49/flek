@@ -4,7 +4,7 @@ app.config(function($routeProvider, $locationProvider) {
 
 	// route for the home page
 		.when('/', {
-			controller: 'homeController',
+			controller: 'homeController', //double check cap in route config vs controller
 			templateUrl: 'angular/pages/home.php'
 		})
 		// route for the about page

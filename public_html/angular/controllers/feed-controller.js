@@ -7,12 +7,12 @@
  * tag service
  **/
 
-app.controller('FeedController', ["$routeParams", "$scope", "ProfileService", "ImageService", "GenreService", "TagService", function($routeParams, $scope, ProfileService, ImageService, MailService, FavoriteService, GenreService, TagService) {
+app.controller('feedController', ["$routeParams", "$scope", /*"ProfileService",*/ "ImageService", /*"GenreService",*/ /*"TagService",*/ function($routeParams, $scope, /*ProfileService,*/ ImageService) {
 
-	$scope.profileData = null;
+	/*$scope.profileData = null;*/
 	$scope.alerts = [];
-	$scope.genreData = [];
-	$scope.tagService = [];
+	/*$scope.genreData = [];*/
+	/*$scope.tagService = [];*/
 	$scope.imageData = [];
 
 	function feedRow(arr, size) {
@@ -22,35 +22,7 @@ app.controller('FeedController', ["$routeParams", "$scope", "ProfileService", "I
 		}
 		return imageRow;
 	}
-	$scope.imageDataRow = feedRow(imageData, 2);
-
-	/**
-	 * Profile method
-	 **/
-
-	$scope.loadProfile = function() {
-		ProfileService.fetchProfileByProfileId($routeParams.profileId)
-			.then(function(result) {
-				if(result.data.status === 200) {
-					$scope.profileData = result.data.data;
-					console.log($scope.profileData);
-				} else {
-					$scope.alerts[0] = {type: "danger", msg: result.data.message};
-				}
-			})
-	};
-
-	$scope.fetchProfileByProfileId = function() {
-		ProfileService.fetchProfileByProfileName($routeParams.profileName)
-			.then(function(result) {
-				if(result.data.status === 200) {
-					$scope.profileData = result.data.data;
-					console.log($scope.profileData);
-				} else {
-					$scope.alerts[0] = {type: "danger", msg: result.data.message};
-				}
-			})
-	};
+	$scope.imageData = feedRow($scope.imageData, 2);
 
 	/**
 	 * Image Method
@@ -68,24 +40,13 @@ app.controller('FeedController', ["$routeParams", "$scope", "ProfileService", "I
 			})
 	};
 
-	$scope.fetchImageByImageProfileId = function() {
-		ImageService.fetchImageByImageProfileId($routeParams.imageProfileId)
-			.then(function(result) {
-				if(result.data.status === 200) {
-					$scope.imageData = result.data.data;
-					console.log($scope.imageData);
-				} else {
-					$scope.alerts[0] = {type: "danger", msg: result.data.message};
-				}
-			})
-	};
-
 	$scope.fetchAllImages = function() {
-		ImageService.fetchAllImages($routeParams.imageId)
+		ImageService.fetchAllImages()
 			.then(function(result) {
 				if(result.data.status === 200) {
 					$scope.imageData = result.data.data;
 					console.log($scope.imageData);
+					console.log("hello");
 				} else {
 					$scope.alerts[0] = {type: "danger", msg: result.data.message};
 				}
@@ -109,6 +70,7 @@ app.controller('FeedController', ["$routeParams", "$scope", "ProfileService", "I
 	 * Genre Methods
 	 **/
 
+/*
 	$scope.fetchGenreByGenreId = function() {
 		GenreService.fetchGenreByGenreId($routeParams.genreId)
 			.then(function(result) {
@@ -144,12 +106,13 @@ app.controller('FeedController', ["$routeParams", "$scope", "ProfileService", "I
 				}
 			})
 	};
+*/
 
 	/**
 	 * Tag Methods
 	 **/
 
-	$scope.fetchTagByTagId = function() {
+/*	$scope.fetchTagByTagId = function() {
 		TagService.fetchTagByTagId($routeParams.tagId)
 			.then(function(result) {
 				if(result.data.status === 200) {
@@ -183,9 +146,9 @@ app.controller('FeedController', ["$routeParams", "$scope", "ProfileService", "I
 					$scope.alerts[0] = {type: "danger", msg: result.data.message};
 				}
 			})
-	};
+	};*/
 
-	if($scope.profileData === null){
-		$scope.loadProfile();
+	if($scope.imageData.length === 0){
+		$scope.imageData=$scope.fetchAllImages();
 	}
 }]);

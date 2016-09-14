@@ -9,10 +9,10 @@
 	<!-- /.row -->
 	<!-- Projects Row -->
 	<div class="col-md-9">
-		<div class="row" ng-repeat="rows in imageDataRow">
-			<div class="col-md-6 portfolio-item" ng-repeat="item in rows">
+		<div class="row" ng-repeat="rows in imageData">
+			<div class="col-md-6 portfolio-item" <!--ng-repeat="item in rows"-->>
 				<a href="#">
-					<img id="{{ item.imageGenreId }}" class="img-responsive" src="{{ image.imageSecureUrl }}" alt="image description" height="400", width=700"/>
+					<img id="{{ rows.imageGenreId }}" class="img-responsive" src="{{ rows.imageSecureUrl }}" alt="image description" height="400", width=700"/>
 				</a>
 				<h3>
 					<a href="#">Profile</a>
