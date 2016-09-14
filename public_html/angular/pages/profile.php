@@ -112,7 +112,7 @@
 <div class="container">
 	<!-- Page Header -->
 	<div class="row">
-		<div class="col-lg-12">
+		<div class="col-lg-12 text-center">
 			<h1 class="page-header">Profile Feed
 			</h1>
 		</div>
@@ -120,43 +120,41 @@
 	<!-- /.row -->
 	<!-- Projects Row -->
 	<div class="row">
-		<div class="col-md-6 portfolio-item">
+		<div id="profileFeed" class="col-md-6 portfolio-item">
 			<a href="#">
-				<img class="img-responsive" src="http://placehold.it/700x400" alt=""/>
+				<img class="img-responsive" src="images/stacis-painting-1" alt=""/>
 			</a>
-			<h3>
-				<a href="#"></a>
-
-
-			</h3>
+<!--			<h3>-->
+<!--				<a id="profileFeed" href="#">Profile</a>-->
+<!--			</h3>-->
 		</div>
-		<div class="col-md-6 portfolio-item">
-			<a href="#">
-				<img class="img-responsive" src="http://placehold.it/700x400" alt=""/>
-			</a>
-			<h3>
-				<a href="#"></a>
-			</h3>
+		<div  class="col-md-6 ">
+
+				<img id="profileFeed" class="img-responsive" src="images/stacis-painting-2" alt=""/>
+
+<!--			<h3>-->
+<!--				<a id="profileFeed" href="#">Profile</a>-->
+<!--			</h3>-->
 		</div>
 	</div>
 	<!-- /.row -->
 	<!-- Projects Row -->
 	<div class="row">
-		<div class="col-md-6 portfolio-item">
+		<div id="profileFeed" class="col-md-6 portfolio-item">
 			<a href="#">
-				<img class="img-responsive" src="http://placehold.it/700x400" alt=""/>
+				<img class="img-responsive" src="images/stacis-painting-6" alt=""/>
 			</a>
-			<h3>
-				<a href="#"></a>
-			</h3>
+<!--			<h3>-->
+<!--				<a id="profileFeed" href="#">Profile</a>-->
+<!--			</h3>-->
 		</div>
-		<div class="col-md-6 portfolio-item">
+		<div id="profileFeed" class="col-md-6 portfolio-item">
 			<a href="#">
-				<img class="img-responsive" src="http://placehold.it/700x400" alt=""/>
+				<img class="img-responsive" src="images/stacis-painting-5" alt=""/>
 			</a>
-			<h3>
-				<a href="#"></a>
-			</h3>
+<!--			<h3>-->
+<!--				<a id="profileFeed" href="#">Profile</a>-->
+<!--			</h3>-->
 		</div>
 	</div>
 
