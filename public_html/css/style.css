@@ -166,6 +166,13 @@ a:link {color: #000000;
 	margin: 0 auto;
 	width: 80%;
 }
+.profile-feed {
+	height: 300px;
+	width: 300px;
+	margin: 5px;
+
+}
+
 
 
 /*NAV BAR COLOR CHANGE when hover over text*/

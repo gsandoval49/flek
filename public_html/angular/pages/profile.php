@@ -19,7 +19,7 @@
 				<div class="col-md-4">
 					<form name="uploadForm" id="uploadForm" class="form-horizontal well"
 							ng-submit="submit(formData, uploadForm.$valid);" novalidate>
-						<h4>upload an image</h4>
+						<h4>Upload An Image</h4>
 						<div class="container-fluid">
 
 							<label class="control-label">Select File</label>
@@ -120,42 +120,22 @@
 	<!-- /.row -->
 	<!-- Projects Row -->
 	<div class="row">
-		<div id="profileFeed" class="col-md-6 portfolio-item">
-			<a href="#">
-				<img class="img-responsive" src="images/stacis-painting-1" alt=""/>
-			</a>
-<!--			<h3>-->
-<!--				<a id="profileFeed" href="#">Profile</a>-->
-<!--			</h3>-->
+		<div class="col-md-6">
+			<img class="profile-feed" src="images/stacis-painting-1"/>
 		</div>
-		<div  class="col-md-6 ">
-
-				<img id="profileFeed" class="img-responsive" src="images/stacis-painting-2" alt=""/>
-
-<!--			<h3>-->
-<!--				<a id="profileFeed" href="#">Profile</a>-->
-<!--			</h3>-->
+		<div class="col-md-6">
+			<img class="profile-feed" src="images/stacis-painting-7"/>
 		</div>
+
 	</div>
-	<!-- /.row -->
-	<!-- Projects Row -->
 	<div class="row">
-		<div id="profileFeed" class="col-md-6 portfolio-item">
-			<a href="#">
-				<img class="img-responsive" src="images/stacis-painting-6" alt=""/>
-			</a>
-<!--			<h3>-->
-<!--				<a id="profileFeed" href="#">Profile</a>-->
-<!--			</h3>-->
+		<div class="col-md-6">
+			<img class="profile-feed" src="images/stacis-painting-2"/>
 		</div>
-		<div id="profileFeed" class="col-md-6 portfolio-item">
-			<a href="#">
-				<img class="img-responsive" src="images/stacis-painting-5" alt=""/>
-			</a>
-<!--			<h3>-->
-<!--				<a id="profileFeed" href="#">Profile</a>-->
-<!--			</h3>-->
+		<div class="col-md-6">
+			<img class="profile-feed" src="images/stacis-painting-5"/>
 		</div>
+
 	</div>
 
 </div>
