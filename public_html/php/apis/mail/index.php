@@ -131,8 +131,8 @@ try {
 		// send the message
 		$result = $mailGunslinger->sendMessage($mailgun->domain, [
 			//dont know if i need the additional info on the right here v
-				"from" => $sender->getProfileName() . "<" . $requestObject->getProfileEmail() . ">",
-				"to" => $receiver->getProfileName() . "<" . $requestObject->getProfileEmail() . ">",
+				"from" => $sender->getProfileName() . "<" . $sender->getProfileEmail() . ">",
+				"to" => $receiver->getProfileName() . "<" . $receiver->getProfileEmail() . ">",
 				"subject" => $requestObject->subject,
 				"text" => $requestObject->message
 			]
