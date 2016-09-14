@@ -101,16 +101,16 @@ try {
 		$requestObject = json_decode($requestContent);
 
 		// throw out blank fields
-		if(empty($requestObject->senderName) === true) {
+		if(empty($requestObject->getProfileId) === true) {
 			throw(new \InvalidArgumentException("your name is required", 400));
 		}
-		if(empty($requestObject->senderEmail) === true) {
+		if(empty($requestObject->getProfileId) === true) {
 			throw(new \InvalidArgumentException("email is required", 400));
 		}
-		if(empty($requestObject->receiverName) === true) {
+		if(empty($requestObject->getProfileId) === true) {
 			throw(new \InvalidArgumentException("receiver name is required", 400));
 		}
-		if(empty($requestObject->receiverEmail) === true) {
+		if(empty($requestObject->getProfileId) === true) {
 			throw(new \InvalidArgumentException("receiver email is required", 400));
 		}
 		if(empty($requestObject->subject) === true) {
@@ -136,8 +136,9 @@ try {
 
 		// send the message
 		$result = $mailGunslinger->sendMessage($mailgun->domain, [
-				"from" => $requestObject->senderName . "<" . $requestObject->senderEmail . ">",
-				"to" => $requestObject->receiverName . "<" . $requestObject->receiverEmail . ">",
+			//dont know if i need the additional info on the right here v
+				"from" => $sender->getProfileName() . "<" . $requestObject->getProfileEmail() . ">",
+				"to" => $receiver->getProfileName() . "<" . $requestObject->getProfileEmail() . ">",
 				"subject" => $requestObject->subject,
 				"text" => $requestObject->message
 			]
